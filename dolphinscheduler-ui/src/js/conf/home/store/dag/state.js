@@ -109,7 +109,5 @@ export default {
   instanceListS: [],
   // Operating state
   isDetails: false,
-  startup: {
-
-  }
+  startup: {}
 }

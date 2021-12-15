@@ -45,7 +45,9 @@ Permissions.prototype = {
             $(el).attr('disabled', true)
           } else {
             $(el).css('display', 'none')
-            setTimeout(function () { el.parentNode.removeChild(el) }, 100)
+            setTimeout(function () {
+              el.parentNode.removeChild(el)
+            }, 100)
           }
         }
       }

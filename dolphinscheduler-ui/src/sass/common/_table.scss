@@ -14,79 +14,93 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- .ansfont {
+.ansfont {
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
- .as {
+
+.as {
   display: inline-block;
   font-size: 14px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
- .as-spin {
-    -webkit-animation: as-spin 2s infinite linear;
-    animation: as-spin 2s infinite linear;
+
+.as-spin {
+  -webkit-animation: as-spin 2s infinite linear;
+  animation: as-spin 2s infinite linear;
+}
+
+@-webkit-keyframes as-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
-  @-webkit-keyframes as-spin {
-    0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    100% {
-      -webkit-transform: rotate(359deg);
-      transform: rotate(359deg);
-    }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
   }
-  @keyframes as-spin {
-    0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    100% {
-      -webkit-transform: rotate(359deg);
-      transform: rotate(359deg);
-    }
+}
+
+@keyframes as-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
 .table-box {
   border-top: 1px solid #ecf3ff;
+
   .ans-checkbox-wrapper-disabled {
     .ans-checkbox-inner {
       background-color: #ccc;
     }
   }
+
   .ans-checkbox {
     .ans-checkbox-inner {
       border: 1px solid #ccc;
     }
   }
+
   .ans-checkbox-checked {
     .ans-checkbox-inner {
       border: 1px solid #1489e2;
     }
   }
+
   .ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space:  nowrap;
+    white-space: nowrap;
     display: block;
   }
+
   button {
     .iconfont {
       font-size: 16px;
     }
+
     .ans-icon {
       font-size: 14px;
     }
   }
+
   table {
     width: 100%;
+
     &.fixed {
       table-layout: fixed;
     }
+
     tr {
       height: 40px;
       box-sizing: border-box;
@@ -94,30 +108,36 @@
       color: #333;
       font-size: 12px;
       border-bottom: 1px solid #ecf3ff;
+
       &:hover {
         background: #ddecff;
       }
-      th,td{
+
+      th, td {
         &:nth-child(1) {
           width: 50px;
           text-align: center;
         }
       }
+
       th {
         &:nth-child(1) {
           width: 60px;
           text-align: center;
         }
-        >span {
+
+        > span {
           font-size: 12px;
           color: #555;
         }
       }
+
       td {
-        >span {
+        > span {
           font-size: 12px;
           color: #666;
         }
+
         &:nth-child(1) {
           span {
             text-align: center;
@@ -126,8 +146,10 @@
       }
     }
   }
+
   .links {
     color: #2d8cf0;
+
     &:hover {
       text-decoration: underline;
     }
@@ -136,13 +158,17 @@
 
 .table-small-model {
   padding: 0 10px;
+
   table {
     width: 100%;
-    tr{
+
+    tr {
       background: #fff;
-      th,td {
+
+      th, td {
         padding-left: 8px;
       }
+
       th {
         height: 36px;
         line-height: 38px;
@@ -151,18 +177,22 @@
         color: #333;
         border-bottom: 2px solid #ECEDEC;
       }
+
       td {
         height: 32px;
         line-height: 32px;
         border-bottom: 1px solid #ECEDEC;
+
         span {
           font-size: 12px;
           color: #333;
         }
+
         .links {
-          color:#2d8cf0;
+          color: #2d8cf0;
         }
       }
+
       &:hover {
         td {
           background: #ddecff;

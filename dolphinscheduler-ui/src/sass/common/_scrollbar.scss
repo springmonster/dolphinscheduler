@@ -18,6 +18,7 @@
 .scrollbar {
   overflow-y: auto;
 }
+
 .scrollbar:hover::-webkit-scrollbar-thumb {
   background: #2A455B;
   min-width: 200px;
@@ -38,6 +39,7 @@
   background: #2A455B;
   border-radius: 5px;
 }
+
 .scrollbar.scrollbar-show::-webkit-scrollbar-thumb {
   background: #2A455B;
 }

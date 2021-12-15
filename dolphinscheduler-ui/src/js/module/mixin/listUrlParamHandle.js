@@ -16,6 +16,7 @@
  */
 import _ from 'lodash'
 import { setUrlParams } from '@/module/util/routerUtil'
+
 /**
  * Mainly used for data list paging url param handle
  * @param _getList => api function(required)

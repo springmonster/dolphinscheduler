@@ -45,18 +45,18 @@ const locale = (lang) => {
   // global
   globalScope.LOCALE = lang
   // cookies
-  cookies.set('language', lang,{ path: '/' })
+  cookies.set('language', lang, { path: '/' })
 }
 
 const init = () => {
   let language = cookies.get('language')
   if (language) {
     locale(language)
-  }else{
+  } else {
     /**
      * Browser language
      */
-    let lang = (navigator.language || navigator.userLanguage).indexOf("CN") !== -1
+    let lang = (navigator.language || navigator.userLanguage).indexOf('CN') !== -1
     locale(lang ? 'zh_CN' : 'en_US')
   }
 }

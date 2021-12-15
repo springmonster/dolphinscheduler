@@ -29,7 +29,6 @@ const assetsDir = resolve('src')
 const distDir = resolve('dist')
 const viewDir = resolve('src/view')
 
-
 function moduleName (modules) {
   let filename = path.basename(modules)
   let parts = filename.split('.')
@@ -95,7 +94,7 @@ const rewriterPath = p => {
     }
   }
 }
-const version = new Date().getTime();
+const version = new Date().getTime()
 const pages = glob.sync(['*/!(_*).html'], { cwd: viewDir }).map(p => {
   let pagePath = `${path.join(viewDir, p)}`
   let newPagePath = rewriterPath(pagePath)
@@ -109,7 +108,7 @@ const pages = glob.sync(['*/!(_*).html'], { cwd: viewDir }).map(p => {
     filename: newPagePath || path.join('view', p),
     template: `${path.join('src/view', p)}`,
     cache: true,
-    favicon:'./favicon.png',
+    favicon: './favicon.png',
     inject: true,
     hash: version,
     chunks: chunks,
@@ -122,7 +121,7 @@ const baseConfig = {
   output: {
     path: distDir,
     publicPath: '/',
-    filename: 'js/[name].[chunkhash:7]'+version+'.js'
+    filename: 'js/[name].[chunkhash:7]' + version + '.js'
   },
   module: {
     rules: [
@@ -162,11 +161,11 @@ const baseConfig = {
               plugins: (loader) => [
                 require('autoprefixer')({
                   overrideBrowserslist: [
-                    "Android 4.1",
-                    "iOS 7.1",
-                    "Chrome > 31",
-                    "ff > 31",
-                    "ie >= 8"
+                    'Android 4.1',
+                    'iOS 7.1',
+                    'Chrome > 31',
+                    'ff > 31',
+                    'ie >= 8'
                   ]
                 }),
                 require('cssnano')
@@ -205,14 +204,19 @@ const baseConfig = {
     alias: {
       '@': resolve('src/js'),
       '~': resolve('src/lib'),
-      'jquery':'jquery/dist/jquery.min.js',
+      'jquery': 'jquery/dist/jquery.min.js',
       'jquery-ui': 'jquery-ui'
     },
     extensions: ['.js', 'json', '.vue', '.scss']
   },
   plugins: [
     new VueLoaderPlugin(),
-    new webpack.ProvidePlugin({ vue: 'Vue', _: 'lodash',jQuery:"jquery/dist/jquery.min.js",$:"jquery/dist/jquery.min.js" }),
+    new webpack.ProvidePlugin({
+      vue: 'Vue',
+      _: 'lodash',
+      jQuery: 'jquery/dist/jquery.min.js',
+      $: 'jquery/dist/jquery.min.js'
+    }),
     new webpack.DefinePlugin({
       PUBLIC_PATH: JSON.stringify(process.env.PUBLIC_PATH ? process.env.PUBLIC_PATH : '')
     }),

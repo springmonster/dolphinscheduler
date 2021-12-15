@@ -27,7 +27,7 @@ const formatDate = (value, fmt) => {
 /**
  * Formatting iso date
  */
- const formatISODate = date => {
+const formatISODate = date => {
   let [datetime, timezone] = date.split('+')
   if (!timezone || timezone.indexOf(':') >= 0) return date
   let hourOfTz = timezone.substring(0, 2) || '00'

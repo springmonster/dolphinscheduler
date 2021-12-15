@@ -32,9 +32,9 @@ const rtTargetarrArr = (id) => {
  */
 const saveTargetarr = (valId, domId) => {
   let $target = $(`#${domId}`)
-  let targetStr = $target.attr('data-targetarr') ? $target.attr('data-targetarr') + `,${valId}` : `${valId}`;
+  let targetStr = $target.attr('data-targetarr') ? $target.attr('data-targetarr') + `,${valId}` : `${valId}`
   $target.attr('data-targetarr', targetStr)
-  console.log('Store node id to targetarr',targetStr)
+  console.log('Store node id to targetarr', targetStr)
 }
 
 const rtBantpl = () => {
@@ -44,7 +44,19 @@ const rtBantpl = () => {
 /**
  * return node html
  */
-const rtTasksTpl = ({ id, name, x, y, targetarr, isAttachment, taskType, runFlag, nodenumber, successNode, failedNode }) => {
+const rtTasksTpl = ({
+  id,
+  name,
+  x,
+  y,
+  targetarr,
+  isAttachment,
+  taskType,
+  runFlag,
+  nodenumber,
+  successNode,
+  failedNode
+}) => {
   let tpl = ''
   tpl += `<div class="w jtk-draggable jtk-droppable jtk-endpoint-anchor jtk-connected ${isAttachment ? 'jtk-ep' : ''}" data-targetarr="${targetarr || ''}" data-successNode="${successNode || ''}" data-failedNode="${failedNode || ''}" data-nodenumber="${nodenumber || 0}" data-tasks-type="${taskType}" id="${id}" style="left: ${x}px; top: ${y}px;">`
   tpl += '<div>'
@@ -101,13 +113,13 @@ const setSvgColor = (e, color) => {
   // Traverse clear all colors
   $('.jtk-connector').each((i, o) => {
     _.map($(o)[0].childNodes, v => {
-      if($(v).attr('fill') ==='#ccc') {
+      if ($(v).attr('fill') === '#ccc') {
         $(v).attr('fill', '#2d8cf0')
       }
-      if($(v).attr('fill') ==='#4caf50') {
-        $(v).attr('fill','#4caf50').attr('stroke', '#4caf50').attr('stroke-width', 2)
+      if ($(v).attr('fill') === '#4caf50') {
+        $(v).attr('fill', '#4caf50').attr('stroke', '#4caf50').attr('stroke-width', 2)
         $(v).prev().attr('stroke', '#4caf50').attr('stroke-width', 2)
-      } else if($(v).attr('fill') ==='#252d39') {
+      } else if ($(v).attr('fill') === '#252d39') {
         $(v).attr('stroke', '#252d39').attr('stroke-width', 2)
         $(v).prev().attr('stroke', '#252d39').attr('stroke-width', 2)
       } else {
@@ -118,7 +130,7 @@ const setSvgColor = (e, color) => {
 
   // Add color to the selection
   _.map($(e.canvas)[0].childNodes, (v, i) => {
-    if($(v).attr('fill') ==='#2d8cf0') {
+    if ($(v).attr('fill') === '#2d8cf0') {
       $(v).attr('fill', '#ccc')
     }
     $(v).attr('stroke', '#ccc')

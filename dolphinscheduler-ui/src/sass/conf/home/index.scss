@@ -21,9 +21,11 @@ body {
   .adaptive-m-nav {
     display: none;
   }
-  .ans-message-box,.ans-message-wrapper {
+
+  .ans-message-box, .ans-message-wrapper {
     z-index: 121 !important;
   }
+
   &::-webkit-scrollbar {
     width: 0;
     height: 0;
@@ -31,21 +33,24 @@ body {
 }
 
 
-@media screen and (max-width: 960px){
+@media screen and (max-width: 960px) {
   .nav-model {
     .logo-box,
     .nav-box,
     .right,
-    .file-update-model{
+    .file-update-model {
       display: none;
     }
+
     .adaptive-m-nav {
       display: block;
       position: relative;
-      >.m-nav-box {
+
+      > .m-nav-box {
         position: absolute;
         left: 10px;
         top: 4px;
+
         a {
           i {
             font-size: 36px;
@@ -53,10 +58,12 @@ body {
           }
         }
       }
-      >.m-user-box {
+
+      > .m-user-box {
         position: absolute;
         right: 10px;
         top: 4px;
+
         a {
           i {
             font-size: 36px;
@@ -64,7 +71,8 @@ body {
           }
         }
       }
-      >.m-nav-list {
+
+      > .m-nav-list {
         width: 70%;
         height: 100%;
         background: #fff;
@@ -72,6 +80,7 @@ body {
         left: 0;
         top: 60px;
         box-shadow: 0 8px 6px 3px rgba(0, 0, 0, 0.08);
+
         ul {
           li {
             height: 50px;
@@ -79,16 +88,19 @@ body {
             border-bottom: 1px solid #eee;
             padding-left: 14px;
             cursor: pointer;
+
             &.active {
-              >span,>i {
+              > span, > i {
                 color: #0097e0;
               }
             }
-            >span {
+
+            > span {
               font-size: 18px;
               vertical-align: middle;
             }
-            >i {
+
+            > i {
               font-size: 22px;
               vertical-align: middle;
             }

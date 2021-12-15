@@ -32,7 +32,7 @@ const rtInstancesTooltip = (data) => {
   }
   str += `startTime : ${data.startTime ? formatDate(data.startTime) : '-'}</br>`
   str += `endTime : ${data.endTime ? formatDate(data.endTime) : '-'}</br>`
-  str += `duration : ${data.duration  ? data.duration : '-'}</br>`
+  str += `duration : ${data.duration ? data.duration : '-'}</br>`
   str += '</div>'
   return str
 }
@@ -43,6 +43,7 @@ const rtInstancesTooltip = (data) => {
  */
 const rtCountMethod = list => {
   const arr = []
+
   function count (list, t) {
     let toggle = false
     list.forEach(v => {
@@ -56,6 +57,7 @@ const rtCountMethod = list => {
       }
     })
   }
+
   count(list, '*')
   let num = 6
   arr.forEach(v => {

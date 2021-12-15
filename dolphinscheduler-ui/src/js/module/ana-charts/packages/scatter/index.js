@@ -59,7 +59,13 @@ export default class Scatter extends Base {
     const legendData = []
     const series = []
 
-    const { xKey, yKey, sizeKey, textKey, legendKey } = keyMap
+    const {
+      xKey,
+      yKey,
+      sizeKey,
+      textKey,
+      legendKey
+    } = keyMap
     checkKeyInModel(data[0], xKey, yKey, sizeKey, textKey, legendKey)
 
     for (let i = 0; i < data.length; i++) {
@@ -111,14 +117,22 @@ export default class Scatter extends Base {
       })
     }
 
-    return { title, series, legendData }
+    return {
+      title,
+      series,
+      legendData
+    }
   }
 
   /**
    * Drawing charts
    */
   apply () {
-    const { title, series, legendData = [] } = this.options
+    const {
+      title,
+      series,
+      legendData = []
+    } = this.options
 
     const {
       // Custom X axis

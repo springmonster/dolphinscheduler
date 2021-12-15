@@ -30,8 +30,7 @@ const pie = {
       center: ['53%', '60%'],
       label: {
         align: 'left',
-        normal: {
-        }
+        normal: {}
       }
     }
   ]

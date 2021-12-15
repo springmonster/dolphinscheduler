@@ -68,7 +68,10 @@ export default class Bar extends Base {
     } = this.settings
 
     // X axis corresponds to attribute name, data value corresponds to attribute name
-    const { xAxisKey, dataKey } = keyMap
+    const {
+      xAxisKey,
+      dataKey
+    } = keyMap
     checkKeyInModel(data[0], xAxisKey, dataKey)
 
     const series = [{
@@ -85,7 +88,11 @@ export default class Bar extends Base {
       series[0].data.push(data[i][dataKey])
     }
 
-    return { title, xAxis, series }
+    return {
+      title,
+      xAxis,
+      series
+    }
   }
 
   /**
@@ -108,7 +115,11 @@ export default class Bar extends Base {
     } = this.settings
 
     // Attribute name corresponding to X axis, legend and data value
-    const { xAxisKey, legendKey, dataKey } = keyMap
+    const {
+      xAxisKey,
+      legendKey,
+      dataKey
+    } = keyMap
     // Use timeline data or not
     const timeline = Object.keys(data[0]).length === 4
     const timelineKey = keyMap.timelineKey || 'timeline'
@@ -220,16 +231,33 @@ export default class Bar extends Base {
     }
 
     if (timeline) {
-      return { title, xAxis, series, legendData, timelineOptions }
+      return {
+        title,
+        xAxis,
+        series,
+        legendData,
+        timelineOptions
+      }
     }
-    return { title, xAxis, series, legendData }
+    return {
+      title,
+      xAxis,
+      series,
+      legendData
+    }
   }
 
   /**
    * Drawing charts
    */
   apply () {
-    const { title, xAxis, series, legendData, timelineOptions } = this.options
+    const {
+      title,
+      xAxis,
+      series,
+      legendData,
+      timelineOptions
+    } = this.options
     const {
       // Whether it is a horizontal drawing
       reverseAxis = false,

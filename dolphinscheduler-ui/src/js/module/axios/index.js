@@ -27,7 +27,11 @@ const API_ASSERT_OK = 0
 
 const def = (o, p, v, desc) =>
   Object.defineProperty(o, p,
-    Object.assign({ writable: false, enumerable: false, configurable: false }, desc, { value: v }))
+    Object.assign({
+      writable: false,
+      enumerable: false,
+      configurable: false
+    }, desc, { value: v }))
 
 const normalizeArgs = (method, url, data, success, fail, config) => {
   if (_.isFunction(data)) {
@@ -47,7 +51,9 @@ const normalizeArgs = (method, url, data, success, fail, config) => {
   config.method = method
   config.url = url
   return {
-    success, fail, config
+    success,
+    fail,
+    config
   }
 }
 
@@ -99,12 +105,26 @@ class InnerCtor {
     // Generates shortcuts by http method.
     ;['get', 'delete', 'head', 'options', 'post', 'put', 'patch'].forEach((method) => {
       this[method] = function (url, data, success, fail, config) {
-        return this.request({ url, method, data, success, fail, config })
+        return this.request({
+          url,
+          method,
+          data,
+          success,
+          fail,
+          config
+        })
       }.bind(this)
     })
   }
 
-  request ({ url, method, data, success, fail, config }) {
+  request ({
+    url,
+    method,
+    data,
+    success,
+    fail,
+    config
+  }) {
     const configs = normalizeArgs(method, this.config.resolveURL(url), data, success, fail, config)
     configs.config = _.merge({}, this.config, configs.config)
 
@@ -180,4 +200,7 @@ class InnerCtor {
   }
 }
 
-module.exports = Object.assign(create({}), { create, axios })
+module.exports = Object.assign(create({}), {
+  create,
+  axios
+})

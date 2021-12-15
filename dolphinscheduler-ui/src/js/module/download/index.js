@@ -36,7 +36,7 @@ const downloadFile = ($url, $obj) => {
     let result = ''
     const keyArr = Object.keys(obj)
     keyArr.forEach(function (key) {
-      result += "<input type='hidden' name = '" + key + "' value='" + obj[key] + "'>"
+      result += '<input type=\'hidden\' name = \'' + key + '\' value=\'' + obj[key] + '\'>'
     })
     return result
   }

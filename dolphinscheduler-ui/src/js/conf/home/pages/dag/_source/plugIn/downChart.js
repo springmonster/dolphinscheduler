@@ -49,7 +49,10 @@ DownChart.prototype.maxVal = function () {
 DownChart.prototype.download = function ({ dagThis }) {
   this.dag = dagThis
 
-  this.maxVal().then(({ width, height }) => {
+  this.maxVal().then(({
+    width,
+    height
+  }) => {
     // Dom to save
     const copyDom = $('#canvas')
     // gain

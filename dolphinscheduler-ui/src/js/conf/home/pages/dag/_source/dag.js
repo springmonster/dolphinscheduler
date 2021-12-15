@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import Vue from 'vue'
+
 let v = new Vue()
 import _ from 'lodash'
 import i18n from '@/module/i18n'
@@ -35,7 +36,10 @@ const Dag = function () {
  * init
  * @dag dag vue instance
  */
-Dag.prototype.init = function ({ dag, instance }) {
+Dag.prototype.init = function ({
+  dag,
+  instance
+}) {
   this.dag = dag
   this.instance = instance
 }
@@ -76,7 +80,11 @@ Dag.prototype.create = function () {
 /**
  * Action event on the right side of the toolbar
  */
-Dag.prototype.toolbarEvent = function ({ item, code, is }) {
+Dag.prototype.toolbarEvent = function ({
+  item,
+  code,
+  is
+}) {
   let self = this
   switch (code) {
     case 'pointer':
@@ -89,7 +97,10 @@ Dag.prototype.toolbarEvent = function ({ item, code, is }) {
       JSP.handleEventRemove()
       break
     case 'screen':
-      JSP.handleEventScreen({ item, is })
+      JSP.handleEventScreen({
+        item,
+        is
+      })
       break
     case 'download':
       v.$modal.dialog({
@@ -152,13 +163,18 @@ Dag.prototype.backfill = function (arg) {
     }
     getNewArr()
     /**
-    * @description Transform flat data into a tree structure
-    * @param {Array} arr Flat data
-    * @param {String} pidStr targetarr key name
-    * @param {String} idStr id key name
-    * @param {String} childrenStr children key name
-    */
-    const fommat = function ({ arrayList, pidStr = 'targetarr', idStr = 'id', childrenStr = 'children' }) {
+     * @description Transform flat data into a tree structure
+     * @param {Array} arr Flat data
+     * @param {String} pidStr targetarr key name
+     * @param {String} idStr id key name
+     * @param {String} childrenStr children key name
+     */
+    const fommat = function ({
+      arrayList,
+      pidStr = 'targetarr',
+      idStr = 'id',
+      childrenStr = 'children'
+    }) {
       const listOjb = {} // Used to store objects of the form {key: obj}
       const treeList = [] // An array to store the final tree structure data
       // Transform the data into {key: obj} format, which is convenient for the following data processing
@@ -182,7 +198,10 @@ Dag.prototype.backfill = function (arg) {
       }
       return treeList
     }
-    const datas = fommat({ arrayList: newArr, pidStr: 'targetarr' })
+    const datas = fommat({
+      arrayList: newArr,
+      pidStr: 'targetarr'
+    })
     // Count the number of leaf nodes
     const getLeafCountTree = function (json) {
       if (!json.children) {
@@ -201,6 +220,7 @@ Dag.prototype.backfill = function (arg) {
     const countTree = getLeafCountTree(datas[0])
     const getMaxFloor = function (treeData) {
       let max = 0
+
       function each (data, floor) {
         data.forEach(e => {
           e.floor = floor
@@ -213,6 +233,7 @@ Dag.prototype.backfill = function (arg) {
           }
         })
       }
+
       each(treeData, 1)
       return max
     }
@@ -245,8 +266,21 @@ Dag.prototype.backfill = function (arg) {
       return []
     }
     const toLine = function (data) {
-      return data.reduce((arrData, { id, name, targetarr, x, y, children = [] }) =>
-        arrData.concat([{ id, name, targetarr, x, y }], toLine(children)), [])
+      return data.reduce((arrData, {
+        id,
+        name,
+        targetarr,
+        x,
+        y,
+        children = []
+      }) =>
+        arrData.concat([{
+          id,
+          name,
+          targetarr,
+          x,
+          y
+        }], toLine(children)), [])
     }
     const listarr = toLine(datas)
     const listarrs = toLine(datas)

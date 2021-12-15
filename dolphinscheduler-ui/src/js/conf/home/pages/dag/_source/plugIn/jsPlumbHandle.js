@@ -58,7 +58,11 @@ let JSP = function () {
 /**
  * dag init
  */
-JSP.prototype.init = function ({ dag, instance, options }) {
+JSP.prototype.init = function ({
+  dag,
+  instance,
+  options
+}) {
   // Get the dag component instance
   this.dag = dag
   // Get jsplumb instance
@@ -188,7 +192,10 @@ JSP.prototype.draggable = function () {
 /**
  * Echo json processing and old data structure processing
  */
-JSP.prototype.jsonHandle = function ({ largeJson, locations }) {
+JSP.prototype.jsonHandle = function ({
+  largeJson,
+  locations
+}) {
   _.map(largeJson, v => {
     // Generate template
     $('#canvas').append(rtTasksTpl({
@@ -201,8 +208,8 @@ JSP.prototype.jsonHandle = function ({ largeJson, locations }) {
       taskType: v.type,
       runFlag: v.runFlag,
       nodenumber: locations[v.id].nodenumber,
-      successNode: v.conditionResult === undefined? '' : v.conditionResult.successNode[0],
-      failedNode: v.conditionResult === undefined? '' : v.conditionResult.failedNode[0]
+      successNode: v.conditionResult === undefined ? '' : v.conditionResult.successNode[0],
+      failedNode: v.conditionResult === undefined ? '' : v.conditionResult.failedNode[0]
     }))
 
     // contextmenu event
@@ -286,7 +293,8 @@ JSP.prototype.tasksContextmenu = function (event) {
     const e = event
     const $id = e.currentTarget.id
     const $contextmenu = $('#contextmenu')
-    const $name = $(`#${$id}`).find('.name-p').text()
+    const $name = $(`#
+    ${$id}`).find('.name-p').text()
     const $left = e.pageX + document.body.scrollLeft - 5
     const $top = e.pageY + document.body.scrollTop - 5
     $contextmenu.css({
@@ -340,7 +348,8 @@ JSP.prototype.tasksContextmenu = function (event) {
       $('#editNodes').click(ev => {
         findComponentDownward(this.dag.$root, 'dag-chart')._createNodes({
           id: $id,
-          type: $(`#${$id}`).attr('data-tasks-type')
+          type: $(`#
+          ${$id}`).attr('data-tasks-type')
         })
       })
       // delete node
@@ -426,7 +435,8 @@ JSP.prototype.connectClick = function (e) {
   setSvgColor(e, '#0097e0')
   const $id = this.selectedElement.id
   if ($id) {
-    $(`#${$id}`).removeClass('jtk-tasks-active')
+    $(`#
+    ${$id}`).removeClass('jtk-tasks-active')
     this.selectedElement.id = null
   }
   this.selectedElement.connect = e
@@ -488,7 +498,8 @@ JSP.prototype.removeNodes = function ($id) {
   this.JspInstance.remove($id)
 
   // delete dom
-  $(`#${$id}`).remove()
+  $(`#
+  ${$id}`).remove()
 
   // callback onRemoveNodes event
   this.options && this.options.onRemoveNodes && this.options.onRemoveNodes($id)
@@ -593,7 +604,10 @@ JSP.prototype.copyNodes = function ($id) {
  * toolbarEvent
  * @param {Screen}
  */
-JSP.prototype.handleEventScreen = function ({ item, is }) {
+JSP.prototype.handleEventScreen = function ({
+  item,
+  is
+}) {
   let screenOpen = true
   if (is) {
     item.icon = 'ans-icon-min'
@@ -650,7 +664,7 @@ JSP.prototype.saveStore = function () {
         tasks.push(tasksParam)
       }
     })
-    
+
     _.map(this.JspInstance.getConnections(), v => {
       connects.push({
         endPointSourceId: v.sourceId,
@@ -668,16 +682,16 @@ JSP.prototype.saveStore = function () {
     })
     let targetArrBool = false
     _.forEach(locations, item => {
-      if(item.targetarr) {
+      if (item.targetarr) {
         targetArrBool = true
         return false
       }
     })
-    if(connects.length && !targetArrBool) {
+    if (connects.length && !targetArrBool) {
       Vue.$message.warning(`${i18n.$t('The workflow canvas is abnormal and cannot be saved, please recreate')}`)
       return false
     }
-    
+
     // Storage node
     store.commit('dag/setTasks', tasks)
     // Store coordinate information
@@ -705,7 +719,7 @@ JSP.prototype.handleEvent = function () {
     }
     let sourceId = info['sourceId']// 出
     let targetId = info['targetId']// 入
-    console.log(sourceId,targetId)
+    console.log(sourceId, targetId)
     let rtTargetArrs = rtTargetArr(targetId)
     let rtSouceArrs = rtTargetArr(sourceId)
     /**
@@ -713,23 +727,23 @@ JSP.prototype.handleEvent = function () {
      */
     let recursiveVal
     const recursiveTargetarr = (arr, targetId) => {
-        for (let i in arr) {
-          if (arr[i] === targetId) {
-            recursiveVal = targetId
-          } else {
-            let targetArr = rtTargetArr(arr[i])
-            recursiveTargetarr(targetArr, targetId)
-          }
+      for (let i in arr) {
+        if (arr[i] === targetId) {
+          recursiveVal = targetId
+        } else {
+          let targetArr = rtTargetArr(arr[i])
+          recursiveTargetarr(targetArr, targetId)
         }
+      }
       return recursiveVal
     }
-    
+
     // Connection to connected nodes is not allowed
     if (_.findIndex(rtTargetArrs, v => v === sourceId) !== -1) {
-      console.log(rtTargetArrs,'not allowed')
+      console.log(rtTargetArrs, 'not allowed')
       return false
     }
-    
+
     // Recursive form to find if the target Targetarr has a sourceId
     if (recursiveTargetarr(rtSouceArrs, targetId)) {
       console.log('has a sourceId')
@@ -754,7 +768,11 @@ JSP.prototype.handleEvent = function () {
 /**
  * Backfill data processing
  */
-JSP.prototype.jspBackfill = function ({ connects, locations, largeJson }) {
+JSP.prototype.jspBackfill = function ({
+  connects,
+  locations,
+  largeJson
+}) {
   // Backfill nodes
   this.jsonHandle({
     largeJson: largeJson,
@@ -778,32 +796,58 @@ JSP.prototype.jspBackfill = function ({ connects, locations, largeJson }) {
         sourceId = v.endPointSourceId
         targetId = v.endPointTargetId
       }
-      
-      if($(`#${sourceId}`).attr('data-tasks-type') === 'CONDITIONS' && $(`#${sourceId}`).attr('data-successnode') === $(`#${targetId}`).find('.name-p').text()) {
+
+      if ($(`#${sourceId}`).attr('data-tasks-type') === 'CONDITIONS' && $(`#${sourceId}`).attr('data-successnode') === $(`#${targetId}`).find('.name-p').text()) {
         this.JspInstance.connect({
           source: sourceId,
           target: targetId,
           type: 'basic',
-          paintStyle: { strokeWidth: 2, stroke: '#4caf50' },
-          HoverPaintStyle: {stroke: '#ccc', strokeWidth: 3},
-          overlays:[["Label", { label: i18n.$t('success'), location:0.5, id:"label"} ]]
+          paintStyle: {
+            strokeWidth: 2,
+            stroke: '#4caf50'
+          },
+          HoverPaintStyle: {
+            stroke: '#ccc',
+            strokeWidth: 3
+          },
+          overlays: [['Label', {
+            label: i18n.$t('success'),
+            location: 0.5,
+            id: 'label'
+          }]]
         })
-      } else if($(`#${sourceId}`).attr('data-tasks-type') === 'CONDITIONS' && $(`#${sourceId}`).attr('data-failednode') === $(`#${targetId}`).find('.name-p').text()) {
+      } else if ($(`#${sourceId}`).attr('data-tasks-type') === 'CONDITIONS' && $(`#${sourceId}`).attr('data-failednode') === $(`#${targetId}`).find('.name-p').text()) {
         this.JspInstance.connect({
           source: sourceId,
           target: targetId,
           type: 'basic',
-          paintStyle: { strokeWidth: 2, stroke: '#252d39' },
-          HoverPaintStyle: {stroke: '#ccc', strokeWidth: 3},
-          overlays:[["Label", { label: i18n.$t('failed'), location:0.5, id:"label"} ]]
+          paintStyle: {
+            strokeWidth: 2,
+            stroke: '#252d39'
+          },
+          HoverPaintStyle: {
+            stroke: '#ccc',
+            strokeWidth: 3
+          },
+          overlays: [['Label', {
+            label: i18n.$t('failed'),
+            location: 0.5,
+            id: 'label'
+          }]]
         })
       } else {
         this.JspInstance.connect({
           source: sourceId,
           target: targetId,
           type: 'basic',
-          paintStyle: { strokeWidth: 2, stroke: '#2d8cf0' },
-          HoverPaintStyle: {stroke: '#ccc', strokeWidth: 3}
+          paintStyle: {
+            strokeWidth: 2,
+            stroke: '#2d8cf0'
+          },
+          HoverPaintStyle: {
+            stroke: '#ccc',
+            strokeWidth: 3
+          }
         })
       }
     })

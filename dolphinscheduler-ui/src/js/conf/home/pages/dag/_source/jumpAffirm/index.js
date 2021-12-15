@@ -105,8 +105,7 @@ Affirm.isPop = (fn) => {
             Vue.$modal.destroy()
           }
         },
-        props: {
-        }
+        props: {}
       })
     }
   })

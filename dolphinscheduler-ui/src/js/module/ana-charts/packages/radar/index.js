@@ -55,7 +55,11 @@ export default class Radar extends Base {
     }
 
     // Attribute name corresponding to text, attribute name corresponding to legend, attribute name corresponding to data value
-    const { textKey, legendKey, dataKey } = keyMap
+    const {
+      textKey,
+      legendKey,
+      dataKey
+    } = keyMap
     checkKeyInModel(data[0], textKey, legendKey, dataKey)
 
     const legendData = []
@@ -93,14 +97,24 @@ export default class Radar extends Base {
       }
     }
 
-    return { title, seriesData, legendData, indicator }
+    return {
+      title,
+      seriesData,
+      legendData,
+      indicator
+    }
   }
 
   /**
    * Drawing charts
    */
   apply () {
-    const { title, seriesData, legendData = [], indicator } = this.options
+    const {
+      title,
+      seriesData,
+      legendData = [],
+      indicator
+    } = this.options
     this.echart.setOption({
       title: {
         text: title

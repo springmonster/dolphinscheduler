@@ -31,4 +31,4 @@ parserOptions:
   sourceType: module
 plugins:
   - vue
-rules: {}
+rules: { }

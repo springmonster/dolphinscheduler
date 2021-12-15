@@ -17,7 +17,7 @@
 <template>
   <div class="container">
     <div class="title-box">
-      <span class="name">{{$t('zkDirectory')}}</span>
+      <span class="name">{{ $t('zkDirectory') }}</span>
     </div>
 
     <div class="table-box" v-if="zkDirectories.length > 0">
@@ -28,15 +28,15 @@
             <span>#</span>
           </th>
           <th scope="col" style="min-width: 40px">
-            <span>{{$t('zkDirectory')}}</span>
+            <span>{{ $t('zkDirectory') }}</span>
           </th>
         </tr>
         <tr v-for="(item, $index) in zkDirectories" :key="item.id">
           <td>
-            <span>{{$index + 1}}</span>
+            <span>{{ $index + 1 }}</span>
           </td>
           <td>
-            <span>{{item.zkDirectory}}</span>
+            <span>{{ item.zkDirectory }}</span>
           </td>
         </tr>
       </table>
@@ -54,59 +54,64 @@
 </template>
 
 <script>
-  import mNoData from '@/module/components/noData/noData'
+import mNoData from '@/module/components/noData/noData'
 
-  export default {
-    name: 'zookeeperDirectoriesPopup',
-    data () {
-      return {
-        tableHeaders: [
-          {
-            label: $t('zkDirectory'),
-            prop: 'zkDirectory'
-          }
-        ]
-      }
-    },
-    props: {
-      zkDirectories: Array
-    },
-    components: { mNoData }
-  }
+export default {
+  name: 'zookeeperDirectoriesPopup',
+  data () {
+    return {
+      tableHeaders: [
+        {
+          label: $t('zkDirectory'),
+          prop: 'zkDirectory'
+        }
+      ]
+    }
+  },
+  props: {
+    zkDirectories: Array
+  },
+  components: { mNoData }
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-  .container {
-    width: 500px;
-    .title-box {
-      height: 61px;
-      border-bottom: 1px solid #DCDEDC;
-      position: relative;
-      .name {
-        position: absolute;
-        left: 24px;
-        top: 18px;
-        font-size: 16px;
-      }
-    }
-    .bottom-box {
+.container {
+  width: 500px;
+
+  .title-box {
+    height: 61px;
+    border-bottom: 1px solid #DCDEDC;
+    position: relative;
+
+    .name {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      text-align: right;
-      height: 60px;
-      line-height: 60px;
-      border-top: 1px solid #DCDEDC;
-      background: #fff;
-      .ans-page {
-        display: inline-block;
-      }
-    }
-    .table-box {
-      overflow-y: scroll;
-      height: calc(100vh - 61px);
-      padding-bottom: 60px;
+      left: 24px;
+      top: 18px;
+      font-size: 16px;
     }
   }
+
+  .bottom-box {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: right;
+    height: 60px;
+    line-height: 60px;
+    border-top: 1px solid #DCDEDC;
+    background: #fff;
+
+    .ans-page {
+      display: inline-block;
+    }
+  }
+
+  .table-box {
+    overflow-y: scroll;
+    height: calc(100vh - 61px);
+    padding-bottom: 60px;
+  }
+}
 </style>

@@ -18,21 +18,27 @@
 .dag-model {
   background: url("../img/dag_bg.png");
   height: calc(100vh - 100px);
+
   ::selection {
-    background:transparent;
+    background: transparent;
   }
+
   ::-moz-selection {
-    background:transparent;
+    background: transparent;
   }
+
   ::-webkit-selection {
-    background:transparent;
+    background: transparent;
   }
+
   .jsplumb-connector {
     z-index: 1;
   }
+
   .endpoint-tasks {
-    margin-top:22px;
+    margin-top: 22px;
   }
+
   .draggable {
     > span {
       text-align: center;
@@ -45,6 +51,7 @@
       left: 0;
       bottom: -12px;
     }
+
     .fa {
       display: inline-block;
       position: absolute;
@@ -53,16 +60,19 @@
       z-index: 2;
       cursor: pointer;
     }
+
     .icos {
       display: inline-block;
       cursor: pointer;
     }
+
     &.active-tasks {
       span {
         color: #0296DF;
       }
     }
   }
+
   .icos {
     width: 32px;
     height: 32px;
@@ -71,72 +81,91 @@
     position: relative;
     z-index: 9;
   }
+
   .icos-SHELL {
     background: url("../img/toolbar_SHELL.png") no-repeat 50% 50%;
   }
+
   .icos-SUB_PROCESS {
     background: url("../img/toolbar_SUB_PROCESS.png") no-repeat 50% 50%;
   }
+
   .icos-PROCEDURE {
     background: url("../img/toolbar_PROCEDURE.png") no-repeat 50% 50%;
   }
+
   .icos-SQL {
     background: url("../img/toolbar_SQL.png") no-repeat 50% 50%;
   }
+
   .icos-SPARK {
     background: url("../img/toolbar_SPARK.png") no-repeat 50% 50%;
   }
+
   .icos-FLINK {
     background: url("../img/toobar_FLINK.png") no-repeat 50% 50%;
   }
+
   .icos-MR {
     background: url("../img/toolbar_MR.png") no-repeat 50% 50%;
   }
+
   .icos-PYTHON {
     background: url("../img/toolbar_PYTHON.png") no-repeat 50% 50%;
   }
+
   .icos-DEPENDENT {
     background: url("../img/toolbar_DEPENDENT.png") no-repeat 50% 50%;
   }
+
   .icos-HTTP {
     background: url("../img/toobar_HTTP.png") no-repeat 50% 50%;
   }
+
   .icos-DATAX {
     background: url("../img/toolbar_DATAX.png") no-repeat 50% 50%;
   }
+
   .icos-SQOOP {
     background: url("../img/toolbar_SQOOP.png") no-repeat 50% 50%;
   }
+
   .icos-CONDITIONS {
     background: url("../img/toobar_CONDITIONS.png") no-repeat 50% 50%;
   }
+
   .toolbar {
     width: 60px;
     height: 100%;
     background: #F2F3F7;
     float: left;
     border-radius: 0 0 0 3px;
+
     .title {
       height: 40px;
       line-height: 40px;
       background: #40434C;
       text-align: center;
       border-radius: 3px 0 0 0;
+
       span {
         font-size: 14px;
         color: #fff;
         font-weight: bold;
       }
     }
+
     .toolbar-btn {
       overflow: hidden;
       padding: 8px 11px 0 11px;
+
       .bar-box {
         width: 36px;
         height: 36px;
         float: left;
         margin-bottom: 3px;
         border-radius: 3px;
+
         .disabled {
           .icos {
             opacity: .6;
@@ -148,48 +177,59 @@
             filter: gray;
           }
         }
+
         &:nth-child(odd) {
           margin-right: 6px;
         }
+
         &.active {
           background: #e1e2e3;
         }
       }
     }
   }
+
   .dag-contect {
     float: left;
     width: calc(100% - 60px);
     height: 100%;
+
     .dag-toolbar {
       height: 40px;
       background: #F2F3F7;
       position: relative;
       border-radius: 0 3px 0 0;
+
       .ans-btn-text {
         color: #337ab7;
+
         .ans-icon {
           font-size: 16px;
         }
       }
+
       .assist-btn {
         position: absolute;
         left: 10px;
         top: 7px;
-        >.name {
+
+        > .name {
           padding-left: 6px;
           vertical-align: middle;
         }
-        >.copy-name {
+
+        > .copy-name {
           cursor: pointer;
           padding-left: 4px;
           position: relative;
           top: -2px;
+
           &:hover {
             i {
               color: #47c3ff;
             }
           }
+
           i {
             color: #333;
             font-size: 18px;
@@ -197,14 +237,17 @@
           }
         }
       }
+
       .save-btn {
         position: absolute;
         right: 8px;
         top: 6px;
+
         .operation {
           overflow: hidden;
           display: inline-block;
           margin-right: 10px;
+
           a {
             float: left;
             width: 28px;
@@ -214,15 +257,18 @@
             margin-left: 6px;
             border-radius: 3px;
             vertical-align: middle;
+
             i {
               color: #333;
             }
+
             &.active {
               // background: #e1e2e3;
               i {
                 color: #2d8cf0;
               }
             }
+
             &.disable {
               i {
                 color: #bbb;
@@ -232,23 +278,28 @@
         }
       }
     }
+
     .dag-container {
       height: calc(100% - 40px);
       overflow-x: auto;
-      &::-webkit-scrollbar{
+
+      &::-webkit-scrollbar {
         width: 9px;
       }
     }
   }
+
   .tools-model {
     height: 60px;
     background: #F4F5F4;
     border-radius: 3px 3px 0px 0px;
   }
 }
+
 #screen {
   margin-right: 5px;
 }
+
 .v-modal-custom-log {
   z-index: 101;
 }
@@ -262,6 +313,7 @@ svg path:hover {
     color: #0296DF;
   }
 }
+
 #chart-container .ui-selected {
   span {
     color: #0296DF;
@@ -275,47 +327,56 @@ svg path:hover {
   border-radius: 3px;
   box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.1);
   padding: 4px 0;
-  visibility:hidden;
+  visibility: hidden;
+
   a {
     height: 30px;
     line-height: 28px;
     display: block;
+
     i {
       font-size: 16px;
       vertical-align: middle;
       margin-left: 10px;
     }
+
     span {
       vertical-align: middle;
       font-size: 12px;
       color: #666;
       padding-left: 2px;
     }
+
     &:hover {
       background: #f6faff;
     }
+
     &#startRunning {
       i {
         color: #35cd75;
       }
     }
+
     &#editNodes {
       i {
         color: #0097e0;
       }
     }
+
     &#removeNodes {
       i {
         color: #f04d4e;
       }
     }
+
     &#copyNodes {
       i {
         color: #FABC05;
       }
     }
+
     &.disbled {
-      i,span {
+      i, span {
         color: #aaa !important;
       }
     }
@@ -326,7 +387,8 @@ svg path:hover {
   //min-width: calc(100% - 220px);
   width: 8000px;
   height: 5000px;
-  svg:not(:root){
+
+  svg:not(:root) {
     z-index: 11;
   }
 }
@@ -413,6 +475,7 @@ svg path:hover {
   margin-right: 0;
   padding: 4px;
 }
+
 .w {
   position: absolute;
   z-index: 4;
@@ -422,6 +485,7 @@ svg path:hover {
   transition: background-color 0.25s ease-in;
   border: 7px solid transparent;
   border-bottom: 30px solid transparent;
+
   .icos {
     width: 50px;
     height: 50px;
@@ -435,6 +499,7 @@ svg path:hover {
     cursor: move;
     background-color: #fff;
   }
+
   .name-p {
     position: absolute;
     left: 50%;
@@ -442,19 +507,22 @@ svg path:hover {
     width: 200px;
     text-align: center;
     margin-left: -100px;
-    word-break:break-all;
+    word-break: break-all;
   }
+
   .ban-p {
     position: absolute;
     left: -4px;
     top: 36px;
     z-index: 21;
+
     i {
       font-size: 18px;
       color: #ff0000;
       cursor: pointer;
     }
   }
+
   .state-p {
     width: 20px;
     height: 20px;
@@ -463,6 +531,7 @@ svg path:hover {
     left: 18px;
     text-align: center;
     cursor: pointer;
+
     b {
       font-weight: normal;
     }
@@ -525,7 +594,7 @@ svg path:hover {
   -webkit-transition: -webkit-box-shadow 0.25s ease-in;
   -moz-transition: -moz-box-shadow 0.25s ease-in;
   transition: box-shadow 0.25s ease-in;
-  border-radius:100%;
+  border-radius: 100%;
   display: none;
 }
 
@@ -547,13 +616,14 @@ svg path:hover {
   width: 100%;
   position: relative;
   z-index: 0;
+
   .CodeMirror {
-    height:auto;
+    height: auto;
     min-height: 72px;
   }
 
   .CodeMirror-scroll {
-    height:auto;
+    height: auto;
     min-height: 72px;
     overflow-y: hidden;
     overflow-x: auto;
@@ -561,8 +631,8 @@ svg path:hover {
 }
 
 .ans-modal-box.ans-drawer.ans-drawer-right.dagMask.mask {
-    width: 628px;
-    left: auto;
+  width: 628px;
+  left: auto;
 }
 
 

@@ -23,6 +23,7 @@ import security from './security'
 import datasource from './datasource'
 import user from './user'
 import monitor from './monitor'
+
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {

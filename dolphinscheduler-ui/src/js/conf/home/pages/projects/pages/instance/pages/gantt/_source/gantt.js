@@ -36,7 +36,10 @@ const Gantt = function () {
   this.endTimeXAxis = d3.time.hour.offset(new Date(), +3)
 }
 
-Gantt.prototype.init = function ({ el, tasks }) {
+Gantt.prototype.init = function ({
+  el,
+  tasks
+}) {
   this.el = el
   this.tasks = tasks
   this.taskNames = _.map(_.cloneDeep(tasks), v => v.taskName)

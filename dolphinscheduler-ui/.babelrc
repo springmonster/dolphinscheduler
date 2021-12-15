@@ -1,6 +1,8 @@
 {
-    "presets": [
-      ["env", {
+  "presets": [
+    [
+      "env",
+      {
         "loose": true,
         "debug": false,
         "useBuiltIns": true,
@@ -16,20 +18,40 @@
           ]
         },
         "production": {
-          "plugins": ["transform-remove-console"]
+          "plugins": [
+            "transform-remove-console"
+          ]
         }
-      }]
-    ],
-    "plugins": [
-      [ "transform-runtime", {
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "transform-runtime",
+      {
         "helpers": false,
         "polyfill": false,
-        "regenerator": true } ],
-      [ "transform-class-properties", { "spec": true } ],
-      [ "transform-object-rest-spread", { "useBuiltIns": true } ],
-      [ "transform-vue-jsx" ],
-      [ "syntax-dynamic-import" ]
+        "regenerator": true
+      }
     ],
-    "comments": false
-  }
-  
+    [
+      "transform-class-properties",
+      {
+        "spec": true
+      }
+    ],
+    [
+      "transform-object-rest-spread",
+      {
+        "useBuiltIns": true
+      }
+    ],
+    [
+      "transform-vue-jsx"
+    ],
+    [
+      "syntax-dynamic-import"
+    ]
+  ],
+  "comments": false
+}

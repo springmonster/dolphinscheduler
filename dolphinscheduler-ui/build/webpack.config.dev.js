@@ -16,7 +16,10 @@
  */
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const { assetsDir, baseConfig } = require('./config')
+const {
+  assetsDir,
+  baseConfig
+} = require('./config')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ProgressPlugin = require('progress-bar-webpack-plugin')
 const getEnv = require('env-parse').getEnv

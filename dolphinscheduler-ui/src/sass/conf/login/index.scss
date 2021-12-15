@@ -38,41 +38,49 @@ body {
   overflow-x: hidden;
 }
 
-@media screen and (max-width: 960px){
-  body{
+@media screen and (max-width: 960px) {
+  body {
     background: #fff;
   }
   .login-model {
-    box-shadow:0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     background: #fff;
     top: 28%;
     padding: 36px 0;
-    .text-1  {
+
+    .text-1 {
       span {
         font-size: 32px;
         display: block;
         padding-top: 10px;
       }
+
       i {
         font-size: 50px;
       }
     }
+
     .form-model {
       padding: 30px 40px 0 40px;
+
       .list {
         margin-bottom: 32px;
-        >label {
+
+        > label {
           font-size: 20px;
           height: 30px;
         }
-        >.error {
+
+        > .error {
           font-size: 14px;
         }
+
         .v-btn {
-          >span {
+          > span {
             font-size: 18px;
           }
         }
+
         .v-input {
           input {
             height: 44px;
@@ -81,6 +89,7 @@ body {
         }
       }
     }
+
     .ctr {
       bottom: -20px;
       color: #333;

@@ -1,4 +1,3 @@
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -25,7 +24,10 @@ import _ from 'lodash'
 const range = (start, end) => {
   const length = end - start + 1
   let step = start - 1
-  return Array.apply(null, { length: length }).map(function (v, i) { step++; return step })
+  return Array.apply(null, { length: length }).map(function (v, i) {
+    step++
+    return step
+  })
 }
 
 const selectList = {

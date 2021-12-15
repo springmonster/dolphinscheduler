@@ -16,7 +16,7 @@
  */
 
 export default {
-    /**
+  /**
    * set sideBar
    * */
   setSideBar (state, payload) {

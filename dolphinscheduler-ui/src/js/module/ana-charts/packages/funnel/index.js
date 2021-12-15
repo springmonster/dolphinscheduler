@@ -54,7 +54,10 @@ export default class Funnel extends Base {
     }
 
     // Attribute name corresponding to text and attribute name corresponding to data value
-    const { textKey, dataKey } = keyMap
+    const {
+      textKey,
+      dataKey
+    } = keyMap
     checkKeyInModel(data[0], textKey, dataKey)
 
     const legendData = []
@@ -102,7 +105,11 @@ export default class Funnel extends Base {
     // Fill data
     for (let i = 0; i < data.length; i++) {
       const element = data[i]
-      const { [dataKey]: value, [textKey]: name, ...other } = element
+      const {
+        [dataKey]: value,
+        [textKey]: name,
+        ...other
+      } = element
       const item = {
         value,
         name,
@@ -111,14 +118,22 @@ export default class Funnel extends Base {
       }
       series[0].data.push(item)
     }
-    return { title, series, legendData }
+    return {
+      title,
+      series,
+      legendData
+    }
   }
 
   /**
    * Drawing charts
    */
   apply () {
-    const { title, series, legendData } = this.options
+    const {
+      title,
+      series,
+      legendData
+    } = this.options
 
     // Injection configuration to series
     const { insertSeries } = this.settings

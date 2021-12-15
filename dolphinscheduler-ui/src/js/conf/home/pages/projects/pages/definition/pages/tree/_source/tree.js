@@ -24,7 +24,8 @@ let self = this
 const Tree = function () {
   self = this
   this.selfTree = {}
-  this.tree = function () {}
+  this.tree = function () {
+  }
   // basic configuration
   this.config = {
     barHeight: 26,
@@ -50,7 +51,11 @@ const Tree = function () {
 /**
  * init
  */
-Tree.prototype.init = function ({ data, limit, selfTree }) {
+Tree.prototype.init = function ({
+  data,
+  limit,
+  selfTree
+}) {
   return new Promise((resolve, reject) => {
     this.selfTree = selfTree
     this.config.taskNum = limit
@@ -93,7 +98,11 @@ Tree.prototype.nodesClass = function (d) {
     sclass += ' leaf'
   } else {
     sclass += ' parent'
-    if (d.children === undefined) { sclass += ' collapsed' } else { sclass += ' expanded' }
+    if (d.children === undefined) {
+      sclass += ' collapsed'
+    } else {
+      sclass += ' expanded'
+    }
   }
   return sclass
 }
@@ -119,7 +128,7 @@ Tree.prototype.treeToggles = function (clicked_d) { // eslint-disable-line
 
   self.removeTooltip()
 
-  d3.selectAll("[task_id='" + clicked_d.uuid + "']").each((d) => {
+  d3.selectAll('[task_id=\'' + clicked_d.uuid + '\']').each((d) => {
     if (clicked_d !== d && d.children) { // eslint-disable-line
       d._children = d.children
       d.children = null
@@ -246,8 +255,14 @@ Tree.prototype.treeUpdate = function (source) {
     link.enter().insert('path', 'g')
       .attr('class', 'link')
       .attr('d', (d) => {
-        const o = { x: source.x0, y: source.y0 }
-        return this.diagonal({ source: o, target: o })
+        const o = {
+          x: source.x0,
+          y: source.y0
+        }
+        return this.diagonal({
+          source: o,
+          target: o
+        })
       })
       .transition()
       .duration(this.duration)
@@ -262,8 +277,14 @@ Tree.prototype.treeUpdate = function (source) {
     link.exit().transition()
       .duration(this.duration)
       .attr('d', (d) => {
-        const o = { x: source.x, y: source.y }
-        return this.diagonal({ source: o, target: o })
+        const o = {
+          x: source.x,
+          y: source.y
+        }
+        return this.diagonal({
+          source: o,
+          target: o
+        })
       })
       .remove()
 

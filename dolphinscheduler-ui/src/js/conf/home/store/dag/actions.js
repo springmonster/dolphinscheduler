@@ -21,21 +21,21 @@ import { tasksState } from '@/conf/home/pages/dag/_source/config'
 
 // delete 'definitionList' from tasks
 const deleteDefinitionList = (tasks) => {
-  const newTasks = [];
+  const newTasks = []
   tasks.forEach(item => {
-    const newItem = Object.assign({}, item);
-    if(newItem.dependence && newItem.dependence.dependTaskList) {
+    const newItem = Object.assign({}, item)
+    if (newItem.dependence && newItem.dependence.dependTaskList) {
       newItem.dependence.dependTaskList.forEach(dependTaskItem => {
         if (dependTaskItem.dependItemList) {
           dependTaskItem.dependItemList.forEach(dependItem => {
-            Reflect.deleteProperty(dependItem, 'definitionList');
+            Reflect.deleteProperty(dependItem, 'definitionList')
           })
         }
       })
     }
-    newTasks.push(newItem);
-  });
-  return newTasks;
+    newTasks.push(newItem)
+  })
+  return newTasks
 }
 
 export default {
@@ -384,7 +384,7 @@ export default {
         type: 'FILE',
         programType: payload
       }, res => {
-        if(payload) {
+        if (payload) {
           state.resourcesListPy = res.data
         } else {
           state.resourcesListJar = res.data
@@ -622,7 +622,7 @@ export default {
       }
     }
 
-    io.get(`projects/${state.projectName}/process/export`, {processDefinitionIds: payload.processDefinitionIds}, res => {
+    io.get(`projects/${state.projectName}/process/export`, { processDefinitionIds: payload.processDefinitionIds }, res => {
       downloadBlob(res, payload.fileName)
     }, e => {
 
