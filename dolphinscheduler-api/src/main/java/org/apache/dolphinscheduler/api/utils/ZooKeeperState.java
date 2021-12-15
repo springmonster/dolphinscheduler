@@ -54,6 +54,10 @@ public class ZooKeeperState {
         this.port = port;
     }
 
+    /**
+     * srvr
+     * srvr命令和stat命令的功能一致，唯一的区别是srvr不会将客户端的连接情况输出，仅仅输出服务器的自身信息
+     */
     public void getZookeeperInfo() {
         String content = cmd("srvr");
         if (StringUtils.isNotBlank(content)) {
@@ -87,6 +91,10 @@ public class ZooKeeperState {
 
         }
 
+        /**
+         * wchs
+         * wchs命令用于输出当前服务器上管理的Watcher的概要信息。
+         */
         String wchsText = cmd("wchs");
         if (StringUtils.isNotBlank(wchsText)) {
             if (Constants.STRING_FALSE.equals(wchsText)) {
@@ -103,6 +111,10 @@ public class ZooKeeperState {
             }
         }
 
+        /**
+         * cons
+         * cons命令用于输出当前这台服务器上所有客户端连接的详细信息，包括每个客户端的客户端IP、会话ID和最后一次与服务器交互的操作类型等。
+         */
         String consText = cmd("cons");
         if (StringUtils.isNotBlank(consText)) {
             if (Constants.STRING_FALSE.equals(consText)) {
@@ -122,7 +134,17 @@ public class ZooKeeperState {
         }
     }
 
-
+    /**
+     * ruok命令用于输出当前 ZooKeeper服务器是否正在运行。该命令的名字非常有趣，其协议正好是“Are you ok”。
+     * 执行该命令后，如果当前 ZooKeeper服务器正在运行，那么返回“imok”，否则没有任何响应输出。
+     * 请注意，ruok命令的输出仅仅只能表明当前服务器是否正在运行，
+     * 准确的讲，只能说明2181端口打开着，同时四字命令执行流程正常，但是不能代表 ZooKeeper服务器是否运行正常。
+     * 在很多时候，如果当前服务器无法正常处理客户端的读写请求，甚至已经无法和集群中的其他机器进行通信，ruok命令依然返回“imok”。
+     * 因此，一般来说，该命令并不是一个特别有用的命令，他不能反映 ZooKeeper服务器的工作状态，想要更可靠的获取更多 ZooKeeper运行状态信息，
+     * 可以使用下面马上要讲到的stat命令。
+     *
+     * @return
+     */
     public boolean ruok() {
         return "imok\n".equals(cmd("ruok"));
     }
@@ -238,6 +260,4 @@ public class ZooKeeperState {
                 + ", watches=" + watches + ", connections="
                 + connections + ",healthFlag=" + healthFlag + "]";
     }
-
-
 }

@@ -50,7 +50,15 @@ public class PostgrePerformance extends BaseDBPerformance {
         Statement pstmt = null;
         try {
             pstmt = conn.createStatement();
-
+            /**
+             * khc:如何去查看pg的状态
+             * pg官方解释：
+             *
+             * One row per server process, showing information related to the current activity of that process,
+             * such as state and current query。
+             *
+             * 每一行都表示一个系统进程，显示与当前会话的活动进程的一些信息，比如当前回话的状态和查询等。
+             */
             try (ResultSet rs1 = pstmt.executeQuery("select count(*) from pg_stat_activity;")) {
                 if (rs1.next()) {
                     monitorRecord.setThreadsConnections(rs1.getInt("count"));

@@ -78,6 +78,7 @@ public class ZookeeperMonitor extends AbstractZKClient {
             for (String zookeeperServer : zookeeperServersArray) {
                 ZooKeeperState state = new ZooKeeperState(zookeeperServer);
                 boolean ok = state.ruok();
+                // khc:去获取zk的状态
                 state.getZookeeperInfo();
 
                 int connections = state.getConnections();

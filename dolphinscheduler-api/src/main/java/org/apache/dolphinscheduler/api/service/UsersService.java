@@ -148,6 +148,7 @@ public class UsersService extends BaseService {
         Date now = new Date();
 
         user.setUserName(userName);
+        // khc:密码经过了md5的包装
         user.setUserPassword(EncryptionUtils.getMd5(userPassword));
         user.setEmail(email);
         user.setTenantId(tenantId);
@@ -262,7 +263,8 @@ public class UsersService extends BaseService {
      * @return update result code
      * @throws Exception exception
      */
-    public Map<String, Object> updateUser(User loginUser, int userId,
+    public Map<String, Object> updateUser(User loginUser,
+                                          int userId,
                                           String userName,
                                           String userPassword,
                                           String email,
@@ -320,6 +322,7 @@ public class UsersService extends BaseService {
         Date now = new Date();
         user.setUpdateTime(now);
 
+        // khc:如果更新用户的话，需要注意租户
         //if user switches the tenant, the user's resources need to be copied to the new tenant
         if (user.getTenantId() != tenantId) {
             Tenant oldTenant = tenantMapper.queryById(user.getTenantId());
@@ -371,7 +374,6 @@ public class UsersService extends BaseService {
                         // if new tenant dir not exists , create
                         createTenantDirIfNotExists(newTenant.getTenantCode());
                     }
-
                 }
             }
             user.setTenantId(tenantId);
@@ -407,6 +409,7 @@ public class UsersService extends BaseService {
         // delete user
         User user = userMapper.queryTenantCodeByUserId(id);
 
+        // khc:这里有通过租户code查找HDFS的路径的过程
         if (user != null) {
             if (PropertyUtils.getResUploadStartupState()) {
                 String userPath = HadoopUtils.getHdfsUserDir(user.getTenantCode(), id);
@@ -423,6 +426,8 @@ public class UsersService extends BaseService {
     }
 
     /**
+     * todo khc
+     * khc:这里的grant project是什么意思？
      * grant project
      *
      * @param loginUser  login user
@@ -433,6 +438,7 @@ public class UsersService extends BaseService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> grantProject(User loginUser, int userId, String projectIds) {
         Map<String, Object> result = new HashMap<>(5);
+
         result.put(Constants.STATUS, false);
 
         //only admin can operate
@@ -446,6 +452,7 @@ public class UsersService extends BaseService {
             putMsg(result, Status.USER_NOT_EXIST, userId);
             return result;
         }
+
         //if the selected projectIds are empty, delete all items associated with the user
         projectUserMapper.deleteProjectRelation(0, userId);
 
@@ -483,10 +490,12 @@ public class UsersService extends BaseService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> grantResources(User loginUser, int userId, String resourceIds) {
         Map<String, Object> result = new HashMap<>(5);
+
         //only admin can operate
         if (check(result, !isAdmin(loginUser), Status.USER_NO_OPERATION_PERM)) {
             return result;
         }
+
         User user = userMapper.selectById(userId);
         if (user == null) {
             putMsg(result, Status.USER_NOT_EXIST, userId);
@@ -728,6 +737,7 @@ public class UsersService extends BaseService {
      */
     public Map<String, Object> queryUserList(User loginUser) {
         Map<String, Object> result = new HashMap<>(5);
+
         //only admin can operate
         if (check(result, !isAdmin(loginUser), Status.USER_NO_OPERATION_PERM)) {
             return result;
@@ -772,6 +782,7 @@ public class UsersService extends BaseService {
     public Map<String, Object> unauthorizedUser(User loginUser, Integer alertgroupId) {
 
         Map<String, Object> result = new HashMap<>(5);
+
         //only admin can operate
         if (check(result, !isAdmin(loginUser), Status.USER_NO_OPERATION_PERM)) {
             return result;
@@ -780,12 +791,14 @@ public class UsersService extends BaseService {
         List<User> userList = userMapper.selectList(null);
         List<User> resultUsers = new ArrayList<>();
         Set<User> userSet = null;
+
         if (userList != null && userList.size() > 0) {
             userSet = new HashSet<>(userList);
 
             List<User> authedUserList = userMapper.queryUserListByAlertGroupId(alertgroupId);
 
             Set<User> authedUserSet = null;
+
             if (authedUserList != null && authedUserList.size() > 0) {
                 authedUserSet = new HashSet<>(authedUserList);
                 userSet.removeAll(authedUserSet);

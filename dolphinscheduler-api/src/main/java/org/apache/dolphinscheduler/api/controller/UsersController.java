@@ -115,6 +115,7 @@ public class UsersController extends BaseController {
                                 @RequestParam("pageSize") Integer pageSize) {
         logger.info("login user {}, list user paging, pageNo: {}, searchVal: {}, pageSize: {}",
                 loginUser.getUserName(), pageNo, searchVal, pageSize);
+
         Map<String, Object> result = checkPageParams(pageNo, pageSize);
         if (result.get(Constants.STATUS) != Status.SUCCESS) {
             return returnDataListPaging(result);
@@ -161,6 +162,7 @@ public class UsersController extends BaseController {
                              @RequestParam(value = "phone", required = false) String phone) throws Exception {
         logger.info("login user {}, updateProcessInstance user, userName: {}, email: {}, tenantId: {}, userPassword: {}, phone: {}, user queue: {}",
                 loginUser.getUserName(), userName, email, tenantId, Constants.PASSWORD_DEFAULT, phone, queue);
+
         Map<String, Object> result = usersService.updateUser(loginUser, id, userName, userPassword, email, tenantId, phone, queue);
         return returnDataList(result);
     }
@@ -206,6 +208,7 @@ public class UsersController extends BaseController {
                                @RequestParam(value = "userId") int userId,
                                @RequestParam(value = "projectIds") String projectIds) {
         logger.info("login user {}, grant project, userId: {},projectIds : {}", loginUser.getUserName(), userId, projectIds);
+
         Map<String, Object> result = usersService.grantProject(loginUser, userId, projectIds);
         return returnDataList(result);
     }
@@ -230,6 +233,7 @@ public class UsersController extends BaseController {
                                 @RequestParam(value = "userId") int userId,
                                 @RequestParam(value = "resourceIds") String resourceIds) {
         logger.info("login user {}, grant project, userId: {},resourceIds : {}", loginUser.getUserName(), userId, resourceIds);
+
         Map<String, Object> result = usersService.grantResources(loginUser, userId, resourceIds);
         return returnDataList(result);
     }
@@ -280,6 +284,7 @@ public class UsersController extends BaseController {
                                   @RequestParam(value = "userId") int userId,
                                   @RequestParam(value = "datasourceIds") String datasourceIds) {
         logger.info("login user {}, grant project, userId: {},projectIds : {}", loginUser.getUserName(), userId, datasourceIds);
+
         Map<String, Object> result = usersService.grantDataSource(loginUser, userId, datasourceIds);
         return returnDataList(result);
     }
@@ -297,7 +302,9 @@ public class UsersController extends BaseController {
     @ApiException(GET_USER_INFO_ERROR)
     public Result getUserInfo(@ApiIgnore @RequestAttribute(value = Constants.SESSION_USER) User loginUser) {
         logger.info("login user {},get user info", loginUser.getUserName());
+
         Map<String, Object> result = usersService.getUserInfo(loginUser);
+
         return returnDataList(result);
     }
 
@@ -313,7 +320,9 @@ public class UsersController extends BaseController {
     @ApiException(USER_LIST_ERROR)
     public Result listUser(@ApiIgnore @RequestAttribute(value = Constants.SESSION_USER) User loginUser) {
         logger.info("login user {}, user list", loginUser.getUserName());
+
         Map<String, Object> result = usersService.queryAllGeneralUsers(loginUser);
+
         return returnDataList(result);
     }
 
@@ -329,7 +338,9 @@ public class UsersController extends BaseController {
     @ApiException(USER_LIST_ERROR)
     public Result listAll(@RequestAttribute(value = Constants.SESSION_USER) User loginUser) {
         logger.info("login user {}, user list", loginUser.getUserName());
+
         Map<String, Object> result = usersService.queryUserList(loginUser);
+
         return returnDataList(result);
     }
 
@@ -353,6 +364,7 @@ public class UsersController extends BaseController {
     ) {
         logger.info("login user {}, verfiy user name: {}",
                 loginUser.getUserName(), userName);
+
         return usersService.verifyUserName(userName);
     }
 
@@ -375,7 +387,9 @@ public class UsersController extends BaseController {
                                    @RequestParam("alertgroupId") Integer alertgroupId) {
         logger.info("unauthorized user, login user:{}, alert group id:{}",
                 loginUser.getUserName(), alertgroupId);
+
         Map<String, Object> result = usersService.unauthorizedUser(loginUser, alertgroupId);
+
         return returnDataList(result);
     }
 
@@ -399,13 +413,13 @@ public class UsersController extends BaseController {
         try {
             logger.info("authorized user , login user:{}, alert group id:{}",
                     loginUser.getUserName(), alertgroupId);
+
             Map<String, Object> result = usersService.authorizedUser(loginUser, alertgroupId);
+
             return returnDataList(result);
         } catch (Exception e) {
             logger.error(Status.AUTHORIZED_USER_ERROR.getMsg(), e);
             return error(Status.AUTHORIZED_USER_ERROR.getCode(), Status.AUTHORIZED_USER_ERROR.getMsg());
         }
     }
-
-
 }

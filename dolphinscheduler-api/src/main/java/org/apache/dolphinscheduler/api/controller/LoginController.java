@@ -63,6 +63,8 @@ public class LoginController extends BaseController {
     private Authenticator authenticator;
 
 
+//    khc:登录与登出会操作t_ds_user和t_ds_session表
+
     /**
      * login
      *

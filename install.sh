@@ -39,6 +39,7 @@ sed -i ${txt} "s#^spring.datasource.url.*#spring.datasource.url=jdbc:${dbtype}:/
 sed -i ${txt} "s#^spring.datasource.username.*#spring.datasource.username=${username}#g" conf/datasource.properties
 sed -i ${txt} "s#^spring.datasource.password.*#spring.datasource.password=${password}#g" conf/datasource.properties
 
+# khc:这里进行替换
 sed -i ${txt} "s#fs.defaultFS.*#fs.defaultFS=${defaultFS}#g" conf/common.properties
 sed -i ${txt} "s#fs.s3a.endpoint.*#fs.s3a.endpoint=${s3Endpoint}#g" conf/common.properties
 sed -i ${txt} "s#fs.s3a.access.key.*#fs.s3a.access.key=${s3AccessKey}#g" conf/common.properties

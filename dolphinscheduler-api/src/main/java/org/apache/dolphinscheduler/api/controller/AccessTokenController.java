@@ -55,6 +55,8 @@ public class AccessTokenController extends BaseController {
     private AccessTokenService accessTokenService;
 
     /**
+     * khc:这里是"创建令牌"
+     *
      * create token
      *
      * @param loginUser  login user
@@ -79,6 +81,7 @@ public class AccessTokenController extends BaseController {
     }
 
     /**
+     * khc:这里是"创建令牌"后界面的"生成令牌"
      * generate token string
      *
      * @param loginUser  login user
