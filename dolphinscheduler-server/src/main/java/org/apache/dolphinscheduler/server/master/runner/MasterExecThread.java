@@ -360,13 +360,13 @@ public class MasterExecThread implements Runnable {
      * init task queue
      */
     private void initTaskQueue() {
-
         taskFailedSubmit = false;
         activeTaskNode.clear();
         dependFailedTask.clear();
         completeTaskList.clear();
         errorTaskList.clear();
         List<TaskInstance> taskInstanceList = processService.findValidTaskListByProcessId(processInstance.getId());
+
         for (TaskInstance task : taskInstanceList) {
             if (task.isTaskComplete()) {
                 completeTaskList.put(task.getName(), task);
@@ -387,7 +387,7 @@ public class MasterExecThread implements Runnable {
      * @return TaskInstance
      */
     private TaskInstance submitTaskExec(TaskInstance taskInstance) {
-        MasterBaseTaskExecThread abstractExecThread = null;
+        MasterBaseTaskExecThread abstractExecThread;
         if (taskInstance.isSubProcess()) {
             abstractExecThread = new SubProcessTaskExecThread(taskInstance);
         } else if (taskInstance.isDependTask()) {
@@ -489,11 +489,14 @@ public class MasterExecThread implements Runnable {
      */
     private void submitPostNode(String parentNodeName) {
         Set<String> submitTaskNodeList = DagHelper.parsePostNodes(parentNodeName, skipTaskNodeList, dag, completeTaskList);
+
         List<TaskInstance> taskInstances = new ArrayList<>();
+
         for (String taskNode : submitTaskNodeList) {
             taskInstances.add(createTaskInstance(processInstance, taskNode,
                     dag.getNode(taskNode)));
         }
+
         // if previous node success , post node submit
         for (TaskInstance task : taskInstances) {
             if (readyToSubmitTaskQueue.contains(task)) {
@@ -847,11 +850,14 @@ public class MasterExecThread implements Runnable {
     }
 
     /**
+     * khc:这里是任务的精华！
      * submit and watch the tasks, until the work flow stop
+     * 这里需要重点看！！！
      */
     private void runProcess() {
         // submit start node
         submitPostNode(null);
+
         boolean sendTimeWarning = false;
         while (!processInstance.isProcessInstanceStop() && Stopper.isRunning()) {
 
@@ -861,6 +867,7 @@ public class MasterExecThread implements Runnable {
                         processService.findProcessDefineById(processInstance.getProcessDefinitionId()));
                 sendTimeWarning = true;
             }
+
             for (Map.Entry<MasterBaseTaskExecThread, Future<Boolean>> entry : activeTaskNode.entrySet()) {
                 Future<Boolean> future = entry.getValue();
                 TaskInstance task = entry.getKey().getTaskInstance();
@@ -870,6 +877,7 @@ public class MasterExecThread implements Runnable {
                 }
 
                 // node monitor thread complete
+                // khc:从数据库查找task
                 task = this.processService.findTaskInstanceById(task.getId());
 
                 if (task == null) {
@@ -885,12 +893,14 @@ public class MasterExecThread implements Runnable {
 
                 logger.info("task :{}, id:{} complete, state is {} ",
                         task.getName(), task.getId(), task.getState());
+
                 // node success , post node submit
                 if (task.getState() == ExecutionStatus.SUCCESS) {
                     completeTaskList.put(task.getName(), task);
                     submitPostNode(task.getName());
                     continue;
                 }
+
                 // node fails, retry first, and then execute the failure process
                 if (task.getState().typeIsFailure()) {
                     if (task.getState() == ExecutionStatus.NEED_FAULT_TOLERANCE) {
@@ -1023,6 +1033,7 @@ public class MasterExecThread implements Runnable {
     }
 
     /**
+     * khc:貌似在接近调度任务的核心
      * handling the list of tasks to be submitted
      */
     private void submitStandByTask() {

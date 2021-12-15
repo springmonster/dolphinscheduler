@@ -83,7 +83,6 @@ public class AlertServer {
         }
     }
 
-
     public static void main(String[] args) {
         AlertServer alertServer = AlertServer.getInstance();
         alertServer.start();

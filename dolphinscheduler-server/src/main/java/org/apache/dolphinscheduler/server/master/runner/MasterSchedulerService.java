@@ -110,6 +110,7 @@ public class MasterSchedulerService extends Thread {
     }
 
     /**
+     * khc:把任务写入ds_command表，这里去读取
      * run of MasterSchedulerThread
      */
     @Override

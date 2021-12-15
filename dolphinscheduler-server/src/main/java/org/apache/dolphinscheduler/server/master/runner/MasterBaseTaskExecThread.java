@@ -226,6 +226,7 @@ public class MasterBaseTaskExecThread implements Callable<Boolean> {
                     taskInstance.getProcessInstancePriority().getCode(),
                     taskInstance.getId(),
                     org.apache.dolphinscheduler.common.Constants.DEFAULT_WORKER_GROUP);
+
             taskUpdateQueue.put(taskPriority);
             logger.info(String.format("master submit success, task : %s", taskInstance.getName()));
             return true;
@@ -273,6 +274,7 @@ public class MasterBaseTaskExecThread implements Callable<Boolean> {
     @Override
     public Boolean call() throws Exception {
         this.processInstance = processService.findProcessInstanceById(taskInstance.getProcessInstanceId());
+        // 这里有重写，会跳转到MasterExecThread.java的submitWaitComplete();
         return submitWaitComplete();
     }
 

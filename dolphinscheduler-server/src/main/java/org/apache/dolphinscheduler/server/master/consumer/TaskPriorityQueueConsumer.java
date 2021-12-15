@@ -95,6 +95,9 @@ public class TaskPriorityQueueConsumer extends Thread {
         super.start();
     }
 
+    /**
+     * khc:终于找到了，这里来消费master提交的task
+     */
     @Override
     public void run() {
         List<TaskPriority> failedDispatchTasks = new ArrayList<>();
