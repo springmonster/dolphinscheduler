@@ -82,7 +82,9 @@ public class TenantController extends BaseController {
                                @RequestParam(value = "description", required = false) String description) throws Exception {
         logger.info("login user {}, create tenant, tenantCode: {}, tenantName: {}, queueId: {}, desc: {}",
                 loginUser.getUserName(), tenantCode, tenantName, queueId, description);
+
         Map<String, Object> result = tenantService.createTenant(loginUser, tenantCode, tenantName, queueId, description);
+
         return returnDataList(result);
     }
 
@@ -215,6 +217,7 @@ public class TenantController extends BaseController {
     ) {
         logger.info("login user {}, verfiy tenant code: {}",
                 loginUser.getUserName(), tenantCode);
+
         return tenantService.verifyTenantCode(tenantCode);
     }
 

@@ -228,6 +228,8 @@ public class WorkerGroupService extends BaseService {
     }
 
     /**
+     * khc: 如何获取worker节点，通过zk
+     *
      * get worker groups
      *
      * @param isPaging whether paging

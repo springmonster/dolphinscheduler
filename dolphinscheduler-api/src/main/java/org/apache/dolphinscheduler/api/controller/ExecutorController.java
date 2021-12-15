@@ -52,6 +52,7 @@ public class ExecutorController extends BaseController {
     private ExecutorService execService;
 
     /**
+     * khc:实际的去运行，也就是工作流定义中点击"运行"
      * execute process instance
      *
      * @param loginUser               login user
@@ -127,6 +128,7 @@ public class ExecutorController extends BaseController {
 
 
     /**
+     * khc:工作流实例中的重跑
      * do action to process instance：pause, stop, repeat, recover from pause, recover from stop
      *
      * @param loginUser         login user
@@ -155,6 +157,7 @@ public class ExecutorController extends BaseController {
     }
 
     /**
+     * khc:启动时首先进行检查，有个提示框
      * check process definition and all of the son process definitions is on line.
      *
      * @param loginUser           login user
@@ -176,6 +179,8 @@ public class ExecutorController extends BaseController {
     }
 
     /**
+     * khc:receivers和receivers-cc是与定时调度任务相关的
+     *
      * query recipients and copyers by process definition ID
      *
      * @param loginUser           login user

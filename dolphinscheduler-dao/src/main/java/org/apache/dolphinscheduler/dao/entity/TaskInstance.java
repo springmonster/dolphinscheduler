@@ -107,6 +107,7 @@ public class TaskInstance implements Serializable {
     private String executePath;
 
     /**
+     * khc:这里是log的path
      * task log path
      * default path: $base_run_dir/processInstanceId/taskInstanceId/retryTimes
      */

@@ -560,8 +560,6 @@ public class DataSourceService extends BaseService {
             logger.info("parameters map-----" + JSON.toJSONString(parameterMap));
         }
         return JSON.toJSONString(parameterMap);
-
-
     }
 
     private String buildAddress(DbType type, String host, String port, DbConnectType connectType) {

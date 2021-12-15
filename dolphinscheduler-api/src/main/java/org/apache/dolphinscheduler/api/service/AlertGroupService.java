@@ -152,7 +152,6 @@ public class AlertGroupService extends BaseService {
         if (alertGroup == null) {
             putMsg(result, Status.ALERT_GROUP_NOT_EXIST);
             return result;
-
         }
 
         Date now = new Date();

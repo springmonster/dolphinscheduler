@@ -186,6 +186,8 @@ public class ProcessDefinitionController extends BaseController {
     }
 
     /**
+     * khc:上线下线调用这个方法
+     *
      * release process definition
      *
      * @param loginUser    login user

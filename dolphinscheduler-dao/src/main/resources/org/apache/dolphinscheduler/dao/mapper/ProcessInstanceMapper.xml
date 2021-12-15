@@ -26,9 +26,9 @@
     <select id="queryByHostAndStatus" resultType="org.apache.dolphinscheduler.dao.entity.ProcessInstance">
         select *
         from t_ds_process_instance
-        where 1=1
+                where 1 = 1
         <if test="host != null and host != ''">
-            and host=#{host}
+            and host = #{host}
         </if>
         and state in
         <foreach collection="states" item="i" open="(" close=")" separator=",">
@@ -40,9 +40,9 @@
     <select id="queryByTenantIdAndStatus" resultType="org.apache.dolphinscheduler.dao.entity.ProcessInstance">
         select *
         from t_ds_process_instance
-        where 1=1
+                where 1 = 1
         <if test="tenantId != -1">
-            and tenant_id =#{tenantId}
+            and tenant_id = #{tenantId}
         </if>
         and state in
         <foreach collection="states" item="i" open="(" close=")" separator=",">
@@ -54,9 +54,9 @@
     <select id="queryByWorkerGroupNameAndStatus" resultType="org.apache.dolphinscheduler.dao.entity.ProcessInstance">
         select *
         from t_ds_process_instance
-        where 1=1
+                where 1 = 1
         <if test="workerGroupName != ''">
-            and worker_group =#{workerGroupName}
+            and worker_group = #{workerGroupName}
         </if>
         and state in
         <foreach collection="states" item="i" open="(" close=")" separator=",">
@@ -66,13 +66,22 @@
     </select>
 
     <select id="queryProcessInstanceListPaging" resultType="org.apache.dolphinscheduler.dao.entity.ProcessInstance">
-        select instance.id, instance.process_definition_id, instance.command_type, instance.executor_id,
-        instance.name, instance.state, instance.schedule_time, instance.start_time, instance.end_time,
-        instance.run_times, instance.recovery, instance.host
+        select instance.id,
+               instance.process_definition_id,
+               instance.command_type,
+               instance.executor_id,
+               instance.name,
+               instance.state,
+               instance.schedule_time,
+               instance.start_time,
+               instance.end_time,
+               instance.run_times,
+               instance.recovery,
+               instance.host
         from t_ds_process_instance instance
-        join t_ds_process_definition define ON instance.process_definition_id = define.id
-        where instance.is_sub_process=0
-        and define.project_id = #{projectId}
+                     join t_ds_process_definition define ON instance.process_definition_id = define.id
+                where instance.is_sub_process = 0
+                  and define.project_id = #{projectId}
         <if test="processDefinitionId != 0">
             and instance.process_definition_id = #{processDefinitionId}
         </if>
@@ -80,7 +89,8 @@
             and instance.name like concat('%', #{searchVal}, '%')
         </if>
         <if test="startTime != null">
-            and instance.start_time > #{startTime} and instance.start_time <![CDATA[ <=]]> #{endTime}
+            and instance.start_time > #{startTime}
+            and instance.start_time <![CDATA[ <=]]> #{endTime}
         </if>
         <if test="states != null and states != ''">
             and instance.state in
@@ -99,7 +109,8 @@
     <update id="setFailoverByHostAndStateArray">
         update t_ds_process_instance
         set host=null
-        where host =#{host} and state in
+                where host = #{host}
+                  and state in
         <foreach collection="states" index="index" item="i" open="(" close=")" separator=",">
             #{i}
         </foreach>
@@ -125,12 +136,13 @@
     <select id="countInstanceStateByUser" resultType="org.apache.dolphinscheduler.dao.entity.ExecuteStatusCount">
         select t.state, count(0) as count
         from t_ds_process_instance t
-        join t_ds_process_definition d on d.id=t.process_definition_id
-        join t_ds_project p on p.id=d.project_id
-        where 1 = 1
-        and t.is_sub_process = 0
+                     join t_ds_process_definition d on d.id = t.process_definition_id
+                     join t_ds_project p on p.id = d.project_id
+                where 1 = 1
+                  and t.is_sub_process = 0
         <if test="startTime != null and endTime != null">
-            and t.start_time <![CDATA[ >= ]]> #{startTime} and t.start_time <![CDATA[ <= ]]> #{endTime}
+            and t.start_time <![CDATA[ >= ]]> #{startTime}
+            and t.start_time <![CDATA[ <= ]]> #{endTime}
         </if>
         <if test="projectIds != null and projectIds.length != 0">
             and p.id in
@@ -143,22 +155,25 @@
     <select id="queryByProcessDefineId" resultType="org.apache.dolphinscheduler.dao.entity.ProcessInstance">
         select *
         from t_ds_process_instance
-        where process_definition_id=#{processDefinitionId}
-        order by start_time desc limit #{size}
+        where process_definition_id = #{processDefinitionId}
+        order by start_time desc
+        limit #{size}
     </select>
     <select id="queryLastSchedulerProcess" resultType="org.apache.dolphinscheduler.dao.entity.ProcessInstance">
         select *
         from t_ds_process_instance
-        where process_definition_id=#{processDefinitionId}
+                where process_definition_id = #{processDefinitionId}
         <if test="startTime != null and endTime != null">
-            and schedule_time <![CDATA[ >= ]]> #{startTime} and schedule_time <![CDATA[ <= ]]> #{endTime}
+            and schedule_time <![CDATA[ >= ]]> #{startTime}
+            and schedule_time <![CDATA[ <= ]]> #{endTime}
         </if>
-        order by end_time desc limit 1
+        order by end_time desc
+        limit 1
     </select>
     <select id="queryLastRunningProcess" resultType="org.apache.dolphinscheduler.dao.entity.ProcessInstance">
         select *
         from t_ds_process_instance
-        where 1=1
+                where 1 = 1
         <if test="states != null and states.length != 0">
             and state in
             <foreach collection="states" item="i" index="index" open="(" separator="," close=")">
@@ -166,20 +181,23 @@
             </foreach>
         </if>
         <if test="startTime != null and endTime != null">
-            and process_definition_id=#{processDefinitionId}
+            and process_definition_id = #{processDefinitionId}
             and (schedule_time <![CDATA[ >= ]]> #{startTime} and schedule_time <![CDATA[ <= ]]> #{endTime}
-            or start_time <![CDATA[ >= ]]> #{startTime} and start_time <![CDATA[ <= ]]> #{endTime})
+                    or start_time <![CDATA[ >= ]]> #{startTime} and start_time <![CDATA[ <= ]]> #{endTime})
         </if>
-        order by start_time desc limit 1
+        order by start_time desc
+        limit 1
     </select>
     <select id="queryLastManualProcess" resultType="org.apache.dolphinscheduler.dao.entity.ProcessInstance">
         select *
         from t_ds_process_instance
-        where process_definition_id=#{processDefinitionId}
-        and schedule_time is null
+                where process_definition_id = #{processDefinitionId}
+                  and schedule_time is null
         <if test="startTime != null and endTime != null">
-            and start_time <![CDATA[ >= ]]> #{startTime} and start_time <![CDATA[ <= ]]> #{endTime}
+            and start_time <![CDATA[ >= ]]> #{startTime}
+            and start_time <![CDATA[ <= ]]> #{endTime}
         </if>
-        order by end_time desc limit 1
+        order by end_time desc
+        limit 1
     </select>
 </mapper>

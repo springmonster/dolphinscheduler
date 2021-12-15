@@ -239,11 +239,16 @@ public class TenantService extends BaseService {
         }
 
         Tenant tenant = tenantMapper.queryById(id);
+
         if (tenant == null) {
             putMsg(result, Status.TENANT_NOT_EXIST);
             return result;
         }
 
+        /**
+         * todo
+         * khc:删除租户的时候，需要查看流程实例，流程定义，user等
+         */
         List<ProcessInstance> processInstances = getProcessInstancesByTenant(tenant);
         if (CollectionUtils.isNotEmpty(processInstances)) {
             putMsg(result, Status.DELETE_TENANT_BY_ID_FAIL, processInstances.size());

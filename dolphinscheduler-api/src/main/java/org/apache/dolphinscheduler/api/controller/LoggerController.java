@@ -54,6 +54,7 @@ public class LoggerController extends BaseController {
     private LoggerService loggerService;
 
     /**
+     * khc:在任务查询日志的时候调用
      * query task log
      *
      * @param loginUser      login user
@@ -77,11 +78,13 @@ public class LoggerController extends BaseController {
                            @RequestParam(value = "limit") int limit) {
         logger.info(
                 "login user {}, view {} task instance log ,skipLineNum {} , limit {}", loginUser.getUserName(), taskInstanceId, skipNum, limit);
+
         return loggerService.queryLog(taskInstanceId, skipNum, limit);
     }
 
 
     /**
+     * khc:任务的日志下载的时候调用
      * download log file
      *
      * @param loginUser      login user

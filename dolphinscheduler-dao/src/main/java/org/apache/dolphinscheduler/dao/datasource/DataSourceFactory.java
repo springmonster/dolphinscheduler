@@ -30,6 +30,10 @@ public class DataSourceFactory {
     private static final Logger logger = LoggerFactory.getLogger(DataSourceFactory.class);
 
     /**
+     * khc:
+     * {"address":"jdbc:postgresql://10.122.111.102:5432","database":"dolphin_test","jdbcUrl":"jdbc:postgresql://10.122.111.102:5432/dolphin_test","user":"postgres","password":"appadmin"}
+     * 这里是将密码也作为明文存储的
+     *
      * getDatasource
      *
      * @param dbType    dbType
