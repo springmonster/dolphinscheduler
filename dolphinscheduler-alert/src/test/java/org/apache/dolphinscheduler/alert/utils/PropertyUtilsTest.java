@@ -196,19 +196,19 @@ public class PropertyUtilsTest {
     public void testGetEnum() {
 
         //Expected MASTER
-        ZKNodeType zkNodeType = PropertyUtils.getEnum("test.server.enum1", ZKNodeType.class,ZKNodeType.WORKER);
+        ZKNodeType zkNodeType = PropertyUtils.getEnum("test.server.enum1", ZKNodeType.class, ZKNodeType.WORKER);
         assertEquals(zkNodeType, ZKNodeType.MASTER);
 
         //Expected DEAD_SERVER
-        zkNodeType = PropertyUtils.getEnum("test.server.enum2", ZKNodeType.class,ZKNodeType.WORKER);
+        zkNodeType = PropertyUtils.getEnum("test.server.enum2", ZKNodeType.class, ZKNodeType.WORKER);
         assertEquals(zkNodeType, ZKNodeType.DEAD_SERVER);
 
         //If key is null, then return defaultval
-        zkNodeType = PropertyUtils.getEnum(null, ZKNodeType.class,ZKNodeType.WORKER);
+        zkNodeType = PropertyUtils.getEnum(null, ZKNodeType.class, ZKNodeType.WORKER);
         assertEquals(zkNodeType, ZKNodeType.WORKER);
 
         //If the value doesn't define in enum ,it will log the error and return -1
-        zkNodeType = PropertyUtils.getEnum("test.server.enum3", ZKNodeType.class,ZKNodeType.WORKER);
+        zkNodeType = PropertyUtils.getEnum("test.server.enum3", ZKNodeType.class, ZKNodeType.WORKER);
         assertEquals(zkNodeType, ZKNodeType.WORKER);
     }
 

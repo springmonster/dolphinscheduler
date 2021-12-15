@@ -309,13 +309,13 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
-import { tasksState, runningType } from '@/conf/home/pages/dag/_source/config'
+import {mapActions} from 'vuex'
+import {runningType, tasksState} from '@/conf/home/pages/dag/_source/config'
 import switchProject from '@/module/mixin/switchProject'
 
 export default {
   name: 'list',
-  data () {
+  data() {
     return {
       // data
       list: [],
@@ -336,20 +336,20 @@ export default {
     /**
      * Return run type
      */
-    _rtRunningType (code) {
+    _rtRunningType(code) {
       return _.filter(runningType, v => v.code === code)[0].desc
     },
     /**
      * Return status
      */
-    _rtState (code) {
+    _rtState(code) {
       let o = tasksState[code]
       return `<em class="ansfont ${o.icoUnicode} ${o.isSpin ? 'as as-spin' : ''}" style="color:${o.color}" data-toggle="tooltip" data-container="body" title="${o.desc}"></em>`
     },
     /**
      * Close the delete layer
      */
-    _closeDelete (i) {
+    _closeDelete(i) {
       // close batch
       if (i < 0) {
         this.$refs['poptipDeleteAll'].doClose()
@@ -361,7 +361,7 @@ export default {
     /**
      * delete
      */
-    _delete (item, i) {
+    _delete(item, i) {
       // remove tow++
       if (i < 0) {
         this._batchDelete()
@@ -382,14 +382,14 @@ export default {
     /**
      * edit
      */
-    _reEdit (item) {
-      this.$router.push({ path: `/projects/${this.projectId}/instance/list/${item.id}` })
+    _reEdit(item) {
+      this.$router.push({path: `/projects/${this.projectId}/instance/list/${item.id}`})
     },
     /**
      * Rerun
      * @param REPEAT_RUNNING
      */
-    _reRun (item, index) {
+    _reRun(item, index) {
       this._countDownFn({
         id: item.id,
         executeType: 'REPEAT_RUNNING',
@@ -402,7 +402,7 @@ export default {
      * @param PAUSE => RECOVER_SUSPENDED_PROCESS
      * @param FAILURE => START_FAILURE_TASK_PROCESS
      */
-    _restore (item, index) {
+    _restore(item, index) {
       this._countDownFn({
         id: item.id,
         executeType: 'START_FAILURE_TASK_PROCESS',
@@ -414,7 +414,7 @@ export default {
      * stop
      * @param STOP
      */
-    _stop (item, index) {
+    _stop(item, index) {
       if (item.state == 'STOP') {
         this._countDownFn({
           id: item.id,
@@ -433,7 +433,7 @@ export default {
      * pause
      * @param PAUSE
      */
-    _suspend (item, index) {
+    _suspend(item, index) {
       if (item.state === 'PAUSE') {
         this._countDownFn({
           id: item.id,
@@ -451,7 +451,7 @@ export default {
     /**
      * operating
      */
-    _upExecutorsState (o) {
+    _upExecutorsState(o) {
       this.editExecutorsState(o).then(res => {
         this.$message.success(res.msg)
         $('body').find('.tooltip.fade.top.in').remove()
@@ -464,7 +464,7 @@ export default {
     /**
      * Countdown method refresh
      */
-    _countDownFn (param) {
+    _countDownFn(param) {
       this.buttonType = param.buttonType
       this.editExecutorsState({
         processInstanceId: param.id,
@@ -486,13 +486,13 @@ export default {
     /**
      * update
      */
-    _onUpdate () {
+    _onUpdate() {
       this.$emit('on-update')
     },
     /**
      * list data handle
      */
-    _listDataHandle (data) {
+    _listDataHandle(data) {
       if (data.length) {
         _.map(data, v => {
           v.disabled = true
@@ -504,7 +504,7 @@ export default {
     /**
      * Countdown
      */
-    _countDown (fn, index) {
+    _countDown(fn, index) {
       const TIME_COUNT = 10
       let timer
       let $count
@@ -523,15 +523,15 @@ export default {
         }, 1000)
       }
     },
-    _gantt (item) {
-      this.$router.push({ path: `/projects/${this.projectId}/instance/gantt/${item.id}` })
+    _gantt(item) {
+      this.$router.push({path: `/projects/${this.projectId}/instance/gantt/${item.id}`})
     },
 
-    _topCheckBoxClick (is) {
+    _topCheckBoxClick(is) {
       _.map(this.list, v => v.isCheck = v.state === ('RUNNING_EXECUTION') || v.state === ('READY_STOP') || v.state === ('READY_PAUSE') ? false : is)
       this._arrDelChange()
     },
-    _arrDelChange (v) {
+    _arrDelChange(v) {
       let arr = []
       this.list.forEach((item) => {
         if (item.isCheck) {
@@ -543,7 +543,7 @@ export default {
         this.checkAll = false
       }
     },
-    _batchDelete () {
+    _batchDelete() {
       this.$refs['poptipDeleteAll'].doClose()
       this.batchDeleteInstance({
         processInstanceIds: this.strDelete
@@ -561,7 +561,7 @@ export default {
   },
   watch: {
     processInstanceList: {
-      handler (a) {
+      handler(a) {
         this.checkAll = false
         this.list = []
         setTimeout(() => {
@@ -571,13 +571,13 @@ export default {
       immediate: true,
       deep: true
     },
-    pageNo () {
+    pageNo() {
       this.strDelete = ''
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

@@ -35,11 +35,12 @@ public class ResourceDao {
 
     /**
      * list all resources
+     *
      * @param conn connection
      * @return map that key is full_name and value is id
      */
-    Map<String,Integer> listAllResources(Connection conn){
-        Map<String,Integer> resourceMap = new HashMap<>();
+    Map<String, Integer> listAllResources(Connection conn) {
+        Map<String, Integer> resourceMap = new HashMap<>();
 
         String sql = String.format("SELECT id,full_name FROM t_ds_resources");
         ResultSet rs = null;
@@ -48,14 +49,14 @@ public class ResourceDao {
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 Integer id = rs.getInt(1);
                 String fullName = rs.getString(2);
-                resourceMap.put(fullName,id);
+                resourceMap.put(fullName, id);
             }
 
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             throw new RuntimeException("sql: " + sql, e);
         } finally {
             ConnectionUtils.releaseResource(rs, pstmt, conn);

@@ -25,8 +25,8 @@ import mSecondaryMenu from '@/module/components/secondaryMenu/secondaryMenu'
 
 export default {
   name: 'resource-index',
-  components: { mSecondaryMenu },
-  mounted () {
+  components: {mSecondaryMenu},
+  mounted() {
     this.$modal.destroy()
   },
 }

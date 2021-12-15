@@ -35,7 +35,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'udfs',
-  data () {
+  data() {
     return {
       // UDFS Function
       udfsStr: [],
@@ -52,16 +52,16 @@ export default {
     /**
      * verification
      */
-    _verifUdfs () {
+    _verifUdfs() {
       this.$emit('on-udfsData', this.udfsStr.join(','))
       return true
     },
     /**
      * Get UDFS function data
      */
-    _getUdfList () {
+    _getUdfList() {
       this.udfsList = []
-      this.store.dispatch('dag/getUdfList', { type: this.type }).then(res => {
+      this.store.dispatch('dag/getUdfList', {type: this.type}).then(res => {
         this.udfsList = _.map(res.data, v => {
           return {
             id: v.id,
@@ -87,10 +87,10 @@ export default {
     }
   },
   watch: {
-    udfsStr (val) {
+    udfsStr(val) {
       this._verifUdfs()
     },
-    type (a) {
+    type(a) {
       // The props parameter needs to be changed due to the scene.
       this.udfs = ''
       if (a === 'HIVE') {
@@ -100,10 +100,10 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this._getUdfList()
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

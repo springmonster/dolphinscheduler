@@ -22,15 +22,15 @@
         delete from t_ds_relation_project_user
         where 1=1
         and user_id = #{userId}
-        <if test="projectId != 0 ">
+        <if test="projectId != 0">
             and project_id = #{projectId}
         </if>
     </delete>
     <select id="queryProjectRelation" resultType="org.apache.dolphinscheduler.dao.entity.ProjectUser">
-      select *
-      from t_ds_relation_project_user
-      where project_id = #{projectId}
-      and user_id = #{userId}
-      limit 1
+        select *
+        from t_ds_relation_project_user
+        where project_id = #{projectId}
+        and user_id = #{userId}
+        limit 1
     </select>
 </mapper>

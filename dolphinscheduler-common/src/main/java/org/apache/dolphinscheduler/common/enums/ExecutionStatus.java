@@ -21,7 +21,6 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 
 /**
  * running status for workflow and task nodes
- *
  */
 public enum ExecutionStatus {
 
@@ -53,7 +52,7 @@ public enum ExecutionStatus {
     WAITTING_THREAD(10, "waiting thread"),
     WAITTING_DEPEND(11, "waiting depend node complete");
 
-    ExecutionStatus(int code, String descp){
+    ExecutionStatus(int code, String descp) {
         this.code = code;
         this.descp = descp;
     }
@@ -63,69 +62,78 @@ public enum ExecutionStatus {
     private final String descp;
 
 
- /**
-  * status is success
-  * @return status
-  */
-   public boolean typeIsSuccess(){
-     return this == SUCCESS;
-   }
+    /**
+     * status is success
+     *
+     * @return status
+     */
+    public boolean typeIsSuccess() {
+        return this == SUCCESS;
+    }
 
- /**
-  * status is failure
-  * @return status
-  */
-   public boolean typeIsFailure(){
-     return this == FAILURE || this == NEED_FAULT_TOLERANCE;
-   }
+    /**
+     * status is failure
+     *
+     * @return status
+     */
+    public boolean typeIsFailure() {
+        return this == FAILURE || this == NEED_FAULT_TOLERANCE;
+    }
 
- /**
-  * status is finished
-  * @return status
-  */
-   public boolean typeIsFinished(){
+    /**
+     * status is finished
+     *
+     * @return status
+     */
+    public boolean typeIsFinished() {
 
-       return typeIsSuccess() || typeIsFailure() || typeIsCancel() || typeIsPause()
-               || typeIsStop();
-   }
+        return typeIsSuccess() || typeIsFailure() || typeIsCancel() || typeIsPause()
+                || typeIsStop();
+    }
 
     /**
      * status is waiting thread
+     *
      * @return status
      */
-   public boolean typeIsWaitingThread(){
-       return this == WAITTING_THREAD;
-   }
+    public boolean typeIsWaitingThread() {
+        return this == WAITTING_THREAD;
+    }
 
     /**
      * status is pause
+     *
      * @return status
      */
-   public boolean typeIsPause(){
-       return this == PAUSE;
-   }
+    public boolean typeIsPause() {
+        return this == PAUSE;
+    }
+
     /**
      * status is pause
+     *
      * @return status
      */
-    public boolean typeIsStop(){
+    public boolean typeIsStop() {
         return this == STOP;
     }
 
     /**
      * status is running
+     *
      * @return status
      */
-   public boolean typeIsRunning(){
-       return this == RUNNING_EXECUTION || this == WAITTING_DEPEND;
-   }
+    public boolean typeIsRunning() {
+        return this == RUNNING_EXECUTION || this == WAITTING_DEPEND;
+    }
 
     /**
      * status is cancel
+     *
      * @return status
      */
-    public boolean typeIsCancel(){
-        return this == KILL || this == STOP ;
+    public boolean typeIsCancel() {
+        return this == KILL || this == STOP;
     }
 
     public int getCode() {
@@ -136,9 +144,9 @@ public enum ExecutionStatus {
         return descp;
     }
 
-    public static ExecutionStatus of(int status){
-        for(ExecutionStatus es : values()){
-            if(es.getCode() == status){
+    public static ExecutionStatus of(int status) {
+        for (ExecutionStatus es : values()) {
+            if (es.getCode() == status) {
                 return es;
             }
         }

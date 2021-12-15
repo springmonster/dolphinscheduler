@@ -33,7 +33,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'form-worker-group',
-  data () {
+  data() {
     return {
       workerGroupsList: []
     }
@@ -50,13 +50,13 @@ export default {
     event: 'workerGroupsEvent'
   },
   methods: {
-    _onChange (o) {
+    _onChange(o) {
       this.value = o.value
       this.$emit('workerGroupsEvent', o.value)
     }
   },
   watch: {},
-  created () {
+  created() {
     let stateWorkerGroupsList = this.store.state.security.workerGroupsListAll || []
     if (stateWorkerGroupsList.length) {
       this.workerGroupsList = stateWorkerGroupsList

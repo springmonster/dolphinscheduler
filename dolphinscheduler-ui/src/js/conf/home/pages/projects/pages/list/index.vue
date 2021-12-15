@@ -42,7 +42,7 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/list'
 import mSpin from '@/module/components/spin/spin'
 import mCreateProject from './_source/createProject'
@@ -53,7 +53,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'projects-list',
-  data () {
+  data() {
     return {
       total: null,
       projectsList: [],
@@ -72,18 +72,18 @@ export default {
     /**
      * Inquire
      */
-    _onConditions (o) {
+    _onConditions(o) {
       this.searchParams = _.assign(this.searchParams, o)
       this.searchParams.pageNo = 1
     },
 
-    _page (val) {
+    _page(val) {
       this.searchParams.pageNo = val
     },
-    _pageSize (val) {
+    _pageSize(val) {
       this.searchParams.pageSize = val
     },
-    _create (item) {
+    _create(item) {
       let self = this
       let modal = this.$modal.dialog({
         closable: false,
@@ -91,10 +91,10 @@ export default {
         escClose: true,
         className: 'v-modal-custom',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mCreateProject, {
             on: {
-              onUpdate () {
+              onUpdate() {
                 self._debounceGET()
                 modal.remove()
               }
@@ -106,10 +106,10 @@ export default {
         }
       })
     },
-    _onUpdate () {
+    _onUpdate() {
       this._debounceGET()
     },
-    _getList (flag) {
+    _getList(flag) {
       this.isLoading = !flag
       this.getProjectsList(this.searchParams).then(res => {
         if (this.searchParams.pageNo > 1 && res.totalList.length == 0) {
@@ -127,14 +127,14 @@ export default {
   },
   watch: {
     // router
-    '$route' (a) {
+    '$route'(a) {
       // url no params get instance list
       this.searchParams.pageNo = _.isEmpty(a.query) ? 1 : a.query.pageNo
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.$modal.destroy()
   },
   components: {

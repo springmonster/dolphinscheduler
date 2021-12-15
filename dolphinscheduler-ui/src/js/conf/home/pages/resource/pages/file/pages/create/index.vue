@@ -79,9 +79,9 @@
 </template>
 <script>
 import i18n from '@/module/i18n'
-import { mapActions } from 'vuex'
-import { filtTypeArr } from '../_source/common'
-import { handlerSuffix } from '../details/_source/utils'
+import {mapActions} from 'vuex'
+import {filtTypeArr} from '../_source/common'
+import {handlerSuffix} from '../details/_source/utils'
 import codemirror from '../_source/codemirror'
 import mListBoxF from '@/module/components/listBoxF/listBoxF'
 import mSpin from '@/module/components/spin/spin'
@@ -91,7 +91,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 let editor
 export default {
   name: 'resource-list-create-FILE',
-  data () {
+  data() {
     return {
       suffix: 'sh',
       fileName: '',
@@ -106,7 +106,7 @@ export default {
   props: {},
   methods: {
     ...mapActions('resource', ['createResourceFile']),
-    ok () {
+    ok() {
       if (this._validation()) {
         this.spinnerLoading = true
         this.createResourceFile({
@@ -121,7 +121,7 @@ export default {
           this.$message.success(res.msg)
           setTimeout(() => {
             this.spinnerLoading = false
-            this.$router.push({ name: 'file' })
+            this.$router.push({name: 'file'})
           }, 800)
         }).catch(e => {
           this.$message.error(e.msg || '')
@@ -129,7 +129,7 @@ export default {
         })
       }
     },
-    _validation () {
+    _validation() {
       if (!this.fileName) {
         this.$message.warning(`${i18n.$t('Please enter resource name')}`)
         return false
@@ -148,7 +148,7 @@ export default {
     /**
      * Processing code highlighting
      */
-    _handlerEditor () {
+    _handlerEditor() {
       // editor
       editor = codemirror('code-create-mirror', {
         mode: 'shell',
@@ -166,18 +166,18 @@ export default {
       // Monitor keyboard
       editor.on('keypress', this.keypress)
     },
-    _onChange (val) {
+    _onChange(val) {
       editor.setOption('mode', handlerSuffix['.' + val.label])
     }
   },
   watch: {},
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.$modal.destroy()
     this._handlerEditor()
   },
-  destroyed () {
+  destroyed() {
     editor.toTextArea() // uninstall
     editor.off($('.code-create-mirror'), 'keypress', this.keypress)
   },

@@ -112,7 +112,7 @@ public class MasterConfig {
     }
 
     public double getMasterMaxCpuloadAvg() {
-        if (masterMaxCpuloadAvg == -1){
+        if (masterMaxCpuloadAvg == -1) {
             return Constants.DEFAULT_MASTER_CPU_LOAD;
         }
         return masterMaxCpuloadAvg;

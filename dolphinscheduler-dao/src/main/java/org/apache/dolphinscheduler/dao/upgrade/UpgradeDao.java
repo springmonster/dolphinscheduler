@@ -55,34 +55,37 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
     /**
      * get datasource
+     *
      * @return DruidDataSource
      */
-    public static DataSource getDataSource(){
+    public static DataSource getDataSource() {
         return ConnectionFactory.getInstance().getDataSource();
     }
 
     /**
      * get db type
+     *
      * @return dbType
      */
-    public static DbType getDbType(){
+    public static DbType getDbType() {
         return dbType;
     }
 
     /**
      * get current dbType
+     *
      * @return
      */
-    private static DbType getCurrentDbType(){
+    private static DbType getCurrentDbType() {
         Connection conn = null;
         try {
             conn = dataSource.getConnection();
             String name = conn.getMetaData().getDatabaseProductName().toUpperCase();
             return DbType.valueOf(name);
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             return null;
-        }finally {
+        } finally {
             ConnectionUtils.releaseResource(conn);
         }
     }
@@ -90,7 +93,7 @@ public abstract class UpgradeDao extends AbstractBaseDao {
     /**
      * init schema
      */
-    public void initSchema(){
+    public void initSchema() {
         DbType dbType = getDbType();
         String initSqlPath = "";
         if (dbType != null) {
@@ -113,6 +116,7 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
     /**
      * init scheam
+     *
      * @param initSqlPath initSqlPath
      */
     public void initSchema(String initSqlPath) {
@@ -128,6 +132,7 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
     /**
      * run DML
+     *
      * @param initSqlPath initSqlPath
      */
     private void runInitDML(String initSqlPath) {
@@ -150,20 +155,20 @@ public abstract class UpgradeDao extends AbstractBaseDao {
             try {
                 conn.rollback();
             } catch (SQLException e1) {
-                logger.error(e1.getMessage(),e1);
+                logger.error(e1.getMessage(), e1);
             }
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } catch (Exception e) {
             try {
                 if (null != conn) {
                     conn.rollback();
                 }
             } catch (SQLException e1) {
-                logger.error(e1.getMessage(),e1);
+                logger.error(e1.getMessage(), e1);
             }
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } finally {
             ConnectionUtils.releaseResource(conn);
 
@@ -173,6 +178,7 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
     /**
      * run DDL
+     *
      * @param initSqlPath initSqlPath
      */
     private void runInitDDL(String initSqlPath) {
@@ -191,12 +197,12 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
         } catch (IOException e) {
 
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } catch (Exception e) {
 
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } finally {
             ConnectionUtils.releaseResource(conn);
 
@@ -206,6 +212,7 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
     /**
      * determines whether a table exists
+     *
      * @param tableName tableName
      * @return if table exist return true，else return false
      */
@@ -213,20 +220,22 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
     /**
      * determines whether a field exists in the specified table
-     * @param tableName tableName
+     *
+     * @param tableName  tableName
      * @param columnName columnName
-     * @return  if column name exist return true，else return false
+     * @return if column name exist return true，else return false
      */
-    public abstract boolean isExistsColumn(String tableName,String columnName);
+    public abstract boolean isExistsColumn(String tableName, String columnName);
 
 
     /**
      * get current version
+     *
      * @param versionName versionName
      * @return version
      */
     public String getCurrentVersion(String versionName) {
-        String sql = String.format("select version from %s",versionName);
+        String sql = String.format("select version from %s", versionName);
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement pstmt = null;
@@ -243,7 +252,7 @@ public abstract class UpgradeDao extends AbstractBaseDao {
             return version;
 
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             throw new RuntimeException("sql: " + sql, e);
         } finally {
             ConnectionUtils.releaseResource(rs, pstmt, conn);
@@ -253,6 +262,7 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
     /**
      * upgrade DolphinScheduler
+     *
      * @param schemaDir schema dir
      */
     public void upgradeDolphinScheduler(String schemaDir) {
@@ -282,19 +292,19 @@ public abstract class UpgradeDao extends AbstractBaseDao {
     /**
      * updateProcessDefinitionJsonWorkerGroup
      */
-    protected void updateProcessDefinitionJsonWorkerGroup(){
+    protected void updateProcessDefinitionJsonWorkerGroup() {
         WorkerGroupDao workerGroupDao = new WorkerGroupDao();
         ProcessDefinitionDao processDefinitionDao = new ProcessDefinitionDao();
-        Map<Integer,String> replaceProcessDefinitionMap = new HashMap<>();
+        Map<Integer, String> replaceProcessDefinitionMap = new HashMap<>();
         try {
             Map<Integer, String> oldWorkerGroupMap = workerGroupDao.queryAllOldWorkerGroup(dataSource.getConnection());
-            Map<Integer,String> processDefinitionJsonMap = processDefinitionDao.queryAllProcessDefinition(dataSource.getConnection());
+            Map<Integer, String> processDefinitionJsonMap = processDefinitionDao.queryAllProcessDefinition(dataSource.getConnection());
 
-            for (Map.Entry<Integer,String> entry : processDefinitionJsonMap.entrySet()){
+            for (Map.Entry<Integer, String> entry : processDefinitionJsonMap.entrySet()) {
                 JSONObject jsonObject = JSONObject.parseObject(entry.getValue());
                 JSONArray tasks = JSONArray.parseArray(jsonObject.getString("tasks"));
 
-                for (int i = 0 ;i < tasks.size() ; i++){
+                for (int i = 0; i < tasks.size(); i++) {
                     JSONObject task = tasks.getJSONObject(i);
                     Integer workerGroupId = task.getInteger("workerGroupId");
                     if (workerGroupId != null) {
@@ -309,15 +319,15 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
                 jsonObject.remove(jsonObject.getString("tasks"));
 
-                jsonObject.put("tasks",tasks);
+                jsonObject.put("tasks", tasks);
 
-                replaceProcessDefinitionMap.put(entry.getKey(),jsonObject.toJSONString());
+                replaceProcessDefinitionMap.put(entry.getKey(), jsonObject.toJSONString());
             }
-            if (replaceProcessDefinitionMap.size() > 0){
-                processDefinitionDao.updateProcessDefinitionJson(dataSource.getConnection(),replaceProcessDefinitionMap);
+            if (replaceProcessDefinitionMap.size() > 0) {
+                processDefinitionDao.updateProcessDefinitionJson(dataSource.getConnection(), replaceProcessDefinitionMap);
             }
-        }catch (Exception e){
-            logger.error("update process definition json workergroup error",e);
+        } catch (Exception e) {
+            logger.error("update process definition json workergroup error", e);
         }
 
     }
@@ -325,19 +335,19 @@ public abstract class UpgradeDao extends AbstractBaseDao {
     /**
      * updateProcessDefinitionJsonResourceList
      */
-    protected void updateProcessDefinitionJsonResourceList(){
+    protected void updateProcessDefinitionJsonResourceList() {
         ResourceDao resourceDao = new ResourceDao();
         ProcessDefinitionDao processDefinitionDao = new ProcessDefinitionDao();
-        Map<Integer,String> replaceProcessDefinitionMap = new HashMap<>();
+        Map<Integer, String> replaceProcessDefinitionMap = new HashMap<>();
         try {
-            Map<String,Integer> resourcesMap = resourceDao.listAllResources(dataSource.getConnection());
-            Map<Integer,String> processDefinitionJsonMap = processDefinitionDao.queryAllProcessDefinition(dataSource.getConnection());
+            Map<String, Integer> resourcesMap = resourceDao.listAllResources(dataSource.getConnection());
+            Map<Integer, String> processDefinitionJsonMap = processDefinitionDao.queryAllProcessDefinition(dataSource.getConnection());
 
-            for (Map.Entry<Integer,String> entry : processDefinitionJsonMap.entrySet()){
+            for (Map.Entry<Integer, String> entry : processDefinitionJsonMap.entrySet()) {
                 JSONObject jsonObject = JSONObject.parseObject(entry.getValue());
                 JSONArray tasks = JSONArray.parseArray(jsonObject.getString("tasks"));
 
-                for (int i = 0 ;i < tasks.size() ; i++){
+                for (int i = 0; i < tasks.size(); i++) {
                     JSONObject task = tasks.getJSONObject(i);
                     JSONObject param = (JSONObject) task.get("params");
                     if (param != null) {
@@ -345,45 +355,46 @@ public abstract class UpgradeDao extends AbstractBaseDao {
                         List<ResourceInfo> resourceList = JSONUtils.toList(param.getString("resourceList"), ResourceInfo.class);
                         ResourceInfo mainJar = JSONUtils.parseObject(param.getString("mainJar"), ResourceInfo.class);
                         if (mainJar != null && mainJar.getId() == 0) {
-                            String fullName = mainJar.getRes().startsWith("/") ? mainJar.getRes() : String.format("/%s",mainJar.getRes());
+                            String fullName = mainJar.getRes().startsWith("/") ? mainJar.getRes() : String.format("/%s", mainJar.getRes());
                             if (resourcesMap.containsKey(fullName)) {
                                 mainJar.setId(resourcesMap.get(fullName));
-                                param.put("mainJar",JSONUtils.parseObject(JSONObject.toJSONString(mainJar)));
+                                param.put("mainJar", JSONUtils.parseObject(JSONObject.toJSONString(mainJar)));
                             }
                         }
 
                         if (CollectionUtils.isNotEmpty(resourceList)) {
                             List<ResourceInfo> newResourceList = resourceList.stream().map(resInfo -> {
-                                String fullName = resInfo.getRes().startsWith("/") ? resInfo.getRes() : String.format("/%s",resInfo.getRes());
+                                String fullName = resInfo.getRes().startsWith("/") ? resInfo.getRes() : String.format("/%s", resInfo.getRes());
                                 if (resInfo.getId() == 0 && resourcesMap.containsKey(fullName)) {
                                     resInfo.setId(resourcesMap.get(fullName));
                                 }
                                 return resInfo;
                             }).collect(Collectors.toList());
-                            param.put("resourceList",JSONArray.parse(JSONObject.toJSONString(newResourceList)));
+                            param.put("resourceList", JSONArray.parse(JSONObject.toJSONString(newResourceList)));
                         }
                     }
-                    task.put("params",param);
+                    task.put("params", param);
 
                 }
 
                 jsonObject.remove(jsonObject.getString("tasks"));
 
-                jsonObject.put("tasks",tasks);
+                jsonObject.put("tasks", tasks);
 
-                replaceProcessDefinitionMap.put(entry.getKey(),jsonObject.toJSONString());
+                replaceProcessDefinitionMap.put(entry.getKey(), jsonObject.toJSONString());
             }
-            if (replaceProcessDefinitionMap.size() > 0){
-                processDefinitionDao.updateProcessDefinitionJson(dataSource.getConnection(),replaceProcessDefinitionMap);
+            if (replaceProcessDefinitionMap.size() > 0) {
+                processDefinitionDao.updateProcessDefinitionJson(dataSource.getConnection(), replaceProcessDefinitionMap);
             }
-        }catch (Exception e){
-            logger.error("update process definition json resource list error",e);
+        } catch (Exception e) {
+            logger.error("update process definition json resource list error", e);
         }
 
     }
 
     /**
      * upgradeDolphinScheduler DML
+     *
      * @param schemaDir schemaDir
      */
     private void upgradeDolphinSchedulerDML(String schemaDir) {
@@ -391,8 +402,8 @@ public abstract class UpgradeDao extends AbstractBaseDao {
         if (StringUtils.isEmpty(rootDir)) {
             throw new RuntimeException("Environment variable user.dir not found");
         }
-        String sqlFilePath = MessageFormat.format("{0}/sql/upgrade/{1}/{2}/dolphinscheduler_dml.sql",rootDir,schemaDir,getDbType().name().toLowerCase());
-        logger.info("sqlSQLFilePath"+sqlFilePath);
+        String sqlFilePath = MessageFormat.format("{0}/sql/upgrade/{1}/{2}/dolphinscheduler_dml.sql", rootDir, schemaDir, getDbType().name().toLowerCase());
+        logger.info("sqlSQLFilePath" + sqlFilePath);
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -404,13 +415,13 @@ public abstract class UpgradeDao extends AbstractBaseDao {
             scriptRunner.runScript(sqlReader);
             if (isExistsTable(T_VERSION_NAME)) {
                 // Change version in the version table to the new version
-                String upgradeSQL = String.format("update %s set version = ?",T_VERSION_NAME);
+                String upgradeSQL = String.format("update %s set version = ?", T_VERSION_NAME);
                 pstmt = conn.prepareStatement(upgradeSQL);
                 pstmt.setString(1, schemaVersion);
                 pstmt.executeUpdate();
-            }else if (isExistsTable(T_NEW_VERSION_NAME)) {
+            } else if (isExistsTable(T_NEW_VERSION_NAME)) {
                 // Change version in the version table to the new version
-                String upgradeSQL = String.format("update %s set version = ?",T_NEW_VERSION_NAME);
+                String upgradeSQL = String.format("update %s set version = ?", T_NEW_VERSION_NAME);
                 pstmt = conn.prepareStatement(upgradeSQL);
                 pstmt.setString(1, schemaVersion);
                 pstmt.executeUpdate();
@@ -420,38 +431,38 @@ public abstract class UpgradeDao extends AbstractBaseDao {
             try {
                 conn.rollback();
             } catch (SQLException e1) {
-                logger.error(e1.getMessage(),e1);
+                logger.error(e1.getMessage(), e1);
             }
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             throw new RuntimeException("sql file not found ", e);
         } catch (IOException e) {
             try {
                 conn.rollback();
             } catch (SQLException e1) {
-                logger.error(e1.getMessage(),e1);
+                logger.error(e1.getMessage(), e1);
             }
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } catch (SQLException e) {
             try {
                 if (null != conn) {
                     conn.rollback();
                 }
             } catch (SQLException e1) {
-                logger.error(e1.getMessage(),e1);
+                logger.error(e1.getMessage(), e1);
             }
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } catch (Exception e) {
             try {
                 if (null != conn) {
                     conn.rollback();
                 }
             } catch (SQLException e1) {
-                logger.error(e1.getMessage(),e1);
+                logger.error(e1.getMessage(), e1);
             }
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } finally {
             ConnectionUtils.releaseResource(pstmt, conn);
         }
@@ -460,13 +471,14 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
     /**
      * upgradeDolphinScheduler DDL
+     *
      * @param schemaDir schemaDir
      */
     private void upgradeDolphinSchedulerDDL(String schemaDir) {
         if (StringUtils.isEmpty(rootDir)) {
             throw new RuntimeException("Environment variable user.dir not found");
         }
-        String sqlFilePath = MessageFormat.format("{0}/sql/upgrade/{1}/{2}/dolphinscheduler_ddl.sql",rootDir,schemaDir,getDbType().name().toLowerCase());
+        String sqlFilePath = MessageFormat.format("{0}/sql/upgrade/{1}/{2}/dolphinscheduler_ddl.sql", rootDir, schemaDir, getDbType().name().toLowerCase());
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -481,20 +493,20 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
         } catch (FileNotFoundException e) {
 
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             throw new RuntimeException("sql file not found ", e);
         } catch (IOException e) {
 
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } catch (SQLException e) {
 
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } catch (Exception e) {
 
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } finally {
             ConnectionUtils.releaseResource(pstmt, conn);
         }
@@ -504,15 +516,16 @@ public abstract class UpgradeDao extends AbstractBaseDao {
 
     /**
      * update version
+     *
      * @param version version
      */
     public void updateVersion(String version) {
         // Change version in the version table to the new version
         String versionName = T_VERSION_NAME;
-        if(!SchemaUtils.isAGreatVersion("1.2.0" , version)){
+        if (!SchemaUtils.isAGreatVersion("1.2.0", version)) {
             versionName = "t_ds_version";
         }
-        String upgradeSQL = String.format("update %s set version = ?",versionName);
+        String upgradeSQL = String.format("update %s set version = ?", versionName);
         PreparedStatement pstmt = null;
         Connection conn = null;
         try {
@@ -522,7 +535,7 @@ public abstract class UpgradeDao extends AbstractBaseDao {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             throw new RuntimeException("sql: " + upgradeSQL, e);
         } finally {
             ConnectionUtils.releaseResource(pstmt, conn);
@@ -543,11 +556,11 @@ public abstract class UpgradeDao extends AbstractBaseDao {
      */
     protected void upgradeProcessDefinitionJsonSqoopTaskParams() {
         ProcessDefinitionDao processDefinitionDao = new ProcessDefinitionDao();
-        Map<Integer,String> replaceProcessDefinitionMap = new HashMap<>();
+        Map<Integer, String> replaceProcessDefinitionMap = new HashMap<>();
 
         try {
-            Map<Integer,String> processDefinitionJsonMap = processDefinitionDao.queryAllProcessDefinition(dataSource.getConnection());
-            for (Map.Entry<Integer,String> entry : processDefinitionJsonMap.entrySet()) {
+            Map<Integer, String> processDefinitionJsonMap = processDefinitionDao.queryAllProcessDefinition(dataSource.getConnection());
+            for (Map.Entry<Integer, String> entry : processDefinitionJsonMap.entrySet()) {
                 JSONObject jsonObject = JSONObject.parseObject(entry.getValue());
                 JSONArray tasks = JSONArray.parseArray(jsonObject.getString("tasks"));
 
@@ -556,13 +569,13 @@ public abstract class UpgradeDao extends AbstractBaseDao {
                     String taskType = task.getString("type");
                     if ("SQOOP".equals(taskType) && !task.getString("params").contains("jobType")) {
                         JSONObject taskParams = JSONObject.parseObject(task.getString("params"));
-                        taskParams.put("jobType","TEMPLATE");
-                        taskParams.put("jobName","sqoop-job");
+                        taskParams.put("jobType", "TEMPLATE");
+                        taskParams.put("jobName", "sqoop-job");
                         taskParams.put("hadoopCustomParams", new JSONArray());
                         taskParams.put("sqoopAdvancedParams", new JSONArray());
 
                         task.remove(task.getString("params"));
-                        task.put("params",taskParams);
+                        task.put("params", taskParams);
                     }
                     jsonObject.remove(jsonObject.getString("tasks"));
                     jsonObject.put("tasks", tasks);
@@ -570,7 +583,7 @@ public abstract class UpgradeDao extends AbstractBaseDao {
                 }
             }
             if (replaceProcessDefinitionMap.size() > 0) {
-                processDefinitionDao.updateProcessDefinitionJson(dataSource.getConnection(),replaceProcessDefinitionMap);
+                processDefinitionDao.updateProcessDefinitionJson(dataSource.getConnection(), replaceProcessDefinitionMap);
             }
         } catch (Exception e) {
             logger.error("update process definition json sqoop task params error: {}", e.getMessage());

@@ -17,11 +17,8 @@
 
 package org.apache.dolphinscheduler.server.worker.runner;
 
-import static java.util.Calendar.DAY_OF_MONTH;
-
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.collections.MapUtils;
-
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.CommandType;
 import org.apache.dolphinscheduler.common.enums.Event;
@@ -42,18 +39,15 @@ import org.apache.dolphinscheduler.server.worker.processor.TaskCallbackService;
 import org.apache.dolphinscheduler.server.worker.task.AbstractTask;
 import org.apache.dolphinscheduler.server.worker.task.TaskManager;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.util.Calendar.DAY_OF_MONTH;
 
 /**
  * task scheduler thread
@@ -91,9 +85,10 @@ public class TaskExecuteThread implements Runnable {
     private Logger taskLogger;
 
     /**
-     *  constructor
+     * constructor
+     *
      * @param taskExecutionContext taskExecutionContext
-     * @param taskCallbackService taskCallbackService
+     * @param taskCallbackService  taskCallbackService
      */
     public TaskExecuteThread(TaskExecutionContext taskExecutionContext
             , TaskCallbackService taskCallbackService
@@ -161,7 +156,7 @@ public class TaskExecuteThread implements Runnable {
     }
 
 
-    private void preBuildBusinessParams(){
+    private void preBuildBusinessParams() {
         Map<String, Property> paramsMap = new HashMap<>();
         // replace variable TIME with $[YYYYmmddd...] in shell file when history run job and batch complement job
         if (taskExecutionContext.getScheduleTime() != null) {

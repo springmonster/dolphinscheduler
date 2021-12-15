@@ -38,7 +38,9 @@
       <template slot="name">{{ $t('Permission') }}</template>
       <template slot="content">
         <span
-          class="sp1">{{ userInfo.userType === 'GENERAL_USER' ? `${$t('Ordinary users')}` : `${$t('Administrator')}` }}</span>
+          class="sp1">{{
+            userInfo.userType === 'GENERAL_USER' ? `${$t('Ordinary users')}` : `${$t('Administrator')}`
+          }}</span>
       </template>
     </m-list-box-f>
     <m-list-box-f v-ps="['GENERAL_USER']">
@@ -74,13 +76,13 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState, mapMutations } from 'vuex'
+import {mapActions, mapMutations, mapState} from 'vuex'
 import mListBoxF from '@/module/components/listBoxF/listBoxF'
 import mCreateUser from '@/conf/home/pages/security/pages/users/_source/createUser'
 
 export default {
   name: 'user-info',
-  data () {
+  data() {
     return {}
   },
   props: {},
@@ -90,7 +92,7 @@ export default {
     /**
      * edit
      */
-    _edit () {
+    _edit() {
       let item = this.userInfo
       let self = this
       let modal = this.$modal.dialog({
@@ -99,16 +101,16 @@ export default {
         escClose: true,
         className: 'v-modal-custom',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mCreateUser, {
             on: {
-              onUpdate (param) {
+              onUpdate(param) {
                 self.setUserInfo(param)
                 self.getUserInfo().finally(() => {
                   modal.remove()
                 })
               },
-              close () {
+              close() {
               }
             },
             props: {
@@ -121,14 +123,14 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
   computed: {
     ...mapState('user', ['userInfo'])
   },
-  components: { mListBoxF }
+  components: {mListBoxF}
 }
 </script>
 

@@ -66,13 +66,13 @@
 <script>
 import _ from 'lodash'
 import i18n from '../_source/i18n'
-import { selectList, isStr } from '../util/index'
+import {isStr, selectList} from '../util/index'
 import mInputNumber from '../_source/input-number'
 
 export default {
   name: 'minute',
   mixins: [i18n],
-  data () {
+  data() {
     return {
       minuteValue: '*',
       radioMinute: 'everyMinute',
@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     // Interval execution time（1）
-    onIntervalPerform (val) {
+    onIntervalPerform(val) {
       console.log(val)
       this.intervalPerformVal = val
       if (this.radioMinute === 'intervalMinute') {
@@ -105,39 +105,39 @@ export default {
       }
     },
     // Interval start time（2）
-    onIntervalStart (val) {
+    onIntervalStart(val) {
       this.intervalStartVal = val
       if (this.radioMinute === 'intervalMinute') {
         this.minuteValue = `${this.intervalStartVal}/${this.intervalPerformVal}`
       }
     },
     // Specific points
-    onspecificMinutes (arr) {
+    onspecificMinutes(arr) {
     },
     // Cycle start value
-    onCycleStart (val) {
+    onCycleStart(val) {
       this.cycleStartVal = val
       if (this.radioMinute === 'cycleMinute') {
         this.minuteValue = `${this.cycleStartVal}-${this.cycleEndVal}`
       }
     },
     // Cycle end value
-    onCycleEnd (val) {
+    onCycleEnd(val) {
       this.cycleEndVal = val
       if (this.radioMinute === 'cycleMinute') {
         this.minuteValue = `${this.cycleStartVal}-${this.cycleEndVal}`
       }
     },
     // Reset every point
-    everyReset () {
+    everyReset() {
       this.minuteValue = '*'
     },
     // Reset interval minute
-    intervalReset () {
+    intervalReset() {
       this.minuteValue = `${this.intervalStartVal}/${this.intervalPerformVal}`
     },
     // Reset specific minutes
-    specificReset () {
+    specificReset() {
       if (this.specificMinutesVal.length) {
         this.minuteValue = this.specificMinutesVal.join(',')
       } else {
@@ -145,13 +145,13 @@ export default {
       }
     },
     // Reset cycle minutes
-    cycleReset () {
+    cycleReset() {
       this.minuteValue = `${this.cycleStartVal}-${this.cycleEndVal}`
     },
     /**
      * Parse parameter value
      */
-    analyticalValue () {
+    analyticalValue() {
       return new Promise((resolve, reject) => {
         let $minuteVal = _.cloneDeep(this.value)
         // Interval score
@@ -207,11 +207,11 @@ export default {
   },
   watch: {
     // Derived value
-    minuteValue (val) {
+    minuteValue(val) {
       this.$emit('minuteValueEvent', val)
     },
     // Selected type
-    radioMinute (val) {
+    radioMinute(val) {
       switch (val) {
         case 'everyMinute':
           this.everyReset()
@@ -228,32 +228,32 @@ export default {
       }
     },
     // pecific minutes
-    specificMinutesVal (arr) {
+    specificMinutesVal(arr) {
       this.minuteValue = arr.join(',')
     }
   },
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     this.analyticalValue().then(() => {
       console.log('数据结构解析成功！')
     })
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
 
   },
-  beforeUpdate () {
+  beforeUpdate() {
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {},
-  components: { mInputNumber }
+  components: {mInputNumber}
 }
 </script>
 

@@ -16,9 +16,9 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.dolphinscheduler.dao.entity.User;
 import org.apache.dolphinscheduler.dao.entity.UserAlertGroup;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,13 +30,15 @@ public interface UserAlertGroupMapper extends BaseMapper<UserAlertGroup> {
 
     /**
      * delete user alertgroup relation by alertgroupId
+     *
      * @param alertgroupId alertgroupId
      * @return delete result
      */
     int deleteByAlertgroupId(@Param("alertgroupId") int alertgroupId);
 
     /**
-     *  list user by alertgroupId
+     * list user by alertgroupId
+     *
      * @param alertgroupId alertgroupId
      * @return user list
      */

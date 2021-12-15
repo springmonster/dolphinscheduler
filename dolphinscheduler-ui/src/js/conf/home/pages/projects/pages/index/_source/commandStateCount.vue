@@ -28,14 +28,14 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
-import { simple } from './chartConfig'
+import {mapActions} from 'vuex'
+import {simple} from './chartConfig'
 import Chart from '@/module/ana-charts'
 import mNoData from '@/module/components/noData/noData'
 
 export default {
   name: 'command-state-count',
-  data () {
+  data() {
     return {
       isSpin: true,
       msg: ''
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     ...mapActions('projects', ['getCommandStateCount']),
-    _handleCommandState (res) {
+    _handleCommandState(res) {
       let data = []
       _.forEach(res.data, (v, i) => {
         let key = _.keys(v)
@@ -74,14 +74,14 @@ export default {
       myChart.echart.setOption(simple)
     }
   },
-  created () {
+  created() {
 
   },
   watch: {
     'searchParams': {
       deep: true,
       immediate: true,
-      handler (o) {
+      handler(o) {
         this.isSpin = true
         this.getCommandStateCount(o).then(res => {
           this._handleCommandState(res)
@@ -93,10 +93,10 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
 
   },
   computed: {},
-  components: { mNoData }
+  components: {mNoData}
 }
 </script>

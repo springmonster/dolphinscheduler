@@ -67,19 +67,19 @@ public class TaskResponseService {
 
 
     @PostConstruct
-    public void start(){
+    public void start() {
         this.taskResponseWorker = new TaskResponseWorker();
         this.taskResponseWorker.setName("TaskResponseWorker");
         this.taskResponseWorker.start();
     }
 
     @PreDestroy
-    public void stop(){
+    public void stop() {
         this.taskResponseWorker.interrupt();
-        if(!eventQueue.isEmpty()){
+        if (!eventQueue.isEmpty()) {
             List<TaskResponseEvent> remainEvents = new ArrayList<>(eventQueue.size());
             eventQueue.drainTo(remainEvents);
-            for(TaskResponseEvent event : remainEvents){
+            for (TaskResponseEvent event : remainEvents) {
                 this.persist(event);
             }
         }
@@ -90,11 +90,11 @@ public class TaskResponseService {
      *
      * @param taskResponseEvent taskResponseEvent
      */
-    public void addResponse(TaskResponseEvent taskResponseEvent){
+    public void addResponse(TaskResponseEvent taskResponseEvent) {
         try {
             eventQueue.put(taskResponseEvent);
         } catch (InterruptedException e) {
-            logger.error("put task : {} error :{}", taskResponseEvent,e);
+            logger.error("put task : {} error :{}", taskResponseEvent, e);
         }
     }
 
@@ -107,15 +107,15 @@ public class TaskResponseService {
         @Override
         public void run() {
 
-            while (Stopper.isRunning()){
+            while (Stopper.isRunning()) {
                 try {
                     // if not task , blocking here
                     TaskResponseEvent taskResponseEvent = eventQueue.take();
                     persist(taskResponseEvent);
-                } catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     break;
-                } catch (Exception e){
-                    logger.error("persist task error",e);
+                } catch (Exception e) {
+                    logger.error("persist task error", e);
                 }
             }
             logger.info("TaskResponseWorker stopped");
@@ -124,38 +124,39 @@ public class TaskResponseService {
 
     /**
      * persist  taskResponseEvent
+     *
      * @param taskResponseEvent taskResponseEvent
      */
-    private void persist(TaskResponseEvent taskResponseEvent){
+    private void persist(TaskResponseEvent taskResponseEvent) {
         Event event = taskResponseEvent.getEvent();
         Channel channel = taskResponseEvent.getChannel();
 
-        switch (event){
+        switch (event) {
             case ACK:
                 try {
                     TaskInstance taskInstance = processService.findTaskInstanceById(taskResponseEvent.getTaskInstanceId());
                     if (taskInstance != null) {
                         ExecutionStatus status = taskInstance.getState().typeIsFinished() ? taskInstance.getState() : taskResponseEvent.getState();
                         processService.changeTaskState(status,
-                            taskResponseEvent.getStartTime(),
-                            taskResponseEvent.getWorkerAddress(),
-                            taskResponseEvent.getExecutePath(),
-                            taskResponseEvent.getLogPath(),
-                            taskResponseEvent.getTaskInstanceId());
+                                taskResponseEvent.getStartTime(),
+                                taskResponseEvent.getWorkerAddress(),
+                                taskResponseEvent.getExecutePath(),
+                                taskResponseEvent.getLogPath(),
+                                taskResponseEvent.getTaskInstanceId());
                     }
                     // if taskInstance is null (maybe deleted) . retry will be meaningless . so ack success
                     DBTaskAckCommand taskAckCommand = new DBTaskAckCommand(ExecutionStatus.SUCCESS.getCode(), taskResponseEvent.getTaskInstanceId());
                     channel.writeAndFlush(taskAckCommand.convert2Command());
-                }catch (Exception e){
-                    logger.error("worker ack master error",e);
-                    DBTaskAckCommand taskAckCommand = new DBTaskAckCommand(ExecutionStatus.FAILURE.getCode(),-1);
+                } catch (Exception e) {
+                    logger.error("worker ack master error", e);
+                    DBTaskAckCommand taskAckCommand = new DBTaskAckCommand(ExecutionStatus.FAILURE.getCode(), -1);
                     channel.writeAndFlush(taskAckCommand.convert2Command());
                 }
                 break;
             case RESULT:
                 try {
                     TaskInstance taskInstance = processService.findTaskInstanceById(taskResponseEvent.getTaskInstanceId());
-                    if (taskInstance != null){
+                    if (taskInstance != null) {
                         processService.changeTaskState(taskResponseEvent.getState(),
                                 taskResponseEvent.getEndTime(),
                                 taskResponseEvent.getProcessId(),
@@ -163,11 +164,11 @@ public class TaskResponseService {
                                 taskResponseEvent.getTaskInstanceId());
                     }
                     // if taskInstance is null (maybe deleted) . retry will be meaningless . so response success
-                    DBTaskResponseCommand taskResponseCommand = new DBTaskResponseCommand(ExecutionStatus.SUCCESS.getCode(),taskResponseEvent.getTaskInstanceId());
+                    DBTaskResponseCommand taskResponseCommand = new DBTaskResponseCommand(ExecutionStatus.SUCCESS.getCode(), taskResponseEvent.getTaskInstanceId());
                     channel.writeAndFlush(taskResponseCommand.convert2Command());
-                }catch (Exception e){
-                    logger.error("worker response master error",e);
-                    DBTaskResponseCommand taskResponseCommand = new DBTaskResponseCommand(ExecutionStatus.FAILURE.getCode(),-1);
+                } catch (Exception e) {
+                    logger.error("worker response master error", e);
+                    DBTaskResponseCommand taskResponseCommand = new DBTaskResponseCommand(ExecutionStatus.FAILURE.getCode(), -1);
                     channel.writeAndFlush(taskResponseCommand.convert2Command());
                 }
                 break;

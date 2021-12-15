@@ -42,9 +42,10 @@ public class DataSourceUserMapperTest {
 
     /**
      * insert
+     *
      * @return DatasourceUser
      */
-    private DatasourceUser insertOne(){
+    private DatasourceUser insertOne() {
         //insertOne
         DatasourceUser dataSourceUser = new DatasourceUser();
         dataSourceUser.setUserId(4);
@@ -60,7 +61,7 @@ public class DataSourceUserMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         DatasourceUser dataSourceUser = insertOne();
         //update
@@ -73,7 +74,7 @@ public class DataSourceUserMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
 
         DatasourceUser dataSourceUser = insertOne();
         int delete = dataSourceUserMapper.deleteById(dataSourceUser.getId());

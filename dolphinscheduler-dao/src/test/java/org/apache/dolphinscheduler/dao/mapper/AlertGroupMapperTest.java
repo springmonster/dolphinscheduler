@@ -17,35 +17,30 @@
 package org.apache.dolphinscheduler.dao.mapper;
 
 
-import org.apache.dolphinscheduler.common.enums.AlertType;
-import org.apache.dolphinscheduler.common.utils.DateUtils;
-import org.apache.dolphinscheduler.dao.entity.AccessToken;
-import org.apache.dolphinscheduler.dao.entity.AlertGroup;
-import org.apache.dolphinscheduler.dao.entity.UserAlertGroup;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.junit.Assert;
+import org.apache.dolphinscheduler.common.enums.AlertType;
+import org.apache.dolphinscheduler.common.utils.DateUtils;
+import org.apache.dolphinscheduler.dao.entity.AlertGroup;
+import org.apache.dolphinscheduler.dao.entity.UserAlertGroup;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import org.junit.Test;
-import org.springframework.transaction.annotation.Transactional;
-
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assert.*;
 
 /**
- *  AlertGroup mapper test
+ * AlertGroup mapper test
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -65,10 +60,10 @@ public class AlertGroupMapperTest {
      * test insert
      */
     @Test
-    public void testInsert(){
+    public void testInsert() {
         AlertGroup alertGroup = createAlertGroup();
         assertNotNull(alertGroup);
-        assertThat(alertGroup.getId(),greaterThan(0));
+        assertThat(alertGroup.getId(), greaterThan(0));
 
     }
 
@@ -99,7 +94,7 @@ public class AlertGroupMapperTest {
         Integer offset = 2;
         Integer size = 2;
 
-        Map<Integer, AlertGroup> alertGroupMap = createAlertGroups(count,groupName);
+        Map<Integer, AlertGroup> alertGroupMap = createAlertGroups(count, groupName);
 
         Page page = new Page(offset, size);
 
@@ -109,10 +104,10 @@ public class AlertGroupMapperTest {
 
         assertEquals(alertGroupList.size(), size.intValue());
 
-        for (AlertGroup alertGroup : alertGroupList){
+        for (AlertGroup alertGroup : alertGroupList) {
             AlertGroup resultAlertGroup = alertGroupMap.get(alertGroup.getId());
-            if (resultAlertGroup != null){
-                assertEquals(alertGroup,resultAlertGroup);
+            if (resultAlertGroup != null) {
+                assertEquals(alertGroup, resultAlertGroup);
             }
         }
 
@@ -123,7 +118,7 @@ public class AlertGroupMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
 
         AlertGroup alertGroup = createAlertGroup();
         alertGroup.setGroupName("modify GroupName");
@@ -135,16 +130,15 @@ public class AlertGroupMapperTest {
 
         AlertGroup resultAlertGroup = alertGroupMapper.selectById(alertGroup.getId());
 
-        assertEquals(alertGroup,resultAlertGroup);
+        assertEquals(alertGroup, resultAlertGroup);
     }
-
 
 
     /**
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
 
         AlertGroup alertGroup = createAlertGroup();
 
@@ -154,7 +148,6 @@ public class AlertGroupMapperTest {
 
         assertNull(resultAlertGroup);
     }
-
 
 
     /**
@@ -187,7 +180,7 @@ public class AlertGroupMapperTest {
         List<AlertGroup> alertGroupList =
                 alertGroupMapper.queryByUserId(userId);
 
-        compareAlertGroups(alertGroupMap,alertGroupList);
+        compareAlertGroups(alertGroupMap, alertGroupList);
 
     }
 
@@ -201,7 +194,7 @@ public class AlertGroupMapperTest {
         Map<Integer, AlertGroup> alertGroupMap = createAlertGroups(count);
         List<AlertGroup> alertGroupList = alertGroupMapper.queryByAlertType(AlertType.EMAIL);
 
-        compareAlertGroups(alertGroupMap,alertGroupList);
+        compareAlertGroups(alertGroupMap, alertGroupList);
 
     }
 
@@ -215,33 +208,36 @@ public class AlertGroupMapperTest {
 
         List<AlertGroup> alertGroupList = alertGroupMapper.queryAllGroupList();
 
-        compareAlertGroups(alertGroupMap,alertGroupList);
+        compareAlertGroups(alertGroupMap, alertGroupList);
 
     }
 
 
     /**
      * compare AlertGruops
-     * @param alertGroupMap alertGroupMap
+     *
+     * @param alertGroupMap  alertGroupMap
      * @param alertGroupList alertGroupList
      */
-    private void compareAlertGroups(Map<Integer,AlertGroup> alertGroupMap,
-                                    List<AlertGroup> alertGroupList){
+    private void compareAlertGroups(Map<Integer, AlertGroup> alertGroupMap,
+                                    List<AlertGroup> alertGroupList) {
         // greaterThanOrEqualTo，beacuse maybe db have already exists
-        assertThat(alertGroupList.size(),greaterThanOrEqualTo(alertGroupMap.size()));
+        assertThat(alertGroupList.size(), greaterThanOrEqualTo(alertGroupMap.size()));
 
-        for (AlertGroup alertGroup : alertGroupList){
+        for (AlertGroup alertGroup : alertGroupList) {
             AlertGroup resultAlertGroup = alertGroupMap.get(alertGroup.getId());
-            if (resultAlertGroup != null){
-                assertEquals(alertGroup,resultAlertGroup);
+            if (resultAlertGroup != null) {
+                assertEquals(alertGroup, resultAlertGroup);
             }
         }
     }
+
     /**
      * insert
+     *
      * @return AlertGroup
      */
-    private AlertGroup createAlertGroup(String groupName){
+    private AlertGroup createAlertGroup(String groupName) {
         AlertGroup alertGroup = new AlertGroup();
         alertGroup.setGroupName(groupName);
         alertGroup.setDescription("alert group 1");
@@ -257,9 +253,10 @@ public class AlertGroupMapperTest {
 
     /**
      * insert
+     *
      * @return AlertGroup
      */
-    private AlertGroup createAlertGroup(){
+    private AlertGroup createAlertGroup() {
         AlertGroup alertGroup = new AlertGroup();
         alertGroup.setGroupName("testGroup");
         alertGroup.setDescription("testGroup");
@@ -275,18 +272,19 @@ public class AlertGroupMapperTest {
 
     /**
      * create AlertGroups
-     * @param count create AlertGroup count
+     *
+     * @param count     create AlertGroup count
      * @param groupName groupName
      * @return AlertGroup map
      */
-    private Map<Integer,AlertGroup> createAlertGroups(
-            Integer count,String groupName){
-        Map<Integer,AlertGroup> alertGroupMap = new HashMap<>();
+    private Map<Integer, AlertGroup> createAlertGroups(
+            Integer count, String groupName) {
+        Map<Integer, AlertGroup> alertGroupMap = new HashMap<>();
 
-        AlertGroup  alertGroup = null;
-        for (int i = 0 ; i < count; i++){
+        AlertGroup alertGroup = null;
+        for (int i = 0; i < count; i++) {
             alertGroup = createAlertGroup(groupName);
-            alertGroupMap.put(alertGroup.getId(),alertGroup);
+            alertGroupMap.put(alertGroup.getId(), alertGroup);
         }
 
         return alertGroupMap;
@@ -295,17 +293,18 @@ public class AlertGroupMapperTest {
 
     /**
      * create AlertGroups
+     *
      * @param count create AlertGroup count
      * @return AlertGroup map
      */
-    private Map<Integer,AlertGroup> createAlertGroups(
-            Integer count){
-        Map<Integer,AlertGroup> alertGroupMap = new HashMap<>();
+    private Map<Integer, AlertGroup> createAlertGroups(
+            Integer count) {
+        Map<Integer, AlertGroup> alertGroupMap = new HashMap<>();
 
-        AlertGroup  alertGroup = null;
-        for (int i = 0 ; i < count; i++){
+        AlertGroup alertGroup = null;
+        for (int i = 0; i < count; i++) {
             alertGroup = createAlertGroup();
-            alertGroupMap.put(alertGroup.getId(),alertGroup);
+            alertGroupMap.put(alertGroup.getId(), alertGroup);
         }
 
         return alertGroupMap;
@@ -314,20 +313,21 @@ public class AlertGroupMapperTest {
 
     /**
      * create AlertGroups
+     *
      * @param count create AlertGroup count
      * @return AlertGroup map
      */
-    private Map<Integer,AlertGroup> createAlertGroups(
-            Integer count,Integer userId){
-        Map<Integer,AlertGroup> alertGroupMap = new HashMap<>();
+    private Map<Integer, AlertGroup> createAlertGroups(
+            Integer count, Integer userId) {
+        Map<Integer, AlertGroup> alertGroupMap = new HashMap<>();
 
-        AlertGroup  alertGroup = null;
-        for (int i = 0 ; i < count; i++){
+        AlertGroup alertGroup = null;
+        for (int i = 0; i < count; i++) {
             alertGroup = createAlertGroup();
 
-            createUserAlertGroup(userId,alertGroup.getId());
+            createUserAlertGroup(userId, alertGroup.getId());
 
-            alertGroupMap.put(alertGroup.getId(),alertGroup);
+            alertGroupMap.put(alertGroup.getId(), alertGroup);
         }
 
         return alertGroupMap;
@@ -335,12 +335,13 @@ public class AlertGroupMapperTest {
 
     /**
      * create AlertGroup
-     * @param userId userId
+     *
+     * @param userId       userId
      * @param alertgroupId alertgroupId
      * @return UserAlertGroup
      */
     private UserAlertGroup createUserAlertGroup(
-            Integer userId,Integer alertgroupId){
+            Integer userId, Integer alertgroupId) {
         UserAlertGroup userAlertGroup = new UserAlertGroup();
         userAlertGroup.setAlertgroupId(alertgroupId);
         userAlertGroup.setUserId(userId);

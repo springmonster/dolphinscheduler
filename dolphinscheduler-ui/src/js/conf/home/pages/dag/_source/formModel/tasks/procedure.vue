@@ -61,7 +61,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'procedure',
-  data () {
+  data() {
     return {
       // method
       method: '',
@@ -83,19 +83,19 @@ export default {
     /**
      * return type or datasource
      */
-    _onDsData (o) {
+    _onDsData(o) {
       this.type = o.type
       this.rtDatasource = o.datasource
     },
     /**
      * return udp
      */
-    _onLocalParams (a) {
+    _onLocalParams(a) {
     },
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       // datasource Subcomponent verification
       if (!this.$refs.refDs._verifDatasource()) {
         return false
@@ -123,12 +123,12 @@ export default {
   },
   watch: {
     //Watch the cacheParams
-    cacheParams (val) {
+    cacheParams(val) {
       this.$emit('on-cache-params', val)
     }
   },
   computed: {
-    cacheParams () {
+    cacheParams() {
       return {
         type: this.type,
         datasource: this.rtDatasource,
@@ -137,7 +137,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     let o = this.backfillItem
 
     // Non-null objects represent backfill
@@ -157,7 +157,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mListBox,

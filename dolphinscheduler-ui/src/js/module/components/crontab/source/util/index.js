@@ -24,7 +24,7 @@ import _ from 'lodash'
 const range = (start, end) => {
   const length = end - start + 1
   let step = start - 1
-  return Array.apply(null, { length: length }).map(function (v, i) {
+  return Array.apply(null, {length: length}).map(function (v, i) {
     step++
     return step
   })
@@ -182,7 +182,7 @@ const isWeek = (str) => {
  * @param {Array} ...args
  * @return {String}
  */
-const { hasOwnProperty } = {}
+const {hasOwnProperty} = {}
 const RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g
 const hasOwn = (o, k) => hasOwnProperty.call(o, k)
 const template = (string, ...args) => {

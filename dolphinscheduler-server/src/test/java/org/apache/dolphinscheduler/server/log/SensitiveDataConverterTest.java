@@ -53,6 +53,7 @@ public class SensitiveDataConverterTest {
             "\"jdbcUrl\":\"jdbc:mysql://192.168.xx.xx:3306/ods\"," +
             "\"user\":\"view\"," +
             "\"password\":\"******\"}";
+
     @Test
     public void convert() {
         SensitiveDataConverter sensitiveDataConverter = new SensitiveDataConverter();
@@ -173,7 +174,6 @@ public class SensitiveDataConverterTest {
 
         return sb.toString();
     }
-
 
 
 }

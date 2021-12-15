@@ -17,8 +17,8 @@
 
 /* eslint-disable */
 import Vue from 'vue'
-import { findLocale } from './config'
-import { template } from '@/module/util'
+import {findLocale} from './config'
+import {template} from '@/module/util'
 import cookies from 'js-cookie'
 
 const globalScope = typeof window !== 'undefined' && window.document ? window : global
@@ -45,7 +45,7 @@ const locale = (lang) => {
   // global
   globalScope.LOCALE = lang
   // cookies
-  cookies.set('language', lang, { path: '/' })
+  cookies.set('language', lang, {path: '/'})
 }
 
 const init = () => {

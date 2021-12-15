@@ -16,36 +16,24 @@
  */
 package org.apache.dolphinscheduler.alert.utils;
 
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.dolphinscheduler.alert.template.AlertTemplate;
 import org.apache.dolphinscheduler.alert.template.AlertTemplateFactory;
 import org.apache.dolphinscheduler.common.enums.ShowType;
 import org.apache.dolphinscheduler.common.utils.CollectionUtils;
 import org.apache.dolphinscheduler.common.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
-
+import javax.mail.*;
+import javax.mail.internet.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -80,27 +68,29 @@ public class MailUtils {
 
     /**
      * send mail to receivers
+     *
      * @param receivers the receiver list
-     * @param title the title
-     * @param content the content
-     * @param showType the show type
+     * @param title     the title
+     * @param content   the content
+     * @param showType  the show type
      * @return the result map
      */
-    public static Map<String,Object> sendMails(Collection<String> receivers, String title, String content,String showType) {
+    public static Map<String, Object> sendMails(Collection<String> receivers, String title, String content, String showType) {
         return sendMails(receivers, null, title, content, showType);
     }
 
     /**
      * send mail
-     * @param receivers the receiver list
+     *
+     * @param receivers   the receiver list
      * @param receiversCc cc list
-     * @param title the title
-     * @param content the content
-     * @param showType the show type
+     * @param title       the title
+     * @param content     the content
+     * @param showType    the show type
      * @return the send result
      */
-    public static Map<String,Object> sendMails(Collection<String> receivers, Collection<String> receiversCc, String title, String content, String showType) {
-        Map<String,Object> retMap = new HashMap<>();
+    public static Map<String, Object> sendMails(Collection<String> receivers, Collection<String> receiversCc, String title, String content, String showType) {
+        Map<String, Object> retMap = new HashMap<>();
         retMap.put(Constants.STATUS, false);
 
         // if there is no receivers && no receiversCc, no need to process
@@ -119,14 +109,14 @@ public class MailUtils {
                 email.setMailSession(session);
                 email.setFrom(MAIL_SENDER);
                 email.setCharset(Constants.UTF_8);
-                if (CollectionUtils.isNotEmpty(receivers)){
+                if (CollectionUtils.isNotEmpty(receivers)) {
                     // receivers mail
                     for (String receiver : receivers) {
                         email.addTo(receiver);
                     }
                 }
 
-                if (CollectionUtils.isNotEmpty(receiversCc)){
+                if (CollectionUtils.isNotEmpty(receiversCc)) {
                     //cc
                     for (String receiverCc : receiversCc) {
                         email.addCc(receiverCc);
@@ -137,16 +127,16 @@ public class MailUtils {
             } catch (Exception e) {
                 handleException(receivers, retMap, e);
             }
-        }else if (showType.equals(ShowType.ATTACHMENT.getDescp()) || showType.equals(ShowType.TABLEATTACHMENT.getDescp())) {
+        } else if (showType.equals(ShowType.ATTACHMENT.getDescp()) || showType.equals(ShowType.TABLEATTACHMENT.getDescp())) {
             try {
 
-                String partContent = (showType.equals(ShowType.ATTACHMENT.getDescp()) ? "Please see the attachment " + title + Constants.EXCEL_SUFFIX_XLS : htmlTable(content,false));
+                String partContent = (showType.equals(ShowType.ATTACHMENT.getDescp()) ? "Please see the attachment " + title + Constants.EXCEL_SUFFIX_XLS : htmlTable(content, false));
 
-                attachment(receivers,receiversCc,title,content,partContent);
+                attachment(receivers, receiversCc, title, content, partContent);
 
                 retMap.put(Constants.STATUS, true);
                 return retMap;
-            }catch (Exception e){
+            } catch (Exception e) {
                 handleException(receivers, retMap, e);
                 return retMap;
             }
@@ -157,46 +147,51 @@ public class MailUtils {
 
     /**
      * html table content
+     *
      * @param content the content
      * @param showAll if show the whole content
      * @return the html table form
      */
-    private static String htmlTable(String content, boolean showAll){
-        return alertTemplate.getMessageFromTemplate(content,ShowType.TABLE,showAll);
+    private static String htmlTable(String content, boolean showAll) {
+        return alertTemplate.getMessageFromTemplate(content, ShowType.TABLE, showAll);
     }
 
     /**
      * html table content
+     *
      * @param content the content
      * @return the html table form
      */
-    private static String htmlTable(String content){
-        return htmlTable(content,true);
+    private static String htmlTable(String content) {
+        return htmlTable(content, true);
     }
 
     /**
      * html text content
+     *
      * @param content the content
      * @return text in html form
      */
-    private static String htmlText(String content){
-        return alertTemplate.getMessageFromTemplate(content,ShowType.TEXT);
+    private static String htmlText(String content) {
+        return alertTemplate.getMessageFromTemplate(content, ShowType.TEXT);
     }
 
     /**
      * send mail as Excel attachment
+     *
      * @param receivers the receiver list
-     * @param title the title
+     * @param title     the title
      * @throws Exception
      */
-    private static void attachment(Collection<String> receivers,Collection<String> receiversCc,String title,String content,String partContent)throws Exception{
+    private static void attachment(Collection<String> receivers, Collection<String> receiversCc, String title, String content, String partContent) throws Exception {
         MimeMessage msg = getMimeMessage(receivers);
 
-        attachContent(receiversCc, title, content,partContent, msg);
+        attachContent(receiversCc, title, content, partContent, msg);
     }
 
     /**
      * get MimeMessage
+     *
      * @param receivers receivers
      * @return the MimeMessage
      * @throws MessagingException
@@ -221,6 +216,7 @@ public class MailUtils {
 
     /**
      * get session
+     *
      * @return the new Session
      */
     private static Session getSession() {
@@ -246,20 +242,21 @@ public class MailUtils {
 
     /**
      * attach content
+     *
      * @param receiversCc the cc list
-     * @param title the title
-     * @param content the content
+     * @param title       the title
+     * @param content     the content
      * @param partContent the partContent
-     * @param msg the message
+     * @param msg         the message
      * @throws MessagingException
      * @throws IOException
      */
-    private static void attachContent(Collection<String> receiversCc, String title, String content, String partContent,MimeMessage msg) throws MessagingException, IOException {
+    private static void attachContent(Collection<String> receiversCc, String title, String content, String partContent, MimeMessage msg) throws MessagingException, IOException {
         /**
          * set receiverCc
          */
-        if(CollectionUtils.isNotEmpty(receiversCc)){
-            for (String receiverCc : receiversCc){
+        if (CollectionUtils.isNotEmpty(receiversCc)) {
+            for (String receiverCc : receiversCc) {
                 msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse(receiverCc));
             }
         }
@@ -272,16 +269,16 @@ public class MailUtils {
         part1.setContent(partContent, Constants.TEXT_HTML_CHARSET_UTF_8);
         // set attach file
         MimeBodyPart part2 = new MimeBodyPart();
-        File file = new File(XLS_FILE_PATH + Constants.SINGLE_SLASH +  title + Constants.EXCEL_SUFFIX_XLS);
+        File file = new File(XLS_FILE_PATH + Constants.SINGLE_SLASH + title + Constants.EXCEL_SUFFIX_XLS);
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
         // make excel file
 
-        ExcelUtils.genExcelFile(content,title,XLS_FILE_PATH);
+        ExcelUtils.genExcelFile(content, title, XLS_FILE_PATH);
 
         part2.attachFile(file);
-        part2.setFileName(MimeUtility.encodeText(title + Constants.EXCEL_SUFFIX_XLS,Constants.UTF_8,"B"));
+        part2.setFileName(MimeUtility.encodeText(title + Constants.EXCEL_SUFFIX_XLS, Constants.UTF_8, "B"));
         // add components to collection
         partList.addBodyPart(part1);
         partList.addBodyPart(part2);
@@ -294,11 +291,12 @@ public class MailUtils {
 
     /**
      * the string object map
-     * @param title the title
-     * @param content the content
+     *
+     * @param title    the title
+     * @param content  the content
      * @param showType the showType
-     * @param retMap the result map
-     * @param email the email
+     * @param retMap   the result map
+     * @param email    the email
      * @return the result map
      * @throws EmailException
      */
@@ -327,16 +325,17 @@ public class MailUtils {
 
     /**
      * file delete
+     *
      * @param file the file to delete
      */
-    public static void deleteFile(File file){
-        if(file.exists()){
-            if(file.delete()){
-                logger.info("delete success: {}",file.getAbsolutePath() + file.getName());
-            }else{
+    public static void deleteFile(File file) {
+        if (file.exists()) {
+            if (file.delete()) {
+                logger.info("delete success: {}", file.getAbsolutePath() + file.getName());
+            } else {
                 logger.info("delete fail: {}", file.getAbsolutePath() + file.getName());
             }
-        }else{
+        } else {
             logger.info("file not exists: {}", file.getAbsolutePath() + file.getName());
         }
     }
@@ -344,9 +343,10 @@ public class MailUtils {
 
     /**
      * handle exception
+     *
      * @param receivers the receiver list
-     * @param retMap the result map
-     * @param e the exception
+     * @param retMap    the result map
+     * @param e         the exception
      */
     private static void handleException(Collection<String> receivers, Map<String, Object> retMap, Exception e) {
         logger.error("Send email to {} failed", receivers, e);

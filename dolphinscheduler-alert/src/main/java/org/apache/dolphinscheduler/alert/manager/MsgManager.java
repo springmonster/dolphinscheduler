@@ -23,14 +23,16 @@ import org.slf4j.LoggerFactory;
 /**
  * SMS send manager
  */
-public class MsgManager  {
+public class MsgManager {
 
     private static final Logger logger = LoggerFactory.getLogger(MsgManager.class);
+
     /**
      * SMS send
+     *
      * @param alert the alert
      */
-    public void send(Alert alert){
-        logger.info("send message {}",alert);
+    public void send(Alert alert) {
+        logger.info("send message {}", alert);
     }
 }

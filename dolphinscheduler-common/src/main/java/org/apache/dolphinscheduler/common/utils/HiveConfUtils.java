@@ -38,17 +38,18 @@ public class HiveConfUtils {
     private static class HiveConfHandler {
         private static HiveConf singleton;
 
-        private static Map<String,Object> hiveConfVars;
+        private static Map<String, Object> hiveConfVars;
 
         static {
             singleton = new HiveConf();
             hiveConfVars = new HashMap<>();
-            Arrays.stream(ConfVars.values()).forEach(confVar -> hiveConfVars.put(confVar.varname,confVar));
+            Arrays.stream(ConfVars.values()).forEach(confVar -> hiveConfVars.put(confVar.varname, confVar));
         }
     }
 
     /**
      * get HiveConf instance
+     *
      * @return HiveConf hiveConf
      */
     public static HiveConf getInstance() {
@@ -57,14 +58,16 @@ public class HiveConfUtils {
 
     /**
      * get hive conf vars
+     *
      * @return
      */
-    public static Map<String,Object> getHiveConfVars() {
+    public static Map<String, Object> getHiveConfVars() {
         return HiveConfHandler.hiveConfVars;
     }
 
     /**
      * Determine if it belongs to a hive conf property
+     *
      * @param conf config
      * @return boolean result
      */

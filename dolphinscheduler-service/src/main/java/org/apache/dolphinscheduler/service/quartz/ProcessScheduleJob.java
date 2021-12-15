@@ -46,7 +46,7 @@ public class ProcessScheduleJob implements Job {
      */
     private static final Logger logger = LoggerFactory.getLogger(ProcessScheduleJob.class);
 
-    public ProcessService getProcessService(){
+    public ProcessService getProcessService() {
         return SpringApplicationContext.getBean(ProcessService.class);
     }
 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import Base from '../base'
-import { checkKeyInModel, init } from '../../common'
+import {checkKeyInModel, init} from '../../common'
 
 const TYPE = 'radar'
 
@@ -29,14 +29,14 @@ export default class Radar extends Base {
    * @param {*} data data source
    * @param {*} options Optional
    */
-  static init (el, data, options) {
+  static init(el, data, options) {
     return init(Radar, el, data, options)
   }
 
   /**
    * Convert user configuration to a configuration format that conforms to the format of echarts API
    */
-  transform () {
+  transform() {
     const {
       // data
       data = [],
@@ -93,7 +93,7 @@ export default class Radar extends Base {
       // index
       const targetIndicator = indicator.find(i => i.name === textItem)
       if (!targetIndicator) {
-        indicator.push({ name: textItem })
+        indicator.push({name: textItem})
       }
     }
 
@@ -108,7 +108,7 @@ export default class Radar extends Base {
   /**
    * Drawing charts
    */
-  apply () {
+  apply() {
     const {
       title,
       seriesData,

@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import Vue from 'vue'
-
-let v = new Vue()
 import _ from 'lodash'
 import i18n from '@/module/i18n'
-import { jsPlumb } from 'jsplumb'
+import {jsPlumb} from 'jsplumb'
 import JSP from './plugIn/jsPlumbHandle'
 import DownChart from './plugIn/downChart'
 import store from '@/conf/home/store'
+
+let v = new Vue()
 
 /**
  * Prototype method
@@ -37,9 +37,9 @@ const Dag = function () {
  * @dag dag vue instance
  */
 Dag.prototype.init = function ({
-  dag,
-  instance
-}) {
+                                 dag,
+                                 instance
+                               }) {
   this.dag = dag
   this.instance = instance
 }
@@ -63,7 +63,7 @@ Dag.prototype.create = function () {
       dag: this.dag,
       instance: this.instance,
       options: {
-        onRemoveNodes ($id) {
+        onRemoveNodes($id) {
           self.dag.removeEventModelById($id)
         }
       }
@@ -81,10 +81,10 @@ Dag.prototype.create = function () {
  * Action event on the right side of the toolbar
  */
 Dag.prototype.toolbarEvent = function ({
-  item,
-  code,
-  is
-}) {
+                                         item,
+                                         code,
+                                         is
+                                       }) {
   let self = this
   switch (code) {
     case 'pointer':
@@ -111,7 +111,7 @@ Dag.prototype.toolbarEvent = function ({
         title: i18n.$t('Download'),
         content: i18n.$t('Please confirm whether the workflow has been saved before downloading'),
         ok: {
-          handle (e) {
+          handle(e) {
             DownChart.download({
               dagThis: self.dag
             })
@@ -170,11 +170,11 @@ Dag.prototype.backfill = function (arg) {
      * @param {String} childrenStr children key name
      */
     const fommat = function ({
-      arrayList,
-      pidStr = 'targetarr',
-      idStr = 'id',
-      childrenStr = 'children'
-    }) {
+                               arrayList,
+                               pidStr = 'targetarr',
+                               idStr = 'id',
+                               childrenStr = 'children'
+                             }) {
       const listOjb = {} // Used to store objects of the form {key: obj}
       const treeList = [] // An array to store the final tree structure data
       // Transform the data into {key: obj} format, which is convenient for the following data processing
@@ -221,7 +221,7 @@ Dag.prototype.backfill = function (arg) {
     const getMaxFloor = function (treeData) {
       let max = 0
 
-      function each (data, floor) {
+      function each(data, floor) {
         data.forEach(e => {
           e.floor = floor
           e.x = floor * 170
@@ -347,7 +347,7 @@ Dag.prototype.backfill = function (arg) {
         dag: this.dag,
         instance: this.instance,
         options: {
-          onRemoveNodes ($id) {
+          onRemoveNodes($id) {
             self.dag.removeEventModelById($id)
           }
         }
@@ -371,7 +371,7 @@ Dag.prototype.backfill = function (arg) {
         dag: this.dag,
         instance: this.instance,
         options: {
-          onRemoveNodes ($id) {
+          onRemoveNodes($id) {
             self.dag.removeEventModelById($id)
           }
         }

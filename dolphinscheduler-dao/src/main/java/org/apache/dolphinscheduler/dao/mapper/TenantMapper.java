@@ -16,9 +16,9 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
-import org.apache.dolphinscheduler.dao.entity.Tenant;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.dolphinscheduler.dao.entity.Tenant;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,6 +30,7 @@ public interface TenantMapper extends BaseMapper<Tenant> {
 
     /**
      * query tenant by id
+     *
      * @param tenantId tenantId
      * @return tenant
      */
@@ -37,6 +38,7 @@ public interface TenantMapper extends BaseMapper<Tenant> {
 
     /**
      * query tenant by code
+     *
      * @param tenantCode tenantCode
      * @return tenant list
      */
@@ -44,7 +46,8 @@ public interface TenantMapper extends BaseMapper<Tenant> {
 
     /**
      * tenant page
-     * @param page page
+     *
+     * @param page      page
      * @param searchVal searchVal
      * @return tenant IPage
      */

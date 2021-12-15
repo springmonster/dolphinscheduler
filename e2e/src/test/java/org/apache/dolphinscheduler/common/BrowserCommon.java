@@ -76,7 +76,7 @@ public class BrowserCommon {
 
     /**
      * @param driver driver
-     * @param jedis jedis
+     * @param jedis  jedis
      */
     public BrowserCommon(WebDriver driver, Jedis jedis) {
         this.driver = driver;
@@ -89,7 +89,7 @@ public class BrowserCommon {
     }
 
     /**
-     * @param driver driver
+     * @param driver    driver
      * @param redisUtil redisUtil
      */
     public BrowserCommon(WebDriver driver, RedisUtil redisUtil) {
@@ -115,6 +115,7 @@ public class BrowserCommon {
 
     /**
      * Click button element
+     *
      * @param locator By
      * @return clickButton
      */
@@ -128,12 +129,13 @@ public class BrowserCommon {
 
     /**
      * Click Navigation Bar element
+     *
      * @param locator By
      * @return clickButton
      */
     public void clickTopElement(By locator) {
         WebElement element = driver.findElement(locator);
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", element);
     }
 
@@ -164,6 +166,7 @@ public class BrowserCommon {
         inputElement.sendKeys(content);
         return inputElement;
     }
+
     /**
      * clear element
      *
@@ -180,11 +183,10 @@ public class BrowserCommon {
     /**
      * input codeMirror
      *
-     * @param codeMirrorLocator By codeMirror
+     * @param codeMirrorLocator     By codeMirror
      * @param codeMirrorLineLocator By codeMirrorLine
-
      */
-    public void inputCodeMirror(By codeMirrorLocator,By codeMirrorLineLocator,String content) {
+    public void inputCodeMirror(By codeMirrorLocator, By codeMirrorLineLocator, String content) {
         WebElement codeMirrorElement = locateElement(codeMirrorLocator);
         WebElement codeMirrorLineElement = locateElement(codeMirrorLineLocator);
         codeMirrorElement.click();
@@ -193,10 +195,11 @@ public class BrowserCommon {
 
     /**
      * move to element
+     *
      * @param locator BY
      * @return actions
      */
-    public Actions moveToElement(By locator){
+    public Actions moveToElement(By locator) {
         return actions.moveToElement(locateElement(locator));
     }
 
@@ -206,14 +209,14 @@ public class BrowserCommon {
      * @param source_locator BY
      * @param target_locator BY
      */
-    public void dragAndDrop(By source_locator, By target_locator){
+    public void dragAndDrop(By source_locator, By target_locator) {
         WebElement sourceElement = locateElement(source_locator);
         WebElement targetElement = locateElement(target_locator);
         actions.dragAndDrop(sourceElement, targetElement).perform();
         actions.release();
     }
 
-    public void moveToDragElement(By target_locator, int X, int Y){
+    public void moveToDragElement(By target_locator, int X, int Y) {
         WebElement targetElement = locateElement(target_locator);
         actions.dragAndDropBy(targetElement, X, Y).perform();
         actions.release();
@@ -250,15 +253,12 @@ public class BrowserCommon {
     }
 
 
-
-
-
-        /**
-         * Multi-window switch handle, according to the handle number passed in
-         *
-         * @param num Number starts from 1
-         * @return driver
-         */
+    /**
+     * Multi-window switch handle, according to the handle number passed in
+     *
+     * @param num Number starts from 1
+     * @return driver
+     */
     public WebDriver switchHandle(int num) {
         // current handle
         String currentHandle = driver.getWindowHandle();
@@ -359,7 +359,7 @@ public class BrowserCommon {
     /**
      * Determine if the current page title is the specified title
      *
-     * @param title  title
+     * @param title title
      * @return boolean
      */
 
@@ -381,7 +381,7 @@ public class BrowserCommon {
      * Determines whether the text value of an element on the current page is the specified text
      *
      * @param locator By
-     * @param text text
+     * @param text    text
      * @return boolean
      */
     public boolean ifTextExists(By locator, String text) {

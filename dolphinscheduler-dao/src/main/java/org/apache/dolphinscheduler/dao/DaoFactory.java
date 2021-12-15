@@ -27,36 +27,37 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DaoFactory {
 
-  private static final Logger logger = LoggerFactory.getLogger(DaoFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(DaoFactory.class);
 
-  private static Map<String, AbstractBaseDao> daoMap = new ConcurrentHashMap<>();
+    private static Map<String, AbstractBaseDao> daoMap = new ConcurrentHashMap<>();
 
-  private DaoFactory(){
+    private DaoFactory() {
 
-  }
-
-  /**
-   * get dao instance
-   * @param clazz clazz
-   * @param <T> T
-   * @return T object
-   */
-  @SuppressWarnings("unchecked")
-  public static <T extends AbstractBaseDao> T getDaoInstance(Class<T> clazz) {
-    String className = clazz.getName();
-    synchronized (daoMap) {
-      if (!daoMap.containsKey(className)) {
-        try {
-          T t = clazz.getConstructor().newInstance();
-          // init
-          t.init();
-          daoMap.put(className, t);
-        } catch (Exception e) {
-          logger.error(e.getMessage(), e);
-        }
-      }
     }
 
-    return (T) daoMap.get(className);
-  }
+    /**
+     * get dao instance
+     *
+     * @param clazz clazz
+     * @param <T>   T
+     * @return T object
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends AbstractBaseDao> T getDaoInstance(Class<T> clazz) {
+        String className = clazz.getName();
+        synchronized (daoMap) {
+            if (!daoMap.containsKey(className)) {
+                try {
+                    T t = clazz.getConstructor().newInstance();
+                    // init
+                    t.init();
+                    daoMap.put(className, t);
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+        }
+
+        return (T) daoMap.get(className);
+    }
 }

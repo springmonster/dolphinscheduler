@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * queue controller test
  */
-public class QueueControllerTest extends AbstractControllerTest{
+public class QueueControllerTest extends AbstractControllerTest {
 
     private static Logger logger = LoggerFactory.getLogger(QueueControllerTest.class);
 
@@ -44,13 +44,13 @@ public class QueueControllerTest extends AbstractControllerTest{
     public void testQueryList() throws Exception {
 
         MvcResult mvcResult = mockMvc.perform(get("/queue/list")
-                .header(SESSION_ID, sessionId))
+                        .header(SESSION_ID, sessionId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -59,34 +59,32 @@ public class QueueControllerTest extends AbstractControllerTest{
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
         //paramsMap.add("processInstanceId","1380");
-        paramsMap.add("searchVal","");
-        paramsMap.add("pageNo","1");
-        paramsMap.add("pageSize","20");
+        paramsMap.add("searchVal", "");
+        paramsMap.add("pageNo", "1");
+        paramsMap.add("pageSize", "20");
 
         MvcResult mvcResult = mockMvc.perform(get("/queue/list-paging")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
-
-
 
 
     @Test
     public void testCreateQueue() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("queue","ait");
-        paramsMap.add("queueName","ait");
+        paramsMap.add("queue", "ait");
+        paramsMap.add("queueName", "ait");
 
         MvcResult mvcResult = mockMvc.perform(post("/queue/create")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
@@ -99,13 +97,13 @@ public class QueueControllerTest extends AbstractControllerTest{
     public void testUpdateQueue() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("id","2");
-        paramsMap.add("queue","ait12");
-        paramsMap.add("queueName","aitName");
+        paramsMap.add("id", "2");
+        paramsMap.add("queue", "ait12");
+        paramsMap.add("queueName", "aitName");
 
         MvcResult mvcResult = mockMvc.perform(post("/queue/update")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
@@ -118,12 +116,12 @@ public class QueueControllerTest extends AbstractControllerTest{
     public void testVerifyQueue() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("queue","ait123");
-        paramsMap.add("queueName","aitName");
+        paramsMap.add("queue", "ait123");
+        paramsMap.add("queueName", "aitName");
 
         MvcResult mvcResult = mockMvc.perform(post("/queue/verify-queue")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();

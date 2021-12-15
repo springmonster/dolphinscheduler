@@ -67,11 +67,11 @@
 import _ from 'lodash'
 import i18n from '@/module/i18n'
 import emailList from '~/external/email'
-import { isEmial, fuzzyQuery } from './util'
+import {fuzzyQuery, isEmial} from './util'
 
 export default {
   name: 'email',
-  data () {
+  data() {
     return {
       tagModel: false,
       email: '',
@@ -98,7 +98,7 @@ export default {
     /**
      * Manually add a mailbox
      */
-    _manualEmail () {
+    _manualEmail() {
       if (this.email === '') {
         return true
       }
@@ -129,7 +129,7 @@ export default {
     /**
      * Processing mailbox
      */
-    _handlerEmail (val) {
+    _handlerEmail(val) {
       if (!val) {
         this.emailList = []
         this.isEmail = false
@@ -147,7 +147,7 @@ export default {
     /**
      * Carriage return
      */
-    _emailEnter () {
+    _emailEnter() {
       // not list Hand filling
       if (!this.emailList.length) {
         this._manualEmail()
@@ -158,7 +158,7 @@ export default {
     /**
      * delete email
      */
-    _emailDelete () {
+    _emailDelete() {
       // Do not delete in case of input method in Chinese
       if (!this.isCn) {
         this.emailWidth = 0
@@ -176,7 +176,7 @@ export default {
     /**
      * click delete
      */
-    _del (i) {
+    _del(i) {
       this.emailWidth = 0
       this.activeList.splice(i, 1)
       this._handlerEmailWitch()
@@ -184,7 +184,7 @@ export default {
     /**
      * keyup Up/down event processing
      */
-    _emailKeyup (type) {
+    _emailKeyup(type) {
       let emailList = this.emailList.length
       if (emailList === 1) {
         this.index = 1
@@ -217,7 +217,7 @@ export default {
     /**
      * Check mailbox processing
      */
-    _selectEmail (i) {
+    _selectEmail(i) {
       let item = this.emailList[i - 1]
       this.isEmail = false
       this.email = ''
@@ -243,7 +243,7 @@ export default {
     /**
      * Processing width
      */
-    _handlerEmailWitch () {
+    _handlerEmailWitch() {
       setTimeout(() => {
         this.emailWidth = parseInt($('.email-model').width() - $(this.$refs.emailInput).position().left - 20)
         if (this.emailWidth < 80) {
@@ -254,25 +254,25 @@ export default {
     /**
      * Tab event processing
      */
-    _emailTab () {
+    _emailTab() {
       // Data processing
       this._emailEnter()
     }
   },
   watch: {
-    email (val) {
+    email(val) {
       this._handlerEmail(val)
       // Check mailbox index initialization
       this.activeIndex = null
     },
-    activeList (val) {
+    activeList(val) {
       this.$emit('valueEvent', val)
     }
   },
-  created () {
+  created() {
 
   },
-  mounted () {
+  mounted() {
     setTimeout(() => {
       // Processing width
       this._handlerEmailWitch()

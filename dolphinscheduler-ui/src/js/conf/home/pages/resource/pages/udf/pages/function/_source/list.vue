@@ -69,12 +69,16 @@ v-ps
           </td>
           <td>
             <span v-if="item.description" class="ellipsis"
-                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{ item.description }}</span>
+                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{
+                item.description
+              }}</span>
             <span v-else>-</span>
           </td>
           <td>
             <span v-if="item.resourceName" class="ellipsis"
-                  v-tooltip.large.top.start.light="{text: item.resourceName, maxWidth: '500px'}">{{ item.resourceName }}</span>
+                  v-tooltip.large.top.start.light="{text: item.resourceName, maxWidth: '500px'}">{{
+                item.resourceName
+              }}</span>
             <span v-else>-</span>
           </td>
           <!-- <td>
@@ -124,12 +128,12 @@ v-ps
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mCreateUdf from './createUdf'
 
 export default {
   name: 'udf-manage-list',
-  data () {
+  data() {
     return {
       list: [],
       spinnerLoading: false
@@ -142,10 +146,10 @@ export default {
   },
   methods: {
     ...mapActions('resource', ['deleteUdf']),
-    _closeDelete (i) {
+    _closeDelete(i) {
       this.$refs[`poptip-${i}`][0].doClose()
     },
-    _delete (item, i) {
+    _delete(item, i) {
       this.spinnerLoading = true
       this.deleteUdf({
         id: item.id
@@ -160,7 +164,7 @@ export default {
         this.spinnerLoading = false
       })
     },
-    _edit (item) {
+    _edit(item) {
       let self = this
       let modal = this.$modal.dialog({
         closable: false,
@@ -169,14 +173,14 @@ export default {
         className: 'v-modal-custom',
         width: '800px',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mCreateUdf, {
             on: {
-              onUpdate () {
+              onUpdate() {
                 self.$emit('on-update')
                 modal.remove()
               },
-              close () {
+              close() {
                 modal.remove()
               }
             },
@@ -189,16 +193,16 @@ export default {
     }
   },
   watch: {
-    udfFuncList (a) {
+    udfFuncList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
       })
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.list = this.udfFuncList
   },
   components: {}

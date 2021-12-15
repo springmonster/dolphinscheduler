@@ -31,7 +31,7 @@ const def = (o, p, v, desc) =>
       writable: false,
       enumerable: false,
       configurable: false
-    }, desc, { value: v }))
+    }, desc, {value: v}))
 
 const normalizeArgs = (method, url, data, success, fail, config) => {
   if (_.isFunction(data)) {
@@ -41,9 +41,9 @@ const normalizeArgs = (method, url, data, success, fail, config) => {
   }
   if (_.isPlainObject(data)) {
     if (!_.includes(preflightDataMethods, method)) {
-      config = _.merge({}, config, { params: data })
+      config = _.merge({}, config, {params: data})
     } else {
-      config = _.merge({}, config, { data })
+      config = _.merge({}, config, {data})
     }
   } else {
     config = config || {}
@@ -81,7 +81,7 @@ const resolveURL = (base, path) => {
 const create = (cfg) => new InnerCtor(cfg)
 
 class InnerCtor {
-  constructor (defaults) {
+  constructor(defaults) {
     const inter = axios.create(defaults)
 
     // { baseURL, timeout, ... }
@@ -117,14 +117,14 @@ class InnerCtor {
     })
   }
 
-  request ({
-    url,
-    method,
-    data,
-    success,
-    fail,
-    config
-  }) {
+  request({
+            url,
+            method,
+            data,
+            success,
+            fail,
+            config
+          }) {
     const configs = normalizeArgs(method, this.config.resolveURL(url), data, success, fail, config)
     configs.config = _.merge({}, this.config, configs.config)
 
@@ -176,7 +176,7 @@ class InnerCtor {
     })
   }
 
-  jsonp (url, data, success, fail, config) {
+  jsonp(url, data, success, fail, config) {
     const configs = normalizeArgs('jsonp', this.config.resolveURL(url), data, success, fail, config)
 
     configs.config = _.merge({}, this.config, configs.config)

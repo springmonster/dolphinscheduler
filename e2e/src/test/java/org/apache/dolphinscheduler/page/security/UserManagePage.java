@@ -61,7 +61,7 @@ public class UserManagePage extends PageCommon {
         clickElement(UserManageLocator.CLICK_USER_MANAGE);
 
         // click  delete user button
-        clickButton(UserManageLocator.DELETE_USER_BUTTON );
+        clickButton(UserManageLocator.DELETE_USER_BUTTON);
 
         // click confirm delete button
         clickButton(UserManageLocator.CONFIRM_DELETE_USER_BUTTON);

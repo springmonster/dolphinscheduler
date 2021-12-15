@@ -27,7 +27,7 @@ public class DefaultEnsembleProvider implements EnsembleProvider {
 
     private final String serverList;
 
-    public DefaultEnsembleProvider(String serverList){
+    public DefaultEnsembleProvider(String serverList) {
         this.serverList = serverList;
     }
 

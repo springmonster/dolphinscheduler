@@ -55,7 +55,7 @@ import mListBoxF from '@/module/components/listBoxF/listBoxF'
 
 export default {
   name: 'projects-create',
-  data () {
+  data() {
     return {
       store,
       description: '',
@@ -66,7 +66,7 @@ export default {
     item: Object
   },
   methods: {
-    _ok () {
+    _ok() {
       if (!this._verification()) {
         return
       }
@@ -94,7 +94,7 @@ export default {
         this.$refs['popup'].spinnerLoading = false
       })
     },
-    _verification () {
+    _verification() {
       if (!this.projectName) {
         this.$message.warning(`${i18n.$t('Please enter name')}`)
         return false
@@ -103,13 +103,13 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     if (this.item) {
       this.projectName = this.item.name
       this.description = this.item.description
     }
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mPopup,

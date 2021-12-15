@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { findLocale } from './config'
-import { template } from './util'
+import {findLocale} from './config'
+import {template} from './util'
 
 export default {
   methods: {
-    $t (str, data) {
+    $t(str, data) {
       return template(findLocale(window.localeCrontab).locale[str], data)
     }
   }

@@ -19,7 +19,6 @@ package org.apache.dolphinscheduler.server.worker.task.http;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.Charsets;
 import org.apache.dolphinscheduler.common.Constants;
@@ -69,7 +68,6 @@ public class HttpTask extends AbstractTask {
     private HttpParameters httpParameters;
 
 
-
     /**
      * Convert mill seconds to second unit
      */
@@ -93,8 +91,9 @@ public class HttpTask extends AbstractTask {
 
     /**
      * constructor
-     * @param taskExecutionContext     taskExecutionContext
-     * @param logger    logger
+     *
+     * @param taskExecutionContext taskExecutionContext
+     * @param logger               logger
      */
     public HttpTask(TaskExecutionContext taskExecutionContext, Logger logger) {
         super(taskExecutionContext, logger);
@@ -120,24 +119,25 @@ public class HttpTask extends AbstractTask {
         String statusCode = null;
         String body = null;
 
-        try(CloseableHttpClient client = createHttpClient();
-            CloseableHttpResponse response = sendRequest(client)) {
+        try (CloseableHttpClient client = createHttpClient();
+             CloseableHttpResponse response = sendRequest(client)) {
             statusCode = String.valueOf(getStatusCode(response));
             body = getResponseBody(response);
             exitStatusCode = validResponse(body, statusCode);
             long costTime = System.currentTimeMillis() - startTime;
             logger.info("startTime: {}, httpUrl: {}, httpMethod: {}, costTime : {}Millisecond, statusCode : {}, body : {}, log : {}",
-                    DateUtils.format2Readable(startTime), httpParameters.getUrl(),httpParameters.getHttpMethod(), costTime, statusCode, body, output);
-        }catch (Exception e){
+                    DateUtils.format2Readable(startTime), httpParameters.getUrl(), httpParameters.getHttpMethod(), costTime, statusCode, body, output);
+        } catch (Exception e) {
             appendMessage(e.toString());
             exitStatusCode = -1;
-            logger.error("httpUrl[" + httpParameters.getUrl() + "] connection failed："+output, e);
+            logger.error("httpUrl[" + httpParameters.getUrl() + "] connection failed：" + output, e);
             throw e;
         }
     }
 
     /**
      * send request
+     *
      * @param client client
      * @return CloseableHttpResponse
      * @throws IOException io exception
@@ -151,34 +151,35 @@ public class HttpTask extends AbstractTask {
                 httpParameters.getLocalParametersMap(),
                 CommandType.of(taskExecutionContext.getCmdTypeIfComplement()),
                 taskExecutionContext.getScheduleTime());
-        if(MapUtils.isEmpty(paramsMap)){
-            paramsMap=new HashMap<>();
+        if (MapUtils.isEmpty(paramsMap)) {
+            paramsMap = new HashMap<>();
         }
-        if (MapUtils.isNotEmpty(taskExecutionContext.getParamsMap())){
+        if (MapUtils.isNotEmpty(taskExecutionContext.getParamsMap())) {
             paramsMap.putAll(taskExecutionContext.getParamsMap());
         }
         List<HttpProperty> httpPropertyList = new ArrayList<>();
-        if(CollectionUtils.isNotEmpty(httpParameters.getHttpParams() )){
-            for (HttpProperty httpProperty: httpParameters.getHttpParams()) {
+        if (CollectionUtils.isNotEmpty(httpParameters.getHttpParams())) {
+            for (HttpProperty httpProperty : httpParameters.getHttpParams()) {
                 String jsonObject = JSON.toJSONString(httpProperty);
-                String params = ParameterUtils.convertParameterPlaceholders(jsonObject,ParamUtils.convert(paramsMap));
-                logger.info("http request params：{}",params);
-                httpPropertyList.add(JSON.parseObject(params,HttpProperty.class));
+                String params = ParameterUtils.convertParameterPlaceholders(jsonObject, ParamUtils.convert(paramsMap));
+                logger.info("http request params：{}", params);
+                httpPropertyList.add(JSON.parseObject(params, HttpProperty.class));
             }
         }
-        addRequestParams(builder,httpPropertyList);
-        String requestUrl = ParameterUtils.convertParameterPlaceholders(httpParameters.getUrl(),ParamUtils.convert(paramsMap));
+        addRequestParams(builder, httpPropertyList);
+        String requestUrl = ParameterUtils.convertParameterPlaceholders(httpParameters.getUrl(), ParamUtils.convert(paramsMap));
         HttpUriRequest request = builder.setUri(requestUrl).build();
-        setHeaders(request,httpPropertyList);
+        setHeaders(request, httpPropertyList);
         return client.execute(request);
     }
 
     /**
      * get response body
+     *
      * @param httpResponse http response
      * @return response body
      * @throws ParseException parse exception
-     * @throws IOException io exception
+     * @throws IOException    io exception
      */
     protected String getResponseBody(CloseableHttpResponse httpResponse) throws ParseException, IOException {
         if (httpResponse == null) {
@@ -193,6 +194,7 @@ public class HttpTask extends AbstractTask {
 
     /**
      * get status code
+     *
      * @param httpResponse http response
      * @return status code
      */
@@ -202,11 +204,12 @@ public class HttpTask extends AbstractTask {
 
     /**
      * valid response
-     * @param body          body
-     * @param statusCode    status code
+     *
+     * @param body       body
+     * @param statusCode status code
      * @return exit status code
      */
-    protected int validResponse(String body, String statusCode){
+    protected int validResponse(String body, String statusCode) {
         int exitStatusCode = 0;
         switch (httpParameters.getHttpCheckCondition()) {
             case BODY_CONTAINS:
@@ -245,6 +248,7 @@ public class HttpTask extends AbstractTask {
 
     /**
      * append message
+     *
      * @param message message
      */
     protected void appendMessage(String message) {
@@ -258,17 +262,18 @@ public class HttpTask extends AbstractTask {
 
     /**
      * add request params
-     * @param builder           buidler
-     * @param httpPropertyList  http property list
+     *
+     * @param builder          buidler
+     * @param httpPropertyList http property list
      */
-    protected void addRequestParams(RequestBuilder builder,List<HttpProperty> httpPropertyList) {
-        if(CollectionUtils.isNotEmpty(httpPropertyList)){
+    protected void addRequestParams(RequestBuilder builder, List<HttpProperty> httpPropertyList) {
+        if (CollectionUtils.isNotEmpty(httpPropertyList)) {
             JSONObject jsonParam = new JSONObject();
-            for (HttpProperty property: httpPropertyList){
-                if(property.getHttpParametersType() != null){
-                    if (property.getHttpParametersType().equals(HttpParametersType.PARAMETER)){
+            for (HttpProperty property : httpPropertyList) {
+                if (property.getHttpParametersType() != null) {
+                    if (property.getHttpParametersType().equals(HttpParametersType.PARAMETER)) {
                         builder.addParameter(property.getProp(), property.getValue());
-                    }else if(property.getHttpParametersType().equals(HttpParametersType.BODY)){
+                    } else if (property.getHttpParametersType().equals(HttpParametersType.BODY)) {
                         jsonParam.put(property.getProp(), property.getValue());
                     }
                 }
@@ -282,12 +287,13 @@ public class HttpTask extends AbstractTask {
 
     /**
      * set headers
-     * @param request           request
-     * @param httpPropertyList  http property list
+     *
+     * @param request          request
+     * @param httpPropertyList http property list
      */
-    protected void setHeaders(HttpUriRequest request,List<HttpProperty> httpPropertyList) {
-        if(CollectionUtils.isNotEmpty(httpPropertyList)){
-            for (HttpProperty property: httpPropertyList) {
+    protected void setHeaders(HttpUriRequest request, List<HttpProperty> httpPropertyList) {
+        if (CollectionUtils.isNotEmpty(httpPropertyList)) {
+            for (HttpProperty property : httpPropertyList) {
                 if (HttpParametersType.HEADERS.equals(property.getHttpParametersType())) {
                     request.addHeader(property.getProp(), property.getValue());
                 }
@@ -297,6 +303,7 @@ public class HttpTask extends AbstractTask {
 
     /**
      * create http client
+     *
      * @return CloseableHttpClient
      */
     protected CloseableHttpClient createHttpClient() {
@@ -308,6 +315,7 @@ public class HttpTask extends AbstractTask {
 
     /**
      * request config
+     *
      * @return RequestConfig
      */
     private RequestConfig requestConfig() {
@@ -316,6 +324,7 @@ public class HttpTask extends AbstractTask {
 
     /**
      * create request builder
+     *
      * @return RequestBuilder
      */
     protected RequestBuilder createRequestBuilder() {

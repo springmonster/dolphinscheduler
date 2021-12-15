@@ -97,7 +97,7 @@ import mProgressBar from '@/module/components/progressBar/progressBar'
 
 export default {
   name: 'file-update',
-  data () {
+  data() {
     return {
       store,
       // name
@@ -124,7 +124,7 @@ export default {
     /**
      * submit
      */
-    _ok () {
+    _ok() {
       this.$refs['popup'].spinnerLoading = true
       if (this._validation()) {
         if (this.fileName === this.name) {
@@ -171,7 +171,7 @@ export default {
     /**
      * validation
      */
-    _validation () {
+    _validation() {
       if (!this.name) {
         this.$message.warning(`${i18n.$t('Please enter file name')}`)
         return false
@@ -185,7 +185,7 @@ export default {
     /**
      * update file
      */
-    _formDataUpdate () {
+    _formDataUpdate() {
       return new Promise((resolve, reject) => {
         let self = this
         let formData = new FormData()
@@ -205,7 +205,7 @@ export default {
         }, {
           data: formData,
           emulateJSON: false,
-          onUploadProgress (progressEvent) {
+          onUploadProgress(progressEvent) {
             // Size has been uploaded
             let loaded = progressEvent.loaded
             // Total attachment size
@@ -219,21 +219,21 @@ export default {
     /**
      * Archive to the top right corner Continue uploading
      */
-    _ckArchive () {
+    _ckArchive() {
       $('.update-file-modal').hide()
       this.$emit('onArchive')
     },
     /**
      * Drag and drop upload
      */
-    _onDrop (e) {
+    _onDrop(e) {
       let file = e.dataTransfer.files[0]
       this.file = file
       this.name = file.name
       this.dragOver = false
     }
   },
-  mounted () {
+  mounted() {
     this.name = this.fileName
     this.description = this.desc
     $('#file').change(() => {

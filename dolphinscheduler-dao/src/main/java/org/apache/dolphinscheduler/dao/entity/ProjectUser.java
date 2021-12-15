@@ -28,7 +28,7 @@ public class ProjectUser {
     /**
      * id
      */
-    @TableId(value="id", type=IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private int id;
 
     @TableField("user_id")
@@ -123,6 +123,7 @@ public class ProjectUser {
     public void setPerm(int perm) {
         this.perm = perm;
     }
+
     @Override
     public String toString() {
         return "ProjectUser{" +

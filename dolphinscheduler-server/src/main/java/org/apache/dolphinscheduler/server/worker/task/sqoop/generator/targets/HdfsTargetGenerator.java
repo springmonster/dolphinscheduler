@@ -25,7 +25,6 @@ import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.SqoopConstants;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.generator.ITargetGenerator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,18 +42,18 @@ public class HdfsTargetGenerator implements ITargetGenerator {
 
         try {
             TargetHdfsParameter targetHdfsParameter =
-                JSONUtils.parseObject(sqoopParameters.getTargetParams(), TargetHdfsParameter.class);
+                    JSONUtils.parseObject(sqoopParameters.getTargetParams(), TargetHdfsParameter.class);
 
             if (null != targetHdfsParameter) {
 
                 if (StringUtils.isNotEmpty(targetHdfsParameter.getTargetPath())) {
                     hdfsTargetSb.append(Constants.SPACE).append(SqoopConstants.TARGET_DIR)
-                        .append(Constants.SPACE).append(targetHdfsParameter.getTargetPath());
+                            .append(Constants.SPACE).append(targetHdfsParameter.getTargetPath());
                 }
 
                 if (StringUtils.isNotEmpty(targetHdfsParameter.getCompressionCodec())) {
                     hdfsTargetSb.append(Constants.SPACE).append(SqoopConstants.COMPRESSION_CODEC)
-                        .append(Constants.SPACE).append(targetHdfsParameter.getCompressionCodec());
+                            .append(Constants.SPACE).append(targetHdfsParameter.getCompressionCodec());
                 }
 
                 if (StringUtils.isNotEmpty(targetHdfsParameter.getFileType())) {
@@ -67,12 +66,12 @@ public class HdfsTargetGenerator implements ITargetGenerator {
 
                 if (StringUtils.isNotEmpty(targetHdfsParameter.getFieldsTerminated())) {
                     hdfsTargetSb.append(Constants.SPACE).append(SqoopConstants.FIELDS_TERMINATED_BY)
-                        .append(Constants.SPACE).append(Constants.SINGLE_QUOTES).append(targetHdfsParameter.getFieldsTerminated()).append(Constants.SINGLE_QUOTES);
+                            .append(Constants.SPACE).append(Constants.SINGLE_QUOTES).append(targetHdfsParameter.getFieldsTerminated()).append(Constants.SINGLE_QUOTES);
                 }
 
                 if (StringUtils.isNotEmpty(targetHdfsParameter.getLinesTerminated())) {
                     hdfsTargetSb.append(Constants.SPACE).append(SqoopConstants.LINES_TERMINATED_BY)
-                        .append(Constants.SPACE).append(Constants.SINGLE_QUOTES).append(targetHdfsParameter.getLinesTerminated()).append(Constants.SINGLE_QUOTES);
+                            .append(Constants.SPACE).append(Constants.SINGLE_QUOTES).append(targetHdfsParameter.getLinesTerminated()).append(Constants.SINGLE_QUOTES);
                 }
 
                 hdfsTargetSb.append(Constants.SPACE).append(SqoopConstants.FIELD_NULL_PLACEHOLDER);

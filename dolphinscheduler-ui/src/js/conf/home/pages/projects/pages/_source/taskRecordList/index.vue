@@ -49,7 +49,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'task-record-list',
-  data () {
+  data() {
     return {
       store,
       total: null,
@@ -73,17 +73,17 @@ export default {
     config: String
   },
   methods: {
-    _onQuery (o) {
+    _onQuery(o) {
       this.searchParams = _.assign(this.searchParams, o)
       this.searchParams.pageNo = 1
     },
-    _page (val) {
+    _page(val) {
       this.searchParams.pageNo = val
     },
     /**
      * get list data
      */
-    _getList (flag) {
+    _getList(flag) {
       this.isLoading = !flag
       this.store.dispatch(`dag/${this.config.apiFn}`, this.searchParams).then(res => {
         this.taskRecordList = []
@@ -94,16 +94,16 @@ export default {
         this.isLoading = false
       })
     },
-    _onUpdate () {
+    _onUpdate() {
       this._debounceGET()
     },
-    _updateProject () {
+    _updateProject() {
       this._debounceGET()
     }
   },
   watch: {
     // router
-    '$route' (a) {
+    '$route'(a) {
       // url no params get instance list
       if (_.isEmpty(a.query)) {
         this.searchParams.processInstanceId = ''
@@ -111,9 +111,9 @@ export default {
       this.searchParams.pageNo = _.isEmpty(a.query) ? 1 : a.query.pageNo
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mList,

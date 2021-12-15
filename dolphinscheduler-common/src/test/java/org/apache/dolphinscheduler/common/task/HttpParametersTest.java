@@ -27,36 +27,36 @@ import org.junit.Test;
 /**
  * http parameter
  */
-public class HttpParametersTest  {
+public class HttpParametersTest {
 
     @Test
-    public void testGenerator(){
+    public void testGenerator() {
         String paramData = "{\"localParams\":[],\"httpParams\":[],\"url\":\"https://www.baidu.com/\"," +
                 "\"httpMethod\":\"GET\",\"httpCheckCondition\":\"STATUS_CODE_DEFAULT\",\"condition\":\"\",\"connectTimeout\":\"10000\",\"socketTimeout\":\"10000\"}";
         HttpParameters httpParameters = JSON.parseObject(paramData, HttpParameters.class);
 
-        Assert.assertEquals(10000,httpParameters.getConnectTimeout() );
-        Assert.assertEquals(10000,httpParameters.getSocketTimeout());
-        Assert.assertEquals("https://www.baidu.com/",httpParameters.getUrl());
-        Assert.assertEquals(HttpMethod.GET,httpParameters.getHttpMethod());
-        Assert.assertEquals(HttpCheckCondition.STATUS_CODE_DEFAULT,httpParameters.getHttpCheckCondition());
-        Assert.assertEquals("",httpParameters.getCondition());
+        Assert.assertEquals(10000, httpParameters.getConnectTimeout());
+        Assert.assertEquals(10000, httpParameters.getSocketTimeout());
+        Assert.assertEquals("https://www.baidu.com/", httpParameters.getUrl());
+        Assert.assertEquals(HttpMethod.GET, httpParameters.getHttpMethod());
+        Assert.assertEquals(HttpCheckCondition.STATUS_CODE_DEFAULT, httpParameters.getHttpCheckCondition());
+        Assert.assertEquals("", httpParameters.getCondition());
 
     }
 
     @Test
-    public void testCheckParameters(){
+    public void testCheckParameters() {
         String paramData = "{\"localParams\":[],\"httpParams\":[],\"url\":\"https://www.baidu.com/\"," +
                 "\"httpMethod\":\"GET\",\"httpCheckCondition\":\"STATUS_CODE_DEFAULT\",\"condition\":\"\",\"connectTimeout\":\"10000\",\"socketTimeout\":\"10000\"}";
         HttpParameters httpParameters = JSON.parseObject(paramData, HttpParameters.class);
 
-        Assert.assertTrue( httpParameters.checkParameters());
-        Assert.assertEquals(10000,httpParameters.getConnectTimeout() );
-        Assert.assertEquals(10000,httpParameters.getSocketTimeout());
-        Assert.assertEquals("https://www.baidu.com/",httpParameters.getUrl());
-        Assert.assertEquals(HttpMethod.GET,httpParameters.getHttpMethod());
-        Assert.assertEquals(HttpCheckCondition.STATUS_CODE_DEFAULT,httpParameters.getHttpCheckCondition());
-        Assert.assertEquals("",httpParameters.getCondition());
+        Assert.assertTrue(httpParameters.checkParameters());
+        Assert.assertEquals(10000, httpParameters.getConnectTimeout());
+        Assert.assertEquals(10000, httpParameters.getSocketTimeout());
+        Assert.assertEquals("https://www.baidu.com/", httpParameters.getUrl());
+        Assert.assertEquals(HttpMethod.GET, httpParameters.getHttpMethod());
+        Assert.assertEquals(HttpCheckCondition.STATUS_CODE_DEFAULT, httpParameters.getHttpCheckCondition());
+        Assert.assertEquals("", httpParameters.getCondition());
 
     }
 
@@ -66,15 +66,15 @@ public class HttpParametersTest  {
                 "\"httpMethod\":\"GET\",\"httpCheckCondition\":\"STATUS_CODE_DEFAULT\",\"condition\":\"\",\"connectTimeout\":\"10000\",\"socketTimeout\":\"10000\"}";
         HttpParameters httpParameters = JSON.parseObject(paramData, HttpParameters.class);
 
-        Assert.assertTrue( httpParameters.checkParameters());
-        Assert.assertEquals(10000,httpParameters.getConnectTimeout() );
-        Assert.assertEquals(10000,httpParameters.getSocketTimeout());
-        Assert.assertEquals("https://www.baidu.com/",httpParameters.getUrl());
-        Assert.assertEquals(HttpMethod.GET,httpParameters.getHttpMethod());
-        Assert.assertEquals(HttpCheckCondition.STATUS_CODE_DEFAULT,httpParameters.getHttpCheckCondition());
-        Assert.assertEquals("",httpParameters.getCondition());
-        Assert.assertEquals(0,httpParameters.getLocalParametersMap().size());
-        Assert.assertEquals(0,httpParameters.getResourceFilesList().size());
+        Assert.assertTrue(httpParameters.checkParameters());
+        Assert.assertEquals(10000, httpParameters.getConnectTimeout());
+        Assert.assertEquals(10000, httpParameters.getSocketTimeout());
+        Assert.assertEquals("https://www.baidu.com/", httpParameters.getUrl());
+        Assert.assertEquals(HttpMethod.GET, httpParameters.getHttpMethod());
+        Assert.assertEquals(HttpCheckCondition.STATUS_CODE_DEFAULT, httpParameters.getHttpCheckCondition());
+        Assert.assertEquals("", httpParameters.getCondition());
+        Assert.assertEquals(0, httpParameters.getLocalParametersMap().size());
+        Assert.assertEquals(0, httpParameters.getResourceFilesList().size());
     }
 
 }

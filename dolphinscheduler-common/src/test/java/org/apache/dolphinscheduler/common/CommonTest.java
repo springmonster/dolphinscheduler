@@ -17,12 +17,12 @@
 
 package org.apache.dolphinscheduler.common;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 /**
  * CommonTest

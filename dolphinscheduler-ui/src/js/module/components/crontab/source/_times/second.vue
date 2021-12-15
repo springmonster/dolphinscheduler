@@ -65,13 +65,13 @@
 <script>
 import _ from 'lodash'
 import i18n from '../_source/i18n'
-import { selectList, isStr } from '../util/index'
+import {isStr, selectList} from '../util/index'
 import mInputNumber from '../_source/input-number'
 
 export default {
   name: 'second',
   mixins: [i18n],
-  data () {
+  data() {
     return {
       secondValue: '*',
       radioSecond: 'everySecond',
@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     // Interval execution time（1）
-    onIntervalPerform (val) {
+    onIntervalPerform(val) {
       console.log(val)
       console.log('++')
       this.intervalPerformVal = val
@@ -105,39 +105,39 @@ export default {
       }
     },
     // Interval start time（2）
-    onIntervalStart (val) {
+    onIntervalStart(val) {
       this.intervalStartVal = val
       if (this.radioSecond === 'intervalSecond') {
         this.secondValue = `${this.intervalStartVal}/${this.intervalPerformVal}`
       }
     },
     // Specific seconds
-    onSpecificSeconds (arr) {
+    onSpecificSeconds(arr) {
     },
     // Cycle start value
-    onCycleStart (val) {
+    onCycleStart(val) {
       this.cycleStartVal = val
       if (this.radioSecond === 'cycleSecond') {
         this.secondValue = `${this.cycleStartVal}-${this.cycleEndVal}`
       }
     },
     // Cycle end value
-    onCycleEnd (val) {
+    onCycleEnd(val) {
       this.cycleEndVal = val
       if (this.radioSecond === 'cycleSecond') {
         this.secondValue = `${this.cycleStartVal}-${this.cycleEndVal}`
       }
     },
     // Reset every second
-    everyReset () {
+    everyReset() {
       this.secondValue = '*'
     },
     // Reset interval seconds
-    intervalReset () {
+    intervalReset() {
       this.secondValue = `${this.intervalStartVal}/${this.intervalPerformVal}`
     },
     // Reset specific seconds
-    specificReset () {
+    specificReset() {
       if (this.specificSecondsVal.length) {
         this.secondValue = this.specificSecondsVal.join(',')
       } else {
@@ -145,13 +145,13 @@ export default {
       }
     },
     // Reset cycle seconds
-    cycleReset () {
+    cycleReset() {
       this.secondValue = `${this.cycleStartVal}-${this.cycleEndVal}`
     },
     /**
      * Parse parameter value
      */
-    analyticalValue () {
+    analyticalValue() {
       return new Promise((resolve, reject) => {
         let $secondVal = _.cloneDeep(this.value)
         // Interval seconds
@@ -207,17 +207,17 @@ export default {
   },
   watch: {
     // Value change reparse structure
-    value () {
+    value() {
       this.analyticalValue().then(() => {
         console.log('数据结构解析成功！')
       })
     },
     // Derived value
-    secondValue (val) {
+    secondValue(val) {
       this.$emit('secondValueEvent', val)
     },
     // Selected type
-    radioSecond (val) {
+    radioSecond(val) {
       switch (val) {
         case 'everySecond':
           this.everyReset()
@@ -234,32 +234,32 @@ export default {
       }
     },
     // Specific seconds
-    specificSecondsVal (arr) {
+    specificSecondsVal(arr) {
       this.secondValue = arr.join(',')
     }
   },
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     this.analyticalValue().then(() => {
       console.log('Data structure parsing succeeded!')
     })
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
 
   },
-  beforeUpdate () {
+  beforeUpdate() {
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {},
-  components: { mInputNumber }
+  components: {mInputNumber}
 }
 </script>
 

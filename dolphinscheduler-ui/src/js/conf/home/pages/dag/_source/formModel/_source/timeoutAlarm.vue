@@ -63,7 +63,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'form-timeout-alarm',
-  data () {
+  data() {
     return {
       // Timeout display hiding
       enable: false,
@@ -78,13 +78,13 @@ export default {
     backfillItem: Object
   },
   methods: {
-    _onSwitch (is) {
+    _onSwitch(is) {
       // Timeout strategy
       this.strategy = is ? ['WARN'] : []
       // Timeout period
       this.interval = is ? 30 : null
     },
-    _verification () {
+    _verification() {
       // Verification timeout policy
       if (this.enable && !this.strategy.length) {
         this.$message.warning(`${this.$t('Timeout strategy must be selected')}`)
@@ -112,7 +112,7 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     let o = this.backfillItem
     // Non-null objects represent backfill
     if (!_.isEmpty(o) && o.timeout) {
@@ -121,7 +121,7 @@ export default {
       this.interval = o.timeout.interval || null
     }
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

@@ -16,9 +16,9 @@
  */
 package org.apache.dolphinscheduler.service.queue;
 
-import java.util.concurrent.PriorityBlockingQueue;
-
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * A singleton of a task queue implemented with zookeeper

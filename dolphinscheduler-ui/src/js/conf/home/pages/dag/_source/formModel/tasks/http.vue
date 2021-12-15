@@ -141,7 +141,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'http',
-  data () {
+  data() {
     return {
       timeoutSettings: false,
       connectTimeout: 60000,
@@ -151,7 +151,7 @@ export default {
       localParams: [],
       httpParams: [],
       httpMethod: 'GET',
-      httpMethodList: [{ code: 'GET' }, { code: 'POST' }, { code: 'HEAD' }, { code: 'PUT' }, { code: 'DELETE' }],
+      httpMethodList: [{code: 'GET'}, {code: 'POST'}, {code: 'HEAD'}, {code: 'PUT'}, {code: 'DELETE'}],
       httpCheckCondition: 'STATUS_CODE_DEFAULT',
       httpCheckConditionList: cookies.get('language') == 'en_US' ? [{
         code: 'STATUS_CODE_DEFAULT',
@@ -188,16 +188,16 @@ export default {
     /**
      * return localParams
      */
-    _onLocalParams (a) {
+    _onLocalParams(a) {
       this.localParams = a
     },
-    _onHttpParams (a) {
+    _onHttpParams(a) {
       this.httpParams = a
     },
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       if (!this.url) {
         this.$message.warning(`${i18n.$t('Please Enter Http Url')}`)
         return false
@@ -235,7 +235,7 @@ export default {
     }
   },
   computed: {
-    cacheParams () {
+    cacheParams() {
       return {
         localParams: this.localParams,
         httpParams: this.httpParams,
@@ -253,11 +253,11 @@ export default {
      * Watch the cacheParams
      * @param val
      */
-    cacheParams (val) {
+    cacheParams(val) {
       this.$emit('on-cache-params', val)
     }
   },
-  created () {
+  created() {
     let o = this.backfillItem
     // Non-null objects represent backfill
     if (!_.isEmpty(o)) {
@@ -281,7 +281,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mLocalParams,

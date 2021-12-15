@@ -38,7 +38,7 @@ public class BaseController {
     /**
      * check params
      *
-     * @param pageNo page number
+     * @param pageNo   page number
      * @param pageSize page size
      * @return check result code
      */
@@ -105,6 +105,7 @@ public class BaseController {
 
     /**
      * return data list with paging
+     *
      * @param result result code
      * @return result code
      */
@@ -152,7 +153,7 @@ public class BaseController {
     /**
      * return data no paging
      *
-     * @param msg success message
+     * @param msg  success message
      * @param list data list
      * @return success result code
      */
@@ -174,7 +175,7 @@ public class BaseController {
      * return the data use Map format, for example, passing the value of key, value, passing a value
      * eg. "/user/add"  then return user name: zhangsan
      *
-     * @param msg message
+     * @param msg    message
      * @param object success object data
      * @return success result code
      */
@@ -185,14 +186,14 @@ public class BaseController {
     /**
      * return data with paging
      *
-     * @param totalList success object list
+     * @param totalList   success object list
      * @param currentPage current page
-     * @param total total
-     * @param totalPage  total page
+     * @param total       total
+     * @param totalPage   total page
      * @return success result code
      */
     public Result success(Object totalList, Integer currentPage,
-                                                  Integer total, Integer totalPage) {
+                          Integer total, Integer totalPage) {
         Result result = new Result();
         result.setCode(Status.SUCCESS.getCode());
         result.setMsg(Status.SUCCESS.getMsg());
@@ -210,7 +211,7 @@ public class BaseController {
      * error handle
      *
      * @param code result code
-     * @param msg result message
+     * @param msg  result message
      * @return error result code
      */
     public Result error(Integer code, String msg) {
@@ -223,8 +224,8 @@ public class BaseController {
     /**
      * put message to map
      *
-     * @param result result
-     * @param status status
+     * @param result       result
+     * @param status       status
      * @param statusParams object messages
      */
     protected void putMsg(Map<String, Object> result, Status status, Object... statusParams) {
@@ -239,8 +240,8 @@ public class BaseController {
     /**
      * put message to result object
      *
-     * @param result result
-     * @param status status
+     * @param result       result
+     * @param status       status
      * @param statusParams status parameters
      */
     protected void putMsg(Result result, Status status, Object... statusParams) {
@@ -256,7 +257,8 @@ public class BaseController {
 
     /**
      * get result
-     * @param msg message
+     *
+     * @param msg  message
      * @param list object list
      * @return result code
      */

@@ -157,16 +157,16 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mSpin from '@/module/components/spin/spin'
 import mTiming from '../../pages/list/_source/timing'
 import mNoData from '@/module/components/noData/noData'
 import switchProject from '@/module/mixin/switchProject'
-import { publishStatus } from '@/conf/home/pages/dag/_source/config'
+import {publishStatus} from '@/conf/home/pages/dag/_source/config'
 
 export default {
   name: 'list',
-  data () {
+  data() {
     return {
       isLoading: false,
       total: null,
@@ -182,7 +182,7 @@ export default {
     /**
      * delete
      */
-    _delete (item, i) {
+    _delete(item, i) {
       this.deleteTiming({
         scheduleId: item.id
       }).then(res => {
@@ -190,7 +190,7 @@ export default {
         this.$message.success(res.msg)
         this.$router.push({
           name: 'projects-definition-list',
-          params: { projectId: this.projectId }
+          params: {projectId: this.projectId}
         })
       }).catch(e => {
         this.$refs[`poptip-delete-${i}`][0].doClose()
@@ -200,33 +200,33 @@ export default {
     /**
      * Close the delete layer
      */
-    _closeDelete (i) {
+    _closeDelete(i) {
       this.$refs[`poptip-delete-${i}`][0].doClose()
     },
     /**
      * return state
      */
-    _rtReleaseState (code) {
+    _rtReleaseState(code) {
       return _.filter(publishStatus, v => v.code === code)[0].desc
     },
     /**
      * page
      */
-    _page (val) {
+    _page(val) {
       this.pageNo = val
       this._getScheduleList()
     },
-    _pageSize (val) {
+    _pageSize(val) {
       this.pageSize = val
       this._getScheduleList()
     },
-    _updateProject () {
+    _updateProject() {
       this._getScheduleList()
     },
     /**
      * Inquire list
      */
-    _getScheduleList (flag) {
+    _getScheduleList(flag) {
       this.isLoading = !flag
       this.getScheduleList({
         processDefinitionId: this.$route.params.id,
@@ -247,7 +247,7 @@ export default {
     /**
      * search
      */
-    _onConditions (o) {
+    _onConditions(o) {
       this.searchVal = o.searchVal
       this.pageNo = 1
       this._getScheduleList('false')
@@ -255,7 +255,7 @@ export default {
     /**
      * online
      */
-    _online (item) {
+    _online(item) {
       this.pageNo = 1
       this.scheduleOnline({
         id: item.id
@@ -269,7 +269,7 @@ export default {
     /**
      * offline
      */
-    _offline (item) {
+    _offline(item) {
       this.pageNo = 1
       this.scheduleOffline({
         id: item.id
@@ -283,9 +283,9 @@ export default {
     /**
      * get email
      */
-    _getReceiver (id) {
+    _getReceiver(id) {
       return new Promise((resolve, reject) => {
-        this.getReceiver({ processDefinitionId: id }).then(res => {
+        this.getReceiver({processDefinitionId: id}).then(res => {
           resolve({
             receivers: res.receivers && res.receivers.split(',') || [],
             receiversCc: res.receiversCc && res.receiversCc.split(',') || []
@@ -296,7 +296,7 @@ export default {
     /**
      * timing
      */
-    _editTiming (item) {
+    _editTiming(item) {
       let self = this
       this._getReceiver(item.processDefinitionId).then(res => {
         let modal = this.$modal.dialog({
@@ -305,15 +305,15 @@ export default {
           escClose: true,
           className: 'v-modal-custom',
           transitionName: 'opacityp',
-          render (h) {
+          render(h) {
             return h(mTiming, {
               on: {
-                onUpdate () {
+                onUpdate() {
                   self.pageNo = 1
                   self._getScheduleList('false')
                   modal.remove()
                 },
-                close () {
+                close() {
                   modal.remove()
                 }
               },
@@ -329,10 +329,10 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     this._getScheduleList()
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mSpin,

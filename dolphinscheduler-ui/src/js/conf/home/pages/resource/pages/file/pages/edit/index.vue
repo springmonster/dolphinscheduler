@@ -48,22 +48,22 @@
 <script>
 import i18n from '@/module/i18n'
 import _ from 'lodash'
-import { mapActions } from 'vuex'
-import { filtTypeArr } from '../_source/common'
+import {mapActions} from 'vuex'
+import {filtTypeArr} from '../_source/common'
 import mNoType from '../details/_source/noType'
-import { bytesToSize } from '@/module/util/util'
+import {bytesToSize} from '@/module/util/util'
 import codemirror from '../_source/codemirror'
 import mSpin from '@/module/components/spin/spin'
 import localStore from '@/module/util/localStorage'
 import mNoData from '@/module/components/noData/noData'
-import { handlerSuffix } from '../details/_source/utils'
+import {handlerSuffix} from '../details/_source/utils'
 import mListConstruction from '@/module/components/listConstruction/listConstruction'
 
 let editor
 
 export default {
   name: 'file-details',
-  data () {
+  data() {
     return {
       name: '',
       isViewType: true,
@@ -80,7 +80,7 @@ export default {
   props: {},
   methods: {
     ...mapActions('resource', ['getViewResources', 'updateContent']),
-    ok () {
+    ok() {
       if (this._validation()) {
         this.spinnerLoading = true
         this.updateContent({
@@ -98,17 +98,17 @@ export default {
         })
       }
     },
-    _validation () {
+    _validation() {
       if (editor.doc.size > 3000) {
         this.$message.warning(`${i18n.$t('Resource content cannot exceed 3000 lines')}`)
         return false
       }
       return true
     },
-    close () {
+    close() {
       this.$router.go(-1)
     },
-    _getViewResources () {
+    _getViewResources() {
       this.isLoading = true
       this.getViewResources({
         id: this.$route.params.id,
@@ -136,7 +136,7 @@ export default {
     /**
      * Processing code highlighting
      */
-    _handlerEditor () {
+    _handlerEditor() {
       // editor
       editor = codemirror('code-edit-mirror', {
         mode: this.mode,
@@ -158,7 +158,7 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     let file = _.split(localStore.getItem('file'), '|', 2)
     let fileName = file[0]
     let fileSize = file[1]
@@ -168,13 +168,13 @@ export default {
     this.size = bytesToSize(parseInt(fileSize))
     this.isViewType = _.includes(this.filtTypeArr, _.trimStart(a, '.'))
   },
-  mounted () {
+  mounted() {
     if (this.isViewType) {
       // get data
       this._getViewResources()
     }
   },
-  destroyed () {
+  destroyed() {
     if (editor) {
       editor.toTextArea()
       editor.off($('.code-edit-mirror'), 'keypress', this.keypress)

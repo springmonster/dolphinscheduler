@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import Base from '../base'
-import { checkKeyInModel, init } from '../../common'
+import {checkKeyInModel, init} from '../../common'
 
 const TYPE = 'funnel'
 
@@ -29,14 +29,14 @@ export default class Funnel extends Base {
    * @param {*} data data source
    * @param {*} options Optional
    */
-  static init (el, data, options) {
+  static init(el, data, options) {
     return init(Funnel, el, data, options)
   }
 
   /**
    * Convert user configuration to a configuration format that conforms to the format of echarts API
    */
-  transform () {
+  transform() {
     const {
       // data
       data = [],
@@ -128,7 +128,7 @@ export default class Funnel extends Base {
   /**
    * Drawing charts
    */
-  apply () {
+  apply() {
     const {
       title,
       series,
@@ -136,7 +136,7 @@ export default class Funnel extends Base {
     } = this.options
 
     // Injection configuration to series
-    const { insertSeries } = this.settings
+    const {insertSeries} = this.settings
     let _series = series
     if (insertSeries && insertSeries.length && series.length) {
       _series = this.injectDataIntoSeries(insertSeries, _series)

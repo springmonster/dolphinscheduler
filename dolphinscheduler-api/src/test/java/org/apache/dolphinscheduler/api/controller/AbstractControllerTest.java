@@ -21,7 +21,10 @@ import org.apache.dolphinscheduler.api.service.SessionService;
 import org.apache.dolphinscheduler.common.enums.UserType;
 import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.apache.dolphinscheduler.dao.entity.User;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,12 +62,12 @@ public class AbstractControllerTest {
 
 
     @After
-    public void after(){
+    public void after() {
         sessionService.signOut("127.0.0.1", user);
     }
 
 
-    private void createSession(){
+    private void createSession() {
 
         User loginUser = new User();
         loginUser.setId(1);

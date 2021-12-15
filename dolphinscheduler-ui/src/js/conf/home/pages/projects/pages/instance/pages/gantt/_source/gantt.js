@@ -16,8 +16,8 @@
  */
 import _ from 'lodash'
 import * as d3 from 'd3'
-import { formatDate } from '@/module/filter/filter'
-import { tasksState } from '@/conf/home/pages/dag/_source/config'
+import {formatDate} from '@/module/filter/filter'
+import {tasksState} from '@/conf/home/pages/dag/_source/config'
 
 const Gantt = function () {
   this.el = ''
@@ -37,9 +37,9 @@ const Gantt = function () {
 }
 
 Gantt.prototype.init = function ({
-  el,
-  tasks
-}) {
+                                   el,
+                                   tasks
+                                 }) {
   this.el = el
   this.tasks = tasks
   this.taskNames = _.map(_.cloneDeep(tasks), v => v.taskName)

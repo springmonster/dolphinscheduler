@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- *  logger request process logic
+ * logger request process logic
  */
 public class LoggerRequestProcessor implements NettyRequestProcessor {
 
@@ -47,7 +47,7 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
 
     private final ThreadPoolExecutor executor;
 
-    public LoggerRequestProcessor(){
+    public LoggerRequestProcessor() {
         this.executor = new ThreadPoolExecutor(4, 4, 10, TimeUnit.SECONDS, new LinkedBlockingQueue<>(100));
     }
 
@@ -59,7 +59,7 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
          * reuqest task log command type
          */
         final CommandType commandType = command.getType();
-        switch (commandType){
+        switch (commandType) {
             case GET_LOG_BYTES_REQUEST:
                 GetLogBytesRequestCommand getLogRequest = FastJsonSerializer.deserialize(
                         command.getBody(), GetLogBytesRequestCommand.class);
@@ -80,7 +80,7 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
                 List<String> lines = readPartFileContent(rollViewLogRequest.getPath(),
                         rollViewLogRequest.getSkipLineNum(), rollViewLogRequest.getLimit());
                 StringBuilder builder = new StringBuilder();
-                for (String line : lines){
+                for (String line : lines) {
                     builder.append(line + "\r\n");
                 }
                 RollViewLogResponseCommand rollViewLogRequestResponse = new RollViewLogResponseCommand(builder.toString());
@@ -95,10 +95,10 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
                 File taskLogFile = new File(taskLogPath);
                 Boolean status = true;
                 try {
-                    if (taskLogFile.exists()){
+                    if (taskLogFile.exists()) {
                         taskLogFile.delete();
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     status = false;
                 }
 
@@ -110,7 +110,7 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
         }
     }
 
-    public ExecutorService getExecutor(){
+    public ExecutorService getExecutor() {
         return this.executor;
     }
 
@@ -121,21 +121,21 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
      * @return byte array of file
      * @throws Exception exception
      */
-    private byte[] getFileContentBytes(String filePath){
+    private byte[] getFileContentBytes(String filePath) {
         InputStream in = null;
         ByteArrayOutputStream bos = null;
         try {
             in = new FileInputStream(filePath);
-            bos  = new ByteArrayOutputStream();
+            bos = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
             int len;
             while ((len = in.read(buf)) != -1) {
                 bos.write(buf, 0, len);
             }
             return bos.toByteArray();
-        }catch (IOException e){
-            logger.error("get file bytes error",e);
-        }finally {
+        } catch (IOException e) {
+            logger.error("get file bytes error", e);
+        } finally {
             IOUtils.closeQuietly(bos);
             IOUtils.closeQuietly(in);
         }
@@ -147,18 +147,18 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
      *
      * @param filePath file path
      * @param skipLine skip line
-     * @param limit read lines limit
+     * @param limit    read lines limit
      * @return part file content
      */
     private List<String> readPartFileContent(String filePath,
-                                            int skipLine,
-                                            int limit){
+                                             int skipLine,
+                                             int limit) {
         File file = new File(filePath);
         if (file.exists() && file.isFile()) {
             try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
                 return stream.skip(skipLine).limit(limit).collect(Collectors.toList());
             } catch (IOException e) {
-                logger.error("read file error",e);
+                logger.error("read file error", e);
             }
         } else {
             logger.info("file path: {} not exists", filePath);
@@ -172,19 +172,19 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
      * @param filePath file path
      * @return whole file content
      */
-    private String readWholeFileContent(String filePath){
+    private String readWholeFileContent(String filePath) {
         BufferedReader br = null;
         String line;
         StringBuilder sb = new StringBuilder();
         try {
             br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 sb.append(line + "\r\n");
             }
             return sb.toString();
-        }catch (IOException e){
-            logger.error("read file error",e);
-        }finally {
+        } catch (IOException e) {
+            logger.error("read file error", e);
+        } finally {
             IOUtils.closeQuietly(br);
         }
         return "";

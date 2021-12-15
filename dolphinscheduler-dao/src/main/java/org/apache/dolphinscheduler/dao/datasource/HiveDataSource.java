@@ -29,28 +29,29 @@ import java.sql.Connection;
  */
 public class HiveDataSource extends BaseDataSource {
 
-  /**
-   * gets the JDBC url for the data source connection
-   * @return jdbc url
-   */
-  @Override
-  public String driverClassSelector() {
-    return Constants.ORG_APACHE_HIVE_JDBC_HIVE_DRIVER;
-  }
+    /**
+     * gets the JDBC url for the data source connection
+     *
+     * @return jdbc url
+     */
+    @Override
+    public String driverClassSelector() {
+        return Constants.ORG_APACHE_HIVE_JDBC_HIVE_DRIVER;
+    }
 
-  /**
-   * @return db type
-   */
-  @Override
-  public DbType dbTypeSelector() {
-    return DbType.HIVE;
-  }
+    /**
+     * @return db type
+     */
+    @Override
+    public DbType dbTypeSelector() {
+        return DbType.HIVE;
+    }
 
     /**
      * build hive jdbc params,append : ?hive_conf_list
-     *
+     * <p>
      * hive jdbc url template:
-     *
+     * <p>
      * jdbc:hive2://<host1>:<port1>,<host2>:<port2>/dbName;initFile=<file>;sess_var_list?hive_conf_list#hive_var_list
      *
      * @param otherParams otherParams
@@ -90,6 +91,7 @@ public class HiveDataSource extends BaseDataSource {
 
     /**
      * the data source test connection
+     *
      * @return Connection Connection
      * @throws Exception Exception
      */

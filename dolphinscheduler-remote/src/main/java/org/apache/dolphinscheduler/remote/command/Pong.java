@@ -28,17 +28,17 @@ import java.io.Serializable;
 public class Pong implements Serializable {
 
     /**
-     *  pong body
+     * pong body
      */
     protected static final ByteBuf EMPTY_BODY = Unpooled.EMPTY_BUFFER;
 
     /**
-     *  pong command body
+     * pong command body
      */
     private static final byte[] EMPTY_BODY_ARRAY = new byte[0];
 
     /**
-     *  ping byte buffer
+     * ping byte buffer
      */
     private static final ByteBuf PONG_BUF;
 
@@ -53,10 +53,11 @@ public class Pong implements Serializable {
     }
 
     /**
-     *  ping content
+     * ping content
+     *
      * @return result
      */
-    public static ByteBuf pingContent(){
+    public static ByteBuf pingContent() {
         return PONG_BUF.duplicate();
     }
 
@@ -66,7 +67,7 @@ public class Pong implements Serializable {
      * @param opaque request unique identification
      * @return command
      */
-    public static Command create(long opaque){
+    public static Command create(long opaque) {
         Command command = new Command(opaque);
         command.setType(CommandType.PONG);
         command.setBody(EMPTY_BODY_ARRAY);

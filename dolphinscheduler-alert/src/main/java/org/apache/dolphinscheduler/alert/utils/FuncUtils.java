@@ -22,7 +22,7 @@ public class FuncUtils {
 
     public static String mkString(Iterable<String> list, String split) {
 
-        if (null == list || StringUtils.isEmpty(split)){
+        if (null == list || StringUtils.isEmpty(split)) {
             return null;
         }
 

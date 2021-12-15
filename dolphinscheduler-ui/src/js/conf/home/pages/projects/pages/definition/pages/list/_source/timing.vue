@@ -169,15 +169,15 @@ import _ from 'lodash'
 import i18n from '@/module/i18n'
 import mEmail from './email.vue'
 import store from '@/conf/home/store'
-import { warningTypeList } from './util'
-import { vCrontab } from '@/module/components/crontab/index'
-import { formatDate } from '@/module/filter/filter'
+import {warningTypeList} from './util'
+import {vCrontab} from '@/module/components/crontab/index'
+import {formatDate} from '@/module/filter/filter'
 import mPriority from '@/module/components/priority/priority'
 import mWorkerGroups from '@/conf/home/pages/dag/_source/formModel/_source/workerGroups'
 
 export default {
   name: 'timing-process',
-  data () {
+  data() {
     return {
       store,
       processDefinitionId: 0,
@@ -205,10 +205,10 @@ export default {
     type: String
   },
   methods: {
-    _datepicker (val) {
+    _datepicker(val) {
       this.scheduleTime = val
     },
-    _verification () {
+    _verification() {
       if (!this.scheduleTime) {
         this.$message.warning(`${i18n.$t('Please select time')}`)
         return false
@@ -225,7 +225,7 @@ export default {
       }
       return true
     },
-    _timing () {
+    _timing() {
       if (this._verification()) {
         let api = ''
         let searchParams = {
@@ -264,7 +264,7 @@ export default {
       }
     },
 
-    _preview () {
+    _preview() {
       if (this._verification()) {
         let api = 'dag/previewSchedule'
         let searchParams = {
@@ -286,7 +286,7 @@ export default {
       }
     },
 
-    _getNotifyGroupList () {
+    _getNotifyGroupList() {
       return new Promise((resolve, reject) => {
         let notifyGroupListS = _.cloneDeep(this.store.state.dag.notifyGroupListS) || []
         if (!notifyGroupListS.length) {
@@ -304,18 +304,18 @@ export default {
         }
       })
     },
-    ok () {
+    ok() {
       this._timing()
     },
-    close () {
+    close() {
       this.$emit('close')
     },
-    preview () {
+    preview() {
       this._preview()
     }
   },
   watch: {},
-  created () {
+  created() {
     if (this.item.workerGroup === undefined) {
       let stateWorkerGroupsList = this.store.state.security.workerGroupsListAll || []
       if (stateWorkerGroupsList.length) {
@@ -355,7 +355,7 @@ export default {
     this.receivers = _.cloneDeep(this.receiversD)
     this.receiversCc = _.cloneDeep(this.receiversCcD)
   },
-  mounted () {
+  mounted() {
     let item = this.item
     // Determine whether to echo
     if (this.item.crontab) {

@@ -85,12 +85,12 @@
 <script>
 import _ from 'lodash'
 import i18n from '@/module/i18n'
-import { directList, typeList } from './commcon'
+import {directList, typeList} from './commcon'
 import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'user-def-params',
-  data () {
+  data() {
     return {
       // Direct data Custom parameter type support IN
       directList: directList,
@@ -115,32 +115,32 @@ export default {
     /**
      * Current index
      */
-    _getIndex (index) {
+    _getIndex(index) {
       this.localParamsIndex = index
     },
     /**
      * handle direct
      */
-    _handleDirectChanged () {
+    _handleDirectChanged() {
       this._verifProp('value')
     },
     /**
      * handle type
      */
-    _handleTypeChanged () {
+    _handleTypeChanged() {
       this._verifProp('value')
     },
     /**
      * delete item
      */
-    _removeUdp (index) {
+    _removeUdp(index) {
       this.localParamsList.splice(index, 1)
       this._verifProp('value')
     },
     /**
      * add
      */
-    _addUdp () {
+    _addUdp() {
       this.localParamsList.push({
         prop: '',
         direct: 'IN',
@@ -151,13 +151,13 @@ export default {
     /**
      * blur verification
      */
-    _handleValue () {
+    _handleValue() {
       this._verifProp('value')
     },
     /**
      * Verify that the value exists or is empty
      */
-    _verifProp (type) {
+    _verifProp(type) {
       let arr = []
       let flag = true
       _.map(this.localParamsList, v => {
@@ -185,19 +185,19 @@ export default {
   },
   watch: {
     // Monitor data changes
-    udpList () {
+    udpList() {
       this.localParamsList = this.udpList
     }
   },
-  created () {
+  created() {
     this.localParamsList = this.udpList
   },
   computed: {
-    inputStyle () {
+    inputStyle() {
       return `width:${this.hide ? 160 : 262}px`
     }
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

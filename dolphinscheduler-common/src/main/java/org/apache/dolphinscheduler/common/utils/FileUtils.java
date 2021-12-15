@@ -16,32 +16,18 @@
  */
 package org.apache.dolphinscheduler.common.utils;
 
-import static org.apache.dolphinscheduler.common.Constants.DATA_BASEDIR_PATH;
-import static org.apache.dolphinscheduler.common.Constants.RESOURCE_VIEW_SUFFIXS;
-import static org.apache.dolphinscheduler.common.Constants.RESOURCE_VIEW_SUFFIXS_DEFAULT_VALUE;
-import static org.apache.dolphinscheduler.common.Constants.YYYYMMDDHHMMSS;
-
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.apache.dolphinscheduler.common.Constants.*;
 
 /**
  * file utils
@@ -49,7 +35,7 @@ import org.slf4j.LoggerFactory;
 public class FileUtils {
     public static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
-    public static final String DATA_BASEDIR = PropertyUtils.getString(DATA_BASEDIR_PATH,"/tmp/dolphinscheduler");
+    public static final String DATA_BASEDIR = PropertyUtils.getString(DATA_BASEDIR_PATH, "/tmp/dolphinscheduler");
 
     public static final ThreadLocal<Logger> taskLoggerThreadLocal = new ThreadLocal<>();
 
@@ -81,7 +67,7 @@ public class FileUtils {
         String fileName = String.format("%s/download/%s/%s", DATA_BASEDIR, DateUtils.getCurrentTime(YYYYMMDDHHMMSS), filename);
 
         File file = new File(fileName);
-        if (!file.getParentFile().exists()){
+        if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
 
@@ -92,13 +78,13 @@ public class FileUtils {
      * get upload file absolute path and name
      *
      * @param tenantCode tenant code
-     * @param filename file name
+     * @param filename   file name
      * @return local file path
      */
     public static String getUploadFilename(String tenantCode, String filename) {
         String fileName = String.format("%s/%s/resources/%s", DATA_BASEDIR, tenantCode, filename);
         File file = new File(fileName);
-        if (!file.getParentFile().exists()){
+        if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
 
@@ -107,10 +93,11 @@ public class FileUtils {
 
     /**
      * directory of process execution
-     * @param projectId project id
-     * @param processDefineId process definition id
+     *
+     * @param projectId         project id
+     * @param processDefineId   process definition id
      * @param processInstanceId process instance id
-     * @param taskInstanceId task instance id
+     * @param taskInstanceId    task instance id
      * @return directory of process execution
      */
     public static String getProcessExecDir(int projectId, int processDefineId, int processInstanceId, int taskInstanceId) {
@@ -154,8 +141,9 @@ public class FileUtils {
 
     /**
      * create directory and user
+     *
      * @param execLocalPath execute local path
-     * @param userName user name
+     * @param userName      user name
      * @throws IOException errors
      */
     public static void createWorkDirAndUserIfAbsent(String execLocalPath, String userName) throws IOException {
@@ -198,8 +186,8 @@ public class FileUtils {
     /**
      * write content to file ,if parent path not exists, it will do one's utmost to mkdir
      *
-     * @param content       content
-     * @param filePath      target file path
+     * @param content  content
+     * @param filePath target file path
      * @return true if write success
      */
     public static boolean writeContent2File(String content, String filePath) {
@@ -235,14 +223,14 @@ public class FileUtils {
 
     /**
      * Writes a String to a file creating the file if it does not exist.
-     *
+     * <p>
      * NOTE: As from v1.3, the parent directories of the file will be created
      * if they do not exist.
      *
-     * @param file  the file to write
-     * @param data  the content to write to the file
-     * @param encoding  the encoding to use, {@code null} means platform default
-     * @throws IOException in case of an I/O error
+     * @param file     the file to write
+     * @param data     the content to write to the file
+     * @param encoding the encoding to use, {@code null} means platform default
+     * @throws IOException                          in case of an I/O error
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
      * @since 2.4
      */
@@ -252,14 +240,14 @@ public class FileUtils {
 
     /**
      * Writes a String to a file creating the file if it does not exist.
-     *
+     * <p>
      * NOTE: As from v1.3, the parent directories of the file will be created
      * if they do not exist.
      *
-     * @param file  the file to write
-     * @param data  the content to write to the file
-     * @param encoding  the encoding to use, {@code null} means platform default
-     * @throws IOException in case of an I/O error
+     * @param file     the file to write
+     * @param data     the content to write to the file
+     * @param encoding the encoding to use, {@code null} means platform default
+     * @throws IOException                          in case of an I/O error
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
      */
     public static void writeStringToFile(File file, String data, String encoding) throws IOException {
@@ -269,11 +257,11 @@ public class FileUtils {
     /**
      * Writes a String to a file creating the file if it does not exist.
      *
-     * @param file  the file to write
-     * @param data  the content to write to the file
-     * @param encoding  the encoding to use, {@code null} means platform default
-     * @param append if {@code true}, then the String will be added to the
-     * end of the file rather than overwriting
+     * @param file     the file to write
+     * @param data     the content to write to the file
+     * @param encoding the encoding to use, {@code null} means platform default
+     * @param append   if {@code true}, then the String will be added to the
+     *                 end of the file rather than overwriting
      * @throws IOException in case of an I/O error
      * @since 2.3
      */
@@ -291,15 +279,14 @@ public class FileUtils {
     /**
      * Writes a String to a file creating the file if it does not exist.
      *
-     * @param file  the file to write
-     * @param data  the content to write to the file
-     * @param encoding  the encoding to use, {@code null} means platform default
-     * @param append if {@code true}, then the String will be added to the
-     * end of the file rather than overwriting
-     * @throws IOException in case of an I/O error
-     * @throws UnsupportedCharsetException
-     *             thrown instead of {@link UnsupportedEncodingException} in version 2.2 if the encoding is not
-     *             supported by the VM
+     * @param file     the file to write
+     * @param data     the content to write to the file
+     * @param encoding the encoding to use, {@code null} means platform default
+     * @param append   if {@code true}, then the String will be added to the
+     *                 end of the file rather than overwriting
+     * @throws IOException                 in case of an I/O error
+     * @throws UnsupportedCharsetException thrown instead of {@link UnsupportedEncodingException} in version 2.2 if the encoding is not
+     *                                     supported by the VM
      * @since 2.1
      */
     public static void writeStringToFile(File file, String data, String encoding, boolean append) throws IOException {
@@ -309,8 +296,8 @@ public class FileUtils {
     /**
      * Writes a String to a file creating the file if it does not exist using the default encoding for the VM.
      *
-     * @param file  the file to write
-     * @param data  the content to write to the file
+     * @param file the file to write
+     * @param data the content to write to the file
      * @throws IOException in case of an I/O error
      */
     public static void writeStringToFile(File file, String data) throws IOException {
@@ -320,10 +307,10 @@ public class FileUtils {
     /**
      * Writes a String to a file creating the file if it does not exist using the default encoding for the VM.
      *
-     * @param file  the file to write
-     * @param data  the content to write to the file
+     * @param file   the file to write
+     * @param data   the content to write to the file
      * @param append if {@code true}, then the String will be added to the
-     * end of the file rather than overwriting
+     *               end of the file rather than overwriting
      * @throws IOException in case of an I/O error
      * @since 2.1
      */
@@ -344,7 +331,7 @@ public class FileUtils {
      * An exception is thrown if the file exists but cannot be written to.
      * An exception is thrown if the parent directory cannot be created.
      *
-     * @param file  the file to open for output, must not be {@code null}
+     * @param file the file to open for output, must not be {@code null}
      * @return a new {@link FileOutputStream} for the specified file
      * @throws IOException if the file object is a directory
      * @throws IOException if the file cannot be written to
@@ -368,9 +355,9 @@ public class FileUtils {
      * An exception is thrown if the file exists but cannot be written to.
      * An exception is thrown if the parent directory cannot be created.
      *
-     * @param file  the file to open for output, must not be {@code null}
+     * @param file   the file to open for output, must not be {@code null}
      * @param append if {@code true}, then bytes will be added to the
-     * end of the file rather than overwriting
+     *               end of the file rather than overwriting
      * @return a new {@link FileOutputStream} for the specified file
      * @throws IOException if the file object is a directory
      * @throws IOException if the file cannot be written to
@@ -388,7 +375,7 @@ public class FileUtils {
         } else {
             File parent = file.getParentFile();
             if (parent != null && !parent.mkdirs() && !parent.isDirectory()) {
-                    throw new IOException("Directory '" + parent + "' could not be created");
+                throw new IOException("Directory '" + parent + "' could not be created");
             }
         }
         return new FileOutputStream(file, append);
@@ -397,6 +384,7 @@ public class FileUtils {
 
     /**
      * deletes a directory recursively
+     *
      * @param dir directory
      * @throws IOException in case deletion is unsuccessful
      */
@@ -427,17 +415,18 @@ public class FileUtils {
 
     /**
      * Gets all the parent subdirectories of the parentDir directory
+     *
      * @param parentDir parent dir
      * @return all dirs
      */
-    public static File[] getAllDir(String parentDir){
-        if(parentDir == null || "".equals(parentDir)) {
+    public static File[] getAllDir(String parentDir) {
+        if (parentDir == null || "".equals(parentDir)) {
             throw new RuntimeException("parentDir can not be empty");
         }
 
         File file = new File(parentDir);
-        if(!file.exists() || !file.isDirectory()) {
-            throw new RuntimeException("parentDir not exist, or is not a directory:"+parentDir);
+        if (!file.exists() || !file.isDirectory()) {
+            throw new RuntimeException("parentDir not exist, or is not a directory:" + parentDir);
         }
 
         return file.listFiles(File::isDirectory);
@@ -445,6 +434,7 @@ public class FileUtils {
 
     /**
      * Get Content
+     *
      * @param inputStream input stream
      * @return string of input stream
      */
@@ -454,12 +444,12 @@ public class FileUtils {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int length;
-            while ((length= inputStream.read(buffer)) != -1) {
-                output.write(buffer,0,length);
+            while ((length = inputStream.read(buffer)) != -1) {
+                output.write(buffer, 0, length);
             }
             return output.toString();
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }

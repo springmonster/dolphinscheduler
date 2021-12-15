@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *  taskInstance state manager
+ * taskInstance state manager
  */
 @Component
 public class TaskInstanceCacheManagerImpl implements TaskInstanceCacheManager {
@@ -38,7 +38,7 @@ public class TaskInstanceCacheManagerImpl implements TaskInstanceCacheManager {
     /**
      * taskInstance caceh
      */
-    private Map<Integer,TaskInstance> taskInstanceCache = new ConcurrentHashMap<>();
+    private Map<Integer, TaskInstance> taskInstanceCache = new ConcurrentHashMap<>();
 
     /**
      * process service
@@ -56,9 +56,9 @@ public class TaskInstanceCacheManagerImpl implements TaskInstanceCacheManager {
     @Override
     public TaskInstance getByTaskInstanceId(Integer taskInstanceId) {
         TaskInstance taskInstance = taskInstanceCache.get(taskInstanceId);
-        if (taskInstance == null){
+        if (taskInstance == null) {
             taskInstance = processService.findTaskInstanceById(taskInstanceId);
-            taskInstanceCache.put(taskInstanceId,taskInstance);
+            taskInstanceCache.put(taskInstanceId, taskInstance);
         }
         return taskInstance;
     }
@@ -110,6 +110,7 @@ public class TaskInstanceCacheManagerImpl implements TaskInstanceCacheManager {
 
     /**
      * remove taskInstance by taskInstanceId
+     *
      * @param taskInstanceId taskInstanceId
      */
     @Override

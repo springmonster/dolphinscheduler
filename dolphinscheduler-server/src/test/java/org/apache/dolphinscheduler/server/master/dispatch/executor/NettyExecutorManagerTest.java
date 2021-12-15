@@ -40,7 +40,6 @@ import org.apache.dolphinscheduler.server.zk.SpringZKServer;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
 import org.apache.dolphinscheduler.service.zk.ZookeeperCachedOperator;
 import org.apache.dolphinscheduler.service.zk.ZookeeperConfig;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +52,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * netty executor manager test
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={DependencyConfig.class, SpringZKServer.class, WorkerRegistry.class,
+@ContextConfiguration(classes = {DependencyConfig.class, SpringZKServer.class, WorkerRegistry.class,
         ServerNodeManager.class, ZookeeperRegistryCenter.class, WorkerConfig.class, SpringConnectionFactory.class,
         ZookeeperCachedOperator.class, ZookeeperConfig.class, SpringApplicationContext.class, NettyExecutorManager.class})
 public class NettyExecutorManagerTest {
@@ -63,7 +62,7 @@ public class NettyExecutorManagerTest {
 
 
     @Test
-    public void testExecute() throws ExecuteException{
+    public void testExecute() throws ExecuteException {
         final NettyServerConfig serverConfig = new NettyServerConfig();
         serverConfig.setListenPort(30000);
         NettyRemotingServer nettyRemotingServer = new NettyRemotingServer(serverConfig);
@@ -87,7 +86,7 @@ public class NettyExecutorManagerTest {
     }
 
     @Test(expected = ExecuteException.class)
-    public void testExecuteWithException() throws ExecuteException{
+    public void testExecuteWithException() throws ExecuteException {
         TaskInstance taskInstance = Mockito.mock(TaskInstance.class);
         ProcessDefinition processDefinition = Mockito.mock(ProcessDefinition.class);
         ProcessInstance processInstance = new ProcessInstance();

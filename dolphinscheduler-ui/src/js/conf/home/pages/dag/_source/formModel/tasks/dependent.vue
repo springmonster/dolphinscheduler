@@ -69,7 +69,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'dependent',
-  data () {
+  data() {
     return {
       relation: 'AND',
       dependTaskList: [],
@@ -81,7 +81,7 @@ export default {
     backfillItem: Object
   },
   methods: {
-    _addDep () {
+    _addDep() {
       if (!this.isLoading) {
         this.isLoading = true
         this.dependTaskList.push({
@@ -90,14 +90,14 @@ export default {
         })
       }
     },
-    _deleteDep (i) {
+    _deleteDep(i) {
       // remove index dependent
       this.dependTaskList.splice(i, 1)
 
       // remove tootip
       $('body').find('.tooltip.fade.top.in').remove()
     },
-    _onDeleteAll (i) {
+    _onDeleteAll(i) {
       this.dependTaskList.map((item, i) => {
         if (item.dependItemList.length === 0) {
           this.dependTaskList.splice(i, 1)
@@ -105,16 +105,16 @@ export default {
       })
       // this._deleteDep(i)
     },
-    _setGlobalRelation () {
+    _setGlobalRelation() {
       this.relation = this.relation === 'AND' ? 'OR' : 'AND'
     },
-    getDependTaskList (i) {
+    getDependTaskList(i) {
       // console.log('getDependTaskList',i)
     },
-    _setRelation (i) {
+    _setRelation(i) {
       this.dependTaskList[i].relation = this.dependTaskList[i].relation === 'AND' ? 'OR' : 'AND'
     },
-    _verification () {
+    _verification() {
       this.$emit('on-dependent', {
         relation: this.relation,
         dependTaskList: _.map(this.dependTaskList, v => {
@@ -128,18 +128,18 @@ export default {
     }
   },
   watch: {
-    dependTaskList (e) {
+    dependTaskList(e) {
       setTimeout(() => {
         this.isLoading = false
       }, 600)
     },
-    cacheDependent (val) {
+    cacheDependent(val) {
       this.$emit('on-cache-dependent', val)
     }
   },
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     let o = this.backfillItem
     let dependentResult = $(`#${o.id}`).data('dependent-result') || {}
     // Does not represent an empty object backfill
@@ -151,12 +151,12 @@ export default {
       _.map(this.dependTaskList, v => _.map(v.dependItemList, v1 => v1.state = dependentResult[`${v1.definitionId}-${v1.depTasks}-${v1.cycle}-${v1.dateValue}`] || defaultState))
     }
   },
-  mounted () {
+  mounted() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {
-    cacheDependent () {
+    cacheDependent() {
       return {
         relation: this.relation,
         dependTaskList: _.map(this.dependTaskList, v => {

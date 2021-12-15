@@ -40,7 +40,7 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/list'
 import mSpin from '@/module/components/spin/spin'
 import mNoData from '@/module/components/noData/noData'
@@ -52,7 +52,7 @@ import mInstanceConditions from '@/conf/home/pages/projects/pages/_source/instan
 
 export default {
   name: 'task-instance-list-index',
-  data () {
+  data() {
     return {
       isLoading: true,
       total: null,
@@ -87,7 +87,7 @@ export default {
     /**
      * click query
      */
-    _onQuery (o) {
+    _onQuery(o) {
       this.searchParams = _.assign(this.searchParams, o)
       this.searchParams.processInstanceId = ''
       if (this.searchParams.taskName) {
@@ -95,19 +95,19 @@ export default {
       }
       this.searchParams.pageNo = 1
     },
-    _page (val) {
+    _page(val) {
       this.searchParams.pageNo = val
     },
-    _pageSize (val) {
+    _pageSize(val) {
       this.searchParams.pageSize = val
     },
     /**
      * get list data
      */
-    _getList (flag) {
+    _getList(flag) {
       this.isLoading = !flag
       if (this.searchParams.pageNo == undefined) {
-        this.$router.push({ path: `/projects/${this.projectId}/index` })
+        this.$router.push({path: `/projects/${this.projectId}/index`})
         return false
       }
       this.getTaskInstanceList(this.searchParams).then(res => {
@@ -134,13 +134,13 @@ export default {
       'leading': false,
       'trailing': true
     }),
-    _updateProject () {
+    _updateProject() {
       this._debounceGET()
     }
   },
   watch: {
     // router
-    '$route' (a) {
+    '$route'(a) {
       // url no params get instance list
       if (_.isEmpty(a.query)) {
         this.searchParams.processInstanceId = ''
@@ -148,16 +148,16 @@ export default {
       this.searchParams.pageNo = _.isEmpty(a.query) ? 1 : a.query.pageNo
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.$modal.destroy()
     // Cycle acquisition status
     this.setIntervalP = setInterval(() => {
       this._debounceGET('false')
     }, 90000)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     // Destruction wheel
     clearInterval(this.setIntervalP)
     sessionStorage.setItem('isLeft', 1)

@@ -28,7 +28,7 @@
   </m-list-construction>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/zookeeperList'
 import mSpin from '@/module/components/spin/spin'
 import mNoData from '@/module/components/noData/noData'
@@ -36,7 +36,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'servers-zookeeper',
-  data () {
+  data() {
     return {
       isLoading: false,
       zookeeperList: []
@@ -47,7 +47,7 @@ export default {
     ...mapActions('monitor', ['getZookeeperData'])
   },
   watch: {},
-  created () {
+  created() {
     this.isLoading = true
     this.getZookeeperData().then(res => {
       this.zookeeperList = res
@@ -56,7 +56,7 @@ export default {
       this.isLoading = false
     })
   },
-  mounted () {
+  mounted() {
 
   },
   components: {

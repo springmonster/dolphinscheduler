@@ -53,29 +53,28 @@ public class DependentTaskTest {
     private MasterConfig config;
 
     @Before
-    public void before() throws Exception{
+    public void before() throws Exception {
 
         config = new MasterConfig();
         config.setMasterTaskCommitRetryTimes(3);
         config.setMasterTaskCommitInterval(1000);
         processService = Mockito.mock(ProcessService.class);
-        DateInterval dateInterval =DependentDateUtils.getTodayInterval(new Date()).get(0);
+        DateInterval dateInterval = DependentDateUtils.getTodayInterval(new Date()).get(0);
         Mockito.when(processService
-                .findLastRunningProcess(4, dateInterval.getStartTime(),
-                        dateInterval.getEndTime()))
+                        .findLastRunningProcess(4, dateInterval.getStartTime(),
+                                dateInterval.getEndTime()))
                 .thenReturn(findLastProcessInterval());
 
 
-
         Mockito.when(processService
-                .getTaskNodeListByDefinitionId(4))
+                        .getTaskNodeListByDefinitionId(4))
                 .thenReturn(getTaskNodes());
         Mockito.when(processService
-                .findValidTaskListByProcessId(11))
+                        .findValidTaskListByProcessId(11))
                 .thenReturn(getTaskInstances());
 
         Mockito.when(processService
-                .findTaskInstanceById(252612))
+                        .findTaskInstanceById(252612))
                 .thenReturn(getTaskInstance());
 
 
@@ -94,7 +93,7 @@ public class DependentTaskTest {
     }
 
     @Test
-    public void testDependAll() throws Exception{
+    public void testDependAll() throws Exception {
 
         TaskInstance taskInstance = getTaskInstance();
         String dependString = "{\"dependTaskList\":[{\"dependItemList\":[{\"dateValue\":\"today\",\"depTasks\":\"ALL\",\"projectId\":1,\"definitionList\":[{\"label\":\"C\",\"value\":4},{\"label\":\"B\",\"value\":3},{\"label\":\"A\",\"value\":2}],\"cycle\":\"day\",\"definitionId\":4}],\"relation\":\"AND\"}],\"relation\":\"AND\"}";
@@ -109,12 +108,12 @@ public class DependentTaskTest {
 
         Assert.assertEquals(ExecutionStatus.SUCCESS, dependentTask.getTaskInstance().getState());
 
-        DateInterval dateInterval =DependentDateUtils.getTodayInterval(new Date()).get(0);
+        DateInterval dateInterval = DependentDateUtils.getTodayInterval(new Date()).get(0);
 
 
         Mockito.when(processService
-                .findLastRunningProcess(4, dateInterval.getStartTime(),
-                        dateInterval.getEndTime()))
+                        .findLastRunningProcess(4, dateInterval.getStartTime(),
+                                dateInterval.getEndTime()))
                 .thenReturn(findLastStopProcessInterval());
         DependentTaskExecThread dependentFailure = new DependentTaskExecThread(taskInstance);
         dependentFailure.call();
@@ -122,7 +121,7 @@ public class DependentTaskTest {
     }
 
     @Test
-    public void testDependTask() throws Exception{
+    public void testDependTask() throws Exception {
 
         TaskInstance taskInstance = getTaskInstance();
         String dependString = "{\"dependTaskList\":[{\"dependItemList\":[{\"dateValue\":\"today\",\"depTasks\":\"D\",\"projectId\":1,\"definitionList\":[{\"label\":\"C\",\"value\":4},{\"label\":\"B\",\"value\":3},{\"label\":\"A\",\"value\":2}],\"cycle\":\"day\",\"definitionId\":4}],\"relation\":\"AND\"}],\"relation\":\"AND\"}";
@@ -136,43 +135,43 @@ public class DependentTaskTest {
 
         Assert.assertEquals(ExecutionStatus.SUCCESS, dependentTask.getTaskInstance().getState());
 
-        DateInterval dateInterval =DependentDateUtils.getTodayInterval(new Date()).get(0);
+        DateInterval dateInterval = DependentDateUtils.getTodayInterval(new Date()).get(0);
         Mockito.when(processService
-                .findLastRunningProcess(4, dateInterval.getStartTime(),
-                        dateInterval.getEndTime()))
+                        .findLastRunningProcess(4, dateInterval.getStartTime(),
+                                dateInterval.getEndTime()))
                 .thenReturn(findLastStopProcessInterval());
 
         Mockito.when(processService
-                .findValidTaskListByProcessId(11))
+                        .findValidTaskListByProcessId(11))
                 .thenReturn(getErrorTaskInstances());
         DependentTaskExecThread dependentFailure = new DependentTaskExecThread(taskInstance);
         dependentFailure.call();
         Assert.assertEquals(ExecutionStatus.FAILURE, dependentFailure.getTaskInstance().getState());
     }
 
-    private ProcessInstance findLastStopProcessInterval(){
+    private ProcessInstance findLastStopProcessInterval() {
         ProcessInstance processInstance = new ProcessInstance();
         processInstance.setId(11);
         processInstance.setProcessDefinitionId(4);
         processInstance.setState(ExecutionStatus.STOP);
-        return  processInstance;
+        return processInstance;
     }
 
-    private ProcessInstance findLastProcessInterval(){
+    private ProcessInstance findLastProcessInterval() {
         ProcessInstance processInstance = new ProcessInstance();
         processInstance.setId(11);
         processInstance.setProcessDefinitionId(4);
         processInstance.setState(ExecutionStatus.SUCCESS);
-        return  processInstance;
+        return processInstance;
     }
 
-    private ProcessDefinition getProcessDefinition(){
+    private ProcessDefinition getProcessDefinition() {
         ProcessDefinition processDefinition = new ProcessDefinition();
         processDefinition.setId(0);
         return processDefinition;
     }
 
-    private ProcessInstance getProcessInstance(){
+    private ProcessInstance getProcessInstance() {
         ProcessInstance processInstance = new ProcessInstance();
         processInstance.setId(10111);
         processInstance.setProcessDefinitionId(0);
@@ -182,7 +181,7 @@ public class DependentTaskTest {
     }
 
 
-    private List<TaskNode> getTaskNodes(){
+    private List<TaskNode> getTaskNodes() {
         List<TaskNode> list = new ArrayList<>();
         TaskNode taskNode = new TaskNode();
         taskNode.setName("C");
@@ -191,7 +190,7 @@ public class DependentTaskTest {
         return list;
     }
 
-    private List<TaskInstance> getErrorTaskInstances(){
+    private List<TaskInstance> getErrorTaskInstances() {
         List<TaskInstance> list = new ArrayList<>();
         TaskInstance taskInstance = new TaskInstance();
         taskInstance.setName("C");
@@ -201,7 +200,7 @@ public class DependentTaskTest {
         return list;
     }
 
-    private List<TaskInstance> getTaskInstances(){
+    private List<TaskInstance> getTaskInstances() {
         List<TaskInstance> list = new ArrayList<>();
         TaskInstance taskInstance = new TaskInstance();
         taskInstance.setName("D");
@@ -211,7 +210,7 @@ public class DependentTaskTest {
         return list;
     }
 
-    private TaskInstance getTaskInstance(){
+    private TaskInstance getTaskInstance() {
         TaskInstance taskInstance = new TaskInstance();
         taskInstance.setTaskType("DEPENDENT");
         taskInstance.setId(252612);

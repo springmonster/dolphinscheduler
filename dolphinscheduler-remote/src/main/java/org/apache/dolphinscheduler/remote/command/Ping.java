@@ -23,17 +23,17 @@ import io.netty.buffer.Unpooled;
 import java.io.Serializable;
 
 /**
- *  ping machine
+ * ping machine
  */
 public class Ping implements Serializable {
 
     /**
-     *  ping body
+     * ping body
      */
     protected static final ByteBuf EMPTY_BODY = Unpooled.EMPTY_BUFFER;
 
     /**
-     *  request command body
+     * request command body
      */
     private static final byte[] EMPTY_BODY_ARRAY = new byte[0];
 
@@ -50,19 +50,20 @@ public class Ping implements Serializable {
     }
 
     /**
-     *  ping content
+     * ping content
+     *
      * @return result
      */
-    public static ByteBuf pingContent(){
+    public static ByteBuf pingContent() {
         return PING_BUF.duplicate();
     }
 
     /**
-     *  create ping command
+     * create ping command
      *
      * @return command
      */
-    public static Command create(){
+    public static Command create() {
         Command command = new Command();
         command.setType(CommandType.PING);
         command.setBody(EMPTY_BODY_ARRAY);

@@ -20,8 +20,8 @@ import org.apache.dolphinscheduler.remote.NettyRemotingClient;
 import org.apache.dolphinscheduler.remote.command.Command;
 import org.apache.dolphinscheduler.remote.command.log.*;
 import org.apache.dolphinscheduler.remote.config.NettyClientConfig;
-import org.apache.dolphinscheduler.remote.utils.Host;
 import org.apache.dolphinscheduler.remote.utils.FastJsonSerializer;
+import org.apache.dolphinscheduler.remote.utils.Host;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,7 @@ public class LogClientService {
     private final NettyRemotingClient client;
 
     /**
-     *  request time out
+     * request time out
      */
     private static final long LOG_REQUEST_TIMEOUT = 10 * 1000L;
 
@@ -54,21 +54,22 @@ public class LogClientService {
     /**
      * close
      */
-    public void close()  {
+    public void close() {
         this.client.close();
         logger.info("logger client closed");
     }
 
     /**
      * roll view log
-     * @param host host
-     * @param port port
-     * @param path path
+     *
+     * @param host        host
+     * @param port        port
+     * @param path        path
      * @param skipLineNum skip line number
-     * @param limit limit
+     * @param limit       limit
      * @return log content
      */
-    public String rollViewLog(String host, int port, String path,int skipLineNum,int limit) {
+    public String rollViewLog(String host, int port, String path, int skipLineNum, int limit) {
         logger.info("roll view log, host : {}, port : {}, path {}, skipLineNum {} ,limit {}", host, port, path, skipLineNum, limit);
         RollViewLogRequestCommand request = new RollViewLogRequestCommand(path, skipLineNum, limit);
         String result = "";
@@ -76,7 +77,7 @@ public class LogClientService {
         try {
             Command command = request.convert2Command();
             Command response = this.client.sendSync(address, command, LOG_REQUEST_TIMEOUT);
-            if(response != null){
+            if (response != null) {
                 RollViewLogResponseCommand rollReviewLog = FastJsonSerializer.deserialize(
                         response.getBody(), RollViewLogResponseCommand.class);
                 return rollReviewLog.getMsg();
@@ -91,6 +92,7 @@ public class LogClientService {
 
     /**
      * view log
+     *
      * @param host host
      * @param port port
      * @param path path
@@ -104,7 +106,7 @@ public class LogClientService {
         try {
             Command command = request.convert2Command();
             Command response = this.client.sendSync(address, command, LOG_REQUEST_TIMEOUT);
-            if(response != null){
+            if (response != null) {
                 ViewLogResponseCommand viewLog = FastJsonSerializer.deserialize(
                         response.getBody(), ViewLogResponseCommand.class);
                 return viewLog.getMsg();
@@ -119,6 +121,7 @@ public class LogClientService {
 
     /**
      * get log size
+     *
      * @param host host
      * @param port port
      * @param path log path
@@ -132,7 +135,7 @@ public class LogClientService {
         try {
             Command command = request.convert2Command();
             Command response = this.client.sendSync(address, command, LOG_REQUEST_TIMEOUT);
-            if(response != null){
+            if (response != null) {
                 GetLogBytesResponseCommand getLog = FastJsonSerializer.deserialize(
                         response.getBody(), GetLogBytesResponseCommand.class);
                 return getLog.getData();
@@ -148,6 +151,7 @@ public class LogClientService {
 
     /**
      * remove task log
+     *
      * @param host host
      * @param port port
      * @param path path
@@ -161,7 +165,7 @@ public class LogClientService {
         try {
             Command command = request.convert2Command();
             Command response = this.client.sendSync(address, command, LOG_REQUEST_TIMEOUT);
-            if(response != null){
+            if (response != null) {
                 RemoveTaskLogResponseCommand taskLogResponse = FastJsonSerializer.deserialize(
                         response.getBody(), RemoveTaskLogResponseCommand.class);
                 return taskLogResponse.getStatus();

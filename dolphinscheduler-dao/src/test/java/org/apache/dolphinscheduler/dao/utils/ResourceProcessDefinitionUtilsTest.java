@@ -29,11 +29,11 @@ import java.util.Map;
  */
 public class ResourceProcessDefinitionUtilsTest {
     @Test
-    public void getResourceProcessDefinitionMapTest(){
-        List<Map<String,Object>> mapList = new ArrayList<>();
-        Map<String,Object> map = new HashMap();
-        map.put("id",1);
-        map.put("resource_ids","1,2,3");
+    public void getResourceProcessDefinitionMapTest() {
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        Map<String, Object> map = new HashMap();
+        map.put("id", 1);
+        map.put("resource_ids", "1,2,3");
         mapList.add(map);
         Assert.assertNotNull(ResourceProcessDefinitionUtils.getResourceProcessDefinitionMap(mapList));
     }

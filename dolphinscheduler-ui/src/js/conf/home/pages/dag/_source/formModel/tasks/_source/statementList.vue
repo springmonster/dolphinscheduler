@@ -55,7 +55,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'user-def-statements',
-  data () {
+  data() {
     return {
       // Increased data
       localStatementList: [],
@@ -71,32 +71,32 @@ export default {
     /**
      * Current index
      */
-    _getIndex (index) {
+    _getIndex(index) {
       this.localStatementIndex = index
     },
     /**
      * delete item
      */
-    _removeStatement (index) {
+    _removeStatement(index) {
       this.localStatementList.splice(index, 1)
       this._verifProp('value')
     },
     /**
      * add
      */
-    _addStatement () {
+    _addStatement() {
       this.localStatementList.push('')
     },
     /**
      * blur verification
      */
-    _handleValue () {
+    _handleValue() {
       this._verifProp('value')
     },
     /**
      * Verify that the value exists or is empty
      */
-    _verifProp (type) {
+    _verifProp(type) {
       let arr = []
       let flag = true
       _.map(this.localStatementList, v => {
@@ -118,14 +118,14 @@ export default {
   },
   watch: {
     // Monitor data changes
-    statementList () {
+    statementList() {
       this.localStatementList = this.statementList
     }
   },
-  created () {
+  created() {
     this.localStatementList = this.statementList
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

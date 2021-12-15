@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 public class ResourceProcessDefinitionUtils {
     /**
      * get resource process map key is resource id,value is the set of process definition
+     *
      * @param list the map key is process definition id and value is resource_ids
      * @return resource process definition map
      */
@@ -36,7 +37,7 @@ public class ResourceProcessDefinitionUtils {
         if (CollectionUtils.isNotEmpty(list)) {
             for (Map<String, Object> tempMap : list) {
 
-                map.put((Integer) tempMap.get("id"), (String)tempMap.get("resource_ids"));
+                map.put((Integer) tempMap.get("id"), (String) tempMap.get("resource_ids"));
             }
         }
 

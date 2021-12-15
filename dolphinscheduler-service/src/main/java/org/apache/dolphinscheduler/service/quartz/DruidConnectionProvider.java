@@ -30,7 +30,7 @@ public class DruidConnectionProvider implements ConnectionProvider {
 
     private final DruidDataSource dataSource;
 
-    public DruidConnectionProvider(){
+    public DruidConnectionProvider() {
         this.dataSource = SpringApplicationContext.getBean(DruidDataSource.class);
     }
 

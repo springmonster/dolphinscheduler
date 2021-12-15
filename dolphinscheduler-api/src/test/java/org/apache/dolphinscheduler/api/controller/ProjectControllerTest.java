@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * project controller
  */
-public class ProjectControllerTest extends AbstractControllerTest{
+public class ProjectControllerTest extends AbstractControllerTest {
     private static Logger logger = LoggerFactory.getLogger(ProjectControllerTest.class);
 
 
@@ -45,18 +45,18 @@ public class ProjectControllerTest extends AbstractControllerTest{
     public void testCreateProject() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("projectName","project_test1");
-        paramsMap.add("desc","the test project");
+        paramsMap.add("projectName", "project_test1");
+        paramsMap.add("desc", "the test project");
 
         MvcResult mvcResult = mockMvc.perform(post("/projects/create")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -64,39 +64,38 @@ public class ProjectControllerTest extends AbstractControllerTest{
     public void testUpdateProject() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("projectId","18");
-        paramsMap.add("projectName","project_test_update");
-        paramsMap.add("desc","the test project update");
+        paramsMap.add("projectId", "18");
+        paramsMap.add("projectName", "project_test_update");
+        paramsMap.add("desc", "the test project update");
 
         MvcResult mvcResult = mockMvc.perform(post("/projects/update")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
-
 
 
     @Test
     public void testQueryProjectById() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("projectId","18");
+        paramsMap.add("projectId", "18");
 
         MvcResult mvcResult = mockMvc.perform(get("/projects/query-by-id")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -104,20 +103,20 @@ public class ProjectControllerTest extends AbstractControllerTest{
     public void testQueryProjectListPaging() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("searchVal","test");
-        paramsMap.add("pageSize","2");
-        paramsMap.add("pageNo","2");
+        paramsMap.add("searchVal", "test");
+        paramsMap.add("pageSize", "2");
+        paramsMap.add("pageNo", "2");
 
 
         MvcResult mvcResult = mockMvc.perform(get("/projects/list-paging")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -126,37 +125,36 @@ public class ProjectControllerTest extends AbstractControllerTest{
     public void testQueryUnauthorizedProject() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("userId","2");
+        paramsMap.add("userId", "2");
 
         MvcResult mvcResult = mockMvc.perform(get("/projects/unauth-project")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
-
 
 
     @Test
     public void testQueryAuthorizedProject() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("userId","2");
+        paramsMap.add("userId", "2");
 
         MvcResult mvcResult = mockMvc.perform(get("/projects/authed-project")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -167,14 +165,14 @@ public class ProjectControllerTest extends AbstractControllerTest{
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
 
         MvcResult mvcResult = mockMvc.perform(get("/projects/query-project-list")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -183,17 +181,17 @@ public class ProjectControllerTest extends AbstractControllerTest{
     public void testImportProcessDefinition() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("file","test");
+        paramsMap.add("file", "test");
 
         MvcResult mvcResult = mockMvc.perform(post("/projects/import-definition")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.TEXT_PLAIN))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.IMPORT_PROCESS_DEFINE_ERROR.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.IMPORT_PROCESS_DEFINE_ERROR.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -202,17 +200,17 @@ public class ProjectControllerTest extends AbstractControllerTest{
     public void testDeleteProject() throws Exception {
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("projectId","18");
+        paramsMap.add("projectId", "18");
 
         MvcResult mvcResult = mockMvc.perform(get("/projects/delete")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 }

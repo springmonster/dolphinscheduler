@@ -52,7 +52,7 @@ public class DataSourceServiceTest {
     private DataSourceMapper dataSourceMapper;
 
     @Test
-    public void queryDataSourceListTest(){
+    public void queryDataSourceListTest() {
 
         User loginUser = new User();
         loginUser.setUserType(UserType.GENERAL_USER);
@@ -61,35 +61,35 @@ public class DataSourceServiceTest {
     }
 
     @Test
-    public void verifyDataSourceNameTest(){
+    public void verifyDataSourceNameTest() {
         User loginUser = new User();
         loginUser.setUserType(UserType.GENERAL_USER);
         String dataSourceName = "dataSource1";
         PowerMockito.when(dataSourceMapper.queryDataSourceByName(dataSourceName)).thenReturn(getDataSourceList());
         Result result = dataSourceService.verifyDataSourceName(loginUser, dataSourceName);
-        Assert.assertEquals(Status.DATASOURCE_EXIST.getMsg(),result.getMsg());
+        Assert.assertEquals(Status.DATASOURCE_EXIST.getMsg(), result.getMsg());
     }
 
     @Test
-    public void queryDataSourceTest(){
+    public void queryDataSourceTest() {
         PowerMockito.when(dataSourceMapper.selectById(Mockito.anyInt())).thenReturn(null);
         Map<String, Object> result = dataSourceService.queryDataSource(Mockito.anyInt());
-        Assert.assertEquals(((Status)result.get(Constants.STATUS)).getCode(),Status.RESOURCE_NOT_EXIST.getCode());
+        Assert.assertEquals(((Status) result.get(Constants.STATUS)).getCode(), Status.RESOURCE_NOT_EXIST.getCode());
 
         PowerMockito.when(dataSourceMapper.selectById(Mockito.anyInt())).thenReturn(getOracleDataSource());
         result = dataSourceService.queryDataSource(Mockito.anyInt());
-        Assert.assertEquals(((Status)result.get(Constants.STATUS)).getCode(),Status.SUCCESS.getCode());
+        Assert.assertEquals(((Status) result.get(Constants.STATUS)).getCode(), Status.SUCCESS.getCode());
     }
 
 
-    private List<DataSource> getDataSourceList(){
+    private List<DataSource> getDataSourceList() {
 
-        List<DataSource> dataSources =  new ArrayList<>();
+        List<DataSource> dataSources = new ArrayList<>();
         dataSources.add(getOracleDataSource());
         return dataSources;
     }
 
-    private DataSource getOracleDataSource(){
+    private DataSource getOracleDataSource() {
         DataSource dataSource = new DataSource();
         dataSource.setName("test");
         dataSource.setNote("Note");
@@ -103,13 +103,13 @@ public class DataSourceServiceTest {
     public void buildParameterWithDecodePassword() {
         PropertyUtils.setValue(Constants.DATASOURCE_ENCRYPTION_ENABLE, "true");
         String other = "{\"autoDeserialize\":\"yes\",\"allowUrlInLocalInfile\":\"true\",\"serverTimezone\":\"Asia/Shanghai\",\"queryTimeout\":\"-1\",\"characterEncoding\":\"utf8\"}";
-        String param = dataSourceService.buildParameter("root","test",DbType.MYSQL, "192.168.9.1", "1521", "im"
+        String param = dataSourceService.buildParameter("root", "test", DbType.MYSQL, "192.168.9.1", "1521", "im"
                 , "", "test", "123456", null, other);
         String expected = "{\"address\":\"jdbc:mysql://192.168.9.1:1521\",\"database\":\"im\",\"jdbcUrl\":\"jdbc:mysql://192.168.9.1:1521/im\",\"user\":\"test\",\"password\":\"123456\",\"other\":\"serverTimezone=Asia/Shanghai&queryTimeout=-1&characterEncoding=utf8\"}";
         Assert.assertEquals(expected, param);
 
         PropertyUtils.setValue(Constants.DATASOURCE_ENCRYPTION_ENABLE, "false");
-        param = dataSourceService.buildParameter("root","test",DbType.MYSQL, "192.168.9.1", "1521", "im"
+        param = dataSourceService.buildParameter("root", "test", DbType.MYSQL, "192.168.9.1", "1521", "im"
                 , "", "test", "123456", null, other);
         expected = "{\"address\":\"jdbc:mysql://192.168.9.1:1521\",\"database\":\"im\",\"jdbcUrl\":\"jdbc:mysql://192.168.9.1:1521/im\",\"user\":\"test\",\"password\":\"123456\",\"other\":\"serverTimezone=Asia/Shanghai&queryTimeout=-1&characterEncoding=utf8\"}";
         Assert.assertEquals(expected, param);

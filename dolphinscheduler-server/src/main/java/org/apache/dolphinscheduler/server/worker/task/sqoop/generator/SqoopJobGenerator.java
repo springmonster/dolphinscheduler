@@ -75,8 +75,8 @@ public class SqoopJobGenerator {
             }
 
             sqoopScripts = String.format("%s%s%s", commonGenerator.generate(sqoopParameters),
-                sourceGenerator.generate(sqoopParameters, taskExecutionContext),
-                targetGenerator.generate(sqoopParameters, taskExecutionContext));
+                    sourceGenerator.generate(sqoopParameters, taskExecutionContext),
+                    targetGenerator.generate(sqoopParameters, taskExecutionContext));
         } else if (SqoopJobType.CUSTOM.getDescp().equals(sqoopParameters.getJobType())) {
             sqoopScripts = sqoopParameters.getCustomShell().replaceAll("\\r\\n", "\n");
         }

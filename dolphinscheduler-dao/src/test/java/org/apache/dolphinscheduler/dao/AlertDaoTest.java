@@ -22,15 +22,12 @@ import org.apache.dolphinscheduler.common.enums.ShowType;
 import org.apache.dolphinscheduler.dao.entity.Alert;
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class AlertDaoTest {
     @Test
-    public void testAlertDao(){
+    public void testAlertDao() {
         AlertDao alertDao = DaoFactory.getDaoInstance(AlertDao.class);
         Alert alert = new Alert();
         alert.setTitle("Mysql Exception");

@@ -17,23 +17,17 @@
 
 package org.apache.dolphinscheduler.service.zk;
 
-import static org.apache.dolphinscheduler.common.Constants.ADD_ZK_OP;
-import static org.apache.dolphinscheduler.common.Constants.DELETE_ZK_OP;
-import static org.apache.dolphinscheduler.common.Constants.MASTER_TYPE;
-import static org.apache.dolphinscheduler.common.Constants.SINGLE_SLASH;
-import static org.apache.dolphinscheduler.common.Constants.UNDERLINE;
-import static org.apache.dolphinscheduler.common.Constants.WORKER_TYPE;
-
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.ZKNodeType;
 import org.apache.dolphinscheduler.common.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import static org.apache.dolphinscheduler.common.Constants.*;
 
 /**
  * register operator

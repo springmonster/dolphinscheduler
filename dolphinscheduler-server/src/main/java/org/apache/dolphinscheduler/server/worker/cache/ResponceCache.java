@@ -30,29 +30,31 @@ public class ResponceCache {
 
     private static final ResponceCache instance = new ResponceCache();
 
-    private ResponceCache(){}
+    private ResponceCache() {
+    }
 
-    public static ResponceCache get(){
+    public static ResponceCache get() {
         return instance;
     }
 
-    private Map<Integer,Command> ackCache = new ConcurrentHashMap<>();
-    private Map<Integer,Command> responseCache = new ConcurrentHashMap<>();
+    private Map<Integer, Command> ackCache = new ConcurrentHashMap<>();
+    private Map<Integer, Command> responseCache = new ConcurrentHashMap<>();
 
 
     /**
      * cache response
+     *
      * @param taskInstanceId taskInstanceId
-     * @param command command
-     * @param event event ACK/RESULT
+     * @param command        command
+     * @param event          event ACK/RESULT
      */
-    public void cache(Integer taskInstanceId, Command command, Event event){
-        switch (event){
+    public void cache(Integer taskInstanceId, Command command, Event event) {
+        switch (event) {
             case ACK:
-                ackCache.put(taskInstanceId,command);
+                ackCache.put(taskInstanceId, command);
                 break;
             case RESULT:
-                responseCache.put(taskInstanceId,command);
+                responseCache.put(taskInstanceId, command);
                 break;
             default:
                 throw new IllegalArgumentException("invalid event type : " + event);
@@ -62,33 +64,37 @@ public class ResponceCache {
 
     /**
      * remove ack cache
+     *
      * @param taskInstanceId taskInstanceId
      */
-    public void removeAckCache(Integer taskInstanceId){
+    public void removeAckCache(Integer taskInstanceId) {
         ackCache.remove(taskInstanceId);
     }
 
     /**
      * remove reponse cache
+     *
      * @param taskInstanceId taskInstanceId
      */
-    public void removeResponseCache(Integer taskInstanceId){
+    public void removeResponseCache(Integer taskInstanceId) {
         responseCache.remove(taskInstanceId);
     }
 
     /**
      * getAckCache
+     *
      * @return getAckCache
      */
-    public Map<Integer,Command> getAckCache(){
+    public Map<Integer, Command> getAckCache() {
         return ackCache;
     }
 
     /**
      * getResponseCache
+     *
      * @return getResponseCache
      */
-    public Map<Integer,Command> getResponseCache(){
+    public Map<Integer, Command> getResponseCache() {
         return responseCache;
     }
 }

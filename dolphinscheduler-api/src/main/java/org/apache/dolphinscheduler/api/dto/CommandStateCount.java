@@ -27,7 +27,9 @@ public class CommandStateCount {
     private int normalCount;
     private CommandType commandState;
 
-    public CommandStateCount(){}
+    public CommandStateCount() {
+    }
+
     public CommandStateCount(int errorCount, int normalCount, CommandType commandState) {
         this.errorCount = errorCount;
         this.normalCount = normalCount;

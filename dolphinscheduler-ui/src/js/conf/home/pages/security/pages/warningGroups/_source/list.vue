@@ -53,7 +53,9 @@
           <td><span>{{ item.groupType === 'EMAIL' ? `${$t('Email')}` : `${$t('SMS')}` }}</span></td>
           <td>
             <span v-if="item.description" class="ellipsis"
-                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{ item.description }}</span>
+                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{
+                item.description
+              }}</span>
             <span v-else>-</span>
           </td>
           <td>
@@ -97,12 +99,12 @@
 <script>
 import _ from 'lodash'
 import i18n from '@/module/i18n'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mTransfer from '@/module/components/transfer/transfer'
 
 export default {
   name: 'user-list',
-  data () {
+  data() {
     return {
       list: []
     }
@@ -114,10 +116,10 @@ export default {
   },
   methods: {
     ...mapActions('security', ['deleteAlertgrou', 'getAuthList', 'grantAuthorization']),
-    _closeDelete (i) {
+    _closeDelete(i) {
       this.$refs[`poptip-delete-${i}`][0].doClose()
     },
-    _delete (item, i) {
+    _delete(item, i) {
       this.deleteAlertgrou({
         id: item.id
       }).then(res => {
@@ -129,10 +131,10 @@ export default {
         this.$message.error(e.msg || '')
       })
     },
-    _edit (item) {
+    _edit(item) {
       this.$emit('on-edit', item)
     },
-    _mangeUser (item, i) {
+    _mangeUser(item, i) {
       this.getAuthList({
         id: item.id,
         type: 'user',
@@ -157,17 +159,17 @@ export default {
           escClose: true,
           className: 'v-modal-custom',
           transitionName: 'opacityp',
-          render (h) {
+          render(h) {
             return h(mTransfer, {
               on: {
-                onUpdate (userIds) {
+                onUpdate(userIds) {
                   self._grantAuthorization('alert-group/grant-user', {
                     userIds: userIds,
                     alertgroupId: item.id
                   })
                   modal.remove()
                 },
-                close () {
+                close() {
                   modal.remove()
                 }
               },
@@ -183,7 +185,7 @@ export default {
         })
       })
     },
-    _grantAuthorization (api, param) {
+    _grantAuthorization(api, param) {
       this.grantAuthorization({
         api: api,
         param: param
@@ -195,17 +197,17 @@ export default {
     }
   },
   watch: {
-    alertgroupList (a) {
+    alertgroupList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
       })
     }
   },
-  created () {
+  created() {
     this.list = this.alertgroupList
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

@@ -25,17 +25,17 @@ import mSecondaryMenu from '@/module/components/secondaryMenu/secondaryMenu'
 
 export default {
   name: 'projects-index',
-  data () {
+  data() {
     return {
       isProjectsList: this.$router.history.current.name === 'projects-list'
     }
   },
   watch: {
-    '$route' ({ name }) {
+    '$route'({name}) {
       this.isProjectsList = name === 'projects-list'
     }
   },
-  components: { mSecondaryMenu }
+  components: {mSecondaryMenu}
 }
 </script>
 

@@ -16,7 +16,7 @@
  */
 
 import i18n from '@/module/i18n'
-import { resolveURL } from '@/module/io'
+import {resolveURL} from '@/module/io'
 
 /**
  * download file
@@ -43,4 +43,4 @@ const downloadFile = ($url, $obj) => {
   $(`<form action="${param.url}" method="get">${generatorInput(param.obj)}</form>`).appendTo('body').submit().remove()
 }
 
-export { downloadFile }
+export {downloadFile}

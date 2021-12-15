@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *  task response processor
+ * task response processor
  */
 public class TaskKillResponseProcessor implements NettyRequestProcessor {
 

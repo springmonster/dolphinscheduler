@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- *  base test class
+ * base test class
  */
-@Test(groups={"functionTests"})
+@Test(groups = {"functionTests"})
 public class BaseTest {
     /**
      * properties
@@ -71,7 +71,6 @@ public class BaseTest {
     }
 
 
-
     /**
      * Executed before executing a class method in a test case
      */
@@ -90,7 +89,7 @@ public class BaseTest {
 
     /**
      * Execute after executing a testcase
-    */
+     */
     @AfterTest(alwaysRun = true)
     public void afterTest() throws InterruptedException {
         // close browser

@@ -22,7 +22,7 @@
 </template>
 <script>
 import mDag from './_source/dag.vue'
-import { mapActions, mapMutations } from 'vuex'
+import {mapActions, mapMutations} from 'vuex'
 import mSpin from '@/module/components/spin/spin'
 import Affirm from './_source/jumpAffirm'
 import disabledState from '@/module/mixin/disabledState'
@@ -30,7 +30,7 @@ import switchProject from '@/module/mixin/switchProject'
 
 export default {
   name: 'create-index',
-  data () {
+  data() {
     return {
       // loading
       isLoading: true
@@ -46,7 +46,7 @@ export default {
     /**
      * init
      */
-    init () {
+    init() {
       this.isLoading = true
       // Initialization parameters
       this.resetParams()
@@ -76,15 +76,15 @@ export default {
   watch: {
     '$route': {
       deep: true,
-      handler () {
+      handler() {
         this.init()
       }
     }
   },
-  created () {
+  created() {
     this.init()
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mDag,

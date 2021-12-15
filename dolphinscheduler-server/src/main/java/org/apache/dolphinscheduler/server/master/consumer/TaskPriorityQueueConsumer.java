@@ -57,7 +57,7 @@ import java.util.stream.Stream;
  * TaskUpdateQueue consumer
  */
 @Component
-public class TaskPriorityQueueConsumer extends Thread{
+public class TaskPriorityQueueConsumer extends Thread {
 
     /**
      * logger of TaskUpdateQueueConsumer
@@ -90,7 +90,7 @@ public class TaskPriorityQueueConsumer extends Thread{
     private MasterConfig masterConfig;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         super.setName("TaskUpdateQueueConsumerThread");
         super.start();
     }
@@ -98,19 +98,19 @@ public class TaskPriorityQueueConsumer extends Thread{
     @Override
     public void run() {
         List<TaskPriority> failedDispatchTasks = new ArrayList<>();
-        while (Stopper.isRunning()){
+        while (Stopper.isRunning()) {
             try {
                 int fetchTaskNum = masterConfig.getMasterDispatchTaskNumber();
                 failedDispatchTasks.clear();
-                for(int i = 0; i < fetchTaskNum; i++){
-                    if(taskPriorityQueue.size() <= 0){
+                for (int i = 0; i < fetchTaskNum; i++) {
+                    if (taskPriorityQueue.size() <= 0) {
                         Thread.sleep(Constants.SLEEP_TIME_MILLIS);
                         continue;
                     }
                     // if not task , blocking here
                     TaskPriority taskPriority = taskPriorityQueue.take();
                     boolean dispatchResult = dispatch(taskPriority);
-                    if(!dispatchResult){
+                    if (!dispatchResult) {
                         failedDispatchTasks.add(taskPriority);
                     }
                 }
@@ -124,8 +124,8 @@ public class TaskPriorityQueueConsumer extends Thread{
                         TimeUnit.MILLISECONDS.sleep(Constants.SLEEP_TIME_MILLIS);
                     }
                 }
-            }catch (Exception e){
-                logger.error("dispatcher task error",e);
+            } catch (Exception e) {
+                logger.error("dispatcher task error", e);
             }
         }
     }
@@ -144,14 +144,14 @@ public class TaskPriorityQueueConsumer extends Thread{
             TaskExecutionContext context = getTaskExecutionContext(taskInstanceId);
             ExecutionContext executionContext = new ExecutionContext(context.toCommand(), ExecutorType.WORKER, context.getWorkerGroup());
 
-            if (taskInstanceIsFinalState(taskInstanceId)){
+            if (taskInstanceIsFinalState(taskInstanceId)) {
                 // when task finish, ignore this task, there is no need to dispatch anymore
                 return true;
-            }else{
+            } else {
                 result = dispatcher.dispatch(executionContext);
             }
         } catch (ExecuteException e) {
-            logger.error("dispatch error: {}",e.getMessage());
+            logger.error("dispatch error: {}", e.getMessage());
         }
         return result;
     }
@@ -160,20 +160,22 @@ public class TaskPriorityQueueConsumer extends Thread{
     /**
      * taskInstance is final state
      * success，failure，kill，stop，pause，threadwaiting is final state
+     *
      * @param taskInstanceId taskInstanceId
      * @return taskInstance is final state
      */
-    public Boolean taskInstanceIsFinalState(int taskInstanceId){
+    public Boolean taskInstanceIsFinalState(int taskInstanceId) {
         TaskInstance taskInstance = processService.findTaskInstanceById(taskInstanceId);
         return taskInstance.getState().typeIsFinished();
     }
 
     /**
      * get TaskExecutionContext
+     *
      * @param taskInstanceId taskInstanceId
      * @return TaskExecutionContext
      */
-    protected TaskExecutionContext getTaskExecutionContext(int taskInstanceId){
+    protected TaskExecutionContext getTaskExecutionContext(int taskInstanceId) {
         TaskInstance taskInstance = processService.getTaskInstanceDetailByTaskId(taskInstanceId);
 
         // task type
@@ -209,24 +211,24 @@ public class TaskPriorityQueueConsumer extends Thread{
 
 
         // SQL task
-        if (taskType == TaskType.SQL){
+        if (taskType == TaskType.SQL) {
             setSQLTaskRelation(sqlTaskExecutionContext, taskNode);
 
         }
 
         // DATAX task
-        if (taskType == TaskType.DATAX){
+        if (taskType == TaskType.DATAX) {
             setDataxTaskRelation(dataxTaskExecutionContext, taskNode);
         }
 
 
         // procedure task
-        if (taskType == TaskType.PROCEDURE){
+        if (taskType == TaskType.PROCEDURE) {
             setProcedureTaskRelation(procedureTaskExecutionContext, taskNode);
         }
 
-        if (taskType == TaskType.SQOOP){
-            setSqoopTaskRelation(sqoopTaskExecutionContext,taskNode);
+        if (taskType == TaskType.SQOOP) {
+            setSqoopTaskRelation(sqoopTaskExecutionContext, taskNode);
         }
 
 
@@ -243,8 +245,9 @@ public class TaskPriorityQueueConsumer extends Thread{
 
     /**
      * set procedure task relation
+     *
      * @param procedureTaskExecutionContext procedureTaskExecutionContext
-     * @param taskNode taskNode
+     * @param taskNode                      taskNode
      */
     private void setProcedureTaskRelation(ProcedureTaskExecutionContext procedureTaskExecutionContext, TaskNode taskNode) {
         ProcedureParameters procedureParameters = JSONObject.parseObject(taskNode.getParams(), ProcedureParameters.class);
@@ -255,8 +258,9 @@ public class TaskPriorityQueueConsumer extends Thread{
 
     /**
      * set datax task relation
+     *
      * @param dataxTaskExecutionContext dataxTaskExecutionContext
-     * @param taskNode taskNode
+     * @param taskNode                  taskNode
      */
     protected void setDataxTaskRelation(DataxTaskExecutionContext dataxTaskExecutionContext, TaskNode taskNode) {
         DataxParameters dataxParameters = JSONUtils.parseObject(taskNode.getParams(), DataxParameters.class);
@@ -265,13 +269,13 @@ public class TaskPriorityQueueConsumer extends Thread{
         DataSource dataTarget = processService.findDataSourceById(dataxParameters.getDataTarget());
 
 
-        if (dataSource != null){
+        if (dataSource != null) {
             dataxTaskExecutionContext.setDataSourceId(dataxParameters.getDataSource());
             dataxTaskExecutionContext.setSourcetype(dataSource.getType().getCode());
             dataxTaskExecutionContext.setSourceConnectionParams(dataSource.getConnectionParams());
         }
 
-        if (dataTarget != null){
+        if (dataTarget != null) {
             dataxTaskExecutionContext.setDataTargetId(dataxParameters.getDataTarget());
             dataxTaskExecutionContext.setTargetType(dataTarget.getType().getCode());
             dataxTaskExecutionContext.setTargetConnectionParams(dataTarget.getConnectionParams());
@@ -281,8 +285,9 @@ public class TaskPriorityQueueConsumer extends Thread{
 
     /**
      * set sqoop task relation
+     *
      * @param sqoopTaskExecutionContext sqoopTaskExecutionContext
-     * @param taskNode taskNode
+     * @param taskNode                  taskNode
      */
     private void setSqoopTaskRelation(SqoopTaskExecutionContext sqoopTaskExecutionContext, TaskNode taskNode) {
         SqoopParameters sqoopParameters = JSONObject.parseObject(taskNode.getParams(), SqoopParameters.class);
@@ -295,13 +300,13 @@ public class TaskPriorityQueueConsumer extends Thread{
             DataSource dataSource = processService.findDataSourceById(sourceMysqlParameter.getSrcDatasource());
             DataSource dataTarget = processService.findDataSourceById(targetMysqlParameter.getTargetDatasource());
 
-            if (dataSource != null){
+            if (dataSource != null) {
                 sqoopTaskExecutionContext.setDataSourceId(dataSource.getId());
                 sqoopTaskExecutionContext.setSourcetype(dataSource.getType().getCode());
                 sqoopTaskExecutionContext.setSourceConnectionParams(dataSource.getConnectionParams());
             }
 
-            if (dataTarget != null){
+            if (dataTarget != null) {
                 sqoopTaskExecutionContext.setDataTargetId(dataTarget.getId());
                 sqoopTaskExecutionContext.setTargetType(dataTarget.getType().getCode());
                 sqoopTaskExecutionContext.setTargetConnectionParams(dataTarget.getConnectionParams());
@@ -311,8 +316,9 @@ public class TaskPriorityQueueConsumer extends Thread{
 
     /**
      * set SQL task relation
+     *
      * @param sqlTaskExecutionContext sqlTaskExecutionContext
-     * @param taskNode taskNode
+     * @param taskNode                taskNode
      */
     private void setSQLTaskRelation(SQLTaskExecutionContext sqlTaskExecutionContext, TaskNode taskNode) {
         SqlParameters sqlParameters = JSONObject.parseObject(taskNode.getParams(), SqlParameters.class);
@@ -324,18 +330,18 @@ public class TaskPriorityQueueConsumer extends Thread{
         boolean udfTypeFlag = EnumUtils.isValidEnum(UdfType.class, sqlParameters.getType())
                 && StringUtils.isNotEmpty(sqlParameters.getUdfs());
 
-        if (udfTypeFlag){
+        if (udfTypeFlag) {
             String[] udfFunIds = sqlParameters.getUdfs().split(",");
             int[] udfFunIdsArray = new int[udfFunIds.length];
-            for(int i = 0 ; i < udfFunIds.length;i++){
-                udfFunIdsArray[i]=Integer.parseInt(udfFunIds[i]);
+            for (int i = 0; i < udfFunIds.length; i++) {
+                udfFunIdsArray[i] = Integer.parseInt(udfFunIds[i]);
             }
 
             List<UdfFunc> udfFuncList = processService.queryUdfFunListByids(udfFunIdsArray);
-            Map<UdfFunc,String> udfFuncMap = new HashMap<>();
-            for(UdfFunc udfFunc : udfFuncList) {
+            Map<UdfFunc, String> udfFuncMap = new HashMap<>();
+            for (UdfFunc udfFunc : udfFuncList) {
                 String tenantCode = processService.queryTenantCodeByResName(udfFunc.getResourceName(), ResourceType.UDF);
-                udfFuncMap.put(udfFunc,tenantCode);
+                udfFuncMap.put(udfFunc, tenantCode);
             }
 
             sqlTaskExecutionContext.setUdfFuncTenantCodeMap(udfFuncMap);
@@ -343,13 +349,14 @@ public class TaskPriorityQueueConsumer extends Thread{
     }
 
     /**
-     *  whehter tenant is null
-     * @param tenant tenant
+     * whehter tenant is null
+     *
+     * @param tenant       tenant
      * @param taskInstance taskInstance
      * @return result
      */
     private boolean verifyTenantIsNull(Tenant tenant, TaskInstance taskInstance) {
-        if(tenant == null){
+        if (tenant == null) {
             logger.error("tenant not exists,process instance id : {},task instance id : {}",
                     taskInstance.getProcessInstance().getId(),
                     taskInstance.getId());
@@ -374,20 +381,20 @@ public class TaskPriorityQueueConsumer extends Thread{
                 if (CollectionUtils.isNotEmpty(oldVersionResources)) {
 
                     oldVersionResources.forEach(
-                            (t)->resourceMap.put(t.getRes(), processService.queryTenantCodeByResName(t.getRes(), ResourceType.FILE))
+                            (t) -> resourceMap.put(t.getRes(), processService.queryTenantCodeByResName(t.getRes(), ResourceType.FILE))
                     );
                 }
 
                 // get the resource id in order to get the resource names in batch
                 Stream<Integer> resourceIdStream = projectResourceFiles.stream().map(resourceInfo -> resourceInfo.getId());
-                Set<Integer> resourceIdsSet = resourceIdStream.filter(resId-> resId != 0).collect(Collectors.toSet());
+                Set<Integer> resourceIdsSet = resourceIdStream.filter(resId -> resId != 0).collect(Collectors.toSet());
 
                 if (CollectionUtils.isNotEmpty(resourceIdsSet)) {
                     Integer[] resourceIds = resourceIdsSet.toArray(new Integer[resourceIdsSet.size()]);
 
                     List<Resource> resources = processService.listResourceByIds(resourceIds);
                     resources.forEach(
-                            (t)->resourceMap.put(t.getFullName(),processService.queryTenantCodeByResName(t.getFullName(), ResourceType.FILE))
+                            (t) -> resourceMap.put(t.getFullName(), processService.queryTenantCodeByResName(t.getFullName(), ResourceType.FILE))
                     );
                 }
             }

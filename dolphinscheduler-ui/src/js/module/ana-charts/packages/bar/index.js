@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import Base from '../base'
-import { checkKeyInModel, init } from '../../common'
+import {checkKeyInModel, init} from '../../common'
 
 const TYPE = 'bar'
 
@@ -29,15 +29,15 @@ export default class Bar extends Base {
    * @param {*} data data source
    * @param {*} options Optional
    */
-  static init (el, data, options) {
+  static init(el, data, options) {
     return init(Bar, el, data, options)
   }
 
   /**
    * Convert user configuration to a configuration format that conforms to the format of echarts API
    */
-  transform () {
-    const { data = [] } = this.settings
+  transform() {
+    const {data = []} = this.settings
 
     if (data.length === 0) {
       throw new Error('Data source is empty！')
@@ -54,7 +54,7 @@ export default class Bar extends Base {
   /**
    * Single column
    */
-  setSingleBar () {
+  setSingleBar() {
     const {
       // data
       data = [],
@@ -98,7 +98,7 @@ export default class Bar extends Base {
   /**
    * Multiple columns
    */
-  setMultipleBars () {
+  setMultipleBars() {
     const {
       // data
       data = [],
@@ -196,7 +196,7 @@ export default class Bar extends Base {
           // Initialization option
           targetOptions = {
             _helpName: timelineItem,
-            title: { text: title.replace('$timeline', timelineItem) },
+            title: {text: title.replace('$timeline', timelineItem)},
             series: []
           }
           timelineOptions.options.push(targetOptions)
@@ -250,7 +250,7 @@ export default class Bar extends Base {
   /**
    * Drawing charts
    */
-  apply () {
+  apply() {
     const {
       title,
       xAxis,
@@ -268,7 +268,7 @@ export default class Bar extends Base {
       // Injection configuration to series
       insertSeries
     } = this.settings
-    const valueAxis = { type: 'value' }
+    const valueAxis = {type: 'value'}
     let yAxisModel = reverseAxis ? xAxis : valueAxis
     const xAxisModel = reverseAxis ? valueAxis : xAxis
     // Use custom Y-axis overlay

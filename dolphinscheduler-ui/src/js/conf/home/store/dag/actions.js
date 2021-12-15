@@ -17,7 +17,7 @@
 
 import _ from 'lodash'
 import io from '@/module/io'
-import { tasksState } from '@/conf/home/pages/dag/_source/config'
+import {tasksState} from '@/conf/home/pages/dag/_source/config'
 
 // delete 'definitionList' from tasks
 const deleteDefinitionList = (tasks) => {
@@ -42,7 +42,7 @@ export default {
   /**
    *  Task status acquisition
    */
-  getTaskState ({ state }, payload) {
+  getTaskState({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/instance/task-list-by-process-id`, {
         processInstanceId: payload
@@ -67,7 +67,7 @@ export default {
   /**
    * Update process definition status
    */
-  editProcessState ({ state }, payload) {
+  editProcessState({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/process/release`, {
         processId: payload.processId,
@@ -82,7 +82,7 @@ export default {
   /**
    * Update process instance status
    */
-  editExecutorsState ({ state }, payload) {
+  editExecutorsState({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/executors/execute`, {
         processInstanceId: payload.processInstanceId,
@@ -97,7 +97,7 @@ export default {
   /**
    * Verify that the DGA map name exists
    */
-  verifDAGName ({ state }, payload) {
+  verifDAGName({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/process/verify-name`, {
         name: payload
@@ -113,7 +113,7 @@ export default {
   /**
    * Get process definition DAG diagram details
    */
-  getProcessDetails ({ state }, payload) {
+  getProcessDetails({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/process/select-by-id`, {
         processId: payload
@@ -151,7 +151,7 @@ export default {
   /**
    * Get process definition DAG diagram details
    */
-  copyProcess ({ state }, payload) {
+  copyProcess({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/process/copy`, {
         processId: payload.processId
@@ -166,7 +166,7 @@ export default {
   /**
    * Get the process instance DAG diagram details
    */
-  getInstancedetail ({ state }, payload) {
+  getInstancedetail({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/instance/select-by-id`, {
         processInstanceId: payload
@@ -208,7 +208,7 @@ export default {
   /**
    * Create process definition
    */
-  saveDAGchart ({ state }, payload) {
+  saveDAGchart({state}, payload) {
     return new Promise((resolve, reject) => {
       const data = {
         globalParams: state.globalParams,
@@ -232,7 +232,7 @@ export default {
   /**
    * Process definition update
    */
-  updateDefinition ({ state }, payload) {
+  updateDefinition({state}, payload) {
     return new Promise((resolve, reject) => {
       const data = {
         globalParams: state.globalParams,
@@ -258,7 +258,7 @@ export default {
   /**
    * Process instance update
    */
-  updateInstance ({ state }, payload) {
+  updateInstance({state}, payload) {
     return new Promise((resolve, reject) => {
       const data = {
         globalParams: state.globalParams,
@@ -283,7 +283,7 @@ export default {
   /**
    * Get a list of process definitions (sub-workflow usage is not paged)
    */
-  getProcessList ({ state }, payload) {
+  getProcessList({state}, payload) {
     return new Promise((resolve, reject) => {
       if (state.processListS.length) {
         resolve()
@@ -300,7 +300,7 @@ export default {
   /**
    * Get a list of process definitions (list page usage with pagination)
    */
-  getProcessListP ({ state }, payload) {
+  getProcessListP({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/process/list-paging`, payload, res => {
         resolve(res.data)
@@ -312,7 +312,7 @@ export default {
   /**
    * Get a list of project
    */
-  getProjectList ({ state }, payload) {
+  getProjectList({state}, payload) {
     return new Promise((resolve, reject) => {
       if (state.projectListS.length) {
         resolve()
@@ -329,7 +329,7 @@ export default {
   /**
    * Get a list of process definitions by project id
    */
-  getProcessByProjectId ({ state }, payload) {
+  getProcessByProjectId({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/process/queryProcessDefinitionAllByProjectId`, payload, res => {
         resolve(res.data)
@@ -341,7 +341,7 @@ export default {
   /**
    * get datasource
    */
-  getDatasourceList ({ state }, payload) {
+  getDatasourceList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('datasources/list', {
         type: payload
@@ -355,7 +355,7 @@ export default {
   /**
    * get resources
    */
-  getResourcesList ({ state }) {
+  getResourcesList({state}) {
     return new Promise((resolve, reject) => {
       if (state.resourcesListS.length) {
         resolve()
@@ -374,7 +374,7 @@ export default {
   /**
    * get jar
    */
-  getResourcesListJar ({ state }, payload) {
+  getResourcesListJar({state}, payload) {
     return new Promise((resolve, reject) => {
       if (state.resourcesListJar.length) {
         resolve()
@@ -398,7 +398,7 @@ export default {
   /**
    * Get process instance
    */
-  getProcessInstance ({ state }, payload) {
+  getProcessInstance({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/instance/list-paging`, payload, res => {
         state.instanceListS = res.data.totalList
@@ -411,7 +411,7 @@ export default {
   /**
    * Get alarm list
    */
-  getNotifyGroupList ({ state }, payload) {
+  getNotifyGroupList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('alert-group/list', res => {
         state.notifyGroupListS = _.map(res.data, v => {
@@ -430,7 +430,7 @@ export default {
   /**
    * Process definition startup interface
    */
-  processStart ({ state }, payload) {
+  processStart({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/executors/start-process-instance`, payload, res => {
         resolve(res)
@@ -442,7 +442,7 @@ export default {
   /**
    * View log
    */
-  getLog ({ state }, payload) {
+  getLog({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('log/detail', payload, res => {
         resolve(res)
@@ -455,7 +455,7 @@ export default {
    * Get the process instance id according to the process definition id
    * @param taskId
    */
-  getSubProcessId ({ state }, payload) {
+  getSubProcessId({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/instance/select-sub-process`, payload, res => {
         resolve(res)
@@ -467,7 +467,7 @@ export default {
   /**
    * Called before the process definition starts
    */
-  getStartCheck ({ state }, payload) {
+  getStartCheck({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/executors/start-check`, payload, res => {
         resolve(res)
@@ -479,7 +479,7 @@ export default {
   /**
    * Create timing
    */
-  createSchedule ({ state }, payload) {
+  createSchedule({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/schedule/create`, payload, res => {
         resolve(res)
@@ -491,7 +491,7 @@ export default {
   /**
    * Preview timing
    */
-  previewSchedule ({ state }, payload) {
+  previewSchedule({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/schedule/preview`, payload, res => {
         resolve(res.data)
@@ -504,7 +504,7 @@ export default {
   /**
    * Timing list paging
    */
-  getScheduleList ({ state }, payload) {
+  getScheduleList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/schedule/list-paging`, payload, res => {
         resolve(res)
@@ -516,7 +516,7 @@ export default {
   /**
    * Timing online
    */
-  scheduleOffline ({ state }, payload) {
+  scheduleOffline({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/schedule/offline`, payload, res => {
         resolve(res)
@@ -528,7 +528,7 @@ export default {
   /**
    * Timed offline
    */
-  scheduleOnline ({ state }, payload) {
+  scheduleOnline({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/schedule/online`, payload, res => {
         resolve(res)
@@ -540,7 +540,7 @@ export default {
   /**
    * Edit timing
    */
-  updateSchedule ({ state }, payload) {
+  updateSchedule({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(`projects/${state.projectName}/schedule/update`, payload, res => {
         resolve(res)
@@ -552,7 +552,7 @@ export default {
   /**
    * Delete process instance
    */
-  deleteInstance ({ state }, payload) {
+  deleteInstance({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/instance/delete`, payload, res => {
         resolve(res)
@@ -564,7 +564,7 @@ export default {
   /**
    * Batch delete process instance
    */
-  batchDeleteInstance ({ state }, payload) {
+  batchDeleteInstance({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/instance/batch-delete`, payload, res => {
         resolve(res)
@@ -576,7 +576,7 @@ export default {
   /**
    * Delete definition
    */
-  deleteDefinition ({ state }, payload) {
+  deleteDefinition({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/process/delete`, payload, res => {
         resolve(res)
@@ -588,7 +588,7 @@ export default {
   /**
    * Batch delete definition
    */
-  batchDeleteDefinition ({ state }, payload) {
+  batchDeleteDefinition({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/process/batch-delete`, payload, res => {
         resolve(res)
@@ -600,7 +600,7 @@ export default {
   /**
    * export definition
    */
-  exportDefinition ({ state }, payload) {
+  exportDefinition({state}, payload) {
     const downloadBlob = (data, fileNameS = 'json') => {
       if (!data) {
         return
@@ -622,7 +622,7 @@ export default {
       }
     }
 
-    io.get(`projects/${state.projectName}/process/export`, { processDefinitionIds: payload.processDefinitionIds }, res => {
+    io.get(`projects/${state.projectName}/process/export`, {processDefinitionIds: payload.processDefinitionIds}, res => {
       downloadBlob(res, payload.fileName)
     }, e => {
 
@@ -634,7 +634,7 @@ export default {
   /**
    * Process instance get variable
    */
-  getViewvariables ({ state }, payload) {
+  getViewvariables({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/instance/view-variables`, payload, res => {
         resolve(res)
@@ -646,7 +646,7 @@ export default {
   /**
    * Get udfs function based on data source
    */
-  getUdfList ({ state }, payload) {
+  getUdfList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/udf-func/list', payload, res => {
         resolve(res)
@@ -658,7 +658,7 @@ export default {
   /**
    * Query task instance list
    */
-  getTaskInstanceList ({ state }, payload) {
+  getTaskInstanceList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/task-instance/list-paging`, payload, res => {
         resolve(res.data)
@@ -670,7 +670,7 @@ export default {
   /**
    * Query task record list
    */
-  getTaskRecordList ({ state }, payload) {
+  getTaskRecordList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/task-record/list-paging', payload, res => {
         resolve(res.data)
@@ -682,7 +682,7 @@ export default {
   /**
    * Query history task record list
    */
-  getHistoryTaskRecordList ({ state }, payload) {
+  getHistoryTaskRecordList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/task-record/history-list-paging', payload, res => {
         resolve(res.data)
@@ -694,7 +694,7 @@ export default {
   /**
    * tree chart
    */
-  getViewTree ({ state }, payload) {
+  getViewTree({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/process/view-tree`, payload, res => {
         resolve(res.data)
@@ -706,7 +706,7 @@ export default {
   /**
    * gantt chart
    */
-  getViewGantt ({ state }, payload) {
+  getViewGantt({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/instance/view-gantt`, payload, res => {
         resolve(res.data)
@@ -718,7 +718,7 @@ export default {
   /**
    * Query task node list
    */
-  getProcessTasksList ({ state }, payload) {
+  getProcessTasksList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/process/gen-task-list`, payload, res => {
         resolve(res.data)
@@ -730,7 +730,7 @@ export default {
   /**
    * Get the mailbox list interface
    */
-  getReceiver ({ state }, payload) {
+  getReceiver({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/executors/get-receiver-cc`, payload, res => {
         resolve(res.data)
@@ -739,7 +739,7 @@ export default {
       })
     })
   },
-  getTaskListDefIdAll ({ state }, payload) {
+  getTaskListDefIdAll({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/process/get-task-list`, payload, res => {
         resolve(res.data)
@@ -751,7 +751,7 @@ export default {
   /**
    * remove timing
    */
-  deleteTiming ({ state }, payload) {
+  deleteTiming({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get(`projects/${state.projectName}/schedule/delete`, payload, res => {
         resolve(res)
@@ -760,7 +760,7 @@ export default {
       })
     })
   },
-  getResourceId ({ state }, payload) {
+  getResourceId({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/queryResource', payload, res => {
         resolve(res.data)

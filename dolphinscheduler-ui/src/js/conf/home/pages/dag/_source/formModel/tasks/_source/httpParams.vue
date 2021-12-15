@@ -71,12 +71,12 @@
 <script>
 import _ from 'lodash'
 import i18n from '@/module/i18n'
-import { positionList } from './commcon'
+import {positionList} from './commcon'
 import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'http-params',
-  data () {
+  data() {
     return {
       // Increased data
       httpParamsList: [],
@@ -99,26 +99,26 @@ export default {
     /**
      * Current index
      */
-    _getIndex (index) {
+    _getIndex(index) {
       this.httpParamsIndex = index
     },
     /**
      * 获取参数位置
      */
-    _handlePositionChanged () {
+    _handlePositionChanged() {
       this._verifProp('value')
     },
     /**
      * delete item
      */
-    _removeUdp (index) {
+    _removeUdp(index) {
       this.httpParamsList.splice(index, 1)
       this._verifProp('value')
     },
     /**
      * add
      */
-    _addUdp () {
+    _addUdp() {
       this.httpParamsList.push({
         prop: '',
         httpParametersType: 'PARAMETER',
@@ -128,13 +128,13 @@ export default {
     /**
      * blur verification
      */
-    _handleValue () {
+    _handleValue() {
       this._verifValue('value')
     },
     /**
      * Verify that the value exists or is empty
      */
-    _verifProp (type) {
+    _verifProp(type) {
       let arr = []
       let flag = true
       _.map(this.httpParamsList, v => {
@@ -163,7 +163,7 @@ export default {
       this.$emit('on-http-params', _.cloneDeep(this.httpParamsList))
       return true
     },
-    _verifValue (type) {
+    _verifValue(type) {
       let arr = []
       let flag = true
       _.map(this.httpParamsList, v => {
@@ -182,19 +182,19 @@ export default {
   },
   watch: {
     // Monitor data changes
-    udpList () {
+    udpList() {
       this.httpParamsList = this.udpList
     }
   },
-  created () {
+  created() {
     this.httpParamsList = this.udpList
   },
   computed: {
-    inputStyle () {
+    inputStyle() {
       return 'width:30%'
     }
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }
@@ -246,4 +246,3 @@ export default {
   }
 }
 </style>
-

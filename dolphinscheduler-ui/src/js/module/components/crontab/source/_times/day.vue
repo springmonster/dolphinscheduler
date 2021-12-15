@@ -139,13 +139,13 @@
 <script>
 import _ from 'lodash'
 import i18n from '../_source/i18n'
-import { selectList, isStr, isWeek } from '../util/index'
+import {isStr, isWeek, selectList} from '../util/index'
 import mInputNumber from '../_source/input-number'
 
 export default {
   name: 'day',
   mixins: [i18n],
-  data () {
+  data() {
     return {
       radioDay: 'everyDay',
       dayValue: '*',
@@ -192,7 +192,7 @@ export default {
   },
   methods: {
     // Every few weeks
-    onWkintervalWeekPerform (val) {
+    onWkintervalWeekPerform(val) {
       this.WkintervalWeekPerformVal = val
       if (this.radioDay === 'WkintervalWeek') {
         this.dayValue = `?`
@@ -200,95 +200,95 @@ export default {
       }
     },
     // Every other day
-    onIntervalDayPerform (val) {
+    onIntervalDayPerform(val) {
       this.intervalDayPerformVal = val
       if (this.radioDay === 'intervalDay') {
         this.dayValue = `${this.intervalDayStartVal}/${this.intervalDayPerformVal}`
       }
     },
     // From week day
-    onIntervalDayStart (val) {
+    onIntervalDayStart(val) {
       this.intervalDayStartVal = val
       if (this.radioDay === 'intervalDay') {
         this.dayValue = `${this.intervalDayStartVal}/${this.intervalDayPerformVal}`
       }
     },
     // By the end of this month
-    onMonthTailBefore (val) {
+    onMonthTailBefore(val) {
       this.monthTailBeforeVal = val
       if (this.radioDay === 'monthTailBefore') {
         this.dayValue = `L-${this.monthTailBeforeVal}`
       }
     },
     // Last working day
-    onRecentlyWorkingDaysMonth (val) {
+    onRecentlyWorkingDaysMonth(val) {
       this.recentlyWorkingDaysMonthVal = val
       if (this.radioDay === 'recentlyWorkingDaysMonth') {
         this.dayValue = `${this.recentlyWorkingDaysMonthVal}W`
       }
     },
     // On the day of this month
-    onWkmonthNumWeeksDay (val) {
+    onWkmonthNumWeeksDay(val) {
       this.WkmonthNumWeeksDayVal = val
       this.weekValue = `${this.WkmonthNumWeeksWeekVal}#${this.WkmonthNumWeeksDayVal}`
     },
 
     // Reset every day
-    everyDayReset () {
+    everyDayReset() {
       this.dayValue = _.cloneDeep(this.everyDayVal)
     },
     // Reset interval week starts from *
-    WkintervalWeekReset () {
+    WkintervalWeekReset() {
       this.weekValue = `${this.WkintervalWeekStartVal}/${this.WkintervalWeekPerformVal}`
     },
     // Reset interval days from *
-    intervalDayReset () {
+    intervalDayReset() {
       this.dayValue = `${this.intervalDayStartVal}/${this.intervalDayPerformVal}`
     },
     // Specific week (multiple choices)
-    WkspecificWeekReset () {
+    WkspecificWeekReset() {
       this.weekValue = this.WkspecificWeekVal.length ? this.WkspecificWeekVal.join(',') : '*'
     },
     // Specific days (multiple choices)
-    specificDayReset () {
+    specificDayReset() {
       this.dayValue = this.WkspecificDayVal.length ? this.WkspecificDayVal.join(',') : '*'
     },
     // On the last day of the month
-    monthLastDaysReset () {
+    monthLastDaysReset() {
       this.dayValue = _.cloneDeep(this.monthLastDaysVal)
     },
     // On the last working day of the month
-    monthLastWorkingDaysReset () {
+    monthLastWorkingDaysReset() {
       this.dayValue = _.cloneDeep(this.monthLastWorkingDays)
     },
     // At the end of the month*
-    monthLastWeeksReset () {
+    monthLastWeeksReset() {
       this.dayValue = _.cloneDeep(this.monthLastWeeksVal)
     },
     // By the end of this month
-    monthTailBeforeReset () {
+    monthTailBeforeReset() {
       this.dayValue = `L-${this.monthTailBeforeVal}`
     },
     // Last working day (Monday to Friday) to this month
-    recentlyWorkingDaysMonthReset () {
+    recentlyWorkingDaysMonthReset() {
       this.dayValue = `${this.recentlyWorkingDaysMonthVal}W`
     },
     // On the day of this month
-    WkmonthNumReset () {
+    WkmonthNumReset() {
       this.weekValue = `${this.WkmonthNumWeeksWeekVal}#${this.WkmonthNumWeeksDayVal}`
     }
   },
   watch: {
-    dayValue (val) {
+    dayValue(val) {
       this.$emit('on-day-value', val)
       // console.log('dayValue=>  ' + val)
     },
-    weekValue (val) {
+    weekValue(val) {
       this.$emit('on-week-value', val)
       // console.log('weekValue=>  ' + val)
     },
     // Selected type
-    radioDay (val) {
+    radioDay(val) {
       switch (val) {
         case 'everyDay':
           this.weekValue = '?'
@@ -336,42 +336,42 @@ export default {
           break
       }
     },
-    WkintervalWeekStartVal (val) {
+    WkintervalWeekStartVal(val) {
       if (this.radioDay === 'WkintervalWeek') {
         this.dayValue = `?`
         this.weekValue = `${val}/${this.WkintervalWeekPerformVal}`
       }
     },
     // Specific day of the week (multiple choice)
-    WkspecificWeekVal (val) {
+    WkspecificWeekVal(val) {
       if (this.radioDay === 'WkspecificWeek') {
         this.dayValue = `?`
         this.weekValue = val.join(',')
       }
     },
     // Specific days (multiple choices)
-    WkspecificDayVal (val) {
+    WkspecificDayVal(val) {
       if (this.radioDay === 'specificDay') {
         this.weekValue = `?`
         this.dayValue = val.join(',')
       }
     },
-    monthLastWeeksVal (val) {
+    monthLastWeeksVal(val) {
       if (this.radioDay === 'monthLastWeeks') {
         this.weekValue = val
         this.dayValue = `?`
       }
     },
-    WkmonthNumWeeksWeekVal (val) {
+    WkmonthNumWeeksWeekVal(val) {
       if (this.radioDay === 'WkmonthNumWeeks') {
         this.dayValue = `?`
         this.weekValue = `${val}#${this.WkmonthNumWeeksDayVal}`
       }
     }
   },
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     let $dayVal = _.cloneDeep(this.dayVal)
     let $weekVal = _.cloneDeep(this.weekVal)
     let isWeek1 = $weekVal.indexOf('/') !== -1
@@ -502,21 +502,21 @@ export default {
       }
     }
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
 
   },
-  beforeUpdate () {
+  beforeUpdate() {
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {},
-  components: { mInputNumber }
+  components: {mInputNumber}
 }
 </script>
 

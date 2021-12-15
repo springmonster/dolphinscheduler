@@ -89,7 +89,7 @@ public class TaskResponseEvent {
                                            String executePath,
                                            String logPath,
                                            int taskInstanceId,
-                                           Channel channel){
+                                           Channel channel) {
         TaskResponseEvent event = new TaskResponseEvent();
         event.setState(state);
         event.setStartTime(startTime);
@@ -107,7 +107,7 @@ public class TaskResponseEvent {
                                               int processId,
                                               String appIds,
                                               int taskInstanceId,
-                                              Channel channel){
+                                              Channel channel) {
         TaskResponseEvent event = new TaskResponseEvent();
         event.setState(state);
         event.setEndTime(endTime);

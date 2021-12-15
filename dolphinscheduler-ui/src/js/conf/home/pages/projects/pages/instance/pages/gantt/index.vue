@@ -42,11 +42,11 @@
   </m-list-construction>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import Gantt from './_source/gantt'
 import mSpin from '@/module/components/spin/spin'
 import mNoData from '@/module/components/noData/noData'
-import { tasksState } from '@/conf/home/pages/dag/_source/config'
+import {tasksState} from '@/conf/home/pages/dag/_source/config'
 import mConditions from '@/module/components/conditions/conditions'
 import mSecondaryMenu from '@/module/components/secondaryMenu/secondaryMenu'
 import mListConstruction from '@/module/components/listConstruction/listConstruction'
@@ -54,7 +54,7 @@ import switchProject from '@/module/mixin/switchProject'
 
 export default {
   name: 'instance-gantt-index',
-  data () {
+  data() {
     return {
       // Node state
       tasksState: tasksState,
@@ -75,7 +75,7 @@ export default {
     /**
      * get data
      */
-    _getViewGantt () {
+    _getViewGantt() {
       this.isLoading = true
       this.getViewGantt({
         processInstanceId: this.$route.params.id
@@ -100,17 +100,17 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
 
   },
-  mounted () {
+  mounted() {
     this._getViewGantt()
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {},
   components: {

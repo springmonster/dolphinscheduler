@@ -46,13 +46,13 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mNoType from './_source/noType'
-import { filtTypeArr } from '../_source/common'
+import {filtTypeArr} from '../_source/common'
 import codemirror from '../_source/codemirror'
-import { handlerSuffix } from './_source/utils'
-import { downloadFile } from '@/module/download'
-import { bytesToSize } from '@/module/util/util'
+import {handlerSuffix} from './_source/utils'
+import {downloadFile} from '@/module/download'
+import {bytesToSize} from '@/module/util/util'
 import mSpin from '@/module/components/spin/spin'
 import localStore from '@/module/util/localStorage'
 import mNoData from '@/module/components/noData/noData'
@@ -62,7 +62,7 @@ let editor
 
 export default {
   name: 'file-details',
-  data () {
+  data() {
     return {
       name: '',
       isViewType: true,
@@ -78,15 +78,15 @@ export default {
   props: {},
   methods: {
     ...mapActions('resource', ['getViewResources', 'updateContent']),
-    _go () {
-      this.$router.push({ name: 'file' })
+    _go() {
+      this.$router.push({name: 'file'})
     },
-    _downloadFile () {
+    _downloadFile() {
       downloadFile('resources/download', {
         id: this.$route.params.id
       })
     },
-    _getViewResources () {
+    _getViewResources() {
       this.isLoading = true
       this.isData = true
       this.msg = ''
@@ -144,14 +144,14 @@ export default {
     /**
      * off handle
      */
-    _editorOff () {
+    _editorOff() {
       editor = null
       $('.CodeMirror').remove()
     },
     /**
      * Processing code highlighting
      */
-    _handlerEditor () {
+    _handlerEditor() {
       let h = $('.home-main').height() - 160
 
       editor = codemirror('code-details-mirror', {
@@ -160,7 +160,7 @@ export default {
 
       editor.display.wrapper.style.height = `${h}px`
 
-      this.scroll = ({ doc }) => {
+      this.scroll = ({doc}) => {
         let scrollTop = doc.scrollTop
         let totalHeight = doc.height
 
@@ -183,7 +183,7 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     let file = _.split(localStore.getItem('file'), '|', 2)
     let fileName = file[0]
     let fileSize = file[1]
@@ -193,20 +193,20 @@ export default {
     this.size = bytesToSize(parseInt(fileSize))
     this.isViewType = _.includes(this.filtTypeArr, _.trimStart(a, '.'))
   },
-  mounted () {
+  mounted() {
     if (this.isViewType) {
       // get data
       this._getViewResources()
     }
   },
-  destroyed () {
+  destroyed() {
     if (editor) {
       editor.toTextArea()
       editor.off($('.code-details-mirror'), 'scroll', this.scroll)
     }
   },
   computed: {
-    _rtParam () {
+    _rtParam() {
       return {
         id: this.$route.params.id,
         skipLineNum: parseInt(`${this.loadingIndex ? this.loadingIndex + '000' : 0}`),

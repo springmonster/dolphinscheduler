@@ -25,6 +25,7 @@ public interface ProcessAddTaskParam {
 
     /**
      * add export task special param: sql task dependent task
+     *
      * @param taskNode task node json object
      * @return task node json object
      */
@@ -32,6 +33,7 @@ public interface ProcessAddTaskParam {
 
     /**
      * add task special param: sql task dependent task
+     *
      * @param taskNode task node json object
      * @return task node json object
      */

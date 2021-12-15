@@ -29,14 +29,14 @@ import mPopup from '@/module/components/popup/popup'
 export default {
   name: 'affirm',
   methods: {
-    _ok () {
+    _ok() {
       this.$emit('ok')
     },
-    _close () {
+    _close() {
       this.$emit('close')
     }
   },
-  components: { mPopup }
+  components: {mPopup}
 }
 </script>
 

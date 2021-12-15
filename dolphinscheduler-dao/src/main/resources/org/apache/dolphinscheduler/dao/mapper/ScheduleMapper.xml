@@ -25,13 +25,14 @@
         join t_ds_project as p on p_f.project_id = p.id
         join t_ds_user as u on s.user_id = u.id
         where 1=1
-        <if test="processDefinitionId!= 0">
+        <if test="processDefinitionId != 0">
             and s.process_definition_id = #{processDefinitionId}
         </if>
         order by s.update_time desc
     </select>
     <select id="querySchedulerListByProjectName" resultType="org.apache.dolphinscheduler.dao.entity.Schedule">
-        select p_f.name as process_definition_name, p_f.description as definition_description, p.name as project_name,u.user_name,s.*
+        select p_f.name as process_definition_name, p_f.description as definition_description, p.name as
+        project_name,u.user_name,s.*
         from t_ds_schedules s
         join t_ds_process_definition p_f on s.process_definition_id = p_f.id
         join t_ds_project as p on p_f.project_id = p.id
@@ -41,8 +42,8 @@
     <select id="selectAllByProcessDefineArray" resultType="org.apache.dolphinscheduler.dao.entity.Schedule">
         select *
         from t_ds_schedules
-        where  1= 1
-        <if test="processDefineIds != null and processDefineIds.length != 0 ">
+        where 1= 1
+        <if test="processDefineIds != null and processDefineIds.length != 0">
             and process_definition_id in
             <foreach collection="processDefineIds" index="index" item="i" open="(" separator="," close=")">
                 #{i}
@@ -55,7 +56,8 @@
         from t_ds_schedules
         where process_definition_id =#{processDefinitionId}
     </select>
-    <select id="queryReleaseSchedulerListByProcessDefinitionId" resultType="org.apache.dolphinscheduler.dao.entity.Schedule">
+    <select id="queryReleaseSchedulerListByProcessDefinitionId"
+            resultType="org.apache.dolphinscheduler.dao.entity.Schedule">
         select *
         from t_ds_schedules
         where process_definition_id =#{processDefinitionId} and release_state = 1

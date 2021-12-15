@@ -32,9 +32,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 
 /**
- *
- * 	thread pool's single instance
- *
+ * thread pool's single instance
  */
 public class ThreadPoolExecutors {
 
@@ -42,24 +40,25 @@ public class ThreadPoolExecutors {
     private static Executor executor;
     private static volatile ThreadPoolExecutors threadPoolExecutors;
 
-    private ThreadPoolExecutors(){}
-
-
-    public static ThreadPoolExecutors getInstance(){
-        return getInstance("thread_pool",0);
+    private ThreadPoolExecutors() {
     }
 
-    public static ThreadPoolExecutors getInstance(String name, int maxThreads){
+
+    public static ThreadPoolExecutors getInstance() {
+        return getInstance("thread_pool", 0);
+    }
+
+    public static ThreadPoolExecutors getInstance(String name, int maxThreads) {
 
         if (null == threadPoolExecutors) {
 
             synchronized (ThreadPoolExecutors.class) {
 
-                if(null == threadPoolExecutors) {
+                if (null == threadPoolExecutors) {
                     threadPoolExecutors = new ThreadPoolExecutors();
                 }
-                if(null == executor) {
-                    executor = new Executor(null == name? "thread_pool" : name, maxThreads == 0? Runtime.getRuntime().availableProcessors() * 3 : maxThreads);
+                if (null == executor) {
+                    executor = new Executor(null == name ? "thread_pool" : name, maxThreads == 0 ? Runtime.getRuntime().availableProcessors() * 3 : maxThreads);
                 }
             }
         }
@@ -71,6 +70,7 @@ public class ThreadPoolExecutors {
      * Executes the given task sometime in the future. The task may execute in a new thread or in an existing pooled thread.
      * If the task cannot be submitted for execution, either because this executor has been shutdown or because its capacity has been reached,
      * the task is handled by the current RejectedExecutionHandler.
+     *
      * @param event event
      */
     public void execute(final Runnable event) {
@@ -108,7 +108,6 @@ public class ThreadPoolExecutors {
     }
 
 
-
     public void printStatus() {
         Executor printExecutor = getExecutor();
         printExecutor.getStatus().dumpInfo();
@@ -140,7 +139,7 @@ public class ThreadPoolExecutors {
          */
         static final long KEEP_ALIVE_TIME_IN_MILLIS = 1000;
         /**
-         *  the thread pool executor that services the requests
+         * the thread pool executor that services the requests
          */
         final TrackingThreadPoolExecutor threadPoolExecutor;
         /**
@@ -178,7 +177,7 @@ public class ThreadPoolExecutors {
         }
 
         Future<?> submit(Callable<?> event) {
-            return  this.threadPoolExecutor.submit(event);
+            return this.threadPoolExecutor.submit(event);
         }
 
 
@@ -234,9 +233,9 @@ public class ThreadPoolExecutors {
 
         /**
          * @return a map of the threads currently running tasks inside this
-         *         executor. Each key is an active thread, and the value is the
-         *         task that is currently running. Note that this is not a
-         *         stable snapshot of the map.
+         * executor. Each key is an active thread, and the value is the
+         * task that is currently running. Note that this is not a
+         * stable snapshot of the map.
          */
         public ConcurrentMap<Thread, Runnable> getRunningTasks() {
             return running;
@@ -248,7 +247,7 @@ public class ThreadPoolExecutors {
      * A snapshot of the status of a particular executor. This includes the
      * contents of the executor's pending queue, as well as the threads and
      * events currently being processed.
-     *
+     * <p>
      * This is a consistent snapshot that is immutable once constructed.
      */
     public static class ExecutorStatus {

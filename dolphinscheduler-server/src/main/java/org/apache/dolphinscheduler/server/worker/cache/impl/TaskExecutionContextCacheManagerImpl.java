@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *  TaskExecutionContextCache
+ * TaskExecutionContextCache
  */
 @Service
 public class TaskExecutionContextCacheManagerImpl implements TaskExecutionContextCacheManager {
@@ -34,7 +34,7 @@ public class TaskExecutionContextCacheManagerImpl implements TaskExecutionContex
     /**
      * taskInstance caceh
      */
-    private Map<Integer,TaskExecutionContext> taskExecutionContextCache = new ConcurrentHashMap<>();
+    private Map<Integer, TaskExecutionContext> taskExecutionContextCache = new ConcurrentHashMap<>();
 
     /**
      * get taskInstance by taskInstance id
@@ -54,7 +54,7 @@ public class TaskExecutionContextCacheManagerImpl implements TaskExecutionContex
      */
     @Override
     public void cacheTaskExecutionContext(TaskExecutionContext taskExecutionContext) {
-        taskExecutionContextCache.put(taskExecutionContext.getTaskInstanceId(),taskExecutionContext);
+        taskExecutionContextCache.put(taskExecutionContext.getTaskInstanceId(), taskExecutionContext);
     }
 
     /**

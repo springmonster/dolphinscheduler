@@ -27,8 +27,8 @@ public class CollectionUtilsTest {
 
     @Test
     public void equalLists() {
-        Assert.assertTrue(CollectionUtils.equalLists(null,null));
-        Assert.assertTrue(CollectionUtils.equalLists(new ArrayList<Integer>(),new ArrayList<Integer>()));
+        Assert.assertTrue(CollectionUtils.equalLists(null, null));
+        Assert.assertTrue(CollectionUtils.equalLists(new ArrayList<Integer>(), new ArrayList<Integer>()));
         List<Integer> a = new ArrayList<Integer>();
         a.add(1);
         a.add(2);
@@ -59,7 +59,7 @@ public class CollectionUtilsTest {
         b.add(0);
         b.add(2);
         b.add(4);
-        Assert.assertArrayEquals(new Integer[]{1,3},CollectionUtils.subtract(a,b).toArray());
+        Assert.assertArrayEquals(new Integer[]{1, 3}, CollectionUtils.subtract(a, b).toArray());
     }
 
     @Test
@@ -108,27 +108,29 @@ public class CollectionUtilsTest {
         Assert.assertFalse(CollectionUtils.isNotEmpty(list));
         Assert.assertFalse(CollectionUtils.isNotEmpty(null));
     }
+
     @Test
-    public void isEmpty(){
+    public void isEmpty() {
         List<Integer> list = new ArrayList<>();
         Assert.assertTrue(CollectionUtils.isEmpty(list));
         Assert.assertTrue(CollectionUtils.isEmpty(null));
         list.add(1);
         Assert.assertFalse(CollectionUtils.isEmpty(list));
     }
+
     @Test
     public void isEqualCollection() {
         List<Integer> a = new ArrayList<>();
         a.add(1);
         List<Integer> b = new ArrayList<>();
         b.add(1);
-        Assert.assertTrue(CollectionUtils.isEqualCollection(a,b));
+        Assert.assertTrue(CollectionUtils.isEqualCollection(a, b));
         b.add(2);
-        Assert.assertFalse(CollectionUtils.isEqualCollection(a,b));
+        Assert.assertFalse(CollectionUtils.isEqualCollection(a, b));
     }
 
     @Test
-    public void getCardinalityMap(){
+    public void getCardinalityMap() {
         List<Integer> a = new ArrayList<>();
         a.add(1);
         a.add(2);
@@ -136,7 +138,7 @@ public class CollectionUtilsTest {
         a.add(3);
         a.add(3);
         a.add(3);
-        Map<Integer,Integer> cardinalityMap = CollectionUtils.getCardinalityMap(a);
+        Map<Integer, Integer> cardinalityMap = CollectionUtils.getCardinalityMap(a);
         Assert.assertEquals(3, cardinalityMap.size());
         Assert.assertEquals(1, cardinalityMap.get(1).intValue());
         Assert.assertEquals(2, cardinalityMap.get(2).intValue());

@@ -60,7 +60,7 @@ import mListBoxF from '@/module/components/listBoxF/listBoxF'
 
 export default {
   name: 'create-tenement',
-  data () {
+  data() {
     return {
       store,
       queue: '',
@@ -71,7 +71,7 @@ export default {
     item: Object
   },
   methods: {
-    _ok () {
+    _ok() {
       if (!this._verification()) {
         return
       }
@@ -118,7 +118,7 @@ export default {
         })
       }
     },
-    _verification () {
+    _verification() {
       if (!this.queueName.replace(/\s*/g, '')) {
         this.$message.warning(`${i18n.$t('Please enter name')}`)
         return false
@@ -129,7 +129,7 @@ export default {
       }
       return true
     },
-    _verifyName (param) {
+    _verifyName(param) {
       return new Promise((resolve, reject) => {
         this.store.dispatch(`security/verifyQueueQ`, param).then(res => {
           resolve()
@@ -140,13 +140,13 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     if (this.item) {
       this.queueName = this.item.queueName
       this.queue = this.item.queue
     }
   },
-  mounted () {
+  mounted() {
 
   },
   components: {

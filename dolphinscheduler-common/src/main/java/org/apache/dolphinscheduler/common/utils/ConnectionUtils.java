@@ -16,35 +16,37 @@
  */
 package org.apache.dolphinscheduler.common.utils;
 
-import java.util.Arrays;
-import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class ConnectionUtils {
 
-  public static final Logger logger = LoggerFactory.getLogger(ConnectionUtils.class);
+    public static final Logger logger = LoggerFactory.getLogger(ConnectionUtils.class);
 
-  private ConnectionUtils() {
-    throw new IllegalStateException("ConnectionUtils class");
-  }
-
-  /**
-   * release resource
-   * @param resources resources
-   */
-  public static void releaseResource(AutoCloseable... resources) {
-
-    if (resources == null || resources.length == 0) {
-      return;
+    private ConnectionUtils() {
+        throw new IllegalStateException("ConnectionUtils class");
     }
-    Arrays.stream(resources).filter(Objects::nonNull)
-        .forEach(resource -> {
-          try {
-            resource.close();
-          } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-          }
-        });
-  }
+
+    /**
+     * release resource
+     *
+     * @param resources resources
+     */
+    public static void releaseResource(AutoCloseable... resources) {
+
+        if (resources == null || resources.length == 0) {
+            return;
+        }
+        Arrays.stream(resources).filter(Objects::nonNull)
+                .forEach(resource -> {
+                    try {
+                        resource.close();
+                    } catch (Exception e) {
+                        logger.error(e.getMessage(), e);
+                    }
+                });
+    }
 }

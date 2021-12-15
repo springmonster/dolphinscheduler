@@ -27,33 +27,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.apache.dolphinscheduler.common.Constants.*;
+import static org.apache.dolphinscheduler.common.Constants.TASK_RECORD_TABLE_HISTORY_HIVE_LOG;
+import static org.apache.dolphinscheduler.common.Constants.TASK_RECORD_TABLE_HIVE_LOG;
 
 /**
  * task record service
  */
 @Service
-public class TaskRecordService extends BaseService{
+public class TaskRecordService extends BaseService {
 
     /**
      * query task record list paging
      *
-     * @param taskName task name
-     * @param state state
+     * @param taskName    task name
+     * @param state       state
      * @param sourceTable source table
-     * @param destTable destination table
-     * @param taskDate task date
-     * @param startDate start time
-     * @param endDate end time
-     * @param pageNo page numbere
-     * @param pageSize page size
-     * @param isHistory is history
+     * @param destTable   destination table
+     * @param taskDate    task date
+     * @param startDate   start time
+     * @param endDate     end time
+     * @param pageNo      page numbere
+     * @param pageSize    page size
+     * @param isHistory   is history
      * @return task record list
      */
-    public Map<String,Object> queryTaskRecordListPaging(boolean isHistory, String taskName, String startDate,
-                                                        String taskDate, String sourceTable,
-                                                        String destTable, String endDate,
-                                                        String state, Integer pageNo, Integer pageSize) {
+    public Map<String, Object> queryTaskRecordListPaging(boolean isHistory, String taskName, String startDate,
+                                                         String taskDate, String sourceTable,
+                                                         String destTable, String endDate,
+                                                         String state, Integer pageNo, Integer pageSize) {
         Map<String, Object> result = new HashMap<>(10);
         PageInfo pageInfo = new PageInfo<TaskRecord>(pageNo, pageSize);
 

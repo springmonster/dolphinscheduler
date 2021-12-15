@@ -40,14 +40,13 @@ public class TaskInstance implements Serializable {
     /**
      * id
      */
-    @TableId(value="id", type=IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private int id;
 
     /**
      * task name
      */
     private String name;
-
 
 
     /**
@@ -209,11 +208,10 @@ public class TaskInstance implements Serializable {
 
 
     @TableField(exist = false)
-    private Map<String,String> resources;
+    private Map<String, String> resources;
 
 
-
-    public void init(String host,Date startTime,String executePath){
+    public void init(String host, Date startTime, String executePath) {
         this.host = host;
         this.startTime = startTime;
         this.executePath = executePath;
@@ -356,7 +354,7 @@ public class TaskInstance implements Serializable {
         this.retryTimes = retryTimes;
     }
 
-    public Boolean isTaskSuccess(){
+    public Boolean isTaskSuccess() {
         return this.state == ExecutionStatus.SUCCESS;
     }
 
@@ -377,10 +375,9 @@ public class TaskInstance implements Serializable {
     }
 
 
+    public String getDependency() {
 
-    public String getDependency(){
-
-        if(this.dependency != null){
+        if (this.dependency != null) {
             return this.dependency;
         }
         TaskNode taskNode = JSONUtils.parseObject(taskJson, TaskNode.class);
@@ -395,6 +392,7 @@ public class TaskInstance implements Serializable {
     public void setFlag(Flag flag) {
         this.flag = flag;
     }
+
     public String getProcessInstanceName() {
         return processInstanceName;
     }
@@ -459,33 +457,33 @@ public class TaskInstance implements Serializable {
         this.resources = resources;
     }
 
-    public boolean isSubProcess(){
+    public boolean isSubProcess() {
         return TaskType.SUB_PROCESS.equals(TaskType.valueOf(this.taskType));
     }
 
-    public boolean isDependTask(){
+    public boolean isDependTask() {
         return TaskType.DEPENDENT.equals(TaskType.valueOf(this.taskType));
     }
 
-    public boolean isConditionsTask(){
+    public boolean isConditionsTask() {
         return TaskType.CONDITIONS.equals(TaskType.valueOf(this.taskType));
     }
 
 
-
     /**
      * determine if you can try again
+     *
      * @return can try result
      */
     public boolean taskCanRetry() {
-        if(this.isSubProcess()){
+        if (this.isSubProcess()) {
             return false;
         }
-        if(this.getState() == ExecutionStatus.NEED_FAULT_TOLERANCE){
+        if (this.getState() == ExecutionStatus.NEED_FAULT_TOLERANCE) {
             return true;
-        }else {
+        } else {
             return (this.getState().typeIsFailure()
-                && this.getRetryTimes() < this.getMaxRetryTimes());
+                    && this.getRetryTimes() < this.getMaxRetryTimes());
         }
     }
 

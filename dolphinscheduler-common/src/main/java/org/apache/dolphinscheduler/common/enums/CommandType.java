@@ -49,7 +49,7 @@ public enum CommandType {
     STOP(9, "stop a process"),
     RECOVER_WAITTING_THREAD(10, "recover waiting thread");
 
-    CommandType(int code, String descp){
+    CommandType(int code, String descp) {
         this.code = code;
         this.descp = descp;
     }
@@ -66,9 +66,9 @@ public enum CommandType {
         return descp;
     }
 
-    public static CommandType of(Integer status){
-        for(CommandType cmdType : values()){
-            if(cmdType.getCode() == status){
+    public static CommandType of(Integer status) {
+        for (CommandType cmdType : values()) {
+            if (cmdType.getCode() == status) {
                 return cmdType;
             }
         }

@@ -26,12 +26,11 @@ import org.apache.dolphinscheduler.server.master.dispatch.exceptions.ExecuteExce
 import org.apache.dolphinscheduler.server.master.dispatch.executor.ExecutorManager;
 import org.apache.dolphinscheduler.server.master.dispatch.executor.NettyExecutorManager;
 import org.apache.dolphinscheduler.server.master.dispatch.host.HostManager;
-
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * executor dispatcher
@@ -59,7 +58,7 @@ public class ExecutorDispatcher implements InitializingBean {
     /**
      * constructor
      */
-    public ExecutorDispatcher(){
+    public ExecutorDispatcher() {
         this.executorManagers = new ConcurrentHashMap<>();
     }
 
@@ -75,7 +74,7 @@ public class ExecutorDispatcher implements InitializingBean {
          * get executor manager
          */
         ExecutorManager<Boolean> executorManager = this.executorManagers.get(context.getExecutorType());
-        if(executorManager == null){
+        if (executorManager == null) {
             throw new ExecuteException("no ExecutorManager for type : " + context.getExecutorType());
         }
 
@@ -87,7 +86,7 @@ public class ExecutorDispatcher implements InitializingBean {
         if (StringUtils.isEmpty(host.getAddress())) {
             throw new ExecuteException(String.format("fail to execute : %s due to no suitable worker, "
                             + "current task needs worker group %s to execute",
-                    context.getCommand(),context.getWorkerGroup()));
+                    context.getCommand(), context.getWorkerGroup()));
         }
         context.setHost(host);
         executorManager.beforeExecute(context);
@@ -103,6 +102,7 @@ public class ExecutorDispatcher implements InitializingBean {
 
     /**
      * register init
+     *
      * @throws Exception if error throws Exception
      */
     @Override
@@ -112,11 +112,12 @@ public class ExecutorDispatcher implements InitializingBean {
     }
 
     /**
-     *  register
-     * @param type executor type
+     * register
+     *
+     * @param type            executor type
      * @param executorManager executorManager
      */
-    public void register(ExecutorType type, ExecutorManager executorManager){
+    public void register(ExecutorType type, ExecutorManager executorManager) {
         executorManagers.put(type, executorManager);
     }
 }

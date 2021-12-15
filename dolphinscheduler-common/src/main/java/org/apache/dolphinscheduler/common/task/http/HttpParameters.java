@@ -17,12 +17,12 @@
 
 package org.apache.dolphinscheduler.common.task.http;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.dolphinscheduler.common.enums.HttpCheckCondition;
 import org.apache.dolphinscheduler.common.enums.HttpMethod;
 import org.apache.dolphinscheduler.common.process.HttpProperty;
 import org.apache.dolphinscheduler.common.process.ResourceInfo;
 import org.apache.dolphinscheduler.common.task.AbstractParameters;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class HttpParameters extends AbstractParameters {
     private HttpMethod httpMethod;
 
     /**
-     *  http params
+     * http params
      */
     private List<HttpProperty> httpParams;
 
@@ -60,17 +60,17 @@ public class HttpParameters extends AbstractParameters {
      * Connect Timeout
      * Unit: ms
      */
-    private int connectTimeout ;
+    private int connectTimeout;
 
     /**
      * Socket Timeout
      * Unit: ms
      */
-    private int socketTimeout ;
+    private int socketTimeout;
 
     @Override
     public boolean checkParameters() {
-        return  StringUtils.isNotEmpty(url);
+        return StringUtils.isNotEmpty(url);
     }
 
     @Override

@@ -65,13 +65,13 @@
 <script>
 import _ from 'lodash'
 import i18n from '../_source/i18n'
-import { selectList, isStr } from '../util/index'
+import {isStr, selectList} from '../util/index'
 import mInputNumber from '../_source/input-number'
 
 export default {
   name: 'year',
   mixins: [i18n],
-  data () {
+  data() {
     return {
       yearValue: '*',
       radioYear: 'everyYear',
@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     // Interval execution time（1）
-    onIntervalPerform (val) {
+    onIntervalPerform(val) {
       console.log(val)
       this.intervalPerformVal = val
       if (this.radioYear === 'intervalYear') {
@@ -104,39 +104,39 @@ export default {
       }
     },
     // Interval start time（2）
-    onIntervalStart (val) {
+    onIntervalStart(val) {
       this.intervalStartVal = val
       if (this.radioYear === 'intervalYear') {
         this.yearValue = `${this.intervalStartVal}/${this.intervalPerformVal}`
       }
     },
     // Specific year
-    onspecificYears (arr) {
+    onspecificYears(arr) {
     },
     // Cycle start value
-    onCycleStart (val) {
+    onCycleStart(val) {
       this.cycleStartVal = val
       if (this.radioYear === 'cycleYear') {
         this.yearValue = `${this.cycleStartVal}-${this.cycleEndVal}`
       }
     },
     // Cycle end value
-    onCycleEnd (val) {
+    onCycleEnd(val) {
       this.cycleEndVal = val
       if (this.radioYear === 'cycleYear') {
         this.yearValue = `${this.cycleStartVal}-${this.cycleEndVal}`
       }
     },
     // Reset every year
-    everyReset () {
+    everyReset() {
       this.yearValue = '*'
     },
     // Reset every other year
-    intervalReset () {
+    intervalReset() {
       this.yearValue = `${this.intervalStartVal}/${this.intervalPerformVal}`
     },
     // Reset specific years
-    specificReset () {
+    specificReset() {
       if (this.specificYearVal.length) {
         this.yearValue = this.specificYearVal.join(',')
       } else {
@@ -144,13 +144,13 @@ export default {
       }
     },
     // Reset cycle years
-    cycleReset () {
+    cycleReset() {
       this.yearValue = `${this.cycleStartVal}-${this.cycleEndVal}`
     },
     /**
      * Parse parameter value
      */
-    analyticalValue () {
+    analyticalValue() {
       return new Promise((resolve, reject) => {
         let $yearVal = _.cloneDeep(this.value)
         // Interval year
@@ -204,11 +204,11 @@ export default {
   },
   watch: {
     // Derived value
-    yearValue (val) {
+    yearValue(val) {
       this.$emit('yearValueEvent', val)
     },
     // Selected type
-    radioYear (val) {
+    radioYear(val) {
       switch (val) {
         case 'everyYear':
           this.everyReset()
@@ -225,32 +225,32 @@ export default {
       }
     },
     // Specific years
-    specificYearVal (arr) {
+    specificYearVal(arr) {
       this.yearValue = arr.join(',')
     }
   },
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     this.analyticalValue().then(() => {
       console.log('Data structure parsing succeeded!')
     })
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
 
   },
-  beforeUpdate () {
+  beforeUpdate() {
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {},
-  components: { mInputNumber }
+  components: {mInputNumber}
 }
 </script>
 

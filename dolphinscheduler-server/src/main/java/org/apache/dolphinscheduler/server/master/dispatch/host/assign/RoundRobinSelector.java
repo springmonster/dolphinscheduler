@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * round robin selector
+ *
  * @param <T> T
  */
 @Service
@@ -40,7 +41,7 @@ public class RoundRobinSelector<T> implements Selector<T> {
          * if only one , return directly
          */
         if (source.size() == 1) {
-            return (T)source.toArray()[0];
+            return (T) source.toArray()[0];
         }
 
         int size = source.size();

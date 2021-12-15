@@ -31,7 +31,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 
-import static org.apache.dolphinscheduler.api.enums.Status.*;
+import static org.apache.dolphinscheduler.api.enums.Status.QUERY_TASK_RECORD_LIST_PAGING_ERROR;
 
 /**
  * data quality controller

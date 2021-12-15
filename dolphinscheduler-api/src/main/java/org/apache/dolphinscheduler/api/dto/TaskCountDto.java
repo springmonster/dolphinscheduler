@@ -42,7 +42,7 @@ public class TaskCountDto {
         countTaskDtos(taskInstanceStateCounts);
     }
 
-    private void countTaskDtos(List<ExecuteStatusCount> taskInstanceStateCounts){
+    private void countTaskDtos(List<ExecuteStatusCount> taskInstanceStateCounts) {
         int submittedSuccess = 0;
         int runningExecution = 0;
         int readyPause = 0;
@@ -55,10 +55,10 @@ public class TaskCountDto {
         int kill = 0;
         int waittingThread = 0;
 
-        for(ExecuteStatusCount taskInstanceStateCount : taskInstanceStateCounts){
+        for (ExecuteStatusCount taskInstanceStateCount : taskInstanceStateCounts) {
             ExecutionStatus status = taskInstanceStateCount.getExecutionStatus();
             totalCount += taskInstanceStateCount.getCount();
-            switch (status){
+            switch (status) {
                 case SUBMITTED_SUCCESS:
                     submittedSuccess += taskInstanceStateCount.getCount();
                     break;
@@ -93,8 +93,8 @@ public class TaskCountDto {
                     waittingThread += taskInstanceStateCount.getCount();
                     break;
 
-                    default:
-                        break;
+                default:
+                    break;
             }
         }
         this.taskCountDtos = new ArrayList<>();
@@ -112,7 +112,7 @@ public class TaskCountDto {
     }
 
 
-    public List<TaskStateCount> getTaskCountDtos(){
+    public List<TaskStateCount> getTaskCountDtos() {
         return taskCountDtos;
     }
 

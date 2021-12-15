@@ -31,9 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -47,9 +45,10 @@ public class ProjectUserMapperTest {
 
     /**
      * insert
+     *
      * @return ProjectUser
      */
-    private ProjectUser insertOne(){
+    private ProjectUser insertOne() {
         //insertOne
         ProjectUser projectUser = new ProjectUser();
         projectUser.setProjectId(1010);
@@ -62,7 +61,7 @@ public class ProjectUserMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         ProjectUser projectUser = insertOne();
         projectUser.setCreateTime(new Date());
@@ -75,7 +74,7 @@ public class ProjectUserMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         ProjectUser projectUserMap = insertOne();
         int delete = projectUserMapper.deleteById(projectUserMap.getId());
         Assert.assertEquals(delete, 1);
@@ -101,7 +100,7 @@ public class ProjectUserMapperTest {
 
         ProjectUser projectUser = insertOne();
         int delete = projectUserMapper.deleteProjectRelation(projectUser.getProjectId(), projectUser.getUserId());
-        assertThat(delete,greaterThanOrEqualTo(1));
+        assertThat(delete, greaterThanOrEqualTo(1));
 
     }
 

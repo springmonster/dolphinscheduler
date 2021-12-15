@@ -17,10 +17,10 @@
 package org.apache.dolphinscheduler.dao.mapper;
 
 
-import org.apache.dolphinscheduler.common.enums.ReleaseState;
-import org.apache.dolphinscheduler.common.enums.UserType;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.dolphinscheduler.common.enums.ReleaseState;
+import org.apache.dolphinscheduler.common.enums.UserType;
 import org.apache.dolphinscheduler.dao.entity.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -59,9 +59,10 @@ public class ProcessDefinitionMapperTest {
 
     /**
      * insert
+     *
      * @return ProcessDefinition
      */
-    private ProcessDefinition insertOne(){
+    private ProcessDefinition insertOne() {
         //insertOne
         ProcessDefinition processDefinition = new ProcessDefinition();
         processDefinition.setName("def 1");
@@ -75,9 +76,10 @@ public class ProcessDefinitionMapperTest {
 
     /**
      * insert
+     *
      * @return ProcessDefinition
      */
-    private ProcessDefinition insertTwo(){
+    private ProcessDefinition insertTwo() {
         //insertOne
         ProcessDefinition processDefinition = new ProcessDefinition();
         processDefinition.setName("def 2");
@@ -93,7 +95,7 @@ public class ProcessDefinitionMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         ProcessDefinition processDefinition = insertOne();
         //update
@@ -106,7 +108,7 @@ public class ProcessDefinitionMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         ProcessDefinition processDefinition = insertOne();
         int delete = processDefinitionMapper.deleteById(processDefinition.getId());
         Assert.assertEquals(1, delete);
@@ -171,8 +173,8 @@ public class ProcessDefinitionMapperTest {
     @Test
     public void testQueryDefineListPaging() {
         ProcessDefinition processDefinition = insertOne();
-        Page<ProcessDefinition> page = new Page(1,3);
-        IPage<ProcessDefinition> processDefinitionIPage =  processDefinitionMapper.queryDefineListPaging(page, "def", 101, 1010,true);
+        Page<ProcessDefinition> page = new Page(1, 3);
+        IPage<ProcessDefinition> processDefinitionIPage = processDefinitionMapper.queryDefineListPaging(page, "def", 101, 1010, true);
         Assert.assertNotEquals(processDefinitionIPage.getTotal(), 0);
     }
 
@@ -182,7 +184,7 @@ public class ProcessDefinitionMapperTest {
     @Test
     public void testQueryAllDefinitionList() {
         ProcessDefinition processDefinition = insertOne();
-        List<ProcessDefinition> processDefinitionIPage =  processDefinitionMapper.queryAllDefinitionList(1010);
+        List<ProcessDefinition> processDefinitionIPage = processDefinitionMapper.queryAllDefinitionList(1010);
         Assert.assertNotEquals(processDefinitionIPage.size(), 0);
     }
 
@@ -210,7 +212,7 @@ public class ProcessDefinitionMapperTest {
     @Test
     public void testCountDefinitionGroupByUser() {
 
-        User user= new User();
+        User user = new User();
         user.setUserName("user1");
         user.setUserPassword("1");
         user.setEmail("xx@123.com");
@@ -235,7 +237,7 @@ public class ProcessDefinitionMapperTest {
     }
 
     @Test
-    public void listResourcesTest(){
+    public void listResourcesTest() {
         ProcessDefinition processDefinition = insertOne();
         processDefinition.setResourceIds("3,5");
         processDefinition.setReleaseState(ReleaseState.ONLINE);
@@ -244,7 +246,7 @@ public class ProcessDefinitionMapperTest {
     }
 
     @Test
-    public void listResourcesByUserTest(){
+    public void listResourcesByUserTest() {
         ProcessDefinition processDefinition = insertOne();
         processDefinition.setResourceIds("3,5");
         processDefinition.setReleaseState(ReleaseState.ONLINE);

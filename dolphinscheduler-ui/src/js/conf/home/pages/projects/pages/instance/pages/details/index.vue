@@ -23,7 +23,7 @@ import mInstanceDetails from '@/conf/home/pages/dag/instanceDetails.vue'
 
 export default {
   name: 'instance-details-index',
-  data () {
+  data() {
     return {}
   },
   components: {

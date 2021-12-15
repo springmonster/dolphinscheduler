@@ -47,7 +47,7 @@ public class RemoveZKNode implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        if (args.length != ARGS_LENGTH){
+        if (args.length != ARGS_LENGTH) {
             logger.error("Usage: <node>");
             return;
         }

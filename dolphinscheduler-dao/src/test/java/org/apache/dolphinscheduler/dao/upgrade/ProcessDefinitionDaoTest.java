@@ -32,32 +32,32 @@ public class ProcessDefinitionDaoTest {
     final ProcessDefinitionDao processDefinitionDao = new ProcessDefinitionDao();
 
     @Test
-    public void testQueryAllProcessDefinition() throws Exception{
+    public void testQueryAllProcessDefinition() throws Exception {
 
         Map<Integer, String> processDefinitionJsonMap = processDefinitionDao.queryAllProcessDefinition(dataSource.getConnection());
 
-        assertThat(processDefinitionJsonMap.size(),greaterThanOrEqualTo(0));
+        assertThat(processDefinitionJsonMap.size(), greaterThanOrEqualTo(0));
     }
 
     @Test
-    public void testUpdateProcessDefinitionJson() throws Exception{
+    public void testUpdateProcessDefinitionJson() throws Exception {
 
-        Map<Integer,String> processDefinitionJsonMap = new HashMap<>();
-        processDefinitionJsonMap.put(1,"test");
+        Map<Integer, String> processDefinitionJsonMap = new HashMap<>();
+        processDefinitionJsonMap.put(1, "test");
 
-        processDefinitionDao.updateProcessDefinitionJson(dataSource.getConnection(),processDefinitionJsonMap);
+        processDefinitionDao.updateProcessDefinitionJson(dataSource.getConnection(), processDefinitionJsonMap);
 
     }
 
     @Test(expected = Exception.class)
-    public void testQueryAllProcessDefinitionException() throws Exception{
+    public void testQueryAllProcessDefinitionException() throws Exception {
         processDefinitionDao.queryAllProcessDefinition(null);
 
     }
 
     @Test(expected = Exception.class)
-    public void testUpdateProcessDefinitionJsonException() throws Exception{
-        processDefinitionDao.updateProcessDefinitionJson(null,null);
+    public void testUpdateProcessDefinitionJsonException() throws Exception {
+        processDefinitionDao.updateProcessDefinitionJson(null, null);
 
     }
 

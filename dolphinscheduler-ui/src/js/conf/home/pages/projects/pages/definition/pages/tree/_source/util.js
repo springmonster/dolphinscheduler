@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import { formatDate } from '@/module/filter/filter'
-import { tasksState } from '@/conf/home/pages/dag/_source/config'
+import {formatDate} from '@/module/filter/filter'
+import {tasksState} from '@/conf/home/pages/dag/_source/config'
 
 /**
  * Node prompt dom
@@ -44,7 +44,7 @@ const rtInstancesTooltip = (data) => {
 const rtCountMethod = list => {
   const arr = []
 
-  function count (list, t) {
+  function count(list, t) {
     let toggle = false
     list.forEach(v => {
       if (v.children && v.children.length > 0) {

@@ -41,16 +41,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.apache.dolphinscheduler.common.Constants.SLEEP_TIME_MILLIS;
 
 /**
- *  taks callback service
+ * taks callback service
  */
 @Service
 public class TaskCallbackService {
 
     private final Logger logger = LoggerFactory.getLogger(TaskCallbackService.class);
-    private static final int [] RETRY_BACKOFF = { 1, 2, 3, 5, 10, 20, 40, 100, 100, 100, 100, 200, 200, 200 };
+    private static final int[] RETRY_BACKOFF = {1, 2, 3, 5, 10, 20, 40, 100, 100, 100, 100, 200, 200, 200};
 
     /**
-     *  remote channels
+     * remote channels
      */
     private static final ConcurrentHashMap<Integer, NettyRemoteChannel> REMOTE_CHANNELS = new ConcurrentHashMap<>();
 
@@ -67,7 +67,7 @@ public class TaskCallbackService {
     private final NettyRemotingClient nettyRemotingClient;
 
 
-    public TaskCallbackService(){
+    public TaskCallbackService() {
         final NettyClientConfig clientConfig = new NettyClientConfig();
         this.nettyRemotingClient = new NettyRemotingClient(clientConfig);
         this.nettyRemotingClient.registerProcessor(CommandType.DB_TASK_ACK, new DBTaskAckProcessor());
@@ -75,28 +75,30 @@ public class TaskCallbackService {
     }
 
     /**
-     *  add callback channel
+     * add callback channel
+     *
      * @param taskInstanceId taskInstanceId
-     * @param channel  channel
+     * @param channel        channel
      */
-    public void addRemoteChannel(int taskInstanceId, NettyRemoteChannel channel){
+    public void addRemoteChannel(int taskInstanceId, NettyRemoteChannel channel) {
         REMOTE_CHANNELS.put(taskInstanceId, channel);
     }
 
     /**
-     *  get callback channel
+     * get callback channel
+     *
      * @param taskInstanceId taskInstanceId
      * @return callback channel
      */
-    private NettyRemoteChannel getRemoteChannel(int taskInstanceId){
+    private NettyRemoteChannel getRemoteChannel(int taskInstanceId) {
         Channel newChannel;
         NettyRemoteChannel nettyRemoteChannel = REMOTE_CHANNELS.get(taskInstanceId);
-        if(nettyRemoteChannel != null){
-            if(nettyRemoteChannel.isActive()){
+        if (nettyRemoteChannel != null) {
+            if (nettyRemoteChannel.isActive()) {
                 return nettyRemoteChannel;
             }
             newChannel = nettyRemotingClient.getChannel(nettyRemoteChannel.getHost());
-            if(newChannel != null){
+            if (newChannel != null) {
                 return getRemoteChannel(newChannel, nettyRemoteChannel.getOpaque(), taskInstanceId);
             }
 
@@ -121,7 +123,7 @@ public class TaskCallbackService {
             for (String masterNode : masterNodes) {
                 newChannel = nettyRemotingClient.getChannel(Host.of(masterNode));
                 if (newChannel != null) {
-                    return getRemoteChannel(newChannel,taskInstanceId);
+                    return getRemoteChannel(newChannel, taskInstanceId);
                 }
             }
             masterNodes = null;
@@ -132,54 +134,56 @@ public class TaskCallbackService {
     }
 
 
-    public int pause(int ntries){
+    public int pause(int ntries) {
         return SLEEP_TIME_MILLIS * RETRY_BACKOFF[ntries % RETRY_BACKOFF.length];
     }
 
 
-    private NettyRemoteChannel getRemoteChannel(Channel newChannel, long opaque, int taskInstanceId){
+    private NettyRemoteChannel getRemoteChannel(Channel newChannel, long opaque, int taskInstanceId) {
         NettyRemoteChannel remoteChannel = new NettyRemoteChannel(newChannel, opaque);
         addRemoteChannel(taskInstanceId, remoteChannel);
         return remoteChannel;
     }
 
-    private NettyRemoteChannel getRemoteChannel(Channel newChannel, int taskInstanceId){
+    private NettyRemoteChannel getRemoteChannel(Channel newChannel, int taskInstanceId) {
         NettyRemoteChannel remoteChannel = new NettyRemoteChannel(newChannel);
         addRemoteChannel(taskInstanceId, remoteChannel);
         return remoteChannel;
     }
 
     /**
-     *  remove callback channels
+     * remove callback channels
+     *
      * @param taskInstanceId taskInstanceId
      */
-    public void remove(int taskInstanceId){
+    public void remove(int taskInstanceId) {
         REMOTE_CHANNELS.remove(taskInstanceId);
     }
 
     /**
-     *  send ack
+     * send ack
+     *
      * @param taskInstanceId taskInstanceId
-     * @param command command
+     * @param command        command
      */
-    public void sendAck(int taskInstanceId, Command command){
+    public void sendAck(int taskInstanceId, Command command) {
         NettyRemoteChannel nettyRemoteChannel = getRemoteChannel(taskInstanceId);
         nettyRemoteChannel.writeAndFlush(command);
     }
 
     /**
-     *  send result
+     * send result
      *
      * @param taskInstanceId taskInstanceId
-     * @param command command
+     * @param command        command
      */
-    public void sendResult(int taskInstanceId, Command command){
+    public void sendResult(int taskInstanceId, Command command) {
         NettyRemoteChannel nettyRemoteChannel = getRemoteChannel(taskInstanceId);
-        nettyRemoteChannel.writeAndFlush(command).addListener(new ChannelFutureListener(){
+        nettyRemoteChannel.writeAndFlush(command).addListener(new ChannelFutureListener() {
 
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
-                if(future.isSuccess()){
+                if (future.isSuccess()) {
                     remove(taskInstanceId);
                     return;
                 }

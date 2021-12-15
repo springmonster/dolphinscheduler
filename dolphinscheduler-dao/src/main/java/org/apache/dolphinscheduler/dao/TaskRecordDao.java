@@ -16,9 +16,6 @@
  */
 package org.apache.dolphinscheduler.dao;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.TaskRecordStatus;
 import org.apache.dolphinscheduler.common.utils.CollectionUtils;
@@ -45,11 +42,12 @@ public class TaskRecordDao {
     private static Logger logger = LoggerFactory.getLogger(TaskRecordDao.class.getName());
 
     /**
-     *  get task record flag
+     * get task record flag
+     *
      * @return whether startup taskrecord
      */
-    public static boolean getTaskRecordFlag(){
-       return PropertyUtils.getBoolean(Constants.TASK_RECORD_FLAG,false);
+    public static boolean getTaskRecordFlag() {
+        return PropertyUtils.getBoolean(Constants.TASK_RECORD_FLAG, false);
     }
 
     /**
@@ -150,13 +148,13 @@ public class TaskRecordDao {
             sql += getWhereString(filterMap);
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 count = rs.getInt("count");
                 break;
             }
         } catch (SQLException e) {
             logger.error("Exception ", e);
-        }finally {
+        } finally {
             ConnectionUtils.releaseResource(rs, pstmt, conn);
         }
         return count;
@@ -241,7 +239,7 @@ public class TaskRecordDao {
             }
         } catch (SQLException e) {
             logger.error("Exception ", e);
-        }finally {
+        } finally {
             ConnectionUtils.releaseResource(rs, pstmt, conn);
         }
         return recordList;

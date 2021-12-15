@@ -46,14 +46,14 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
-import { pie } from './chartConfig'
+import {mapActions} from 'vuex'
+import {pie} from './chartConfig'
 import Chart from '@/module/ana-charts'
 import mNoData from '@/module/components/noData/noData'
 
 export default {
   name: 'queue-count',
-  data () {
+  data() {
     return {
       isSpin: true,
       msg: '',
@@ -65,12 +65,12 @@ export default {
   },
   methods: {
     ...mapActions('projects', ['getQueueCount']),
-    _handleQueue (res) {
+    _handleQueue(res) {
       _.forEach(res.data, (v, k) => this.queueList.push({
         key: k === 'taskQueue' ? `${this.$t('Task queue')}` : `${this.$t('Task kill')}`,
         value: v
       }))
-      const myChart = Chart.pie('#queue-pie', this.queueList, { title: '' })
+      const myChart = Chart.pie('#queue-pie', this.queueList, {title: ''})
       myChart.echart.setOption(_.assign(_.cloneDeep(pie), {
         color: ['#D5050B', '#0398E1']
       }))
@@ -80,7 +80,7 @@ export default {
     'searchParams': {
       deep: true,
       immediate: true,
-      handler (o) {
+      handler(o) {
         this.isSpin = true
         this.getQueueCount(o).then(res => {
           this.queueList = []
@@ -93,10 +93,10 @@ export default {
       }
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
-  components: { mNoData }
+  components: {mNoData}
 }
 </script>

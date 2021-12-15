@@ -47,7 +47,7 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
   name: 'transfer',
-  data () {
+  data() {
     return {
       valueConsistsOf: 'LEAF_PRIORITY',
       checkedValue: 'fileResource',
@@ -68,7 +68,7 @@ export default {
       searchTargetVal: '',
       // define default value
       value: null,
-      normalizer (node) {
+      normalizer(node) {
         return {
           label: node.name
         }
@@ -82,7 +82,7 @@ export default {
     fileTargetList: Array,
     udfTargetList: Array,
   },
-  created () {
+  created() {
     let file = this.fileSourceList
     let udf = this.udfSourceList
     this.diGuiTree(file)
@@ -96,7 +96,7 @@ export default {
     /*
       getParent
     */
-    getParent (data2, nodeId2) {
+    getParent(data2, nodeId2) {
       var arrRes = []
       if (data2.length == 0) {
         if (!!nodeId2) {
@@ -122,7 +122,7 @@ export default {
       arrRes = rev(data2, nodeId2)
       return arrRes
     },
-    _ok () {
+    _ok() {
       let fullPathId = []
       let pathId = []
       this.selectFileSource.forEach(v => {
@@ -158,27 +158,27 @@ export default {
         this.$emit('onUpdate', _.map(selAllSource, v => v).join(','))
       }, 800)
     },
-    _ckFile () {
+    _ckFile() {
       this.checkedValue = 'fileResource'
       this.sourceList = this.fileSource
       this.targetList = this.fileTarget
       this.cacheSourceList = this.fileSource
       this.cacheTargetList = this.fileTarget
     },
-    _ckUDf () {
+    _ckUDf() {
       this.checkedValue = 'udfResource'
       this.sourceList = this.udfSource
       this.targetList = this.udfTarget
       this.cacheSourceList = this.udfSource
       this.cacheTargetList = this.udfTarget
     },
-    _sourceQuery () {
+    _sourceQuery() {
       this.sourceList = this.sourceList.filter(v => v.name.indexOf(this.searchSourceVal) > -1)
     },
-    _targetQuery () {
+    _targetQuery() {
       this.targetList = this.targetList.filter(v => v.name.indexOf(this.searchTargetVal) > -1)
     },
-    _ckSource (item) {
+    _ckSource(item) {
       this.targetList = this.cacheTargetList
       this.targetList.unshift(item)
       this.searchTargetVal = ''
@@ -196,7 +196,7 @@ export default {
         this.udfSource = this.sourceList
       }
     },
-    _ckTarget (item) {
+    _ckTarget(item) {
       this.sourceList = this.cacheSourceList
       this.sourceList.unshift(item)
       this.searchSourceVal = ''
@@ -214,13 +214,13 @@ export default {
         this.udfTarget = this.targetList
       }
     },
-    diGuiTree (item) {  // Recursive convenience tree structure
+    diGuiTree(item) {  // Recursive convenience tree structure
       item.forEach(item => {
         item.children === '' || item.children === undefined || item.children === null || item.children.length === 0 ?
           this.operationTree(item) : this.diGuiTree(item.children)
       })
     },
-    operationTree (item) {
+    operationTree(item) {
       if (item.dirctory) {
         item.isDisabled = true
       }
@@ -228,14 +228,14 @@ export default {
     }
   },
   watch: {
-    searchSourceVal (val) {
+    searchSourceVal(val) {
       if (!val) {
         this.sourceList = _.cloneDeep(this.cacheSourceList)
         return
       }
       this._sourceQuery()
     },
-    searchTargetVal (val) {
+    searchTargetVal(val) {
       if (!val) {
         this.targetList = _.cloneDeep(this.cacheTargetList)
         return

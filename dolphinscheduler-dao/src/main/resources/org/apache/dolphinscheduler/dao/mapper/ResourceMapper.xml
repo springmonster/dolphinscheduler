@@ -40,12 +40,12 @@
             and type=#{type}
         </if>
         <if test="userId != 0 and perm != 0">
-            and id in (select resources_id from  t_ds_relation_resources_user where user_id=#{userId} and perm=#{perm}
-            union select id as resources_id  from t_ds_resources where user_id=#{userId})
+            and id in (select resources_id from t_ds_relation_resources_user where user_id=#{userId} and perm=#{perm}
+            union select id as resources_id from t_ds_resources where user_id=#{userId})
         </if>
         <if test="userId != 0 and perm == 0">
-            and id in (select resources_id from  t_ds_relation_resources_user where user_id=#{userId}
-            union select id as resources_id  from t_ds_resources where user_id=#{userId})
+            and id in (select resources_id from t_ds_relation_resources_user where user_id=#{userId}
+            union select id as resources_id from t_ds_resources where user_id=#{userId})
         </if>
     </select>
     <select id="queryResourcePaging" resultType="org.apache.dolphinscheduler.dao.entity.Resource">
@@ -53,22 +53,22 @@
         from t_ds_resources
         where type=#{type} and pid=#{id}
         <if test="userId != 0">
-            and id in (select resources_id from  t_ds_relation_resources_user where user_id=#{userId}
-            union select id as resources_id  from t_ds_resources where user_id=#{userId})
+            and id in (select resources_id from t_ds_relation_resources_user where user_id=#{userId}
+            union select id as resources_id from t_ds_resources where user_id=#{userId})
         </if>
         <if test="searchVal != null and searchVal != ''">
-            and  alias like concat('%', #{searchVal}, '%')
+            and alias like concat('%', #{searchVal}, '%')
         </if>
         order by update_time desc
     </select>
     <select id="queryAuthorizedResourceList" resultType="org.apache.dolphinscheduler.dao.entity.Resource">
         select r.*
-        from  t_ds_resources r,t_ds_relation_resources_user rel
+        from t_ds_resources r,t_ds_relation_resources_user rel
         where r.id = rel.resources_id AND rel.user_id = #{userId} and perm=7
     </select>
     <select id="queryResourceExceptUserId" resultType="org.apache.dolphinscheduler.dao.entity.Resource">
         select *
-        from  t_ds_resources
+        from t_ds_resources
         where user_id <![CDATA[ <> ]]> #{userId}
     </select>
     <select id="queryTenantCodeByResourceName" resultType="java.lang.String">
@@ -81,8 +81,8 @@
         select *
         from t_ds_resources
         where type=0
-        and id in (select resources_id from  t_ds_relation_resources_user where user_id=#{userId} and perm=7
-        union select id as resources_id  from t_ds_resources where user_id=#{userId})
+        and id in (select resources_id from t_ds_relation_resources_user where user_id=#{userId} and perm=7
+        union select id as resources_id from t_ds_resources where user_id=#{userId})
         <if test="resNames != null and resNames != ''">
             and full_name in
             <foreach collection="resNames" item="i" open="(" close=")" separator=",">
@@ -93,8 +93,8 @@
     <select id="listAuthorizedResourceById" resultType="org.apache.dolphinscheduler.dao.entity.Resource">
         select *
         from t_ds_resources
-        where id in (select resources_id from  t_ds_relation_resources_user where user_id=#{userId} and perm=7
-        union select id as resources_id  from t_ds_resources where user_id=#{userId})
+        where id in (select resources_id from t_ds_relation_resources_user where user_id=#{userId} and perm=7
+        union select id as resources_id from t_ds_resources where user_id=#{userId})
         <if test="resIds != null and resIds != ''">
             and id in
             <foreach collection="resIds" item="i" open="(" close=")" separator=",">
@@ -102,7 +102,7 @@
             </foreach>
         </if>
     </select>
-    
+
     <delete id="deleteIds" parameterType="java.lang.Integer">
         delete from t_ds_resources where id in
         <foreach collection="resIds" item="i" open="(" close=")" separator=",">
@@ -124,7 +124,7 @@
     </select>
 
     <update id="batchUpdateResource" parameterType="java.util.List">
-        <foreach collection="resourceList" item="resource" index="index" open="" close="" separator =";">
+        <foreach collection="resourceList" item="resource" index="index" open="" close="" separator=";">
             update t_ds_resources
             <set>
                 full_name=#{resource.fullName},

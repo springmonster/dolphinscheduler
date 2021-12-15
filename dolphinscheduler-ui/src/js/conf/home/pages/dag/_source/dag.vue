@@ -130,21 +130,21 @@ import _ from 'lodash'
 import Dag from './dag'
 import mUdp from './udp/udp'
 import i18n from '@/module/i18n'
-import { jsPlumb } from 'jsplumb'
+import {jsPlumb} from 'jsplumb'
 import Clipboard from 'clipboard'
-import { allNodesId } from './plugIn/util'
-import { toolOper, tasksType } from './config'
+import {allNodesId} from './plugIn/util'
+import {tasksType, toolOper} from './config'
 import mFormModel from './formModel/formModel'
-import { formatDate } from '@/module/filter/filter'
-import { findComponentDownward } from '@/module/util/'
+import {formatDate} from '@/module/filter/filter'
+import {findComponentDownward} from '@/module/util/'
 import disabledState from '@/module/mixin/disabledState'
-import { mapActions, mapState, mapMutations } from 'vuex'
+import {mapActions, mapMutations, mapState} from 'vuex'
 
 let eventModel
 
 export default {
   name: 'dag-chart',
-  data () {
+  data() {
     return {
       tasksTypeList: tasksType,
       toolOperList: toolOper(this),
@@ -172,7 +172,7 @@ export default {
     ...mapMutations('dag', ['addTasks', 'cacheTasks', 'resetParams', 'setIsEditDag', 'setName']),
 
     // DAG automatic layout
-    dagAutomaticLayout () {
+    dagAutomaticLayout() {
       if (this.store.state.dag.isEditDag) {
         this.$message.warning(`${i18n.$t('Please save the DAG before formatting')}`)
         return false
@@ -219,7 +219,7 @@ export default {
       }
     },
 
-    init (args) {
+    init(args) {
       if (this.tasks.length) {
         Dag.backfill(args)
         // Process instances can view status
@@ -239,7 +239,7 @@ export default {
     /**
      * copy name
      */
-    _copyName () {
+    _copyName() {
       let clipboard = new Clipboard(`.copy-name`)
       clipboard.on('success', e => {
         this.$message.success(`${i18n.$t('Copy success')}`)
@@ -257,7 +257,7 @@ export default {
      * Get state interface
      * @param isReset Whether to manually refresh
      */
-    _getTaskState (isReset) {
+    _getTaskState(isReset) {
       return new Promise((resolve, reject) => {
         this.getTaskState(this.urlParam.id).then(res => {
           let data = res.list
@@ -305,7 +305,7 @@ export default {
      * Get the action bar id
      * @param item
      */
-    _getDagId (v) {
+    _getDagId(v) {
       // if (this.isDetails) {
       //   return
       // }
@@ -314,7 +314,7 @@ export default {
     /**
      * operating
      */
-    _ckOperation (item) {
+    _ckOperation(item) {
       let is = true
       let code = ''
 
@@ -339,7 +339,7 @@ export default {
         is: is
       })
     },
-    _operationClass (item) {
+    _operationClass(item) {
       return this.toolOperCode === item.code ? 'active' : ''
       // if (item.disable) {
       //   return this.toolOperCode === item.code ? 'active' : ''
@@ -350,7 +350,7 @@ export default {
     /**
      * Storage interface
      */
-    _save (sourceType) {
+    _save(sourceType) {
       return new Promise((resolve, reject) => {
         this.spinnerLoading = true
         // Storage store
@@ -381,7 +381,7 @@ export default {
                   // Jump process definition
                   this.$router.push({
                     name: 'projects-definition-list',
-                    params: { projectId: this.projectId }
+                    params: {projectId: this.projectId}
                   })
                 }
                 resolve()
@@ -396,7 +396,7 @@ export default {
         })
       })
     },
-    _verifConditions (value) {
+    _verifConditions(value) {
       let tasks = value
       let bool = true
       tasks.map(v => {
@@ -416,7 +416,7 @@ export default {
      * Global parameter
      * @param Promise
      */
-    _udpTopFloorPop () {
+    _udpTopFloorPop() {
       return new Promise((resolve, reject) => {
         let modal = this.$modal.dialog({
           closable: false,
@@ -424,14 +424,14 @@ export default {
           escClose: true,
           className: 'v-modal-custom',
           transitionName: 'opacityp',
-          render (h) {
+          render(h) {
             return h(mUdp, {
               on: {
-                onUdp () {
+                onUdp() {
                   modal.remove()
                   resolve()
                 },
-                close () {
+                close() {
                   modal.remove()
                 }
               }
@@ -443,7 +443,7 @@ export default {
     /**
      * Save chart
      */
-    _saveChart () {
+    _saveChart() {
       // Verify node
       if (!this.tasks.length) {
         this.$message.warning(`${i18n.$t('Failed to create node to save')}`)
@@ -457,7 +457,7 @@ export default {
     /**
      * Return to the previous child node
      */
-    _rtNodesDag () {
+    _rtNodesDag() {
       let getIds = this.$route.query.subProcessIds
       let idsArr = getIds.split(',')
       let ids = idsArr.slice(0, idsArr.length - 1)
@@ -465,7 +465,7 @@ export default {
       let query = {}
 
       if (id !== idsArr[0]) {
-        query = { subProcessIds: ids.join(',') }
+        query = {subProcessIds: ids.join(',')}
       }
       let $name = this.$route.name.split('-')
       this.$router.push({
@@ -477,7 +477,7 @@ export default {
      * Subprocess processing
      * @param subProcessId Subprocess ID
      */
-    _subProcessHandle (subProcessId) {
+    _subProcessHandle(subProcessId) {
       let subProcessIds = []
       let getIds = this.$route.query.subProcessIds
       if (getIds) {
@@ -490,13 +490,13 @@ export default {
       let $name = this.$route.name.split('-')
       this.$router.push({
         path: `/${$name[0]}/${this.projectId}/${$name[1]}/list/${subProcessId}`,
-        query: { subProcessIds: subProcessIds.join(',') }
+        query: {subProcessIds: subProcessIds.join(',')}
       })
     },
     /**
      * Refresh data
      */
-    _refresh () {
+    _refresh() {
       this.isRefresh = true
       this._getTaskState(false).then(res => {
         setTimeout(() => {
@@ -508,24 +508,24 @@ export default {
     /**
      * View variables
      */
-    _toggleView () {
+    _toggleView() {
       findComponentDownward(this.$root, `assist-dag-index`)._toggleView()
     },
 
     /**
      * Starting parameters
      */
-    _toggleParam () {
+    _toggleParam() {
       findComponentDownward(this.$root, `starting-params-dag-index`)._toggleParam()
     },
     /**
      * Create a node popup layer
      * @param Object id
      */
-    _createNodes ({
-      id,
-      type
-    }) {
+    _createNodes({
+                   id,
+                   type
+                 }) {
       let self = this
       self.$modal.destroy()
       let preNode = []
@@ -578,10 +578,10 @@ export default {
         className: 'dagMask',
         render: h => h(mFormModel, {
           on: {
-            addTaskInfo ({
-              item,
-              fromThis
-            }) {
+            addTaskInfo({
+                          item,
+                          fromThis
+                        }) {
               self.addTasks(item)
               setTimeout(() => {
                 removeNodesEvent(fromThis)
@@ -592,17 +592,17 @@ export default {
              * @param item
              * @param fromThis
              */
-            cacheTaskInfo ({
-              item,
-              fromThis
-            }) {
+            cacheTaskInfo({
+                            item,
+                            fromThis
+                          }) {
               self.cacheTasks(item)
             },
-            close ({
-              item,
-              flag,
-              fromThis
-            }) {
+            close({
+                    item,
+                    flag,
+                    fromThis
+                  }) {
               self.addTasks(item)
               // Edit status does not allow deletion of nodes
               if (flag) {
@@ -611,10 +611,10 @@ export default {
 
               removeNodesEvent(fromThis)
             },
-            onSubProcess ({
-              subProcessId,
-              fromThis
-            }) {
+            onSubProcess({
+                           subProcessId,
+                           fromThis
+                         }) {
               removeNodesEvent(fromThis)
               self._subProcessHandle(subProcessId)
             }
@@ -630,7 +630,7 @@ export default {
         })
       })
     },
-    removeEventModelById ($id) {
+    removeEventModelById($id) {
       if (eventModel && this.taskId == $id) {
         eventModel.remove()
       }
@@ -638,13 +638,13 @@ export default {
   },
   watch: {
     'tasks': {
-      handler (o) {
+      handler(o) {
         // Edit state does not allow deletion of node a...
         this.setIsEditDag(true)
       }
     }
   },
-  created () {
+  created() {
     // Edit state does not allow deletion of node a...
     this.setIsEditDag(false)
 
@@ -681,16 +681,16 @@ export default {
       })
     })
   },
-  mounted () {
+  mounted() {
     this.init(this.arg)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.resetParams()
 
     // Destroy round robin
     clearInterval(this.setIntervalP)
   },
-  destroyed () {
+  destroyed() {
     if (eventModel) {
       eventModel.remove()
     }

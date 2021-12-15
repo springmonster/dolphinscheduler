@@ -21,7 +21,7 @@ export default {
   /**
    * Get a list of udf files
    */
-  getResourcesListP ({ state }, payload) {
+  getResourcesListP({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/list-paging', payload, res => {
         resolve(res.data)
@@ -30,7 +30,7 @@ export default {
       })
     })
   },
-  getResourceId ({ state }, payload) {
+  getResourceId({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/queryResource', payload, res => {
         resolve(res.data)
@@ -39,7 +39,7 @@ export default {
       })
     })
   },
-  getResourcesList ({ state }, payload) {
+  getResourcesList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/list', payload, res => {
         resolve(res)
@@ -51,7 +51,7 @@ export default {
   /**
    * Delete resource
    */
-  deleteResource ({ state }, payload) {
+  deleteResource({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/delete', payload, res => {
         resolve(res)
@@ -63,7 +63,7 @@ export default {
   /**
    * Verify that the upload name exists
    */
-  resourceVerifyName ({ state }, payload) {
+  resourceVerifyName({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/verify-name', payload, res => {
         resolve(res)
@@ -75,7 +75,7 @@ export default {
   /**
    * Resource file online view
    */
-  getViewResources ({ state }, payload) {
+  getViewResources({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/view', payload, res => {
         resolve(res)
@@ -87,7 +87,7 @@ export default {
   /**
    * UDF function creation
    */
-  createUdfFunc ({ state }, payload) {
+  createUdfFunc({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('resources/udf-func/create', payload, res => {
         resolve(res)
@@ -99,7 +99,7 @@ export default {
   /**
    * UDF function editing
    */
-  updateUdfFunc ({ state }, payload) {
+  updateUdfFunc({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('resources/udf-func/update', payload, res => {
         resolve(res)
@@ -111,7 +111,7 @@ export default {
   /**
    * Verify that the UDF function name exists
    */
-  verifyUdfFuncName ({ state }, payload) {
+  verifyUdfFuncName({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/udf-func/verify-name', payload, res => {
         resolve(res)
@@ -124,7 +124,7 @@ export default {
    * Delete udf function
    * @param id int
    */
-  deleteUdf ({ state }, payload) {
+  deleteUdf({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/udf-func/delete', payload, res => {
         resolve(res)
@@ -136,7 +136,7 @@ export default {
   /**
    * Query UDF function list - paging
    */
-  getUdfFuncListP ({ state }, payload) {
+  getUdfFuncListP({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('resources/udf-func/list-paging', payload, res => {
         resolve(res.data)
@@ -148,7 +148,7 @@ export default {
   /**
    * Update document
    */
-  updateContent ({ state }, payload) {
+  updateContent({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('resources/update-content', payload, res => {
         resolve(res)
@@ -160,7 +160,7 @@ export default {
   /**
    * Resource online creation
    */
-  createResourceFile ({ state }, payload) {
+  createResourceFile({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('resources/online-create', payload, res => {
         resolve(res)
@@ -172,7 +172,7 @@ export default {
   /**
    * Resource online create folder
    */
-  createResourceFolder ({ state }, payload) {
+  createResourceFolder({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('resources/directory/create', payload, res => {
         resolve(res)
@@ -184,7 +184,7 @@ export default {
   /**
    * Resource rename
    */
-  resourceRename ({ state }, payload) {
+  resourceRename({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('resources/update', payload, res => {
         resolve(res)

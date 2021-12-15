@@ -30,7 +30,6 @@ public class DependentParameters extends AbstractParameters {
     private DependentRelation relation;
 
 
-
     @Override
     public boolean checkParameters() {
         return true;

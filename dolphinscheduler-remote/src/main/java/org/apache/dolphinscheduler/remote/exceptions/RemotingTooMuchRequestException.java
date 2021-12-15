@@ -17,9 +17,9 @@
 package org.apache.dolphinscheduler.remote.exceptions;
 
 /**
- *  too much request exception
+ * too much request exception
  */
-public class RemotingTooMuchRequestException extends RemotingException{
+public class RemotingTooMuchRequestException extends RemotingException {
 
     public RemotingTooMuchRequestException(String message) {
         super(message);

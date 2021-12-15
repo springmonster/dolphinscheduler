@@ -50,10 +50,10 @@ public class CreateWorkflowPage extends PageCommon {
 
         System.out.println("drag shell task");
         //drag shell_task
-        dragAndDrop(CreateWorkflowLocator.MOUSE_DOWN_AT_SHELL,CreateWorkflowLocator.MOUSE_MOVE_SHELL_AT_DAG);
+        dragAndDrop(CreateWorkflowLocator.MOUSE_DOWN_AT_SHELL, CreateWorkflowLocator.MOUSE_MOVE_SHELL_AT_DAG);
 
         //input shell task _name
-        sendInput(CreateWorkflowLocator.INPUT_SHELL_TASK_NAME , CreateWorkflowData.SHELL_TASK_NAME);
+        sendInput(CreateWorkflowLocator.INPUT_SHELL_TASK_NAME, CreateWorkflowData.SHELL_TASK_NAME);
 
         //click stop run type
         clickElement(CreateWorkflowLocator.CLICK_STOP_RUN_TYPE);
@@ -62,7 +62,7 @@ public class CreateWorkflowPage extends PageCommon {
         clickElement(CreateWorkflowLocator.CLICK_NORMAL_RUN_TYPE);
 
         //input shell task description
-        sendInput(CreateWorkflowLocator.INPUT_SHELL_TASK_DESCRIPTION , CreateWorkflowData.SHELL_TASK_DESCRIPTION);
+        sendInput(CreateWorkflowLocator.INPUT_SHELL_TASK_DESCRIPTION, CreateWorkflowData.SHELL_TASK_DESCRIPTION);
 
         //select task priority
         clickElement(CreateWorkflowLocator.CLICK_TASK_PRIORITY);
@@ -129,7 +129,7 @@ public class CreateWorkflowPage extends PageCommon {
         Thread.sleep(TestConstant.ONE_THOUSAND);
         System.out.println("Task node set up successfully");
         System.out.println("move to Dag Element ");
-        moveToDragElement(CreateWorkflowLocator.MOUSE_MOVE_SHELL_AT_DAG,-300,-100);
+        moveToDragElement(CreateWorkflowLocator.MOUSE_MOVE_SHELL_AT_DAG, -300, -100);
 
         return ifTitleContains(CreateWorkflowData.CREATE_WORKFLOW_TITLE);
     }

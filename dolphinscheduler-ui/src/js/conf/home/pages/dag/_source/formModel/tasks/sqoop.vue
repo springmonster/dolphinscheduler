@@ -574,7 +574,7 @@ let shellEditor
 
 export default {
   name: 'sqoop',
-  data () {
+  data() {
     return {
       /**
        * Is Custom Task
@@ -627,7 +627,7 @@ export default {
        */
       modelType: 'import',
 
-      modelTypeList: [{ code: 'import' }, { code: 'export' }],
+      modelTypeList: [{code: 'import'}, {code: 'export'}],
 
       sourceTypeList: [
         {
@@ -712,7 +712,7 @@ export default {
   },
   methods: {
 
-    _onSwitch (is) {
+    _onSwitch(is) {
       if (is) {
         this.jobType = 'CUSTOM'
         this.isCustomTask = true
@@ -728,13 +728,13 @@ export default {
       }
     },
 
-    _handleQueryType (o) {
+    _handleQueryType(o) {
       this.sourceMysqlParams.srcQueryType = this.srcQueryType
       this._getTargetTypeList(this.sourceType)
       this.targetType = this.targetTypeList[0].code
     },
 
-    _handleModelTypeChange (a) {
+    _handleModelTypeChange(a) {
       this._getSourceTypeList(a.label)
       this.sourceType = this.sourceTypeList[0].code
       this._handleSourceTypeChange({
@@ -743,12 +743,12 @@ export default {
       })
     },
 
-    _handleSourceTypeChange (a) {
+    _handleSourceTypeChange(a) {
       this._getTargetTypeList(a.label)
       this.targetType = this.targetTypeList[0].code
     },
 
-    _getSourceTypeList (data) {
+    _getSourceTypeList(data) {
       switch (data) {
         case 'import':
           this.sourceTypeList = [
@@ -783,7 +783,7 @@ export default {
       }
     },
 
-    _getTargetTypeList (data) {
+    _getTargetTypeList(data) {
       switch (data) {
         case 'MYSQL':
           this.targetTypeList = [
@@ -822,18 +822,18 @@ export default {
       }
     },
 
-    _onMapColumnHive (a) {
+    _onMapColumnHive(a) {
       this.sourceMysqlParams.mapColumnHive = a
     },
 
-    _onMapColumnJava (a) {
+    _onMapColumnJava(a) {
       this.sourceMysqlParams.mapColumnJava = a
     },
 
     /**
      * return data source
      */
-    _onSourceDsData (o) {
+    _onSourceDsData(o) {
       this.sourceMysqlParams.srcType = o.type
       this.sourceMysqlParams.srcDatasource = o.datasource
     },
@@ -841,7 +841,7 @@ export default {
     /**
      * return data source
      */
-    _onTargetDsData (o) {
+    _onTargetDsData(o) {
       this.targetMysqlParams.targetType = o.type
       this.targetMysqlParams.targetDatasource = o.datasource
     },
@@ -849,7 +849,7 @@ export default {
     /**
      * stringify the source params
      */
-    _handleSourceParams () {
+    _handleSourceParams() {
       var params = null
       switch (this.sourceType) {
         case 'MYSQL':
@@ -876,7 +876,7 @@ export default {
     /**
      * stringify the target params
      */
-    _handleTargetParams () {
+    _handleTargetParams() {
       var params = null
       switch (this.targetType) {
         case 'HIVE':
@@ -899,7 +899,7 @@ export default {
     /**
      * get source params by source type
      */
-    _getSourceParams (data) {
+    _getSourceParams(data) {
       switch (this.sourceType) {
         case 'MYSQL':
           this.sourceMysqlParams = JSON.parse(data)
@@ -922,7 +922,7 @@ export default {
     /**
      * get target params by target type
      */
-    _getTargetParams (data) {
+    _getTargetParams(data) {
       switch (this.targetType) {
         case 'HIVE':
           this.targetHiveParams = JSON.parse(data)
@@ -942,7 +942,7 @@ export default {
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       let sqoopParams = {
         jobType: this.jobType,
         localParams: this.localParams
@@ -1057,7 +1057,7 @@ export default {
     /**
      * Processing code highlighting
      */
-    _handlerEditor () {
+    _handlerEditor() {
       this._destroyEditor()
 
       editor = codemirror('code-sqoop-mirror', {
@@ -1090,7 +1090,7 @@ export default {
     /**
      * Processing code highlighting
      */
-    _handlerShellEditor () {
+    _handlerShellEditor() {
       this._destroyShellEditor()
 
       // shellEditor
@@ -1117,25 +1117,25 @@ export default {
     /**
      * return localParams
      */
-    _onLocalParams (a) {
+    _onLocalParams(a) {
       this.localParams = a
     },
 
     /**
      * return hadoopParams
      */
-    _onHadoopCustomParams (a) {
+    _onHadoopCustomParams(a) {
       this.hadoopCustomParams = a
     },
 
     /**
      * return sqoopAdvancedParams
      */
-    _onSqoopAdvancedParams (a) {
+    _onSqoopAdvancedParams(a) {
       this.sqoopAdvancedParams = a
     },
 
-    _cacheParams () {
+    _cacheParams() {
       this.$emit('on-cache-params', {
         concurrency: this.concurrency,
         modelType: this.modelType,
@@ -1147,7 +1147,7 @@ export default {
       })
     },
 
-    _destroyEditor () {
+    _destroyEditor() {
       if (editor) {
         editor.toTextArea() // Uninstall
         editor.off($('.code-sqoop-mirror'), 'keypress', this.keypress)
@@ -1155,7 +1155,7 @@ export default {
         editor = null
       }
     },
-    _destroyShellEditor () {
+    _destroyShellEditor() {
       if (shellEditor) {
         shellEditor.toTextArea() // Uninstall
         shellEditor.off($('.code-shell-mirror'), 'keypress', this.keypress)
@@ -1165,7 +1165,7 @@ export default {
   },
   watch: {
     // Listening to sqlType
-    sqlType (val) {
+    sqlType(val) {
       if (val == 0) {
         this.showType = []
       }
@@ -1176,18 +1176,18 @@ export default {
       }
     },
     // Listening data source
-    type (val) {
+    type(val) {
       if (val !== 'HIVE') {
         this.connParams = ''
       }
     },
     //Watch the cacheParams
-    cacheParams (val) {
+    cacheParams(val) {
       this._cacheParams()
     }
   },
 
-  created () {
+  created() {
     this._destroyEditor()
     let o = this.backfillItem
 
@@ -1214,7 +1214,7 @@ export default {
     }
   },
 
-  mounted () {
+  mounted() {
     // Added delay loading in script input box
     this.$nextTick(() => {
       setTimeout(() => {
@@ -1231,7 +1231,7 @@ export default {
     }, 500)
   },
 
-  destroyed () {
+  destroyed() {
     /**
      * Destroy the editor instance
      */
@@ -1244,7 +1244,7 @@ export default {
   },
 
   computed: {
-    cacheParams () {
+    cacheParams() {
       return {
         concurrency: this.concurrency,
         modelType: this.modelType,
@@ -1273,4 +1273,3 @@ export default {
   padding-right: 4px;
 }
 </style>
-

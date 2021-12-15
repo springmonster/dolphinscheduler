@@ -15,21 +15,22 @@
  * limitations under the License.
  */
 package org.apache.dolphinscheduler.common.utils;
+
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.model.Server;
 
 /**
- *  heartbeat for ZK reigster res info
+ * heartbeat for ZK reigster res info
  */
 public class ResInfo {
 
     /**
-     *  cpuUsage
+     * cpuUsage
      */
     private double cpuUsage;
 
     /**
-     *  memoryUsage
+     * memoryUsage
      */
     private double memoryUsage;
 
@@ -38,15 +39,16 @@ public class ResInfo {
      */
     private double loadAverage;
 
-    public ResInfo(){}
+    public ResInfo() {
+    }
 
-    public ResInfo(double cpuUsage , double memoryUsage){
-        this.cpuUsage = cpuUsage ;
+    public ResInfo(double cpuUsage, double memoryUsage) {
+        this.cpuUsage = cpuUsage;
         this.memoryUsage = memoryUsage;
     }
 
     public ResInfo(double cpuUsage, double memoryUsage, double loadAverage) {
-        this(cpuUsage,memoryUsage);
+        this(cpuUsage, memoryUsage);
         this.loadAverage = loadAverage;
     }
 
@@ -76,28 +78,30 @@ public class ResInfo {
 
     /**
      * get CPU and memory usage
-     * @param cpuUsage cpu usage
+     *
+     * @param cpuUsage    cpu usage
      * @param memoryUsage memory usage
      * @param loadAverage load average
      * @return cpu and memory usage
      */
-    public static String getResInfoJson(double cpuUsage , double memoryUsage,double loadAverage){
-        ResInfo resInfo = new ResInfo(cpuUsage,memoryUsage,loadAverage);
+    public static String getResInfoJson(double cpuUsage, double memoryUsage, double loadAverage) {
+        ResInfo resInfo = new ResInfo(cpuUsage, memoryUsage, loadAverage);
         return JSONUtils.toJson(resInfo);
     }
 
 
     /**
      * parse heartbeat info for zk
+     *
      * @param heartBeatInfo heartbeat info
      * @return heartbeat info to Server
      */
-    public static Server parseHeartbeatForZKInfo(String heartBeatInfo){
+    public static Server parseHeartbeatForZKInfo(String heartBeatInfo) {
         if (StringUtils.isEmpty(heartBeatInfo)) {
             return null;
         }
         String[] masterArray = heartBeatInfo.split(Constants.COMMA);
-        if(masterArray.length != Constants.HEARTBEAT_FOR_ZOOKEEPER_INFO_LENGTH){
+        if (masterArray.length != Constants.HEARTBEAT_FOR_ZOOKEEPER_INFO_LENGTH) {
             return null;
 
         }
@@ -114,6 +118,7 @@ public class ResInfo {
 
     /**
      * is valid heartbeat info for zk
+     *
      * @param heartBeatInfo heartbeat info
      * @return heartbeat info is valid
      */

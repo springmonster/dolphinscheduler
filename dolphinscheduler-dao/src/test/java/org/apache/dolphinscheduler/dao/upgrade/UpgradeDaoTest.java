@@ -18,18 +18,11 @@ package org.apache.dolphinscheduler.dao.upgrade;
 
 import org.junit.Test;
 
-import javax.sql.DataSource;
-import java.util.Map;
-
-import static org.apache.dolphinscheduler.dao.upgrade.UpgradeDao.getDataSource;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.Assert.assertThat;
-
 public class UpgradeDaoTest {
     PostgresqlUpgradeDao postgresqlUpgradeDao = PostgresqlUpgradeDao.getInstance();
 
     @Test
-    public void testQueryQueryAllOldWorkerGroup() throws Exception{
+    public void testQueryQueryAllOldWorkerGroup() throws Exception {
         postgresqlUpgradeDao.updateProcessDefinitionJsonWorkerGroup();
     }
 

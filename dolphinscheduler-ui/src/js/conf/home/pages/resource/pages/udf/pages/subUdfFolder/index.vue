@@ -62,7 +62,7 @@
 </template>
 <script>
 import i18n from '@/module/i18n'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mListBoxF from '@/module/components/listBoxF/listBoxF'
 import mSpin from '@/module/components/spin/spin'
 import mConditions from '@/module/components/conditions/conditions'
@@ -71,7 +71,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'resource-list-create-FILE',
-  data () {
+  data() {
     return {
       type: '',
       name: '',
@@ -82,7 +82,7 @@ export default {
   props: {},
   methods: {
     ...mapActions('resource', ['createResourceFolder']),
-    ok () {
+    ok() {
       if (this._validation()) {
         this.spinnerLoading = true
         this.createResourceFolder({
@@ -95,7 +95,7 @@ export default {
           this.$message.success(res.msg)
           setTimeout(() => {
             this.spinnerLoading = false
-            this.$router.push({ path: `/resource/udf/subUdfDirectory/${this.$route.params.id}` })
+            this.$router.push({path: `/resource/udf/subUdfDirectory/${this.$route.params.id}`})
           }, 800)
         }).catch(e => {
           this.$message.error(e.msg || '')
@@ -103,7 +103,7 @@ export default {
         })
       }
     },
-    _validation () {
+    _validation() {
       if (!this.name) {
         this.$message.warning(`${i18n.$t('Please enter resource folder name')}`)
         return false
@@ -113,12 +113,12 @@ export default {
     },
   },
   watch: {},
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.$modal.destroy()
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {},
   components: {

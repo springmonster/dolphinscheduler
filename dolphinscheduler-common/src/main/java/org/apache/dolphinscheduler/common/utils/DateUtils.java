@@ -18,7 +18,6 @@
 package org.apache.dolphinscheduler.common.utils;
 
 import org.apache.dolphinscheduler.common.Constants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +27,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * date utils
@@ -86,7 +82,7 @@ public class DateUtils {
     /**
      * get the formatted date string
      *
-     * @param date date
+     * @param date   date
      * @param format e.g. yyyy-MM-dd HH:mm:ss
      * @return date string
      */
@@ -98,7 +94,7 @@ public class DateUtils {
      * get the formatted date string
      *
      * @param localDateTime local data time
-     * @param format yyyy-MM-dd HH:mm:ss
+     * @param format        yyyy-MM-dd HH:mm:ss
      * @return date string
      */
     public static String format(LocalDateTime localDateTime, String format) {
@@ -119,7 +115,7 @@ public class DateUtils {
     /**
      * convert string to date and time
      *
-     * @param date date
+     * @param date   date
      * @param format format
      * @return date
      */
@@ -197,7 +193,7 @@ public class DateUtils {
      * get the date of the specified date in the days before and after
      *
      * @param date date
-     * @param day day
+     * @param day  day
      * @return the date of the specified date in the days before and after
      */
     public static Date getSomeDay(Date date, int day) {
@@ -223,7 +219,7 @@ public class DateUtils {
      * compare two dates
      *
      * @param future future date
-     * @param old old date
+     * @param old    old date
      * @return true if future time greater than old time
      */
     public static boolean compare(Date future, Date old) {
@@ -349,7 +345,7 @@ public class DateUtils {
     /**
      * get some hour of day
      *
-     * @param date date
+     * @param date       date
      * @param offsetHour hours
      * @return some hour of day
      */
@@ -458,9 +454,9 @@ public class DateUtils {
     /**
      * get date
      *
-     * @param date date
+     * @param date          date
      * @param calendarField calendarField
-     * @param amount amount
+     * @param amount        amount
      * @return date
      */
     public static Date add(final Date date, final int calendarField, final int amount) {

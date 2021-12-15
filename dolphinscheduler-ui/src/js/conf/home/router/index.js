@@ -17,7 +17,7 @@
 
 import Vue from 'vue'
 import i18n from '@/module/i18n/index.js'
-import { beforeProjectRoute } from '@/module/project/router'
+import {beforeProjectRoute} from '@/module/project/router'
 import Router from 'vue-router'
 
 Vue.use(Router)

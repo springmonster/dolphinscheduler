@@ -28,15 +28,10 @@ import org.apache.dolphinscheduler.common.process.ProcessDag;
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
 import org.apache.dolphinscheduler.dao.entity.ProcessData;
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -151,6 +146,7 @@ public class DagHelperTest {
 
     /**
      * test forbidden post node
+     *
      * @throws JsonProcessingException
      */
     @Test
@@ -188,6 +184,7 @@ public class DagHelperTest {
 
     /**
      * test condition post node
+     *
      * @throws JsonProcessingException
      */
     @Test
@@ -220,7 +217,7 @@ public class DagHelperTest {
 
         //2.complete 1/2/3/4/8 expect:5 skip:6
         completeTaskList.put("8", new TaskInstance());
-        postNodes = DagHelper.parsePostNodes(null ,skipNodeList, dag, completeTaskList);
+        postNodes = DagHelper.parsePostNodes(null, skipNodeList, dag, completeTaskList);
         Assert.assertTrue(postNodes.contains("5"));
         Assert.assertEquals(1, skipNodeList.size());
         Assert.assertTrue(skipNodeList.containsKey("6"));

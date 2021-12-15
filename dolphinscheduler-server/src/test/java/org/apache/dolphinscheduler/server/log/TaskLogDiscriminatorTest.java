@@ -37,7 +37,7 @@ public class TaskLogDiscriminatorTest {
     TaskLogDiscriminator taskLogDiscriminator;
 
     @Before
-    public void before(){
+    public void before() {
         taskLogDiscriminator = new TaskLogDiscriminator();
         taskLogDiscriminator.setLogBase("logs");
         taskLogDiscriminator.setKey("123");
@@ -45,7 +45,7 @@ public class TaskLogDiscriminatorTest {
 
     @Test
     public void getDiscriminatingValue() {
-       String result = taskLogDiscriminator.getDiscriminatingValue(new ILoggingEvent() {
+        String result = taskLogDiscriminator.getDiscriminatingValue(new ILoggingEvent() {
             @Override
             public String getThreadName() {
                 return null;
@@ -148,6 +148,6 @@ public class TaskLogDiscriminatorTest {
 
     @Test
     public void setLogBase() {
-       taskLogDiscriminator.setLogBase("logs");
+        taskLogDiscriminator.setLogBase("logs");
     }
 }

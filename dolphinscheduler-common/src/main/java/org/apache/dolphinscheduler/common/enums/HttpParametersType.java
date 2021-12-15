@@ -25,5 +25,5 @@ public enum HttpParametersType {
      * 1 body;
      * 2 headers;
      */
-    PARAMETER,BODY,HEADERS
+    PARAMETER, BODY, HEADERS
 }

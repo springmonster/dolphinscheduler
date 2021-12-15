@@ -24,7 +24,7 @@ import org.apache.dolphinscheduler.server.master.dispatch.host.assign.Selector;
 import java.util.Collection;
 
 /**
- *  random host manager
+ * random host manager
  */
 public class RandomHostManager extends CommonHostManager {
 
@@ -36,7 +36,7 @@ public class RandomHostManager extends CommonHostManager {
     /**
      * set round robin
      */
-    public RandomHostManager(){
+    public RandomHostManager() {
         this.selector = new RandomSelector<>();
     }
 

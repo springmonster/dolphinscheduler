@@ -17,9 +17,6 @@
 package org.apache.dolphinscheduler.dao;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.dolphinscheduler.common.enums.DbType;
 import org.apache.dolphinscheduler.common.utils.ConnectionUtils;
 import org.apache.dolphinscheduler.dao.entity.MonitorRecord;
@@ -29,6 +26,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -47,22 +48,23 @@ public class MonitorDBDao {
 
     /**
      * get current db performance
+     *
      * @return MonitorRecord
      */
-    public MonitorRecord getCurrentDbPerformance(){
+    public MonitorRecord getCurrentDbPerformance() {
         MonitorRecord monitorRecord = null;
         Connection conn = null;
-        try{
+        try {
             conn = dataSource.getConnection();
             String driverClassName = dataSource.getDriverClassName();
-            if(driverClassName.contains(DbType.MYSQL.toString().toLowerCase())){
+            if (driverClassName.contains(DbType.MYSQL.toString().toLowerCase())) {
                 return new MysqlPerformance().getMonitorRecord(conn);
-            } else if(driverClassName.contains(DbType.POSTGRESQL.toString().toLowerCase())){
+            } else if (driverClassName.contains(DbType.POSTGRESQL.toString().toLowerCase())) {
                 return new PostgrePerformance().getMonitorRecord(conn);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error("SQLException: {}", e.getMessage(), e);
-        }finally {
+        } finally {
             ConnectionUtils.releaseResource(conn);
         }
         return monitorRecord;
@@ -70,13 +72,14 @@ public class MonitorDBDao {
 
     /**
      * query database state
+     *
      * @return MonitorRecord list
      */
     public List<MonitorRecord> queryDatabaseState() {
         List<MonitorRecord> list = new ArrayList<>(1);
 
         MonitorRecord monitorRecord = getCurrentDbPerformance();
-        if(monitorRecord != null){
+        if (monitorRecord != null) {
             list.add(monitorRecord);
         }
         return list;

@@ -32,17 +32,18 @@ import java.util.Set;
  */
 public class ResourceFilterTest {
     private static Logger logger = LoggerFactory.getLogger(ResourceFilterTest.class);
+
     @Test
-    public void filterTest(){
+    public void filterTest() {
         List<Resource> allList = new ArrayList<>();
 
-        Resource resource1 = new Resource(3,-1,"b","/b",true);
-        Resource resource2 = new Resource(4,2,"a1.txt","/a/a1.txt",false);
-        Resource resource3 = new Resource(5,3,"b1.txt","/b/b1.txt",false);
-        Resource resource4 = new Resource(6,3,"b2.jar","/b/b2.jar",false);
-        Resource resource5 = new Resource(7,-1,"b2","/b2",true);
-        Resource resource6 = new Resource(8,-1,"b2","/b/b2",true);
-        Resource resource7 = new Resource(9,8,"c2.jar","/b/b2/c2.jar",false);
+        Resource resource1 = new Resource(3, -1, "b", "/b", true);
+        Resource resource2 = new Resource(4, 2, "a1.txt", "/a/a1.txt", false);
+        Resource resource3 = new Resource(5, 3, "b1.txt", "/b/b1.txt", false);
+        Resource resource4 = new Resource(6, 3, "b2.jar", "/b/b2.jar", false);
+        Resource resource5 = new Resource(7, -1, "b2", "/b2", true);
+        Resource resource6 = new Resource(8, -1, "b2", "/b/b2", true);
+        Resource resource7 = new Resource(9, 8, "c2.jar", "/b/b2/c2.jar", false);
         allList.add(resource1);
         allList.add(resource2);
         allList.add(resource3);
@@ -54,9 +55,9 @@ public class ResourceFilterTest {
         suffixSet.add(".jar");
         suffixSet.add(".txt");
 
-        ResourceFilter resourceFilter = new ResourceFilter(suffixSet,allList);
+        ResourceFilter resourceFilter = new ResourceFilter(suffixSet, allList);
         List<Resource> resourceList = resourceFilter.filter();
         Assert.assertNotNull(resourceList);
-        resourceList.stream().forEach(t-> logger.info(t.toString()));
+        resourceList.stream().forEach(t -> logger.info(t.toString()));
     }
 }

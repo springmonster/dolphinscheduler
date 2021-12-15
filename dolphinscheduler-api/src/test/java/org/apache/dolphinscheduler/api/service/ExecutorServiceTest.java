@@ -43,7 +43,7 @@ public class ExecutorServiceTest {
 
     @Ignore
     @Test
-    public void startCheckByProcessDefinedId(){
+    public void startCheckByProcessDefinedId() {
 
         Map<String, Object> map = executorService.startCheckByProcessDefinedId(1234);
         Assert.assertNull(map);
@@ -54,18 +54,18 @@ public class ExecutorServiceTest {
     @Test
     public void putMsgWithParamsTest() {
 
-        Map<String,Object> map = new HashMap<>(5);
+        Map<String, Object> map = new HashMap<>(5);
         putMsgWithParams(map, Status.PROJECT_ALREADY_EXISTS);
 
         logger.info(map.toString());
     }
 
 
-    void putMsgWithParams(Map<String, Object> result, Status status,Object ... statusParams) {
+    void putMsgWithParams(Map<String, Object> result, Status status, Object... statusParams) {
         result.put(Constants.STATUS, status);
-        if(statusParams != null && statusParams.length > 0){
+        if (statusParams != null && statusParams.length > 0) {
             result.put(Constants.MSG, MessageFormat.format(status.getMsg(), statusParams));
-        }else {
+        } else {
             result.put(Constants.MSG, status.getMsg());
         }
     }

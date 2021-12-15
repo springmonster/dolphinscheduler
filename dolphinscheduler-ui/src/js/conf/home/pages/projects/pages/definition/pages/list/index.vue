@@ -47,7 +47,7 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/list'
 import mSpin from '@/module/components/spin/spin'
 import localStore from '@/module/util/localStorage'
@@ -57,11 +57,11 @@ import switchProject from '@/module/mixin/switchProject'
 import mConditions from '@/module/components/conditions/conditions'
 import mSecondaryMenu from '@/module/components/secondaryMenu/secondaryMenu'
 import mListConstruction from '@/module/components/listConstruction/listConstruction'
-import { findComponentDownward } from '@/module/util/'
+import {findComponentDownward} from '@/module/util/'
 
 export default {
   name: 'definition-list-index',
-  data () {
+  data() {
     return {
       total: null,
       processListP: [],
@@ -82,29 +82,29 @@ export default {
     /**
      * File Upload
      */
-    _uploading () {
+    _uploading() {
       findComponentDownward(this.$root, 'roof-nav')._fileUpdate('DEFINITION')
     },
     /**
      * page
      */
-    _page (val) {
+    _page(val) {
       this.searchParams.pageNo = val
     },
-    _pageSize (val) {
+    _pageSize(val) {
       this.searchParams.pageSize = val
     },
     /**
      * conditions
      */
-    _onConditions (o) {
+    _onConditions(o) {
       this.searchParams.searchVal = o.searchVal
       this.searchParams.pageNo = 1
     },
     /**
      * get data list
      */
-    _getList (flag) {
+    _getList(flag) {
       if (sessionStorage.getItem('isLeft') == 0) {
         this.isLeft = false
       } else {
@@ -124,31 +124,31 @@ export default {
         this.isLoading = false
       })
     },
-    _onUpdate () {
+    _onUpdate() {
       this._debounceGET('false')
     },
-    _updateList () {
+    _updateList() {
       this.searchParams.pageNo = 1
       this.searchParams.searchVal = ''
       this._debounceGET()
     },
-    _updateProject () {
+    _updateProject() {
       this._debounceGET()
     }
   },
   watch: {
-    '$route' (a) {
+    '$route'(a) {
       // url no params get instance list
       this.searchParams.pageNo = _.isEmpty(a.query) ? 1 : a.query.pageNo
     }
   },
-  created () {
+  created() {
     localStore.removeItem('subProcessId')
   },
-  mounted () {
+  mounted() {
     this.$modal.destroy()
   },
-  beforeDestroy () {
+  beforeDestroy() {
     sessionStorage.setItem('isLeft', 1)
   },
   components: {

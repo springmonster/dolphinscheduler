@@ -25,7 +25,7 @@ import org.junit.Test;
 public class FastJsonSerializerTest {
 
     @Test
-    public void testSerialize(){
+    public void testSerialize() {
         TestObj testObj = new TestObj();
         testObj.setAge(12);
         byte[] serializeByte = FastJsonSerializer.serialize(testObj);

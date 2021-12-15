@@ -36,16 +36,16 @@ public class TimePlaceholderUtilsTest {
     @Test
     public void replacePlaceholdersT() {
         Assert.assertEquals("2017test12017:***2016-12-31,20170102,20170130,20161227,20161231", TimePlaceholderUtils
-            .replacePlaceholders("$[yyyy]test1$[yyyy:***]$[yyyy-MM-dd-1],$[month_begin(yyyyMMdd, 1)],$[month_end(yyyyMMdd, -1)],$[week_begin(yyyyMMdd, 1)],$[week_end(yyyyMMdd, -1)]",
-                date, true));
+                .replacePlaceholders("$[yyyy]test1$[yyyy:***]$[yyyy-MM-dd-1],$[month_begin(yyyyMMdd, 1)],$[month_end(yyyyMMdd, -1)],$[week_begin(yyyyMMdd, 1)],$[week_end(yyyyMMdd, -1)]",
+                        date, true));
 
         Assert.assertEquals("1483200061,1483290061,1485709261,1482771661,1483113600,1483203661", TimePlaceholderUtils.replacePlaceholders("$[timestamp(yyyyMMdd00mmss)],"
-                + "$[timestamp(month_begin(yyyyMMddHHmmss, 1))],"
-                + "$[timestamp(month_end(yyyyMMddHHmmss, -1))],"
-                + "$[timestamp(week_begin(yyyyMMddHHmmss, 1))],"
-                + "$[timestamp(week_end(yyyyMMdd000000, -1))],"
-                + "$[timestamp(yyyyMMddHHmmss)]",
-            date, true));
+                        + "$[timestamp(month_begin(yyyyMMddHHmmss, 1))],"
+                        + "$[timestamp(month_end(yyyyMMddHHmmss, -1))],"
+                        + "$[timestamp(week_begin(yyyyMMddHHmmss, 1))],"
+                        + "$[timestamp(week_end(yyyyMMdd000000, -1))],"
+                        + "$[timestamp(yyyyMMddHHmmss)]",
+                date, true));
     }
 
     @Test

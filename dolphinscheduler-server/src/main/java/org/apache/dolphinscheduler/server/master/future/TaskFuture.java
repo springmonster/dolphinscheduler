@@ -30,21 +30,21 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- *  task fulture
+ * task fulture
  */
 public class TaskFuture {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(TaskFuture.class);
 
-    private final static ConcurrentHashMap<Long,TaskFuture> FUTURE_TABLE = new ConcurrentHashMap<>(256);
+    private final static ConcurrentHashMap<Long, TaskFuture> FUTURE_TABLE = new ConcurrentHashMap<>(256);
 
     /**
-     *  request unique identification
+     * request unique identification
      */
     private final long opaque;
 
     /**
-     *  timeout
+     * timeout
      */
     private final long timeoutMillis;
 
@@ -53,7 +53,7 @@ public class TaskFuture {
     private final long beginTimestamp = System.currentTimeMillis();
 
     /**
-     *  response command
+     * response command
      */
     private volatile Command responseCommand;
 
@@ -69,6 +69,7 @@ public class TaskFuture {
 
     /**
      * wait for response
+     *
      * @return command
      * @throws InterruptedException if error throws InterruptedException
      */
@@ -78,7 +79,7 @@ public class TaskFuture {
     }
 
     /**
-     *  put response
+     * put response
      *
      * @param responseCommand responseCommand
      */
@@ -89,7 +90,8 @@ public class TaskFuture {
     }
 
     /**
-     *  whether timeout
+     * whether timeout
+     *
      * @return timeout
      */
     public boolean isTimeout() {
@@ -97,9 +99,9 @@ public class TaskFuture {
         return diff > this.timeoutMillis;
     }
 
-    public static void notify(final Command responseCommand){
+    public static void notify(final Command responseCommand) {
         TaskFuture taskFuture = FUTURE_TABLE.remove(responseCommand.getOpaque());
-        if(taskFuture != null){
+        if (taskFuture != null) {
             taskFuture.putResponse(responseCommand);
         }
     }
@@ -145,7 +147,7 @@ public class TaskFuture {
     /**
      * scan future table
      */
-    public static void scanFutureTable(){
+    public static void scanFutureTable() {
         final List<TaskFuture> futureList = new LinkedList<>();
         Iterator<Map.Entry<Long, TaskFuture>> it = FUTURE_TABLE.entrySet().iterator();
         while (it.hasNext()) {

@@ -30,19 +30,14 @@ import org.apache.dolphinscheduler.dao.entity.WorkerGroup;
 import org.apache.dolphinscheduler.dao.mapper.ProcessInstanceMapper;
 import org.apache.dolphinscheduler.dao.mapper.WorkerGroupMapper;
 import org.apache.dolphinscheduler.service.zk.ZookeeperCachedOperator;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * work group service
@@ -68,9 +63,9 @@ public class WorkerGroupService extends BaseService {
      * create or update a worker group
      *
      * @param loginUser login user
-     * @param id worker group id
-     * @param name worker group name
-     * @param addrList addr list
+     * @param id        worker group id
+     * @param name      worker group name
+     * @param addrList  addr list
      * @return create or update result code
      */
     public Map<String, Object> saveWorkerGroup(User loginUser, int id, String name, String addrList) {
@@ -119,6 +114,7 @@ public class WorkerGroupService extends BaseService {
 
     /**
      * check worker group name exists
+     *
      * @param workerGroup worker group
      * @return boolean
      */
@@ -143,6 +139,7 @@ public class WorkerGroupService extends BaseService {
 
     /**
      * check worker group addr list
+     *
      * @param workerGroup worker group
      * @return boolean
      */
@@ -160,9 +157,9 @@ public class WorkerGroupService extends BaseService {
      * query worker group paging
      *
      * @param loginUser login user
-     * @param pageNo page number
+     * @param pageNo    page number
      * @param searchVal search value
-     * @param pageSize page size
+     * @param pageSize  page size
      * @return worker group list page
      */
     public Map<String, Object> queryAllGroupPaging(User loginUser, Integer pageNo, Integer pageSize, String searchVal) {
@@ -284,6 +281,7 @@ public class WorkerGroupService extends BaseService {
 
     /**
      * delete worker group by id
+     *
      * @param id worker group id
      * @return delete result code
      */

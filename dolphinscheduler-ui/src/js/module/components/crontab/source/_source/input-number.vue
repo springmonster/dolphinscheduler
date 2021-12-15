@@ -25,7 +25,7 @@
 <script>
 export default {
   name: 'input-number',
-  data () {
+  data() {
     return {
       value: 1,
       isIncrease: false,
@@ -44,7 +44,7 @@ export default {
     propsValue: Number
   },
   methods: {
-    onBlur () {
+    onBlur() {
       let $reg = /^\+?[1-9][0-9]*$/　　// eslint-disable-line
       let $val = this.value
       // if (parseInt($val) >= this.min || parseInt($val) <= this.max) {
@@ -64,32 +64,32 @@ export default {
       }
       this.$emit('on-number', this.value)
     },
-    onIncrease () {
+    onIncrease() {
       this.value = parseInt(this.value) + 1
       this.$emit('on-number', this.value)
     },
-    onReduce () {
+    onReduce() {
       this.value = parseInt(this.value) - 1
       this.$emit('on-number', this.value)
     }
   },
   watch: {},
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     this.value = this.propsValue ? this.propsValue : this.min
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
   },
-  beforeUpdate () {
+  beforeUpdate() {
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {},
   components: {}

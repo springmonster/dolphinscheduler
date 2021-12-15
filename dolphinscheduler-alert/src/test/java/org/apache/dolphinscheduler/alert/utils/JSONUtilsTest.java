@@ -44,11 +44,11 @@ public class JSONUtilsTest {
 
         //Initial map
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-        map.put("mysql service name","mysql200");
-        map.put("mysql address","192.168.xx.xx");
-        map.put("port","3306");
-        map.put("no index of number","80");
-        map.put("database client connections","190");
+        map.put("mysql service name", "mysql200");
+        map.put("mysql address", "192.168.xx.xx");
+        map.put("port", "3306");
+        map.put("no index of number", "80");
+        map.put("database client connections", "190");
 
         //Add map into list
         list.add(map);
@@ -66,7 +66,7 @@ public class JSONUtilsTest {
         logger.info(result);
 
         //Equal result with expected string
-        assertEquals(result,expected);
+        assertEquals(result, expected);
 
         //If param is null, then return null string
         result = JSONUtils.toJsonString(null);
@@ -83,27 +83,27 @@ public class JSONUtilsTest {
     public void testToList() {
 
         //Invoke toList
-        List<LinkedHashMap> result = JSONUtils.toList(expected ,LinkedHashMap.class);
+        List<LinkedHashMap> result = JSONUtils.toList(expected, LinkedHashMap.class);
         //Equal list size=1
-        assertEquals(1,result.size());
+        assertEquals(1, result.size());
 
         //Transform entity to LinkedHashMap<String, Object>
         LinkedHashMap<String, Object> entity = result.get(0);
 
         //Equal expected values
-        assertEquals("mysql200",entity.get("mysql service name"));
+        assertEquals("mysql200", entity.get("mysql service name"));
         assertEquals("192.168.xx.xx", entity.get("mysql address"));
         assertEquals("3306", entity.get("port"));
         assertEquals("80", entity.get("no index of number"));
         assertEquals("190", entity.get("database client connections"));
 
         //If param is null, then return empty list
-        result = JSONUtils.toList(null ,LinkedHashMap.class);
+        result = JSONUtils.toList(null, LinkedHashMap.class);
         assertNotNull(result);
         assertTrue(result.isEmpty());
 
         //If param is incorrect, then return empty list and log error message
-        result = JSONUtils.toList("}{" ,LinkedHashMap.class);
+        result = JSONUtils.toList("}{", LinkedHashMap.class);
         assertNotNull(result);
         assertTrue(result.isEmpty());
 

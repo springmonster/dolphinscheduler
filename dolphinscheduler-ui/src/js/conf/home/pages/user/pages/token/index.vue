@@ -48,7 +48,7 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/list'
 import mSpin from '@/module/components/spin/spin'
 import mCreateToken from './_source/createToken'
@@ -60,7 +60,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'token-index',
-  data () {
+  data() {
     return {
       total: null,
       isLoading: false,
@@ -80,23 +80,23 @@ export default {
     /**
      * Inquire
      */
-    _onConditions (o) {
+    _onConditions(o) {
       this.searchParams = _.assign(this.searchParams, o)
       this.searchParams.pageNo = 1
     },
-    _page (val) {
+    _page(val) {
       this.searchParams.pageNo = val
     },
-    _pageSize (val) {
+    _pageSize(val) {
       this.searchParams.pageSize = val
     },
-    _onEdit (item) {
+    _onEdit(item) {
       this._create(item)
     },
-    _onUpdate () {
+    _onUpdate() {
       this._debounceGET()
     },
-    _create (item) {
+    _create(item) {
       let self = this
       let modal = this.$modal.dialog({
         closable: false,
@@ -104,14 +104,14 @@ export default {
         escClose: true,
         className: 'v-modal-custom',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mCreateToken, {
             on: {
-              onUpdate () {
+              onUpdate() {
                 self._debounceGET('false')
                 modal.remove()
               },
-              close () {
+              close() {
                 modal.remove()
               }
             },
@@ -122,7 +122,7 @@ export default {
         }
       })
     },
-    _getList (flag) {
+    _getList(flag) {
       if (sessionStorage.getItem('isLeft') == 0) {
         this.isLeft = false
       } else {
@@ -145,17 +145,17 @@ export default {
   },
   watch: {
     // router
-    '$route' (a) {
+    '$route'(a) {
       // url no params get instance list
       this.searchParams.pageNo = _.isEmpty(a.query) ? 1 : a.query.pageNo
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.$modal.destroy()
   },
-  beforeDestroy () {
+  beforeDestroy() {
     sessionStorage.setItem('isLeft', 1)
   },
   components: {

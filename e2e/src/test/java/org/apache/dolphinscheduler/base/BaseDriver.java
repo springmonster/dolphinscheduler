@@ -66,7 +66,7 @@ public class BaseDriver {
     public static ThreadLocal<WebDriver> threadLocal = new ThreadLocal<>();
 
     /**
-     *Initialization parameters
+     * Initialization parameters
      */
     public BaseDriver() throws IOException {
         /* driver test class path */

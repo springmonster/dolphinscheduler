@@ -17,8 +17,7 @@
 
 package org.apache.dolphinscheduler.server.worker.task.datax;
 
-import static org.apache.dolphinscheduler.common.enums.CommandType.START_PROCESS;
-
+import com.alibaba.fastjson.JSONObject;
 import org.apache.dolphinscheduler.common.enums.DbType;
 import org.apache.dolphinscheduler.dao.datasource.BaseDataSource;
 import org.apache.dolphinscheduler.dao.datasource.DataSourceFactory;
@@ -31,13 +30,6 @@ import org.apache.dolphinscheduler.server.worker.task.ShellCommandExecutor;
 import org.apache.dolphinscheduler.server.worker.task.TaskProps;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
 import org.apache.dolphinscheduler.service.process.ProcessService;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -48,7 +40,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
-import com.alibaba.fastjson.JSONObject;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.dolphinscheduler.common.enums.CommandType.START_PROCESS;
 
 /**
  * DataxTask Tester.
@@ -72,7 +70,7 @@ public class DataxTaskTest {
 
     @Before
     public void before()
-        throws Exception {
+            throws Exception {
         processService = Mockito.mock(ProcessService.class);
         shellCommandExecutor = Mockito.mock(ShellCommandExecutor.class);
 
@@ -90,7 +88,7 @@ public class DataxTaskTest {
         props.setTaskStartTime(new Date());
         props.setTaskTimeout(0);
         props.setTaskParams(
-            "{\"targetTable\":\"test\",\"postStatements\":[],\"jobSpeedByte\":1024,\"jobSpeedRecord\":1000,\"dtType\":\"MYSQL\",\"datasource\":1,\"dsType\":\"MYSQL\",\"datatarget\":2,\"jobSpeedByte\":0,\"sql\":\"select 1 as test from dual\",\"preStatements\":[\"delete from test\"],\"postStatements\":[\"delete from test\"]}");
+                "{\"targetTable\":\"test\",\"postStatements\":[],\"jobSpeedByte\":1024,\"jobSpeedRecord\":1000,\"dtType\":\"MYSQL\",\"datasource\":1,\"dsType\":\"MYSQL\",\"datatarget\":2,\"jobSpeedByte\":0,\"sql\":\"select 1 as test from dual\",\"preStatements\":[\"delete from test\"],\"postStatements\":[\"delete from test\"]}");
 
         taskExecutionContext = Mockito.mock(TaskExecutionContext.class);
         Mockito.when(taskExecutionContext.getTaskParams()).thenReturn(props.getTaskParams());
@@ -155,7 +153,8 @@ public class DataxTaskTest {
 
     @After
     public void after()
-        throws Exception {}
+            throws Exception {
+    }
 
     /**
      * Method: DataxTask()
@@ -211,7 +210,7 @@ public class DataxTaskTest {
      */
     @Test
     public void testParsingSqlColumnNames()
-        throws Exception {
+            throws Exception {
         try {
             BaseDataSource dataSource = DataSourceFactory.getDatasource(getDataSource().getType(),
                     getDataSource().getConnectionParams());
@@ -225,8 +224,7 @@ public class DataxTaskTest {
             Assert.assertTrue(columns.length == 2);
 
             Assert.assertEquals("[`a`, `table`]", Arrays.toString(columns));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }
@@ -236,7 +234,7 @@ public class DataxTaskTest {
      */
     @Test
     public void testTryGrammaticalAnalysisSqlColumnNames()
-        throws Exception {
+            throws Exception {
         try {
             Method method = DataxTask.class.getDeclaredMethod("tryGrammaticalAnalysisSqlColumnNames", DbType.class, String.class);
             method.setAccessible(true);
@@ -247,8 +245,7 @@ public class DataxTaskTest {
             Assert.assertTrue(columns.length == 2);
 
             Assert.assertEquals("[a, b]", Arrays.toString(columns));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }
@@ -259,7 +256,7 @@ public class DataxTaskTest {
      */
     @Test
     public void testTryExecuteSqlResolveColumnNames()
-        throws Exception {
+            throws Exception {
         // TODO: Test goes here...
     }
 
@@ -292,7 +289,7 @@ public class DataxTaskTest {
      */
     @Test
     public void testBuildDataxJobContentJson()
-        throws Exception {
+            throws Exception {
         try {
             Method method = DataxTask.class.getDeclaredMethod("buildDataxJobContentJson");
             method.setAccessible(true);
@@ -311,8 +308,7 @@ public class DataxTaskTest {
 
             String writerPluginName = (String) writer.get("name");
             Assert.assertEquals(DataxUtils.DATAX_WRITER_PLUGIN_MYSQL, writerPluginName);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }
@@ -322,7 +318,7 @@ public class DataxTaskTest {
      */
     @Test
     public void testBuildDataxJobSettingJson()
-        throws Exception {
+            throws Exception {
         try {
             Method method = DataxTask.class.getDeclaredMethod("buildDataxJobSettingJson");
             method.setAccessible(true);
@@ -330,8 +326,7 @@ public class DataxTaskTest {
             Assert.assertNotNull(setting);
             Assert.assertNotNull(setting.get("speed"));
             Assert.assertNotNull(setting.get("errorLimit"));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }
@@ -341,15 +336,14 @@ public class DataxTaskTest {
      */
     @Test
     public void testBuildDataxCoreJson()
-        throws Exception {
+            throws Exception {
         try {
             Method method = DataxTask.class.getDeclaredMethod("buildDataxCoreJson");
             method.setAccessible(true);
             JSONObject coreConfig = (JSONObject) method.invoke(dataxTask, null);
             Assert.assertNotNull(coreConfig);
             Assert.assertNotNull(coreConfig.get("transport"));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }
@@ -359,13 +353,12 @@ public class DataxTaskTest {
      */
     @Test
     public void testBuildShellCommandFile()
-        throws Exception {
+            throws Exception {
         try {
             Method method = DataxTask.class.getDeclaredMethod("buildShellCommandFile", String.class, Map.class);
             method.setAccessible(true);
             Assert.assertNotNull(method.invoke(dataxTask, "test.json", null));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }
@@ -384,19 +377,18 @@ public class DataxTaskTest {
      */
     @Test
     public void testNotNull()
-        throws Exception {
+            throws Exception {
         try {
             Method method = DataxTask.class.getDeclaredMethod("notNull", Object.class, String.class);
             method.setAccessible(true);
             method.invoke(dataxTask, "abc", "test throw RuntimeException");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testGetPythonCommand()   {
+    public void testGetPythonCommand() {
         String pythonCommand = dataxTask.getPythonCommand();
         Assert.assertEquals("python2.7", pythonCommand);
         pythonCommand = dataxTask.getPythonCommand("");

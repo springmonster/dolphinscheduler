@@ -77,9 +77,9 @@
             and instance.process_definition_id = #{processDefinitionId}
         </if>
         <if test="searchVal != null and searchVal != ''">
-            and  instance.name like concat('%', #{searchVal}, '%')
+            and instance.name like concat('%', #{searchVal}, '%')
         </if>
-        <if test="startTime != null ">
+        <if test="startTime != null">
             and instance.start_time > #{startTime} and instance.start_time <![CDATA[ <=]]> #{endTime}
         </if>
         <if test="states != null and states != ''">
@@ -130,7 +130,7 @@
         where 1 = 1
         and t.is_sub_process = 0
         <if test="startTime != null and endTime != null">
-            and  t.start_time <![CDATA[ >= ]]> #{startTime} and t.start_time <![CDATA[ <= ]]> #{endTime}
+            and t.start_time <![CDATA[ >= ]]> #{startTime} and t.start_time <![CDATA[ <= ]]> #{endTime}
         </if>
         <if test="projectIds != null and projectIds.length != 0">
             and p.id in
@@ -150,8 +150,8 @@
         select *
         from t_ds_process_instance
         where process_definition_id=#{processDefinitionId}
-        <if test="startTime!=null and endTime != null ">
-            and schedule_time <![CDATA[ >= ]]> #{startTime} and  schedule_time <![CDATA[ <= ]]> #{endTime}
+        <if test="startTime != null and endTime != null">
+            and schedule_time <![CDATA[ >= ]]> #{startTime} and schedule_time <![CDATA[ <= ]]> #{endTime}
         </if>
         order by end_time desc limit 1
     </select>
@@ -159,16 +159,16 @@
         select *
         from t_ds_process_instance
         where 1=1
-        <if test="states !=null and states.length != 0">
+        <if test="states != null and states.length != 0">
             and state in
             <foreach collection="states" item="i" index="index" open="(" separator="," close=")">
                 #{i}
             </foreach>
         </if>
-        <if test="startTime!=null and endTime != null ">
+        <if test="startTime != null and endTime != null">
             and process_definition_id=#{processDefinitionId}
             and (schedule_time <![CDATA[ >= ]]> #{startTime} and schedule_time <![CDATA[ <= ]]> #{endTime}
-                  or start_time <![CDATA[ >= ]]> #{startTime} and start_time <![CDATA[ <= ]]> #{endTime})
+            or start_time <![CDATA[ >= ]]> #{startTime} and start_time <![CDATA[ <= ]]> #{endTime})
         </if>
         order by start_time desc limit 1
     </select>
@@ -177,11 +177,9 @@
         from t_ds_process_instance
         where process_definition_id=#{processDefinitionId}
         and schedule_time is null
-        <if test="startTime!=null and endTime != null ">
+        <if test="startTime != null and endTime != null">
             and start_time <![CDATA[ >= ]]> #{startTime} and start_time <![CDATA[ <= ]]> #{endTime}
         </if>
         order by end_time desc limit 1
     </select>
-
-
 </mapper>

@@ -19,7 +19,7 @@ import Vue from 'vue'
 import mAffirm from './jumpAffirm'
 import store from '@/conf/home/store'
 import router from '@/conf/home/router'
-import { uuid, findComponentDownward } from '@/module/util/'
+import {findComponentDownward, uuid} from '@/module/util/'
 
 const Affirm = {}
 let $root = {}
@@ -87,10 +87,10 @@ Affirm.isPop = (fn) => {
     escClose: true,
     className: 'v-modal-custom',
     transitionName: 'opacityp',
-    render (h) {
+    render(h) {
       return h(mAffirm, {
         on: {
-          ok () {
+          ok() {
             // save
             findComponentDownward($root, 'dag-chart')._save('affirm').then(() => {
               fn()
@@ -100,7 +100,7 @@ Affirm.isPop = (fn) => {
               Vue.$modal.destroy()
             })
           },
-          close () {
+          close() {
             fn()
             Vue.$modal.destroy()
           }

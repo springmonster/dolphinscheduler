@@ -30,7 +30,7 @@ import gaugeOption from './gaugeOption'
 
 export default {
   name: 'gauge',
-  data () {
+  data() {
     return {}
   },
   props: {
@@ -39,9 +39,9 @@ export default {
     value: Number
   },
   methods: {},
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     const gauge = echarts.init(document.getElementById(this.id)) // eslint-disable-line
     gauge.setOption(gaugeOption(this.value), true)
   },

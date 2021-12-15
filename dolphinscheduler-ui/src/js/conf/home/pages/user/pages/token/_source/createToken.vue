@@ -75,7 +75,7 @@ import mListBoxF from '@/module/components/listBoxF/listBoxF'
 
 export default {
   name: 'create-token',
-  data () {
+  data() {
     return {
       store,
       expireTime: dayjs().format('YYYY-MM-DD 23:59:59'),
@@ -91,12 +91,12 @@ export default {
     item: Object
   },
   methods: {
-    _ok () {
+    _ok() {
       if (this._verification()) {
         this._submit()
       }
     },
-    _verification () {
+    _verification() {
       if (!this.token) {
         this.$message.warning(`${i18n.$t('Please generate token')}`)
         return false
@@ -107,7 +107,7 @@ export default {
       }
       return true
     },
-    _submit () {
+    _submit() {
       let param = {
         expireTime: dayjs(this.expireTime).format('YYYY-MM-DD HH:mm:ss'),
         userId: this.userId,
@@ -128,7 +128,7 @@ export default {
         this.$refs['popup'].spinnerLoading = false
       })
     },
-    _generateToken () {
+    _generateToken() {
       this.tokenLoading = true
       this.store.dispatch(`user/generateToken`, {
         userId: this.userId,
@@ -144,12 +144,12 @@ export default {
         this.tokenLoading = false
       })
     },
-    _onChange () {
+    _onChange() {
       this.token = ''
     }
   },
   watch: {},
-  created () {
+  created() {
     const d = (userId) => {
       if (this.item) {
         this.expireTime = this.item.expireTime
@@ -168,7 +168,7 @@ export default {
       d(this.store.state.user.userInfo.id)
     }
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mPopup,

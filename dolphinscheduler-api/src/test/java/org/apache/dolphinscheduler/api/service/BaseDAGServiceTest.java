@@ -29,7 +29,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class BaseDAGServiceTest {
 
     @Test
-    public void testProcessInstance2DAG(){
+    public void testProcessInstance2DAG() {
 
         ProcessInstance processInstance = new ProcessInstance();
         processInstance.setProcessInstanceJson("{\"globalParams\":[],\"tasks\":[{\"type\":\"SHELL\",\"id\":\"tasks-61567\"," +

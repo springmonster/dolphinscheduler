@@ -57,11 +57,15 @@
             <span>{{ item.directory ? $t('Yes') : $t('No') }}</span>
           </td>
           <td><span class="ellipsis"
-                    v-tooltip.large.top.start.light="{text: item.fileName, maxWidth: '500px'}">{{ item.fileName }}</span>
+                    v-tooltip.large.top.start.light="{text: item.fileName, maxWidth: '500px'}">{{
+              item.fileName
+            }}</span>
           </td>
           <td>
             <span v-if="item.description" class="ellipsis"
-                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{ item.description }}</span>
+                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{
+                item.description
+              }}</span>
             <span v-else>-</span>
           </td>
           <td>
@@ -147,16 +151,16 @@
 <script>
 import _ from 'lodash'
 import mRename from './rename'
-import { mapActions } from 'vuex'
-import { filtTypeArr } from '../../_source/common'
-import { bytesToSize } from '@/module/util/util'
-import { findComponentDownward } from '@/module/util'
-import { downloadFile } from '@/module/download'
+import {mapActions} from 'vuex'
+import {filtTypeArr} from '../../_source/common'
+import {bytesToSize} from '@/module/util/util'
+import {findComponentDownward} from '@/module/util'
+import {downloadFile} from '@/module/download'
 import localStore from '@/module/util/localStorage'
 
 export default {
   name: 'file-manage-list',
-  data () {
+  data() {
     return {
       list: [],
       spinnerLoading: false
@@ -169,34 +173,34 @@ export default {
   },
   methods: {
     ...mapActions('resource', ['deleteResource']),
-    _edit (item) {
+    _edit(item) {
       localStore.setItem('file', `${item.alias}|${item.size}`)
-      this.$router.push({ path: `/resource/file/edit/${item.id}` })
+      this.$router.push({path: `/resource/file/edit/${item.id}`})
     },
-    _go (item) {
+    _go(item) {
       localStore.setItem('file', `${item.alias}|${item.size}`)
       if (item.directory) {
         localStore.setItem('currentDir', `${item.fullName}`)
-        this.$router.push({ path: `/resource/file/subdirectory/${item.id}` })
+        this.$router.push({path: `/resource/file/subdirectory/${item.id}`})
       } else {
-        this.$router.push({ path: `/resource/file/list/${item.id}` })
+        this.$router.push({path: `/resource/file/list/${item.id}`})
       }
     },
-    _childReUpload (item) {
+    _childReUpload(item) {
       findComponentDownward(this.$root, 'roof-nav')._fileChildReUpload('FILE', item, this.$route.params.id)
     },
-    _downloadFile (item) {
+    _downloadFile(item) {
       downloadFile('resources/download', {
         id: item.id
       })
     },
-    _rtSize (val) {
+    _rtSize(val) {
       return bytesToSize(parseInt(val))
     },
-    _closeDelete (i) {
+    _closeDelete(i) {
       this.$refs[`poptip-${i}`][0].doClose()
     },
-    _delete (item, i) {
+    _delete(item, i) {
       this.spinnerLoading = true
       this.deleteResource({
         id: item.id
@@ -211,7 +215,7 @@ export default {
         this.spinnerLoading = false
       })
     },
-    _rename (item, i) {
+    _rename(item, i) {
       let self = this
       let modal = this.$modal.dialog({
         closable: false,
@@ -219,14 +223,14 @@ export default {
         escClose: true,
         className: 'v-modal-custom',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mRename, {
             on: {
-              onUpDate (item) {
+              onUpDate(item) {
                 self.$set(self.list, i, item)
                 modal.remove()
               },
-              close () {
+              close() {
                 modal.remove()
               }
             },
@@ -237,10 +241,10 @@ export default {
         }
       })
     },
-    _rtDisb ({
-      alias,
-      size
-    }) {
+    _rtDisb({
+              alias,
+              size
+            }) {
       let i = alias.lastIndexOf('.')
       let a = alias.substring(i, alias.length)
       let flag = _.includes(filtTypeArr, _.trimStart(a, '.'))
@@ -253,7 +257,7 @@ export default {
     }
   },
   watch: {
-    fileResourcesList (a) {
+    fileResourcesList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
@@ -267,12 +271,12 @@ export default {
     //   }
     // }
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     next() // 一定要有next
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.list = this.fileResourcesList
   },
   components: {}

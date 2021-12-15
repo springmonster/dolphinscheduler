@@ -16,9 +16,9 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.dolphinscheduler.dao.entity.CommandCount;
 import org.apache.dolphinscheduler.dao.entity.ErrorCommand;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -31,8 +31,9 @@ public interface ErrorCommandMapper extends BaseMapper<ErrorCommand> {
 
     /**
      * count command state
-     * @param startTime startTime
-     * @param endTime endTime
+     *
+     * @param startTime      startTime
+     * @param endTime        endTime
      * @param projectIdArray projectIdArray
      * @return CommandCount list
      */

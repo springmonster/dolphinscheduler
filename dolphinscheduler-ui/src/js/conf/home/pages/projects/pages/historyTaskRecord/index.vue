@@ -22,7 +22,7 @@ import mList from '@/conf/home/pages/projects/pages/_source/taskRecordList'
 
 export default {
   name: 'history-task-record',
-  data () {
+  data() {
     return {
       config: {
         title: `${this.$t('History task record')}`,
@@ -30,6 +30,6 @@ export default {
       }
     }
   },
-  components: { mList }
+  components: {mList}
 }
 </script>

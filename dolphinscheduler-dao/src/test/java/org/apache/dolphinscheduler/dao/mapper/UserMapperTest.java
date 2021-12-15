@@ -59,9 +59,10 @@ public class UserMapperTest {
 
     /**
      * insert one user
+     *
      * @return User
      */
-    private User insertOne(){
+    private User insertOne() {
         User user = new User();
         user.setUserName("user1");
         user.setUserPassword("1");
@@ -76,10 +77,11 @@ public class UserMapperTest {
 
     /**
      * insert one user
+     *
      * @param tenant tenant
      * @return User
      */
-    private User insertOne(Tenant tenant){
+    private User insertOne(Tenant tenant) {
         User user = new User();
         user.setUserName("user1");
         user.setUserPassword("1");
@@ -94,11 +96,12 @@ public class UserMapperTest {
 
     /**
      * insert one user
-     * @param queue queue
+     *
+     * @param queue  queue
      * @param tenant tenant
      * @return User
      */
-    private User insertOne(Queue queue,Tenant tenant){
+    private User insertOne(Queue queue, Tenant tenant) {
         User user = new User();
         user.setUserName("user1");
         user.setUserPassword("1");
@@ -114,9 +117,10 @@ public class UserMapperTest {
 
     /**
      * insert one AlertGroup
+     *
      * @return AlertGroup
      */
-    private AlertGroup insertOneAlertGroup(){
+    private AlertGroup insertOneAlertGroup() {
         //insertOne
         AlertGroup alertGroup = new AlertGroup();
         alertGroup.setGroupName("alert group 1");
@@ -131,11 +135,12 @@ public class UserMapperTest {
 
     /**
      * insert one UserAlertGroup
-     * @param user user
+     *
+     * @param user       user
      * @param alertGroup alertGroup
      * @return UserAlertGroup
      */
-    private UserAlertGroup insertOneUserAlertGroup(User user,AlertGroup alertGroup){
+    private UserAlertGroup insertOneUserAlertGroup(User user, AlertGroup alertGroup) {
         UserAlertGroup userAlertGroup = new UserAlertGroup();
         userAlertGroup.setAlertgroupName(alertGroup.getGroupName());
         userAlertGroup.setAlertgroupId(alertGroup.getId());
@@ -148,26 +153,28 @@ public class UserMapperTest {
 
     /**
      * insert one AccessToken
+     *
      * @param user user
      * @return AccessToken
      */
-    private AccessToken insertOneAccessToken(User user){
+    private AccessToken insertOneAccessToken(User user) {
         //insertOne
         AccessToken accessToken = new AccessToken();
         accessToken.setUserId(user.getId());
         accessToken.setToken("secrettoken");
         accessToken.setCreateTime(new Date());
         accessToken.setUpdateTime(new Date());
-        accessToken.setExpireTime(DateUtils.getSomeHourOfDay(new Date(),1));
+        accessToken.setExpireTime(DateUtils.getSomeHourOfDay(new Date(), 1));
         accessTokenMapper.insert(accessToken);
         return accessToken;
     }
 
     /**
      * insert one Tenant
+     *
      * @return Tenant
      */
-    private Tenant insertOneTenant(){
+    private Tenant insertOneTenant() {
         Tenant tenant = new Tenant();
         tenant.setTenantCode("dolphin");
         tenant.setTenantName("dolphin test");
@@ -181,9 +188,10 @@ public class UserMapperTest {
 
     /**
      * insert one Tenant
+     *
      * @return Tenant
      */
-    private Tenant insertOneTenant(Queue queue){
+    private Tenant insertOneTenant(Queue queue) {
         Tenant tenant = new Tenant();
         tenant.setTenantCode("dolphin");
         tenant.setTenantName("dolphin test");
@@ -198,9 +206,10 @@ public class UserMapperTest {
 
     /**
      * insert one Queue
+     *
      * @return Queue
      */
-    private Queue insertOneQueue(){
+    private Queue insertOneQueue() {
         Queue queue = new Queue();
         queue.setQueue("dolphin");
         queue.setQueueName("dolphin queue");
@@ -214,7 +223,7 @@ public class UserMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         User user = insertOne();
         //update
@@ -229,7 +238,7 @@ public class UserMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         //insertOne
         User user = insertOne();
         //delete
@@ -296,9 +305,9 @@ public class UserMapperTest {
         //insertOneTenant
         Tenant tenant = insertOneTenant();
         //insertOne
-        User user = insertOne(queue,tenant);
+        User user = insertOne(queue, tenant);
         //queryUserPaging
-        Page<User> page = new Page(1,3);
+        Page<User> page = new Page(1, 3);
         IPage<User> userIPage = userMapper.queryUserPaging(page, user.getUserName());
         Assert.assertNotEquals(userIPage.getTotal(), 0);
     }
@@ -311,7 +320,7 @@ public class UserMapperTest {
         //insertOneQueue and insertOneTenant
         Queue queue = insertOneQueue();
         Tenant tenant = insertOneTenant(queue);
-        User user = insertOne(queue,tenant);
+        User user = insertOne(queue, tenant);
         //queryDetailsById
         User queryUser = userMapper.queryDetailsById(user.getId());
         Assert.assertEquals(user.getUserName(), queryUser.getUserName());
@@ -345,7 +354,7 @@ public class UserMapperTest {
         User user = insertOne(tenant);
         //queryTenantCodeByUserId
         User queryUser = userMapper.queryTenantCodeByUserId(user.getId());
-        Assert.assertEquals(queryUser,user);
+        Assert.assertEquals(queryUser, user);
     }
 
     /**
@@ -359,7 +368,7 @@ public class UserMapperTest {
         AccessToken accessToken = insertOneAccessToken(user);
         //queryUserByToken
         User userToken = userMapper.queryUserByToken(accessToken.getToken());
-        Assert.assertEquals(userToken,user);
+        Assert.assertEquals(userToken, user);
 
     }
 }

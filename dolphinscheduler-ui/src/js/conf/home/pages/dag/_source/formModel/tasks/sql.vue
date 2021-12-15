@@ -176,7 +176,7 @@ let editor
 
 export default {
   name: 'sql',
-  data () {
+  data() {
     return {
       // Data source type
       type: '',
@@ -224,13 +224,13 @@ export default {
      * limit should't be empty;limit should be a non-negative number str;
      * limit should be a number smaller or equal than Integer.MAX_VALUE in java.
      */
-    isLimitInvalid () {
+    isLimitInvalid() {
       return !this.limit || !/^(0|[1-9]\d*)$/.test(this.limit) || parseInt(this.limit, 10) > 2147483647
     },
     /**
      * return sqlType
      */
-    _onSqlType (a) {
+    _onSqlType(a) {
       this.sqlType = a
       if (a == 0) {
         this.showType = ['TABLE']
@@ -239,38 +239,38 @@ export default {
     /**
      * return udfs
      */
-    _onUdfsData (a) {
+    _onUdfsData(a) {
       this.udfs = a
     },
     /**
      * return Custom parameter
      */
-    _onUdpData (a) {
+    _onUdpData(a) {
       this.localParams = a
     },
     /**
      * return data source
      */
-    _onDsData (o) {
+    _onDsData(o) {
       this.type = o.type
       this.rtDatasource = o.datasource
     },
     /**
      * return pre statements
      */
-    _onPreStatements (a) {
+    _onPreStatements(a) {
       this.preStatements = a
     },
     /**
      * return post statements
      */
-    _onPostStatements (a) {
+    _onPostStatements(a) {
       this.postStatements = a
     },
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       if (!editor.getValue()) {
         this.$message.warning(`${i18n.$t('Please enter a SQL Statement(required)')}`)
         return false
@@ -361,7 +361,7 @@ export default {
     /**
      * Processing code highlighting
      */
-    _handlerEditor () {
+    _handlerEditor() {
       this._destroyEditor()
 
       // editor
@@ -391,7 +391,7 @@ export default {
 
       return editor
     },
-    _getReceiver () {
+    _getReceiver() {
       let param = {}
       let current = this.router.history.current
       if (current.name === 'projects-definition-details') {
@@ -404,7 +404,7 @@ export default {
         this.receiversCc = res.receiversCc && res.receiversCc.split(',') || []
       })
     },
-    _cacheParams () {
+    _cacheParams() {
       this.$emit('on-cache-params', {
         type: this.type,
         datasource: this.rtDatasource,
@@ -432,7 +432,7 @@ export default {
         postStatements: this.postStatements
       })
     },
-    _destroyEditor () {
+    _destroyEditor() {
       if (editor) {
         editor.toTextArea() // Uninstall
         editor.off($('.code-sql-mirror'), 'keypress', this.keypress)
@@ -442,7 +442,7 @@ export default {
   },
   watch: {
     // Listening to sqlType
-    sqlType (val) {
+    sqlType(val) {
       if (val == 0) {
         this.showType = []
       }
@@ -453,17 +453,17 @@ export default {
       }
     },
     // Listening data source
-    type (val) {
+    type(val) {
       if (val !== 'HIVE') {
         this.connParams = ''
       }
     },
     //Watch the cacheParams
-    cacheParams (val) {
+    cacheParams(val) {
       this._cacheParams()
     }
   },
-  created () {
+  created() {
     let o = this.backfillItem
 
     // Non-null objects represent backfill
@@ -491,12 +491,12 @@ export default {
       this.receiversCc = o.params.receiversCc && o.params.receiversCc.split(',') || []
     }
     // read tasks from cache
-    if (!_.some(this.store.state.dag.cacheTasks, { id: this.createNodeId }) &&
+    if (!_.some(this.store.state.dag.cacheTasks, {id: this.createNodeId}) &&
       this.router.history.current.name !== 'definition-create') {
       this._getReceiver()
     }
   },
-  mounted () {
+  mounted() {
     // Added delay loading in script input box
     this.$nextTick(() => {
       setTimeout(() => {
@@ -504,7 +504,7 @@ export default {
       }, 350)
     })
   },
-  destroyed () {
+  destroyed() {
     /**
      * Destroy the editor instance
      */
@@ -515,7 +515,7 @@ export default {
     }
   },
   computed: {
-    cacheParams () {
+    cacheParams() {
       return {
         type: this.type,
         datasource: this.rtDatasource,
@@ -579,4 +579,3 @@ export default {
   }
 }
 </style>
-

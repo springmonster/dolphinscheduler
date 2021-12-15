@@ -35,7 +35,7 @@ const resolveURL = (url) => {
 /**
  * Resolve backend api url
  */
-export { resolveURL }
+export {resolveURL}
 
 /**
  * Set io default instance resolveUrl globally
@@ -78,7 +78,7 @@ io.interceptors.request.use(
     if ((!sIdCookie || (sessionId && sessionId !== sIdCookie)) && requstUrl !== 'login') {
       window.location.href = `${PUBLIC_PATH}/view/login/index.html`
     } else {
-      const { method } = config
+      const {method} = config
       if (method === 'get') {
         config.params = Object.assign({}, config.params, {
           _t: Math.random()

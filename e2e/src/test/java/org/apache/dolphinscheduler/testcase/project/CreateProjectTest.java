@@ -20,10 +20,10 @@ import org.apache.dolphinscheduler.base.BaseTest;
 import org.apache.dolphinscheduler.page.project.CreateProjectPage;
 import org.testng.annotations.Test;
 
-public class CreateProjectTest  extends BaseTest {
+public class CreateProjectTest extends BaseTest {
     private CreateProjectPage createProjectPage;
 
-    @Test(groups={"functionTests","project"},dependsOnGroups = { "login" },description = "CreateProjectTest",priority=4)
+    @Test(groups = {"functionTests", "project"}, dependsOnGroups = {"login"}, description = "CreateProjectTest", priority = 4)
     public void testCreateProject() throws InterruptedException {
         createProjectPage = new CreateProjectPage(driver);
         // enter user manage page
@@ -37,4 +37,3 @@ public class CreateProjectTest  extends BaseTest {
     }
 
 }
-

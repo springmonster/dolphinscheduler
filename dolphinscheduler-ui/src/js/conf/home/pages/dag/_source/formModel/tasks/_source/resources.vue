@@ -37,7 +37,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'resourceList',
-  data () {
+  data() {
     return {
       // Resource(List)
       resList: [],
@@ -53,7 +53,7 @@ export default {
     /**
      * Verify data source
      */
-    _verifResources () {
+    _verifResources() {
       this.$emit('on-resourcesData', _.map(this.value, v => {
         return {
           res: v
@@ -64,10 +64,10 @@ export default {
   },
   watch: {
     // Listening data source
-    resourceList (a) {
+    resourceList(a) {
       this.value = _.map(_.cloneDeep(a), v => v.res)
     },
-    value (val) {
+    value(val) {
       this.$emit('on-cache-resourcesData', _.map(val, v => {
         return {
           res: v
@@ -75,7 +75,7 @@ export default {
       }))
     }
   },
-  created () {
+  created() {
     this.resList = _.map(_.cloneDeep(this.store.state.dag.resourcesListS), v => {
       return {
         code: v.alias
@@ -86,7 +86,7 @@ export default {
       this.value = _.map(_.cloneDeep(this.resourceList), v => v.res)
     }
   },
-  mounted () {
+  mounted() {
 
   },
   components: {}

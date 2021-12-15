@@ -74,7 +74,7 @@ public class TaskInstanceServiceTest {
     UsersService usersService;
 
     @Test
-    public void queryTaskListPaging(){
+    public void queryTaskListPaging() {
 
         String projectName = "project_test1";
         User loginUser = getAdminUser();
@@ -83,7 +83,7 @@ public class TaskInstanceServiceTest {
 
         //project auth fail
         when(projectMapper.queryByName(projectName)).thenReturn(null);
-        when(projectService.checkProjectAndAuth(loginUser,null,projectName)).thenReturn(result);
+        when(projectService.checkProjectAndAuth(loginUser, null, projectName)).thenReturn(result);
         Map<String, Object> proejctAuthFailRes = taskInstanceService.queryTaskListPaging(loginUser, "project_test1", 0, "",
                 "test_user", "2019-02-26 19:48:00", "2019-02-26 19:48:22", "", null, "", 1, 20);
         Assert.assertEquals(Status.PROJECT_NOT_FOUNT, proejctAuthFailRes.get(Constants.STATUS));
@@ -108,7 +108,7 @@ public class TaskInstanceServiceTest {
         taskInstanceList.add(taskInstance);
         pageReturn.setRecords(taskInstanceList);
         when(projectMapper.queryByName(Mockito.anyString())).thenReturn(project);
-        when(projectService.checkProjectAndAuth(loginUser,project,projectName)).thenReturn(result);
+        when(projectService.checkProjectAndAuth(loginUser, project, projectName)).thenReturn(result);
         when(usersService.queryUser(loginUser.getId())).thenReturn(loginUser);
         when(usersService.getUserIdByName(loginUser.getUserName())).thenReturn(loginUser.getId());
         when(taskInstanceMapper.queryTaskInstanceListPaging(Mockito.any(Page.class), eq(project.getId()), eq(1), eq(""), eq(""),
@@ -137,6 +137,7 @@ public class TaskInstanceServiceTest {
 
     /**
      * get Mock Admin User
+     *
      * @return admin user
      */
     private User getAdminUser() {
@@ -149,19 +150,21 @@ public class TaskInstanceServiceTest {
 
     /**
      * get mock Project
+     *
      * @param projectName projectName
      * @return Project
      */
-    private Project getProject(String projectName){
+    private Project getProject(String projectName) {
         Project project = new Project();
         project.setId(1);
         project.setName(projectName);
         project.setUserId(1);
-        return  project;
+        return project;
     }
 
     /**
      * get Mock process instance
+     *
      * @return process instance
      */
     private ProcessInstance getProcessInstance() {
@@ -176,6 +179,7 @@ public class TaskInstanceServiceTest {
 
     /**
      * get Mock task instance
+     *
      * @return task instance
      */
     private TaskInstance getTaskInstance() {

@@ -154,8 +154,8 @@
 <script>
 import _ from 'lodash'
 import cookies from 'js-cookie'
-import { mapState, mapActions } from 'vuex'
-import { findComponentDownward } from '@/module/util/'
+import {mapActions, mapState} from 'vuex'
+import {findComponentDownward} from '@/module/util/'
 import mFileUpdate from '@/module/components/fileUpdate/fileUpdate'
 import mFileReUpload from '@/module/components/fileUpdate/fileReUpload'
 import mFileChildUpdate from '@/module/components/fileUpdate/fileChildUpdate'
@@ -164,11 +164,11 @@ import mResourceChildUpdate from '@/module/components/fileUpdate/resourceChildUp
 import mDefinitionUpdate from '@/module/components/fileUpdate/definitionUpdate'
 import mProgressBar from '@/module/components/progressBar/progressBar'
 
-import { findLocale, localeList } from '@/module/i18n/config'
+import {findLocale, localeList} from '@/module/i18n/config'
 
 export default {
   name: 'roof-nav',
-  data () {
+  data() {
     return {
       // Whether to drag
       isDrag: false,
@@ -194,14 +194,14 @@ export default {
     /**
      * User Info
      */
-    _goAccount () {
+    _goAccount() {
       this.isLogin = false
-      this.$router.push({ name: 'account' })
+      this.$router.push({name: 'account'})
     },
     /**
      * Upload (for the time being)
      */
-    _fileUpdate (type) {
+    _fileUpdate(type) {
       if (this.progress) {
         this._toggleArchive()
         return
@@ -213,23 +213,23 @@ export default {
         escClose: true,
         className: 'update-file-modal',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           if (type === 'DEFINITION') {
             return h(mDefinitionUpdate, {
               on: {
-                onProgress (val) {
+                onProgress(val) {
                   self.progress = val
                 },
-                onUpdate () {
+                onUpdate() {
                   findComponentDownward(self.$root, `definition-list-index`)._updateList()
                   self.isUpdate = false
                   self.progress = 0
                   modal.remove()
                 },
-                onArchive () {
+                onArchive() {
                   self.isUpdate = true
                 },
-                close () {
+                close() {
                   self.progress = 0
                   modal.remove()
                 }
@@ -241,19 +241,19 @@ export default {
           } else {
             return h(mFileUpdate, {
               on: {
-                onProgress (val) {
+                onProgress(val) {
                   self.progress = val
                 },
-                onUpdate () {
+                onUpdate() {
                   findComponentDownward(self.$root, `resource-list-index-${type}`)._updateList()
                   self.isUpdate = false
                   self.progress = 0
                   modal.remove()
                 },
-                onArchive () {
+                onArchive() {
                   self.isUpdate = true
                 },
-                close () {
+                close() {
                   self.progress = 0
                   modal.remove()
                 }
@@ -267,7 +267,7 @@ export default {
       })
     },
     /* fileReUpload */
-    _fileReUpload (type, item) {
+    _fileReUpload(type, item) {
       if (this.progress) {
         this._toggleArchive()
         return
@@ -279,22 +279,22 @@ export default {
         escClose: true,
         className: 'update-file-modal',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mFileReUpload, {
             on: {
-              onProgress (val) {
+              onProgress(val) {
                 self.progress = val
               },
-              onUpdate () {
+              onUpdate() {
                 findComponentDownward(self.$root, `resource-list-index-${type}`)._updateList()
                 self.isUpdate = false
                 self.progress = 0
                 modal.remove()
               },
-              onArchive () {
+              onArchive() {
                 self.isUpdate = true
               },
-              close () {
+              close() {
                 self.progress = 0
                 modal.remove()
               }
@@ -309,7 +309,7 @@ export default {
         }
       })
     },
-    _fileChildReUpload (type, item, data) {
+    _fileChildReUpload(type, item, data) {
       if (this.progress) {
         this._toggleArchive()
         return
@@ -321,22 +321,22 @@ export default {
         escClose: true,
         className: 'update-file-modal',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mFileChildReUpdate, {
             on: {
-              onProgress (val) {
+              onProgress(val) {
                 self.progress = val
               },
-              onUpdate () {
+              onUpdate() {
                 findComponentDownward(self.$root, `resource-list-index-${type}`)._updateList(data)
                 self.isUpdate = false
                 self.progress = 0
                 modal.remove()
               },
-              onArchive () {
+              onArchive() {
                 self.isUpdate = true
               },
-              close () {
+              close() {
                 self.progress = 0
                 modal.remove()
               }
@@ -351,7 +351,7 @@ export default {
         }
       })
     },
-    _fileChildUpdate (type, data) {
+    _fileChildUpdate(type, data) {
       if (this.progress) {
         this._toggleArchive()
         return
@@ -363,22 +363,22 @@ export default {
         escClose: true,
         className: 'update-file-modal',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mFileChildUpdate, {
             on: {
-              onProgress (val) {
+              onProgress(val) {
                 self.progress = val
               },
-              onUpdate () {
+              onUpdate() {
                 findComponentDownward(self.$root, `resource-list-index-${type}`)._updateList(data)
                 self.isUpdate = false
                 self.progress = 0
                 modal.remove()
               },
-              onArchive () {
+              onArchive() {
                 self.isUpdate = true
               },
-              close () {
+              close() {
                 self.progress = 0
                 modal.remove()
               }
@@ -391,7 +391,7 @@ export default {
         }
       })
     },
-    _resourceChildUpdate (type, data) {
+    _resourceChildUpdate(type, data) {
       if (this.progress) {
         this._toggleArchive()
         return
@@ -403,22 +403,22 @@ export default {
         escClose: true,
         className: 'update-file-modal',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mResourceChildUpdate, {
             on: {
-              onProgress (val) {
+              onProgress(val) {
                 self.progress = val
               },
-              onUpdate () {
+              onUpdate() {
                 findComponentDownward(self.$root, `resource-list-index-${type}`)._updateList(data)
                 self.isUpdate = false
                 self.progress = 0
                 modal.remove()
               },
-              onArchive () {
+              onArchive() {
                 self.isUpdate = true
               },
-              close () {
+              close() {
                 self.progress = 0
                 modal.remove()
               }
@@ -434,26 +434,26 @@ export default {
     /**
      * Upload popup layer display
      */
-    _toggleArchive () {
+    _toggleArchive() {
       $('.update-file-modal').show()
     },
     /**
      * sign out
      */
-    _signOut () {
+    _signOut() {
       this.signOut()
     },
     /**
      * Language switching
      */
-    _toggleLanguage (language) {
-      cookies.set('language', language, { path: '/' })
+    _toggleLanguage(language) {
+      cookies.set('language', language, {path: '/'})
       setTimeout(() => {
         window.location.reload()
       }, 100)
     }
   },
-  created () {
+  created() {
     let language = cookies.get('language')
     this.activeLocale = language ? findLocale(language) : '中文'
     this.docLink = process.env.NODE_ENV === 'true' ? 'docs' : `/view/docs/${this.activeLocale.code}/_book` // eslint-disable-line

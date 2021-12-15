@@ -23,5 +23,5 @@ public enum Direct {
     /**
      * 0 in; 1 out;
      */
-    IN,OUT
+    IN, OUT
 }

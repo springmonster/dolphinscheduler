@@ -97,7 +97,7 @@ import FormTenant from './_source/selectTenant'
 
 export default {
   name: 'udp',
-  data () {
+  data() {
     return {
       // dag name
       name: '',
@@ -123,10 +123,10 @@ export default {
     /**
      * udp data
      */
-    _onLocalParams (a) {
+    _onLocalParams(a) {
       this.udpList = a
     },
-    _verifTimeout () {
+    _verifTimeout() {
       const reg = /^[1-9]\d*$/
       if (!reg.test(this.timeout)) {
         this.$message.warning(`${i18n.$t('Please enter a positive integer greater than 0')}`)
@@ -134,7 +134,7 @@ export default {
       }
       return true
     },
-    _accuStore () {
+    _accuStore() {
       this.store.commit('dag/setGlobalParams', _.cloneDeep(this.udpList))
       this.store.commit('dag/setName', _.cloneDeep(this.name))
       this.store.commit('dag/setTimeout', _.cloneDeep(this.timeout))
@@ -145,7 +145,7 @@ export default {
     /**
      * submit
      */
-    ok () {
+    ok() {
       if (!this.name) {
         this.$message.warning(`${i18n.$t('DAG graph name cannot be empty')}`)
         return
@@ -181,19 +181,19 @@ export default {
     /**
      * Close the popup
      */
-    close () {
+    close() {
       this.$emit('close')
     }
   },
   watch: {
-    checkedTimeout (val) {
+    checkedTimeout(val) {
       if (!val) {
         this.timeout = 0
         this.store.commit('dag/setTimeout', _.cloneDeep(this.timeout))
       }
     }
   },
-  created () {
+  created() {
     const dag = _.cloneDeep(this.store.state.dag)
     this.udpList = dag.globalParams
     this.udpListCache = dag.globalParams
@@ -210,7 +210,7 @@ export default {
       }
     })
   },
-  mounted () {
+  mounted() {
   },
   components: {
     FormTenant,

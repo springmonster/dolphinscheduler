@@ -28,7 +28,7 @@
   </m-list-construction>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/zookeeperList'
 import mSpin from '@/module/components/spin/spin'
 import mNoData from '@/module/components/noData/noData'
@@ -36,7 +36,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'servers-alert',
-  data () {
+  data() {
     return {
       pageSize: 10,
       pageNo: 1,
@@ -51,14 +51,14 @@ export default {
     ...mapActions('security', ['getProcessMasterList'])
   },
   watch: {},
-  created () {
+  created() {
     this.isLoading = true
     this.getProcessMasterList().then(res => {
       this.masterList = res.data
       this.isLoading = false
     })
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mList,

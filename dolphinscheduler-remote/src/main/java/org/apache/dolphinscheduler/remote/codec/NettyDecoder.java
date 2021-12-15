@@ -29,11 +29,11 @@ import org.apache.dolphinscheduler.remote.command.CommandType;
 import java.util.List;
 
 /**
- *  netty decoder
+ * netty decoder
  */
 public class NettyDecoder extends ReplayingDecoder<NettyDecoder.State> {
 
-    public NettyDecoder(){
+    public NettyDecoder() {
         super(State.MAGIC);
     }
 
@@ -43,13 +43,13 @@ public class NettyDecoder extends ReplayingDecoder<NettyDecoder.State> {
      * decode
      *
      * @param ctx channel handler context
-     * @param in byte buffer
+     * @param in  byte buffer
      * @param out out content
      * @throws Exception
      */
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        switch (state()){
+        switch (state()) {
             case MAGIC:
                 checkMagic(in.readByte());
                 checkpoint(State.VERSION);
@@ -96,13 +96,14 @@ public class NettyDecoder extends ReplayingDecoder<NettyDecoder.State> {
     }
 
     /**
-     *  get command type
+     * get command type
+     *
      * @param type type
      * @return
      */
-    private CommandType commandType(byte type){
-        for(CommandType ct : CommandType.values()){
-            if(ct.ordinal() == type){
+    private CommandType commandType(byte type) {
+        for (CommandType ct : CommandType.values()) {
+            if (ct.ordinal() == type) {
                 return ct;
             }
         }
@@ -110,7 +111,8 @@ public class NettyDecoder extends ReplayingDecoder<NettyDecoder.State> {
     }
 
     /**
-     *  check magic
+     * check magic
+     *
      * @param magic magic
      */
     private void checkMagic(byte magic) {
@@ -120,7 +122,8 @@ public class NettyDecoder extends ReplayingDecoder<NettyDecoder.State> {
     }
 
     /**
-     *  check version
+     * check version
+     *
      * @param version
      */
     private void checkVersion(byte version) {
@@ -129,7 +132,7 @@ public class NettyDecoder extends ReplayingDecoder<NettyDecoder.State> {
         }
     }
 
-    enum State{
+    enum State {
         MAGIC,
         VERSION,
         COMMAND,

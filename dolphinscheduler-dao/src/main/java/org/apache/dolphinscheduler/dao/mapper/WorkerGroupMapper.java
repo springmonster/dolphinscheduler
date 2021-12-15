@@ -16,13 +16,11 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.dolphinscheduler.dao.entity.WorkerGroup;
-
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * worker group mapper interface
@@ -31,12 +29,14 @@ public interface WorkerGroupMapper extends BaseMapper<WorkerGroup> {
 
     /**
      * query all worker group
+     *
      * @return worker group list
      */
     List<WorkerGroup> queryAllWorkerGroup();
 
     /**
      * query worer grouop by name
+     *
      * @param name name
      * @return worker group list
      */

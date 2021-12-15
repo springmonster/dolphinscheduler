@@ -27,12 +27,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * test class for DefaultHTMLTemplate
  */
-public class DefaultHTMLTemplateTest{
+public class DefaultHTMLTemplateTest {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultHTMLTemplateTest.class);
 
@@ -40,48 +40,48 @@ public class DefaultHTMLTemplateTest{
      * only need test method GetMessageFromTemplate
      */
     @Test
-    public void testGetMessageFromTemplate(){
+    public void testGetMessageFromTemplate() {
 
         DefaultHTMLTemplate template = new DefaultHTMLTemplate();
 
-        String tableTypeMessage = template.getMessageFromTemplate(list2String(), ShowType.TABLE,true);
+        String tableTypeMessage = template.getMessageFromTemplate(list2String(), ShowType.TABLE, true);
 
-        assertEquals(tableTypeMessage,generateMockTableTypeResultByHand());
+        assertEquals(tableTypeMessage, generateMockTableTypeResultByHand());
 
-        String textTypeMessage = template.getMessageFromTemplate(list2String(), ShowType.TEXT,true);
+        String textTypeMessage = template.getMessageFromTemplate(list2String(), ShowType.TEXT, true);
 
-        assertEquals(textTypeMessage,generateMockTextTypeResultByHand());
+        assertEquals(textTypeMessage, generateMockTextTypeResultByHand());
     }
 
     /**
      * generate some simulation data
      */
-    private String list2String(){
+    private String list2String() {
 
         LinkedHashMap<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("mysql service name","mysql200");
-        map1.put("mysql address","192.168.xx.xx");
-        map1.put("port","3306");
-        map1.put("no index of number","80");
-        map1.put("database client connections","190");
+        map1.put("mysql service name", "mysql200");
+        map1.put("mysql address", "192.168.xx.xx");
+        map1.put("port", "3306");
+        map1.put("no index of number", "80");
+        map1.put("database client connections", "190");
 
         LinkedHashMap<String, Object> map2 = new LinkedHashMap<>();
-        map2.put("mysql service name","mysql210");
-        map2.put("mysql address","192.168.xx.xx");
-        map2.put("port","3306");
-        map2.put("no index of number","10");
-        map2.put("database client connections","90");
+        map2.put("mysql service name", "mysql210");
+        map2.put("mysql address", "192.168.xx.xx");
+        map2.put("port", "3306");
+        map2.put("no index of number", "10");
+        map2.put("database client connections", "90");
 
         List<LinkedHashMap<String, Object>> maps = new ArrayList<>();
-        maps.add(0,map1);
-        maps.add(1,map2);
+        maps.add(0, map1);
+        maps.add(1, map2);
         String mapjson = JSONUtils.toJsonString(maps);
         logger.info(mapjson);
 
         return mapjson;
     }
 
-    private String generateMockTableTypeResultByHand(){
+    private String generateMockTableTypeResultByHand() {
 
         return Constants.HTML_HEADER_PREFIX +
                 "<thead><tr><th>mysql service name</th><th>mysql address</th><th>port</th><th>no index of number</th><th>database client connections</th></tr></thead>\n" +
@@ -89,7 +89,7 @@ public class DefaultHTMLTemplateTest{
 
     }
 
-    private String generateMockTextTypeResultByHand(){
+    private String generateMockTextTypeResultByHand() {
 
         return Constants.HTML_HEADER_PREFIX + "<tr><td>{\"mysql service name\":\"mysql200\",\"mysql address\":\"192.168.xx.xx\",\"database client connections\":\"190\",\"port\":\"3306\",\"no index of number\":\"80\"}</td></tr><tr><td>{\"mysql service name\":\"mysql210\",\"mysql address\":\"192.168.xx.xx\",\"database client connections\":\"90\",\"port\":\"3306\",\"no index of number\":\"10\"}</td></tr>" + Constants.TABLE_BODY_HTML_TAIL;
     }

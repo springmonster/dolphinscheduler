@@ -30,12 +30,12 @@ public enum CommandType {
     REMOVE_TAK_LOG_RESPONSE,
 
     /**
-     *  roll view log request
+     * roll view log request
      */
     ROLL_VIEW_LOG_REQUEST,
 
     /**
-     *  roll view log response
+     * roll view log response
      */
     ROLL_VIEW_LOG_RESPONSE,
 
@@ -109,7 +109,7 @@ public enum CommandType {
     PING,
 
     /**
-     *  pong
+     * pong
      */
     PONG;
 }

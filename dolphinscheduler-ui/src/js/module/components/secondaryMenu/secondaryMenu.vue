@@ -56,13 +56,13 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import {mapState} from 'vuex'
 import menu from './_source/menu'
 import store from '@/conf/home/store'
 
 export default {
   name: 'secondary-menu',
-  data () {
+  data() {
     return {
       menuList: menu(this.type),
       index: 0,
@@ -76,16 +76,16 @@ export default {
     className: String
   },
   watch: {
-    isTogHide (is) {
+    isTogHide(is) {
       let layoutBox = $('.main-layout-box')
       is ? layoutBox.addClass('toggle') : layoutBox.removeClass('toggle')
     }
   },
   methods: {
-    _toggleSubMenu (item) {
+    _toggleSubMenu(item) {
       item.isOpen = !item.isOpen
     },
-    _toggleMenu () {
+    _toggleMenu() {
       this.isTogHide = !this.isTogHide
       if (this.isTogHide) {
         sessionStorage.setItem('isLeft', 0)
@@ -96,7 +96,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
   },
   computed: {
     ...mapState('dag', ['projectName'])

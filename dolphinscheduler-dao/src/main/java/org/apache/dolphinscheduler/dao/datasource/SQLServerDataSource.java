@@ -22,10 +22,6 @@ import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 /**
  * data source of SQL Server
  */
@@ -35,6 +31,7 @@ public class SQLServerDataSource extends BaseDataSource {
 
     /**
      * gets the JDBC url for the data source connection
+     *
      * @return jdbc url
      */
     @Override
@@ -49,19 +46,19 @@ public class SQLServerDataSource extends BaseDataSource {
         return jdbcUrl;
     }
 
-  /**
-   * @return driver class
-   */
-  @Override
-  public String driverClassSelector() {
-    return Constants.COM_SQLSERVER_JDBC_DRIVER;
-  }
+    /**
+     * @return driver class
+     */
+    @Override
+    public String driverClassSelector() {
+        return Constants.COM_SQLSERVER_JDBC_DRIVER;
+    }
 
-  /**
-   * @return db type
-   */
-  @Override
-  public DbType dbTypeSelector() {
-    return DbType.SQLSERVER;
-  }
+    /**
+     * @return db type
+     */
+    @Override
+    public DbType dbTypeSelector() {
+        return DbType.SQLSERVER;
+    }
 }

@@ -17,6 +17,10 @@
 
 package org.apache.dolphinscheduler.server.worker.processor;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.sift.SiftingAppender;
+import com.alibaba.fastjson.JSONObject;
+import io.netty.channel.Channel;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.Event;
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
@@ -40,29 +44,22 @@ import org.apache.dolphinscheduler.server.worker.cache.impl.TaskExecutionContext
 import org.apache.dolphinscheduler.server.worker.config.WorkerConfig;
 import org.apache.dolphinscheduler.server.worker.runner.TaskExecuteThread;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSONObject;
-
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.sift.SiftingAppender;
-import io.netty.channel.Channel;
-
 /**
- *  worker request processor
+ * worker request processor
  */
 public class TaskExecuteProcessor implements NettyRequestProcessor {
 
     private final Logger logger = LoggerFactory.getLogger(TaskExecuteProcessor.class);
 
     /**
-     *  thread executor service
+     * thread executor service
      */
     private final ExecutorService workerExecService;
 
@@ -102,10 +99,10 @@ public class TaskExecuteProcessor implements NettyRequestProcessor {
     @Override
     public void process(Channel channel, Command command) {
         Preconditions.checkArgument(CommandType.TASK_EXECUTE_REQUEST == command.getType(),
-            String.format("invalid command type : %s", command.getType()));
+                String.format("invalid command type : %s", command.getType()));
 
         TaskExecuteRequestCommand taskRequestCommand = FastJsonSerializer.deserialize(
-            command.getBody(), TaskExecuteRequestCommand.class);
+                command.getBody(), TaskExecuteRequestCommand.class);
 
         logger.info("received command : {}", taskRequestCommand);
 
@@ -157,15 +154,16 @@ public class TaskExecuteProcessor implements NettyRequestProcessor {
         workerExecService.submit(new TaskExecuteThread(taskExecutionContext, taskCallbackService, taskLogger));
     }
 
-    private void doAck(TaskExecutionContext taskExecutionContext){
+    private void doAck(TaskExecutionContext taskExecutionContext) {
         // tell master that task is in executing
         TaskExecuteAckCommand ackCommand = buildAckCommand(taskExecutionContext);
-        ResponceCache.get().cache(taskExecutionContext.getTaskInstanceId(),ackCommand.convert2Command(),Event.ACK);
+        ResponceCache.get().cache(taskExecutionContext.getTaskInstanceId(), ackCommand.convert2Command(), Event.ACK);
         taskCallbackService.sendAck(taskExecutionContext.getTaskInstanceId(), ackCommand.convert2Command());
     }
 
     /**
      * get task log path
+     *
      * @return log path
      */
     private String getTaskLogPath(TaskExecutionContext taskExecutionContext) {
@@ -173,21 +171,22 @@ public class TaskExecuteProcessor implements NettyRequestProcessor {
                 .getLogger("ROOT")
                 .getAppender("TASKLOGFILE"))
                 .getDiscriminator()).getLogBase();
-        if (baseLog.startsWith(Constants.SINGLE_SLASH)){
+        if (baseLog.startsWith(Constants.SINGLE_SLASH)) {
             return baseLog + Constants.SINGLE_SLASH +
-                    taskExecutionContext.getProcessDefineId() + Constants.SINGLE_SLASH  +
-                    taskExecutionContext.getProcessInstanceId() + Constants.SINGLE_SLASH  +
+                    taskExecutionContext.getProcessDefineId() + Constants.SINGLE_SLASH +
+                    taskExecutionContext.getProcessInstanceId() + Constants.SINGLE_SLASH +
                     taskExecutionContext.getTaskInstanceId() + ".log";
         }
         return System.getProperty("user.dir") + Constants.SINGLE_SLASH +
-                baseLog +  Constants.SINGLE_SLASH +
-                taskExecutionContext.getProcessDefineId() + Constants.SINGLE_SLASH  +
-                taskExecutionContext.getProcessInstanceId() + Constants.SINGLE_SLASH  +
+                baseLog + Constants.SINGLE_SLASH +
+                taskExecutionContext.getProcessDefineId() + Constants.SINGLE_SLASH +
+                taskExecutionContext.getProcessInstanceId() + Constants.SINGLE_SLASH +
                 taskExecutionContext.getTaskInstanceId() + ".log";
     }
 
     /**
      * build ack command
+     *
      * @param taskExecutionContext taskExecutionContext
      * @return TaskExecuteAckCommand
      */
@@ -195,12 +194,12 @@ public class TaskExecuteProcessor implements NettyRequestProcessor {
         TaskExecuteAckCommand ackCommand = new TaskExecuteAckCommand();
         ackCommand.setTaskInstanceId(taskExecutionContext.getTaskInstanceId());
         ackCommand.setStatus(ExecutionStatus.RUNNING_EXECUTION.getCode());
-        ackCommand.setLogPath(taskExecutionContext.getLogPath() );
+        ackCommand.setLogPath(taskExecutionContext.getLogPath());
         ackCommand.setHost(taskExecutionContext.getHost());
         ackCommand.setStartTime(taskExecutionContext.getStartTime());
-        if(taskExecutionContext.getTaskType().equals(TaskType.SQL.name()) || taskExecutionContext.getTaskType().equals(TaskType.PROCEDURE.name())){
+        if (taskExecutionContext.getTaskType().equals(TaskType.SQL.name()) || taskExecutionContext.getTaskType().equals(TaskType.PROCEDURE.name())) {
             ackCommand.setExecutePath(null);
-        }else{
+        } else {
             ackCommand.setExecutePath(taskExecutionContext.getExecutePath());
         }
         return ackCommand;
@@ -208,10 +207,11 @@ public class TaskExecuteProcessor implements NettyRequestProcessor {
 
     /**
      * get execute local path
+     *
      * @param taskExecutionContext taskExecutionContext
      * @return execute local path
      */
-    private String getExecLocalPath(TaskExecutionContext taskExecutionContext){
+    private String getExecLocalPath(TaskExecutionContext taskExecutionContext) {
         return FileUtils.getProcessExecDir(taskExecutionContext.getProjectId(),
                 taskExecutionContext.getProcessDefineId(),
                 taskExecutionContext.getProcessInstanceId(),

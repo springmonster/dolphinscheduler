@@ -21,8 +21,8 @@ import com.alibaba.druid.sql.dialect.oracle.parser.OracleStatementParser;
 import com.alibaba.druid.sql.dialect.postgresql.parser.PGSQLStatementParser;
 import com.alibaba.druid.sql.dialect.sqlserver.parser.SQLServerStatementParser;
 import org.apache.dolphinscheduler.common.enums.DbType;
-import org.junit.Assert;
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -32,9 +32,7 @@ import static org.junit.Assert.assertTrue;
 public class DataxUtilsTest {
 
     /**
-     *
      * Method: getReaderPluginName(DbType dbType)
-     *
      */
     @Test
     public void testGetReaderPluginName() {
@@ -46,9 +44,7 @@ public class DataxUtilsTest {
     }
 
     /**
-     *
      * Method: getWriterPluginName(DbType dbType)
-     *
      */
     @Test
     public void testGetWriterPluginName() {
@@ -60,9 +56,7 @@ public class DataxUtilsTest {
     }
 
     /**
-     *
      * Method: getSqlStatementParser(DbType dbType, String sql)
-     *
      */
     @Test
     public void testGetSqlStatementParser() throws Exception {
@@ -74,9 +68,7 @@ public class DataxUtilsTest {
     }
 
     /**
-     *
      * Method: convertKeywordsColumns(DbType dbType, String[] columns)
-     *
      */
     @Test
     public void testConvertKeywordsColumns() throws Exception {
@@ -93,9 +85,7 @@ public class DataxUtilsTest {
     }
 
     /**
-     *
      * Method: doConvertKeywordsColumn(DbType dbType, String column)
-     *
      */
     @Test
     public void testDoConvertKeywordsColumn() throws Exception {

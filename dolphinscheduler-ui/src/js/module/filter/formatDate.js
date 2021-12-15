@@ -16,7 +16,7 @@
  */
 
 import Vue from 'vue'
-import { formatDate } from './filter'
+import {formatDate} from './filter'
 
 /**
  * @param {String} fmt optional, define formatting format

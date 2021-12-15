@@ -22,6 +22,7 @@ import java.util.Random;
 
 /**
  * random selector
+ *
  * @param <T> T
  */
 public class RandomSelector<T> implements Selector<T> {

@@ -16,7 +16,8 @@
  */
 package org.apache.dolphinscheduler.api.service;
 
-import java.util.*;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.dolphinscheduler.api.enums.Status;
 import org.apache.dolphinscheduler.api.utils.PageInfo;
 import org.apache.dolphinscheduler.common.Constants;
@@ -27,19 +28,19 @@ import org.apache.dolphinscheduler.dao.entity.AlertGroup;
 import org.apache.dolphinscheduler.dao.entity.User;
 import org.apache.dolphinscheduler.dao.entity.UserAlertGroup;
 import org.apache.dolphinscheduler.dao.mapper.AlertGroupMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 /**
  * alert group service
  */
 @Service
-public class AlertGroupService extends BaseService{
+public class AlertGroupService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(AlertGroupService.class);
 
@@ -48,6 +49,7 @@ public class AlertGroupService extends BaseService{
 
     @Autowired
     private UserAlertGroupService userAlertGroupService;
+
     /**
      * query alert group list
      *
@@ -68,8 +70,8 @@ public class AlertGroupService extends BaseService{
      *
      * @param loginUser login user
      * @param searchVal search value
-     * @param pageNo page number
-     * @param pageSize page size
+     * @param pageNo    page number
+     * @param pageSize  page size
      * @return alert group list page
      */
     public Map<String, Object> listPaging(User loginUser, String searchVal, Integer pageNo, Integer pageSize) {
@@ -83,7 +85,7 @@ public class AlertGroupService extends BaseService{
         IPage<AlertGroup> alertGroupIPage = alertGroupMapper.queryAlertGroupPage(
                 page, searchVal);
         PageInfo<AlertGroup> pageInfo = new PageInfo<>(pageNo, pageSize);
-        pageInfo.setTotalCount((int)alertGroupIPage.getTotal());
+        pageInfo.setTotalCount((int) alertGroupIPage.getTotal());
         pageInfo.setLists(alertGroupIPage.getRecords());
         result.put(Constants.DATA_LIST, pageInfo);
         putMsg(result, Status.SUCCESS);
@@ -97,13 +99,13 @@ public class AlertGroupService extends BaseService{
      * @param loginUser login user
      * @param groupName group name
      * @param groupType group type
-     * @param desc description
+     * @param desc      description
      * @return create result code
      */
     public Map<String, Object> createAlertgroup(User loginUser, String groupName, AlertType groupType, String desc) {
         Map<String, Object> result = new HashMap<>(5);
         //only admin can operate
-        if (checkAdmin(loginUser, result)){
+        if (checkAdmin(loginUser, result)) {
             return result;
         }
 
@@ -131,16 +133,16 @@ public class AlertGroupService extends BaseService{
      * updateProcessInstance alert group
      *
      * @param loginUser login user
-     * @param id alert group id
+     * @param id        alert group id
      * @param groupName group name
      * @param groupType group type
-     * @param desc description
+     * @param desc      description
      * @return update result code
      */
     public Map<String, Object> updateAlertgroup(User loginUser, int id, String groupName, AlertType groupType, String desc) {
         Map<String, Object> result = new HashMap<>(5);
 
-        if (checkAdmin(loginUser, result)){
+        if (checkAdmin(loginUser, result)) {
             return result;
         }
 
@@ -174,7 +176,7 @@ public class AlertGroupService extends BaseService{
      * delete alert group by id
      *
      * @param loginUser login user
-     * @param id alert group id
+     * @param id        alert group id
      * @return delete result code
      */
     @Transactional(rollbackFor = Exception.class)
@@ -183,7 +185,7 @@ public class AlertGroupService extends BaseService{
         result.put(Constants.STATUS, false);
 
         //only admin can operate
-        if (checkAdmin(loginUser, result)){
+        if (checkAdmin(loginUser, result)) {
             return result;
         }
         //check exist
@@ -203,9 +205,9 @@ public class AlertGroupService extends BaseService{
     /**
      * grant user
      *
-     * @param loginUser login user
+     * @param loginUser    login user
      * @param alertgroupId alert group id
-     * @param userIds user id list
+     * @param userIds      user id list
      * @return grant result code
      */
     public Map<String, Object> grantUser(User loginUser, int alertgroupId, String userIds) {
@@ -213,7 +215,7 @@ public class AlertGroupService extends BaseService{
         result.put(Constants.STATUS, false);
 
         //only admin can operate
-        if (checkAdmin(loginUser, result)){
+        if (checkAdmin(loginUser, result)) {
             return result;
         }
 

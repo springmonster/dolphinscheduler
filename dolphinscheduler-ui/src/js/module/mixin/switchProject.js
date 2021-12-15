@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-import { mapState } from 'vuex'
-import { beforeProjectRoute } from '@/module/project/router'
+import {mapState} from 'vuex'
+import {beforeProjectRoute} from '@/module/project/router'
 
 export default {
   computed: {
     ...mapState('dag', ['projectId', 'projectName'])
   },
   watch: {
-    projectId () {
+    projectId() {
       typeof this._updateProject === 'function' && this._updateProject()
     }
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     beforeProjectRoute(to, from, next)
   }
 }

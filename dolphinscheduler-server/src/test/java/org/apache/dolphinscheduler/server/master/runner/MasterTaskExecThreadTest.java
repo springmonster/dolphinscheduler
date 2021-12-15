@@ -31,10 +31,6 @@ import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
 import org.apache.dolphinscheduler.service.process.ProcessService;
 import org.apache.dolphinscheduler.service.zk.ZookeeperCachedOperator;
 import org.apache.dolphinscheduler.service.zk.ZookeeperConfig;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -42,22 +38,26 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={DependencyConfig.class, SpringApplicationContext.class, SpringZKServer.class,
+@ContextConfiguration(classes = {DependencyConfig.class, SpringApplicationContext.class, SpringZKServer.class,
         NettyExecutorManager.class, ExecutorDispatcher.class, ZookeeperRegistryCenter.class, TaskPriorityQueueConsumer.class,
         ServerNodeManager.class, ZookeeperCachedOperator.class, ZookeeperConfig.class, SpringConnectionFactory.class})
 public class MasterTaskExecThreadTest {
 
 
     @Test
-    public void testExistsValidWorkerGroup1(){
+    public void testExistsValidWorkerGroup1() {
         ZookeeperRegistryCenter zookeeperRegistryCenter = Mockito.mock(ZookeeperRegistryCenter.class);
         Mockito.when(zookeeperRegistryCenter.getWorkerGroupDirectly()).thenReturn(null);
         MasterTaskExecThread masterTaskExecThread = new MasterTaskExecThread(null);
         masterTaskExecThread.existsValidWorkerGroup("default");
     }
+
     @Test
-    public void testExistsValidWorkerGroup2(){
+    public void testExistsValidWorkerGroup2() {
         ZookeeperRegistryCenter zookeeperRegistryCenter = Mockito.mock(ZookeeperRegistryCenter.class);
         Set<String> workerGorups = new HashSet<>();
         workerGorups.add("test1");
@@ -69,7 +69,7 @@ public class MasterTaskExecThreadTest {
     }
 
     @Test
-    public void testExistsValidWorkerGroup3(){
+    public void testExistsValidWorkerGroup3() {
         ZookeeperRegistryCenter zookeeperRegistryCenter = Mockito.mock(ZookeeperRegistryCenter.class);
         Set<String> workerGorups = new HashSet<>();
         workerGorups.add("test1");
@@ -81,7 +81,7 @@ public class MasterTaskExecThreadTest {
     }
 
     @Test
-    public void testPauseTask(){
+    public void testPauseTask() {
 
 
         ProcessService processService = Mockito.mock(ProcessService.class);
@@ -95,14 +95,14 @@ public class MasterTaskExecThreadTest {
                 .thenReturn(taskInstance);
 
         Mockito.when(processService.updateTaskInstance(taskInstance))
-        .thenReturn(true);
+                .thenReturn(true);
 
         MasterTaskExecThread masterTaskExecThread = new MasterTaskExecThread(taskInstance);
         masterTaskExecThread.pauseTask();
         org.junit.Assert.assertEquals(ExecutionStatus.PAUSE, taskInstance.getState());
     }
 
-    private TaskInstance getTaskInstance(){
+    private TaskInstance getTaskInstance() {
         TaskInstance taskInstance = new TaskInstance();
         taskInstance.setTaskType("SHELL");
         taskInstance.setId(252612);

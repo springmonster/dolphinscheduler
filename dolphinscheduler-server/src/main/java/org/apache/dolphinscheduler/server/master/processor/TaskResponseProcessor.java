@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- *  task response processor
+ * task response processor
  */
 public class TaskResponseProcessor implements NettyRequestProcessor {
 
@@ -51,7 +51,7 @@ public class TaskResponseProcessor implements NettyRequestProcessor {
      */
     private final TaskInstanceCacheManager taskInstanceCacheManager;
 
-    public TaskResponseProcessor(){
+    public TaskResponseProcessor() {
         this.taskResponseService = SpringApplicationContext.getBean(TaskResponseService.class);
         this.taskInstanceCacheManager = SpringApplicationContext.getBean(TaskInstanceCacheManagerImpl.class);
     }

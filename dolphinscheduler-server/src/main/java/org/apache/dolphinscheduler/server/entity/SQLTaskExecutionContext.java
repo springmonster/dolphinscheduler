@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- *  SQL Task ExecutionContext
+ * SQL Task ExecutionContext
  */
 public class SQLTaskExecutionContext implements Serializable {
 
@@ -40,7 +40,7 @@ public class SQLTaskExecutionContext implements Serializable {
     /**
      * udf function tenant code map
      */
-    private Map<UdfFunc,String> udfFuncTenantCodeMap;
+    private Map<UdfFunc, String> udfFuncTenantCodeMap;
 
 
     public int getWarningGroupId() {

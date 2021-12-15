@@ -39,7 +39,7 @@ public class HttpClientTest {
     private static final Logger logger = LoggerFactory.getLogger(HttpClientTest.class);
 
     @Test
-    public  void doPOSTParam()throws Exception{
+    public void doPOSTParam() throws Exception {
         // create HttpClient
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
@@ -74,15 +74,16 @@ public class HttpClientTest {
 
     /**
      * do get param path variables chinese
+     *
      * @throws Exception
      */
     @Test
-    public  void doGETParamPathVariableAndChinese()throws Exception{
+    public void doGETParamPathVariableAndChinese() throws Exception {
         // create HttpClient
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-       // parameters.add(new BasicNameValuePair("pageSize", "10"));
+        // parameters.add(new BasicNameValuePair("pageSize", "10"));
 
         // define the parameters of the request
         URI uri = new URIBuilder("http://localhost:12345/dolphinscheduler/projects/%E5%85%A8%E9%83%A8%E6%B5%81%E7%A8%8B%E6%B5%8B%E8%AF%95/process/list")
@@ -90,7 +91,7 @@ public class HttpClientTest {
 
         // create http GET request
         HttpGet httpGet = new HttpGet(uri);
-        httpGet.setHeader("token","10f5625a2a1cbf9aa710653796c5d764");
+        httpGet.setHeader("token", "10f5625a2a1cbf9aa710653796c5d764");
         //response object
         CloseableHttpResponse response = null;
         try {
@@ -112,12 +113,12 @@ public class HttpClientTest {
     }
 
     /**
-     *
      * do get param
+     *
      * @throws Exception
      */
     @Test
-    public  void doGETParam()throws Exception{
+    public void doGETParam() throws Exception {
         // create HttpClient
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
@@ -128,12 +129,12 @@ public class HttpClientTest {
 
         // define the parameters of the request
         URI uri = new URIBuilder("http://localhost:12345/dolphinscheduler/projects/analysis/queue-count")
-                 .setParameters(parameters)
+                .setParameters(parameters)
                 .build();
 
         // create http GET request
         HttpGet httpGet = new HttpGet(uri);
-        httpGet.setHeader("token","2aef24c052c212fab9eec78848c2258b");
+        httpGet.setHeader("token", "2aef24c052c212fab9eec78848c2258b");
         //response object
         CloseableHttpResponse response = null;
         try {

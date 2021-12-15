@@ -35,16 +35,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- *  netty remote client test
+ * netty remote client test
  */
 public class NettyRemotingClientTest {
 
 
     /**
-     *  test sned sync
+     * test sned sync
      */
     @Test
-    public void testSendSync(){
+    public void testSendSync() {
         NettyServerConfig serverConfig = new NettyServerConfig();
 
         NettyRemotingServer server = new NettyRemotingServer(serverConfig);
@@ -72,10 +72,10 @@ public class NettyRemotingClientTest {
     }
 
     /**
-     *  test sned async
+     * test sned async
      */
     @Test
-    public void testSendAsync(){
+    public void testSendAsync() {
         NettyServerConfig serverConfig = new NettyServerConfig();
 
         NettyRemotingServer server = new NettyRemotingServer(serverConfig);

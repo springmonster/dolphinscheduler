@@ -25,7 +25,6 @@ import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.SqoopConstants;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.generator.ISourceGenerator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,12 +42,12 @@ public class HdfsSourceGenerator implements ISourceGenerator {
 
         try {
             SourceHdfsParameter sourceHdfsParameter
-                = JSONUtils.parseObject(sqoopParameters.getSourceParams(), SourceHdfsParameter.class);
+                    = JSONUtils.parseObject(sqoopParameters.getSourceParams(), SourceHdfsParameter.class);
 
             if (null != sourceHdfsParameter) {
                 if (StringUtils.isNotEmpty(sourceHdfsParameter.getExportDir())) {
                     hdfsSourceSb.append(Constants.SPACE).append(SqoopConstants.HDFS_EXPORT_DIR)
-                        .append(Constants.SPACE).append(sourceHdfsParameter.getExportDir());
+                            .append(Constants.SPACE).append(sourceHdfsParameter.getExportDir());
                 } else {
                     throw new IllegalArgumentException("Sqoop hdfs export dir is null");
                 }

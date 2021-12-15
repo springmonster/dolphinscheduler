@@ -22,7 +22,7 @@ import Pie from './packages/pie'
 import Radar from './packages/radar'
 import Funnel from './packages/funnel'
 import Scatter from './packages/scatter'
-import { checkKeyInModel, init } from './common'
+import {checkKeyInModel, init} from './common'
 
 const components = {
   Line,
@@ -40,8 +40,8 @@ const Chart = {
    * Configure global properties
    * @param {Object} options Global configuration item
    */
-  config (options) {
-    const { theme } = options
+  config(options) {
+    const {theme} = options
     // Registration theme
     if (theme) {
       checkKeyInModel(theme, 'name', 'data')

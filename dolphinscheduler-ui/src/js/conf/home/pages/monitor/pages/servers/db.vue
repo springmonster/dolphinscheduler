@@ -92,7 +92,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/zookeeperList'
 import mSpin from '@/module/components/spin/spin'
 import mNoData from '@/module/components/noData/noData'
@@ -101,7 +101,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'servers-mysql',
-  data () {
+  data() {
     return {
       isLoading: false,
       mysqlList: [],
@@ -113,7 +113,7 @@ export default {
     ...mapActions('monitor', ['getDatabaseData'])
   },
   watch: {},
-  created () {
+  created() {
     this.isLoading = true
     this.getDatabaseData()
       .then(res => {
@@ -124,7 +124,7 @@ export default {
         this.isLoading = false
       })
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mList,

@@ -83,7 +83,7 @@ import mListBoxF from '@/module/components/listBoxF/listBoxF'
 
 export default {
   name: 'create-tenement',
-  data () {
+  data() {
     return {
       store,
       queueList: [],
@@ -97,7 +97,7 @@ export default {
     item: Object
   },
   methods: {
-    _ok () {
+    _ok() {
       if (this._verification()) {
         // The name is not verified
         if (this.item && this.item.groupName === this.groupName) {
@@ -115,7 +115,7 @@ export default {
         })
       }
     },
-    _getQueueList () {
+    _getQueueList() {
       return new Promise((resolve, reject) => {
         this.store.dispatch('security/getQueueList').then(res => {
           this.queueList = _.map(res, v => {
@@ -131,7 +131,7 @@ export default {
         })
       })
     },
-    _verification () {
+    _verification() {
       let isEn = /^[0-9a-zA-Z_.-]{1,}$/
 
       if (!this.tenantCode.replace(/\s*/g, '')) {
@@ -150,7 +150,7 @@ export default {
       }
       return true
     },
-    _submit () {
+    _submit() {
       // 提交
       let param = {
         tenantCode: this.tenantCode,
@@ -176,7 +176,7 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     this._getQueueList().then(res => {
       if (this.item) {
         this.$nextTick(() => {
@@ -188,7 +188,7 @@ export default {
       }
     })
   },
-  mounted () {
+  mounted() {
 
   },
   components: {

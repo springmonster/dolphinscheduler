@@ -65,21 +65,21 @@ import _ from 'lodash'
 import i18n from '@/module/i18n'
 import store from '@/conf/home/store'
 import router from '@/conf/home/router'
-import { downloadFile } from '@/module/download'
+import {downloadFile} from '@/module/download'
 
 /**
  * Calculate text size
  */
 const handerTextareaSize = (isH = 0) => {
   $('body').find('.tooltip.fade.top.in').remove()
-  return $('.textarea-ft').css({ 'height': `${$('.content-log-box').height() - isH}px` })
+  return $('.textarea-ft').css({'height': `${$('.content-log-box').height() - isH}px`})
 }
 
 let content = ''
 
 export default {
   name: 'log',
-  data () {
+  data() {
     return {
       store,
       router,
@@ -103,7 +103,7 @@ export default {
     logId: Number
   },
   methods: {
-    _refreshLog () {
+    _refreshLog() {
       this.loading = true
       this.store.dispatch('dag/getLog', this._rtParam).then(res => {
         setTimeout(() => {
@@ -121,7 +121,7 @@ export default {
         this.loading = false
       })
     },
-    _ckLog () {
+    _ckLog() {
       this.isLog = true
       this.store.dispatch('dag/getLog', this._rtParam).then(res => {
         this.$message.destroy()
@@ -147,7 +147,7 @@ export default {
         this.$message.error(e.msg || '')
       })
     },
-    _screenOpen () {
+    _screenOpen() {
       this.isScreen = true
       let $logBox = $('.log-box')
       let winW = $(window).width() - 40
@@ -158,22 +158,22 @@ export default {
         marginLeft: `-${parseInt(winW / 2)}px`,
         marginTop: `-${parseInt(winH / 2)}px`
       })
-      $logBox.find('.content').animate({ scrollTop: 0 }, 0)
+      $logBox.find('.content').animate({scrollTop: 0}, 0)
       // Handling text field size
       handerTextareaSize().html('').text(content)
     },
-    _screenClose () {
+    _screenClose() {
       this.isScreen = false
       let $logBox = $('.log-box')
       $logBox.attr('style', '')
-      $logBox.find('.content').animate({ scrollTop: 0 }, 0)
+      $logBox.find('.content').animate({scrollTop: 0}, 0)
       // Handling text field size
       handerTextareaSize().html('').text(content)
     },
     /**
      * Download log
      */
-    _downloadLog () {
+    _downloadLog() {
       downloadFile('log/download-log', {
         taskInstanceId: this.stateId || this.logId
       })
@@ -201,7 +201,7 @@ export default {
     /**
      * Monitor scroll bar
      */
-    _onTextareaScroll () {
+    _onTextareaScroll() {
       let self = this
       $('#textarea-log').scroll(function () {
         let $this = $(this)
@@ -233,7 +233,7 @@ export default {
     /**
      * close
      */
-    close () {
+    close() {
       $('body').find('.tooltip.fade.top.in').remove()
       this.isScreen = false
       this.isLog = false
@@ -242,7 +242,7 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     // Source is a task instance
     if (this.source === 'list') {
       this.$message.loading({
@@ -253,13 +253,13 @@ export default {
       this._ckLog()
     }
   },
-  mounted () {
+  mounted() {
     this._onTextareaScroll()
   },
-  updated () {
+  updated() {
   },
   computed: {
-    _rtParam () {
+    _rtParam() {
       return {
         taskInstanceId: this.stateId || this.logId,
         skipLineNum: parseInt(`${this.loadingIndex ? this.loadingIndex + '000' : 0}`),

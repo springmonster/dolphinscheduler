@@ -17,6 +17,7 @@
 
 package org.apache.dolphinscheduler.server.worker.task.mr;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.CommandType;
 import org.apache.dolphinscheduler.common.enums.ProgramType;
@@ -31,15 +32,12 @@ import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.utils.MapReduceArgsUtils;
 import org.apache.dolphinscheduler.server.utils.ParamUtils;
 import org.apache.dolphinscheduler.server.worker.task.AbstractYarnTask;
-
-import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
 
 /**
  * mapreduce task
@@ -47,8 +45,8 @@ import org.slf4j.Logger;
 public class MapReduceTask extends AbstractYarnTask {
 
     /**
-     *  mapreduce command
-     *  usage: hadoop jar <jar> [mainClass] [GENERIC_OPTIONS] args...
+     * mapreduce command
+     * usage: hadoop jar <jar> [mainClass] [GENERIC_OPTIONS] args...
      */
     private static final String MAPREDUCE_COMMAND = Constants.HADOOP;
 
@@ -64,8 +62,9 @@ public class MapReduceTask extends AbstractYarnTask {
 
     /**
      * constructor
+     *
      * @param taskExecutionContext taskExecutionContext
-     * @param logger    logger
+     * @param logger               logger
      */
     public MapReduceTask(TaskExecutionContext taskExecutionContext, Logger logger) {
         super(taskExecutionContext, logger);
@@ -93,18 +92,18 @@ public class MapReduceTask extends AbstractYarnTask {
                 mapreduceParameters.getLocalParametersMap(),
                 CommandType.of(taskExecutionContext.getCmdTypeIfComplement()),
                 taskExecutionContext.getScheduleTime());
-        if(MapUtils.isEmpty(paramsMap)){
-            paramsMap=new HashMap<>();
+        if (MapUtils.isEmpty(paramsMap)) {
+            paramsMap = new HashMap<>();
         }
-        if (MapUtils.isNotEmpty(taskExecutionContext.getParamsMap())){
+        if (MapUtils.isNotEmpty(taskExecutionContext.getParamsMap())) {
             paramsMap.putAll(taskExecutionContext.getParamsMap());
         }
 
         if (paramsMap != null) {
-            String args = ParameterUtils.convertParameterPlaceholders(mapreduceParameters.getMainArgs(),  ParamUtils.convert(paramsMap));
+            String args = ParameterUtils.convertParameterPlaceholders(mapreduceParameters.getMainArgs(), ParamUtils.convert(paramsMap));
             mapreduceParameters.setMainArgs(args);
             if (mapreduceParameters.getProgramType() != null && mapreduceParameters.getProgramType() == ProgramType.PYTHON) {
-                String others = ParameterUtils.convertParameterPlaceholders(mapreduceParameters.getOthers(),  ParamUtils.convert(paramsMap));
+                String others = ParameterUtils.convertParameterPlaceholders(mapreduceParameters.getOthers(), ParamUtils.convert(paramsMap));
                 mapreduceParameters.setOthers(others);
             }
         }
@@ -112,6 +111,7 @@ public class MapReduceTask extends AbstractYarnTask {
 
     /**
      * build command
+     *
      * @return command
      */
     @Override

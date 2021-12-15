@@ -174,13 +174,13 @@ import _ from 'lodash'
 import dayjs from 'dayjs'
 import mEmail from './email.vue'
 import store from '@/conf/home/store'
-import { warningTypeList } from './util'
+import {warningTypeList} from './util'
 import mPriority from '@/module/components/priority/priority'
 import mWorkerGroups from '@/conf/home/pages/dag/_source/formModel/_source/workerGroups'
 
 export default {
   name: 'start-process',
-  data () {
+  data() {
     return {
       store,
       processDefinitionId: 0,
@@ -211,10 +211,10 @@ export default {
     sourceType: String
   },
   methods: {
-    _datepicker (val) {
+    _datepicker(val) {
       this.scheduleTime = val
     },
-    _start () {
+    _start() {
       this.spinnerLoading = true
       let param = {
         processDefinitionId: this.item.id,
@@ -247,7 +247,7 @@ export default {
         this.spinnerLoading = false
       })
     },
-    _getNotifyGroupList () {
+    _getNotifyGroupList() {
       return new Promise((resolve, reject) => {
         let notifyGroupListS = _.cloneDeep(this.store.state.dag.notifyGroupListS) || []
         if (!notifyGroupListS.length) {
@@ -261,25 +261,25 @@ export default {
         }
       })
     },
-    _getReceiver () {
-      this.store.dispatch('dag/getReceiver', { processDefinitionId: this.item.id }).then(res => {
+    _getReceiver() {
+      this.store.dispatch('dag/getReceiver', {processDefinitionId: this.item.id}).then(res => {
         this.receivers = res.receivers && res.receivers.split(',') || []
         this.receiversCc = res.receiversCc && res.receiversCc.split(',') || []
       })
     },
-    ok () {
+    ok() {
       this._start()
     },
-    close () {
+    close() {
       this.$emit('close')
     }
   },
   watch: {
-    execType (a) {
+    execType(a) {
       this.scheduleTime = a ? [dayjs().format('YYYY-MM-DD 00:00:00'), dayjs().format('YYYY-MM-DD 00:00:00')] : ''
     }
   },
-  created () {
+  created() {
     this.warningType = this.warningTypeList[0].id
     this.workflowName = this.item.name
 
@@ -297,7 +297,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this._getNotifyGroupList().then(() => {
       this.$nextTick(() => {
         this.warningGroupId = ''

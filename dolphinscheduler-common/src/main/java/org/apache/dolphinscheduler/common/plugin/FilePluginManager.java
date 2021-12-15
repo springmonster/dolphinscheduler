@@ -73,7 +73,7 @@ public class FilePluginManager implements PluginManager {
             }
             String pluginName = file.getName()
                     .substring(0, file.getName().length() - Constants.PLUGIN_JAR_SUFFIX.length());
-            URL[] urls = new URL[]{ file.toURI().toURL() };
+            URL[] urls = new URL[]{file.toURI().toURL()};
             PluginClassLoader classLoader =
                     new PluginClassLoader(urls, Thread.currentThread().getContextClassLoader(), whitePrefixes, excludePrefixes);
             classLoaderMap.put(pluginName, classLoader);

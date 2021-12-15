@@ -68,7 +68,7 @@ import mListBoxF from '@/module/components/listBoxF/listBoxF'
 
 export default {
   name: 'create-warning',
-  data () {
+  data() {
     return {
       store,
       groupName: '',
@@ -87,7 +87,7 @@ export default {
     item: Object
   },
   methods: {
-    _ok () {
+    _ok() {
       if (this._verification()) {
         // The name is not verified
         if (this.item && this.item.groupName === this.groupName) {
@@ -106,7 +106,7 @@ export default {
         })
       }
     },
-    _verification () {
+    _verification() {
       // group name
       if (!this.groupName.replace(/\s*/g, '')) {
         this.$message.warning(`${i18n.$t('Please enter group name')}`)
@@ -114,7 +114,7 @@ export default {
       }
       return true
     },
-    _submit () {
+    _submit() {
       let param = {
         groupName: this.groupName,
         groupType: this.groupType,
@@ -137,14 +137,14 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     if (this.item) {
       this.groupName = this.item.groupName
       this.groupType = this.item.groupType
       this.description = this.item.description
     }
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mPopup,

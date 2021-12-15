@@ -25,12 +25,12 @@ public class LoggerServerTest {
 
 
     @Test
-    public void testRollViewLog(){
+    public void testRollViewLog() {
         LoggerServer loggerServer = new LoggerServer();
         loggerServer.start();
 
         LogClientService logClientService = new LogClientService();
-        logClientService.rollViewLog("localhost", Constants.RPC_PORT,"/opt/demo.txt",0,1000);
+        logClientService.rollViewLog("localhost", Constants.RPC_PORT, "/opt/demo.txt", 0, 1000);
 
         try {
             Thread.sleep(5000);
@@ -43,12 +43,12 @@ public class LoggerServerTest {
     }
 
     @Test
-    public void testRemoveTaskLog(){
+    public void testRemoveTaskLog() {
         LoggerServer loggerServer = new LoggerServer();
         loggerServer.start();
 
         LogClientService logClientService = new LogClientService();
-        logClientService.removeTaskLog("localhost", Constants.RPC_PORT,"/opt/zhangsan");
+        logClientService.removeTaskLog("localhost", Constants.RPC_PORT, "/opt/zhangsan");
 
         try {
             Thread.sleep(5000);

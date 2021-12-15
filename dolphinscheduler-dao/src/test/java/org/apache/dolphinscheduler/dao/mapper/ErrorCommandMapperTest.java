@@ -48,9 +48,10 @@ public class ErrorCommandMapperTest {
 
     /**
      * insert
+     *
      * @return ErrorCommand
      */
-    private ErrorCommand insertOne(){
+    private ErrorCommand insertOne() {
         //insertOne
         ErrorCommand errorCommand = new ErrorCommand();
         errorCommand.setId(10101);
@@ -60,9 +61,6 @@ public class ErrorCommandMapperTest {
         errorCommandMapper.insert(errorCommand);
         return errorCommand;
     }
-
-
-
 
 
     /**

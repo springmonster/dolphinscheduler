@@ -114,7 +114,7 @@ import i18n from '@/module/i18n'
 
 export default {
   name: 'zookeeper-list',
-  data () {
+  data() {
     return {
       list: []
     }
@@ -158,4 +158,3 @@ export default {
   }
 }
 </style>
-

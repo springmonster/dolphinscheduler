@@ -147,7 +147,7 @@ public final class Constants {
     /**
      * python home
      */
-    public static final String PYTHON_HOME="PYTHON_HOME";
+    public static final String PYTHON_HOME = "PYTHON_HOME";
 
     /**
      * resource.view.suffixs
@@ -753,7 +753,7 @@ public final class Constants {
 
 
     /**
-     *  preview schedule execute count
+     * preview schedule execute count
      */
     public static final int PREVIEW_SCHEDULE_EXECUTE_COUNT = 5;
 
@@ -852,18 +852,17 @@ public final class Constants {
     /**
      * data total
      */
-    public  static final String COUNT = "count";
+    public static final String COUNT = "count";
 
     /**
      * page size
      */
-    public  static final String PAGE_SIZE = "pageSize";
+    public static final String PAGE_SIZE = "pageSize";
 
     /**
      * current page no
      */
-    public  static final String PAGE_NUMBER = "pageNo";
-
+    public static final String PAGE_NUMBER = "pageNo";
 
 
     /**
@@ -968,11 +967,11 @@ public final class Constants {
     /**
      * authorize writable perm
      */
-    public static final int AUTHORIZE_WRITABLE_PERM=7;
+    public static final int AUTHORIZE_WRITABLE_PERM = 7;
     /**
      * authorize readable perm
      */
-    public static final int AUTHORIZE_READABLE_PERM=4;
+    public static final int AUTHORIZE_READABLE_PERM = 4;
 
 
     /**

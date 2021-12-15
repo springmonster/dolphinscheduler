@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,11 +33,12 @@ public class WorkerGroupDao {
 
     /**
      * query all old worker group
+     *
      * @param conn jdbc connection
      * @return old worker group Map
      */
-    public Map<Integer,String> queryAllOldWorkerGroup(Connection conn){
-        Map<Integer,String> workerGroupMap = new HashMap<>();
+    public Map<Integer, String> queryAllOldWorkerGroup(Connection conn) {
+        Map<Integer, String> workerGroupMap = new HashMap<>();
 
         String sql = String.format("select id,name from t_ds_worker_group");
         ResultSet rs = null;
@@ -47,14 +47,14 @@ public class WorkerGroupDao {
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
-                workerGroupMap.put(id,name);
+                workerGroupMap.put(id, name);
             }
 
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             throw new RuntimeException("sql: " + sql, e);
         } finally {
             ConnectionUtils.releaseResource(rs, pstmt, conn);

@@ -17,28 +17,20 @@
 
 package org.apache.dolphinscheduler.service.zk;
 
-import static org.apache.dolphinscheduler.common.Constants.COLON;
-import static org.apache.dolphinscheduler.common.Constants.DIVISION_STRING;
-
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.ZKNodeType;
 import org.apache.dolphinscheduler.common.model.Server;
 import org.apache.dolphinscheduler.common.utils.ResInfo;
 import org.apache.dolphinscheduler.common.utils.StringUtils;
-
-import org.apache.curator.framework.recipes.locks.InterProcessMutex;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
+
+import static org.apache.dolphinscheduler.common.Constants.COLON;
+import static org.apache.dolphinscheduler.common.Constants.DIVISION_STRING;
 
 /**
  * abstract zookeeper client
@@ -128,7 +120,7 @@ public abstract class AbstractZKClient extends RegisterOperator {
      * get server list map.
      *
      * @param zkNodeType zookeeper node type
-     * @param hostOnly host only
+     * @param hostOnly   host only
      * @return result : {host : resource info}
      */
     public Map<String, String> getServerMaps(ZKNodeType zkNodeType, boolean hostOnly) {
@@ -164,7 +156,7 @@ public abstract class AbstractZKClient extends RegisterOperator {
      * get server node set.
      *
      * @param zkNodeType zookeeper node type
-     * @param hostOnly host only
+     * @param hostOnly   host only
      * @return result : set<host>
      */
     public Set<String> getServerNodeSet(ZKNodeType zkNodeType, boolean hostOnly) {
@@ -188,7 +180,7 @@ public abstract class AbstractZKClient extends RegisterOperator {
      * get server node list.
      *
      * @param zkNodeType zookeeper node type
-     * @param hostOnly host only
+     * @param hostOnly   host only
      * @return result : list<host>
      */
     public List<String> getServerNodeList(ZKNodeType zkNodeType, boolean hostOnly) {
@@ -201,7 +193,7 @@ public abstract class AbstractZKClient extends RegisterOperator {
     /**
      * check the zookeeper node already exists
      *
-     * @param host host
+     * @param host       host
      * @param zkNodeType zookeeper node type
      * @return true if exists
      */

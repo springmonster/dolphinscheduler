@@ -21,7 +21,7 @@ export default {
   /**
    * get userInfo
    */
-  getUserInfo ({ state }, payload) {
+  getUserInfo({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('users/get-user-info', payload, res => {
         state.userInfo = res.data
@@ -34,7 +34,7 @@ export default {
   /**
    * sign out
    */
-  signOut () {
+  signOut() {
     io.post('signOut', res => {
       setTimeout(() => {
         window.location.href = `${PUBLIC_PATH}/view/login/index.html`
@@ -50,7 +50,7 @@ export default {
    * String searchVal,
    * Integer pageSize
    */
-  getTokenListP ({ state }, payload) {
+  getTokenListP({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('access-token/list-paging', payload, res => {
         resolve(res.data)
@@ -66,7 +66,7 @@ export default {
    * String expireTime,
    * String token
    */
-  createToken ({ state }, payload) {
+  createToken({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('access-token/create', payload, res => {
         resolve(res)
@@ -82,7 +82,7 @@ export default {
    * String expireTime,
    * String token
    */
-  updateToken ({ state }, payload) {
+  updateToken({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('access-token/update', payload, res => {
         resolve(res)
@@ -97,7 +97,7 @@ export default {
    * int userId,
    * String expireTime
    */
-  generateToken ({ state }, payload) {
+  generateToken({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('access-token/generate', payload, res => {
         resolve(res.data)
@@ -111,7 +111,7 @@ export default {
    * User loginUser,
    * int  id
    */
-  deleteToken ({ state }, payload) {
+  deleteToken({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('access-token/delete', payload, res => {
         resolve(res)

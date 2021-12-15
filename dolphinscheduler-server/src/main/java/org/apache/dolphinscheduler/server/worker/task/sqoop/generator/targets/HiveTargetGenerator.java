@@ -25,7 +25,6 @@ import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.SqoopConstants;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.generator.ITargetGenerator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,16 +42,16 @@ public class HiveTargetGenerator implements ITargetGenerator {
 
         try {
             TargetHiveParameter targetHiveParameter =
-                JSONUtils.parseObject(sqoopParameters.getTargetParams(), TargetHiveParameter.class);
+                    JSONUtils.parseObject(sqoopParameters.getTargetParams(), TargetHiveParameter.class);
             if (null != targetHiveParameter) {
                 hiveTargetSb.append(Constants.SPACE).append(SqoopConstants.HIVE_IMPORT);
 
                 if (StringUtils.isNotEmpty(targetHiveParameter.getHiveDatabase())
-                    && StringUtils.isNotEmpty(targetHiveParameter.getHiveTable())) {
+                        && StringUtils.isNotEmpty(targetHiveParameter.getHiveTable())) {
                     hiveTargetSb.append(Constants.SPACE).append(SqoopConstants.HIVE_DATABASE)
-                        .append(Constants.SPACE).append(targetHiveParameter.getHiveDatabase())
-                        .append(Constants.SPACE).append(SqoopConstants.HIVE_TABLE)
-                        .append(Constants.SPACE).append(targetHiveParameter.getHiveTable());
+                            .append(Constants.SPACE).append(targetHiveParameter.getHiveDatabase())
+                            .append(Constants.SPACE).append(SqoopConstants.HIVE_TABLE)
+                            .append(Constants.SPACE).append(targetHiveParameter.getHiveTable());
                 }
 
                 if (targetHiveParameter.isCreateHiveTable()) {
@@ -65,7 +64,7 @@ public class HiveTargetGenerator implements ITargetGenerator {
 
                 if (targetHiveParameter.isHiveOverWrite()) {
                     hiveTargetSb.append(Constants.SPACE).append(SqoopConstants.HIVE_OVERWRITE)
-                        .append(Constants.SPACE).append(SqoopConstants.DELETE_TARGET_DIR);
+                            .append(Constants.SPACE).append(SqoopConstants.DELETE_TARGET_DIR);
                 }
 
                 if (StringUtils.isNotEmpty(targetHiveParameter.getHiveTargetDir())) {
@@ -75,15 +74,15 @@ public class HiveTargetGenerator implements ITargetGenerator {
 
                 if (StringUtils.isNotEmpty(targetHiveParameter.getReplaceDelimiter())) {
                     hiveTargetSb.append(Constants.SPACE).append(SqoopConstants.HIVE_DELIMS_REPLACEMENT)
-                        .append(Constants.SPACE).append(targetHiveParameter.getReplaceDelimiter());
+                            .append(Constants.SPACE).append(targetHiveParameter.getReplaceDelimiter());
                 }
 
                 if (StringUtils.isNotEmpty(targetHiveParameter.getHivePartitionKey())
-                    && StringUtils.isNotEmpty(targetHiveParameter.getHivePartitionValue())) {
+                        && StringUtils.isNotEmpty(targetHiveParameter.getHivePartitionValue())) {
                     hiveTargetSb.append(Constants.SPACE).append(SqoopConstants.HIVE_PARTITION_KEY)
-                        .append(Constants.SPACE).append(targetHiveParameter.getHivePartitionKey())
-                        .append(Constants.SPACE).append(SqoopConstants.HIVE_PARTITION_VALUE)
-                        .append(Constants.SPACE).append(targetHiveParameter.getHivePartitionValue());
+                            .append(Constants.SPACE).append(targetHiveParameter.getHivePartitionKey())
+                            .append(Constants.SPACE).append(SqoopConstants.HIVE_PARTITION_VALUE)
+                            .append(Constants.SPACE).append(targetHiveParameter.getHivePartitionValue());
                 }
 
             }

@@ -19,9 +19,9 @@ package org.apache.dolphinscheduler.remote.exceptions;
 
 
 /**
- *  timeout exception
+ * timeout exception
  */
-public class RemotingTimeoutException extends RemotingException{
+public class RemotingTimeoutException extends RemotingException {
 
     public RemotingTimeoutException(String message) {
         super(message);

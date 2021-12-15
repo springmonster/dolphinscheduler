@@ -19,7 +19,7 @@ package org.apache.dolphinscheduler.service.queue;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class TaskUpdateQueueTest {
 
@@ -27,7 +27,7 @@ public class TaskUpdateQueueTest {
      * test put
      */
     @Test
-    public void testQueue() throws Exception{
+    public void testQueue() throws Exception {
 
         /**
          * 1_1_2_1_default

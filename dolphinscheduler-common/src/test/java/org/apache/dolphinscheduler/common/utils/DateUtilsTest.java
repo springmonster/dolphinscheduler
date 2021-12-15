@@ -16,12 +16,12 @@
  */
 package org.apache.dolphinscheduler.common.utils;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 public class DateUtilsTest {
     @Test
@@ -41,7 +41,7 @@ public class DateUtilsTest {
 
 
     @Test
-    public void testWeek(){
+    public void testWeek() {
 
         Date curr = DateUtils.stringToDate("2019-02-01 00:00:00");
         Date monday1 = DateUtils.stringToDate("2019-01-28 00:00:00");
@@ -55,7 +55,7 @@ public class DateUtilsTest {
     }
 
     @Test
-    public void diffHours(){
+    public void diffHours() {
         Date d1 = DateUtils.stringToDate("2019-01-28 00:00:00");
         Date d2 = DateUtils.stringToDate("2019-01-28 20:00:00");
         Assert.assertEquals(DateUtils.diffHours(d1, d2), 20);

@@ -18,7 +18,7 @@ package org.apache.dolphinscheduler.locator.security;
 
 import org.openqa.selenium.By;
 
-public class TenantManageLocator{
+public class TenantManageLocator {
     public static final By SECURITY_CENTER = By.xpath("//div[2]/div[6]/div/a/span/em");
 
     public static final By TENANT_MANAGE = By.xpath("//div[2]/div/a/div/a/span");

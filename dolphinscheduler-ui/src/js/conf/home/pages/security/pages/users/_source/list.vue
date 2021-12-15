@@ -132,13 +132,13 @@
 <script>
 import _ from 'lodash'
 import i18n from '@/module/i18n'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mTransfer from '@/module/components/transfer/transfer'
 import mResource from '@/module/components/transfer/resource'
 
 export default {
   name: 'user-list',
-  data () {
+  data() {
     return {
       list: []
     }
@@ -150,10 +150,10 @@ export default {
   },
   methods: {
     ...mapActions('security', ['deleteUser', 'getAuthList', 'grantAuthorization', 'getResourceList']),
-    _closeDelete (i) {
+    _closeDelete(i) {
       this.$refs[`poptip-delete-${i}`][0].doClose()
     },
-    _delete (item, i) {
+    _delete(item, i) {
       this.deleteUser({
         id: item.id
       }).then(res => {
@@ -165,10 +165,10 @@ export default {
         this.$message.error(e.msg || '')
       })
     },
-    _edit (item) {
+    _edit(item) {
       this.$emit('on-edit', item)
     },
-    _authProject (item, i) {
+    _authProject(item, i) {
       this.$refs[`poptip-auth-${i}`][0].doClose()
       this.getAuthList({
         id: item.id,
@@ -194,17 +194,17 @@ export default {
           escClose: true,
           className: 'v-modal-custom',
           transitionName: 'opacityp',
-          render (h) {
+          render(h) {
             return h(mTransfer, {
               on: {
-                onUpdate (projectIds) {
+                onUpdate(projectIds) {
                   self._grantAuthorization('users/grant-project', {
                     userId: item.id,
                     projectIds: projectIds
                   })
                   modal.remove()
                 },
-                close () {
+                close() {
                   modal.remove()
                 }
               },
@@ -223,7 +223,7 @@ export default {
     /*
       getAllLeaf
      */
-    getAllLeaf (data) {
+    getAllLeaf(data) {
       let result = []
       let getLeaf = (data) => {
         data.forEach(item => {
@@ -237,7 +237,7 @@ export default {
       getLeaf(data)
       return result
     },
-    _authFile (item, i) {
+    _authFile(item, i) {
       this.$refs[`poptip-auth-${i}`][0].doClose()
       this.getResourceList({
         id: item.id,
@@ -291,17 +291,17 @@ export default {
           escClose: true,
           className: 'v-modal-custom',
           transitionName: 'opacityp',
-          render (h) {
+          render(h) {
             return h(mResource, {
               on: {
-                onUpdate (resourceIds) {
+                onUpdate(resourceIds) {
                   self._grantAuthorization('users/grant-file', {
                     userId: item.id,
                     resourceIds: resourceIds
                   })
                   modal.remove()
                 },
-                close () {
+                close() {
                   modal.remove()
                 }
               },
@@ -321,7 +321,7 @@ export default {
         })
       })
     },
-    _authDataSource (item, i) {
+    _authDataSource(item, i) {
       this.$refs[`poptip-auth-${i}`][0].doClose()
       this.getAuthList({
         id: item.id,
@@ -347,17 +347,17 @@ export default {
           escClose: true,
           className: 'v-modal-custom',
           transitionName: 'opacityp',
-          render (h) {
+          render(h) {
             return h(mTransfer, {
               on: {
-                onUpdate (datasourceIds) {
+                onUpdate(datasourceIds) {
                   self._grantAuthorization('users/grant-datasource', {
                     userId: item.id,
                     datasourceIds: datasourceIds
                   })
                   modal.remove()
                 },
-                close () {
+                close() {
                   modal.remove()
                 }
               },
@@ -373,7 +373,7 @@ export default {
         })
       })
     },
-    _authUdfFunc (item, i) {
+    _authUdfFunc(item, i) {
       this.$refs[`poptip-auth-${i}`][0].doClose()
       this.getAuthList({
         id: item.id,
@@ -399,17 +399,17 @@ export default {
           escClose: true,
           className: 'v-modal-custom',
           transitionName: 'opacityp',
-          render (h) {
+          render(h) {
             return h(mTransfer, {
               on: {
-                onUpdate (udfIds) {
+                onUpdate(udfIds) {
                   self._grantAuthorization('users/grant-udf-func', {
                     userId: item.id,
                     udfIds: udfIds
                   })
                   modal.remove()
                 },
-                close () {
+                close() {
                   modal.remove()
                 }
               },
@@ -425,7 +425,7 @@ export default {
         })
       })
     },
-    _grantAuthorization (api, param) {
+    _grantAuthorization(api, param) {
       this.grantAuthorization({
         api: api,
         param: param
@@ -437,17 +437,17 @@ export default {
     }
   },
   watch: {
-    userList (a) {
+    userList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
       })
     }
   },
-  created () {
+  created() {
     this.list = this.userList
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

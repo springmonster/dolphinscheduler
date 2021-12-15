@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import _ from 'lodash'
-import { setUrlParams } from '@/module/util/routerUtil'
+import {setUrlParams} from '@/module/util/routerUtil'
 
 /**
  * Mainly used for data list paging url param handle
@@ -26,19 +26,19 @@ export default {
     // watch pageNo
     searchParams: {
       deep: true,
-      handler () {
+      handler() {
         setUrlParams(this.searchParams)
         this._debounceGET()
       }
     }
   },
-  created () {
+  created() {
     // Routing parameter merging
     if (!_.isEmpty(this.$route.query)) {
       this.searchParams = _.assign(this.searchParams, this.$route.query)
     }
   },
-  mounted () {
+  mounted() {
     this._debounceGET()
   },
   methods: {

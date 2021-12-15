@@ -109,7 +109,7 @@ import mListBoxF from '@/module/components/listBoxF/listBoxF'
 
 export default {
   name: 'create-user',
-  data () {
+  data() {
     return {
       store,
       router,
@@ -130,7 +130,7 @@ export default {
     fromUserInfo: Boolean
   },
   methods: {
-    _ok () {
+    _ok() {
       if (this._verification()) {
         // The name is not verified
         if (this.item && this.item.groupName === this.groupName) {
@@ -148,7 +148,7 @@ export default {
         })
       }
     },
-    _verification () {
+    _verification() {
       let regEmail = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/ // eslint-disable-line
 
       // Mobile phone number regular
@@ -199,7 +199,7 @@ export default {
 
       return true
     },
-    _getQueueList () {
+    _getQueueList() {
       return new Promise((resolve, reject) => {
         this.store.dispatch('security/getQueueList').then(res => {
 
@@ -216,7 +216,7 @@ export default {
         })
       })
     },
-    _getTenantList () {
+    _getTenantList() {
       return new Promise((resolve, reject) => {
         this.store.dispatch('security/getTenantList').then(res => {
           let arr = _.filter(res, (o) => {
@@ -237,7 +237,7 @@ export default {
         })
       })
     },
-    _submit () {
+    _submit() {
       this.$refs['popup'].spinnerLoading = true
 
       let queueCode = ''
@@ -271,7 +271,7 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     // Administrator gets tenant list
     if (this.isADMIN) {
       Promise.all([this._getQueueList(), this._getTenantList()]).then(() => {
@@ -311,7 +311,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
 
   },
   components: {

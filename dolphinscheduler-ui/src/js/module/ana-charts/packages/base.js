@@ -18,7 +18,7 @@ import echarts from 'echarts'
 import Chart from '../index'
 
 export default class Base {
-  constructor (element, settings) {
+  constructor(element, settings) {
     this.settings = settings
     const options = this.transform()
     if (options) {
@@ -42,7 +42,7 @@ export default class Base {
    * refresh data
    * @param {*} data Icon data
    */
-  setData (data) {
+  setData(data) {
     if (data && data.length !== 0) {
       this.settings.data = data
       this.options = this.transform()
@@ -50,7 +50,7 @@ export default class Base {
     }
   }
 
-  injectDataIntoSeries (data, series) {
+  injectDataIntoSeries(data, series) {
     data.forEach(o => {
       if (o.index === 'all') {
         delete o.index

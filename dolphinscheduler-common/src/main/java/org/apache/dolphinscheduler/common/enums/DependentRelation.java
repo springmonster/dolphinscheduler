@@ -21,5 +21,5 @@ package org.apache.dolphinscheduler.common.enums;
  */
 public enum DependentRelation {
 
-    AND,OR;
+    AND, OR;
 }

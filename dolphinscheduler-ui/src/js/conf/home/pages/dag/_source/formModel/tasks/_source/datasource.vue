@@ -49,7 +49,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'datasource',
-  data () {
+  data() {
     return {
       // Data source type
       type: '',
@@ -70,7 +70,7 @@ export default {
     /**
      * Verify data source
      */
-    _verifDatasource () {
+    _verifDatasource() {
       if (!this.datasource) {
         this.$message.warning(`${i18n.$t('Please select the datasource')}`)
         return false
@@ -84,7 +84,7 @@ export default {
     /**
      * Get the corresponding datasource data according to type
      */
-    _getDatasourceData () {
+    _getDatasourceData() {
       return new Promise((resolve, reject) => {
         this.store.dispatch('dag/getDatasourceList', this.type).then(res => {
           this.datasourceList = _.map(res.data, v => {
@@ -101,7 +101,7 @@ export default {
     /**
      * Brush type
      */
-    _handleTypeChanged ({ value }) {
+    _handleTypeChanged({value}) {
       this.type = value
       this._getDatasourceData().then(res => {
         this.datasource = this.datasourceList.length && this.datasourceList[0].id || ''
@@ -113,7 +113,7 @@ export default {
     }
   },
   computed: {
-    cacheParams () {
+    cacheParams() {
       return {
         type: this.type,
         datasource: this.datasource
@@ -122,14 +122,14 @@ export default {
   },
   // Watch the cacheParams
   watch: {
-    datasource (val) {
+    datasource(val) {
       this.$emit('on-dsData', {
         type: this.type,
         datasource: val
       })
     }
   },
-  created () {
+  created() {
     let supportType = this.supportType || []
     this.typeList = this.data.typeList || _.cloneDeep(this.store.state.dag.dsTypeListS)
     // Have a specified data source
@@ -158,7 +158,7 @@ export default {
       })
     })
   },
-  mounted () {
+  mounted() {
 
   },
   components: {}

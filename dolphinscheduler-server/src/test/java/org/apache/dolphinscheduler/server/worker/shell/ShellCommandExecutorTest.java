@@ -17,11 +17,6 @@
 package org.apache.dolphinscheduler.server.worker.shell;
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Method;
-
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.common.utils.OSUtils;
@@ -32,7 +27,6 @@ import org.apache.dolphinscheduler.server.worker.task.AbstractTask;
 import org.apache.dolphinscheduler.server.worker.task.TaskProps;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
 import org.apache.dolphinscheduler.service.process.ProcessService;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -46,6 +40,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
@@ -171,7 +169,7 @@ public class ShellCommandExecutorTest {
                 public void destroy() {
                     logger.info("unit test");
                 }
-            } };
+            }};
             method.invoke(new AbstractCommandExecutor(null, new TaskExecutionContext(), logger) {
                 @Override
                 protected String buildCommandFilePath() {

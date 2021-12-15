@@ -17,9 +17,9 @@
 package org.apache.dolphinscheduler.dao.mapper;
 
 
-import org.apache.dolphinscheduler.dao.entity.Queue;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.dolphinscheduler.dao.entity.Queue;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,9 +45,10 @@ public class QueueMapperTest {
 
     /**
      * insert
+     *
      * @return Queue
      */
-    private Queue insertOne(){
+    private Queue insertOne() {
         //insertOne
         Queue queue = new Queue();
         queue.setQueueName("queue");
@@ -62,7 +63,7 @@ public class QueueMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         Queue queue = insertOne();
         queue.setCreateTime(new Date());
@@ -75,7 +76,7 @@ public class QueueMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         Queue queue = insertOne();
         int delete = queueMapper.deleteById(queue.getId());
         Assert.assertEquals(1, delete);
@@ -99,13 +100,13 @@ public class QueueMapperTest {
     public void testQueryQueuePaging() {
 
         Queue queue = insertOne();
-        Page<Queue> page = new Page(1,3);
+        Page<Queue> page = new Page(1, 3);
 
-        IPage<Queue> queueIPage= queueMapper.queryQueuePaging(page,
+        IPage<Queue> queueIPage = queueMapper.queryQueuePaging(page,
                 null);
         Assert.assertNotEquals(queueIPage.getTotal(), 0);
 
-        queueIPage= queueMapper.queryQueuePaging(page,
+        queueIPage = queueMapper.queryQueuePaging(page,
                 queue.getQueueName());
         Assert.assertNotEquals(queueIPage.getTotal(), 0);
     }

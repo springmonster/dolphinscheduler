@@ -24,10 +24,6 @@ import org.apache.dolphinscheduler.dao.entity.ExecuteStatusCount;
 import org.apache.dolphinscheduler.dao.entity.ProcessDefinition;
 import org.apache.dolphinscheduler.dao.entity.ProcessInstance;
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
-
-import java.util.Date;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,6 +33,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -75,13 +74,13 @@ public class TaskInstanceMapperTest {
      */
     private TaskInstance insertOne() {
         //insertOne
-        return insertOne("us task", processInstanceId, ExecutionStatus.RUNNING_EXECUTION, TaskType.SHELL.toString(),1);
+        return insertOne("us task", processInstanceId, ExecutionStatus.RUNNING_EXECUTION, TaskType.SHELL.toString(), 1);
     }
 
     /**
      * construct a task instance and then insert
      */
-    private TaskInstance insertOne(String taskName, int processInstanceId, ExecutionStatus state, String taskType,int processDefinitionId) {
+    private TaskInstance insertOne(String taskName, int processInstanceId, ExecutionStatus state, String taskType, int processDefinitionId) {
         TaskInstance taskInstance = new TaskInstance();
         taskInstance.setFlag(Flag.YES);
         taskInstance.setName(taskName);

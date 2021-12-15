@@ -51,7 +51,7 @@ public enum TaskType {
     CONDITIONS(11, "conditions"),
     SQOOP(12, "sqoop");
 
-    TaskType(int code, String descp){
+    TaskType(int code, String descp) {
         this.code = code;
         this.descp = descp;
     }

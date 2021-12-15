@@ -33,7 +33,7 @@
 <script>
 export default {
   name: 'progress-bar',
-  data () {
+  data() {
     return {}
   },
   props: {

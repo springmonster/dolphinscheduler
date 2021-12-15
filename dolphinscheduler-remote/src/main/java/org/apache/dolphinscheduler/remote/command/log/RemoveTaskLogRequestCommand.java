@@ -24,12 +24,12 @@ import org.apache.dolphinscheduler.remote.utils.FastJsonSerializer;
 import java.io.Serializable;
 
 /**
- *  remove task log request command
+ * remove task log request command
  */
 public class RemoveTaskLogRequestCommand implements Serializable {
 
     /**
-     *  log path
+     * log path
      */
     private String path;
 
@@ -53,7 +53,7 @@ public class RemoveTaskLogRequestCommand implements Serializable {
      *
      * @return command
      */
-    public Command convert2Command(){
+    public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.REMOVE_TAK_LOG_REQUEST);
         byte[] body = FastJsonSerializer.serialize(this);

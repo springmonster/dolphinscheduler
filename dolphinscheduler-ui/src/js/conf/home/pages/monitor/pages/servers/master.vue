@@ -49,7 +49,9 @@
               <div class="text-num-model">
                 <div class="value-p">
                   <strong
-                    :style="{color:color[$index]}">{{ item.resInfo.loadAverage > 0 ? item.resInfo.loadAverage.toFixed(2) : 0 }}</strong>
+                    :style="{color:color[$index]}">{{
+                      item.resInfo.loadAverage > 0 ? item.resInfo.loadAverage.toFixed(2) : 0
+                    }}</strong>
                 </div>
                 <div class="text-1">
                   loadAverage
@@ -68,7 +70,7 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mGauge from './_source/gauge'
 import mList from './_source/zookeeperList'
 import mSpin from '@/module/components/spin/spin'
@@ -79,7 +81,7 @@ import zookeeperDirectoriesPopup from './_source/zookeeperDirectories'
 
 export default {
   name: 'servers-master',
-  data () {
+  data() {
     return {
       isLoading: false,
       masterList: [],
@@ -89,13 +91,13 @@ export default {
   props: {},
   methods: {
     ...mapActions('monitor', ['getMasterData']),
-    _showZkDirectories (item) {
+    _showZkDirectories(item) {
       this.$drawer({
         direction: 'right',
-        render (h) {
+        render(h) {
           return h(zookeeperDirectoriesPopup, {
             props: {
-              zkDirectories: [{ zkDirectory: item.zkDirectory }]
+              zkDirectories: [{zkDirectory: item.zkDirectory}]
             }
           })
         }
@@ -103,9 +105,9 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.isLoading = true
     this.getMasterData().then(res => {
       this.masterList = _.map(res, (v, i) => {

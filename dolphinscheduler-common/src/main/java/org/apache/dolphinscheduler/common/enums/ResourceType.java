@@ -21,7 +21,7 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 /**
  * resource type
  */
-public enum  ResourceType {
+public enum ResourceType {
     /**
      * 0 file, 1 udf
      */
@@ -29,7 +29,7 @@ public enum  ResourceType {
     UDF(1, "udf");
 
 
-    ResourceType(int code, String descp){
+    ResourceType(int code, String descp) {
         this.code = code;
         this.descp = descp;
     }

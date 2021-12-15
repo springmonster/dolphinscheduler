@@ -17,10 +17,10 @@
 package org.apache.dolphinscheduler.dao.mapper;
 
 
-import org.apache.dolphinscheduler.dao.entity.Project;
-import org.apache.dolphinscheduler.dao.entity.User;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.dolphinscheduler.dao.entity.Project;
+import org.apache.dolphinscheduler.dao.entity.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,9 +48,10 @@ public class ProjectMapperTest {
 
     /**
      * insert
+     *
      * @return Project
      */
-    private Project insertOne(){
+    private Project insertOne() {
         //insertOne
         Project project = new Project();
         project.setName("ut project");
@@ -63,7 +64,7 @@ public class ProjectMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         Project project = insertOne();
         project.setCreateTime(new Date());
@@ -76,7 +77,7 @@ public class ProjectMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         Project projectMap = insertOne();
         int delete = projectMapper.deleteById(projectMap.getId());
         Assert.assertEquals(delete, 1);
@@ -143,7 +144,7 @@ public class ProjectMapperTest {
         project.setUserId(user.getId());
         projectMapper.updateById(project);
 
-        Page<Project> page = new Page(1,3);
+        Page<Project> page = new Page(1, 3);
         IPage<Project> projectIPage = projectMapper.queryProjectListPaging(
                 page,
                 project.getUserId(),

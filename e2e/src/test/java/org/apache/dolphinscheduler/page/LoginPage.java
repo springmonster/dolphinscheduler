@@ -23,10 +23,10 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
 
-
 public class LoginPage extends PageCommon {
     /**
      * Unique constructor
+     *
      * @param driver driver
      */
     public LoginPage(WebDriver driver) {
@@ -49,6 +49,7 @@ public class LoginPage extends PageCommon {
         Cookie cookie = new Cookie("language", "zh_CN", "/", null);
         driver.manage().addCookie(cookie);
     }
+
     /**
      * login
      *

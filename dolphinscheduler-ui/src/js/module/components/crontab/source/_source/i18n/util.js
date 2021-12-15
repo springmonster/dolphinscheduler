@@ -21,7 +21,7 @@
  * @param {Array} ...args
  * @return {String}
  */
-const { hasOwnProperty } = {}
+const {hasOwnProperty} = {}
 const RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g
 const hasOwn = (o, k) => hasOwnProperty.call(o, k)
 const template = (string, ...args) => {
@@ -46,4 +46,4 @@ const template = (string, ...args) => {
   })
 }
 
-export { template }
+export {template}

@@ -35,7 +35,7 @@ public enum AuthorizationType {
     DATASOURCE(3, "data source"),
     UDF(4, "udf function");
 
-    AuthorizationType(int code, String descp){
+    AuthorizationType(int code, String descp) {
         this.code = code;
         this.descp = descp;
     }

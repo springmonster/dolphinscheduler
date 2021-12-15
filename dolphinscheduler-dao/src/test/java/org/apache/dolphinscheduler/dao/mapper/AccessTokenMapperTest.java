@@ -16,13 +16,12 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.dolphinscheduler.common.enums.UserType;
 import org.apache.dolphinscheduler.common.utils.DateUtils;
 import org.apache.dolphinscheduler.dao.entity.AccessToken;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.dolphinscheduler.dao.entity.User;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +30,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -56,10 +55,11 @@ public class AccessTokenMapperTest {
 
     /**
      * test insert
+     *
      * @throws Exception
      */
     @Test
-    public void testInsert() throws Exception{
+    public void testInsert() throws Exception {
         Integer userId = 1;
 
         AccessToken accessToken = createAccessToken(userId);
@@ -70,10 +70,11 @@ public class AccessTokenMapperTest {
 
     /**
      * test select by id
+     *
      * @throws Exception
      */
     @Test
-    public void testSelectById() throws Exception{
+    public void testSelectById() throws Exception {
         Integer userId = 1;
         AccessToken accessToken = createAccessToken(userId);
         AccessToken resultAccessToken = accessTokenMapper.selectById(accessToken.getId());
@@ -82,6 +83,7 @@ public class AccessTokenMapperTest {
 
     /**
      * test hashCode method
+     *
      * @throws Exception
      */
     @Test
@@ -95,6 +97,7 @@ public class AccessTokenMapperTest {
 
     /**
      * test equals method
+     *
      * @throws Exception
      */
     @Test
@@ -109,7 +112,7 @@ public class AccessTokenMapperTest {
      * test page
      */
     @Test
-    public void testSelectAccessTokenPage() throws Exception{
+    public void testSelectAccessTokenPage() throws Exception {
         Integer count = 4;
         String userName = "zhangsan";
 
@@ -121,11 +124,11 @@ public class AccessTokenMapperTest {
         Page page = new Page(offset, size);
         IPage<AccessToken> accessTokenPage = accessTokenMapper.selectAccessTokenPage(page, userName, 0);
 
-        assertEquals(Integer.valueOf(accessTokenPage.getRecords().size()),size);
+        assertEquals(Integer.valueOf(accessTokenPage.getRecords().size()), size);
 
-        for (AccessToken accessToken : accessTokenPage.getRecords()){
+        for (AccessToken accessToken : accessTokenPage.getRecords()) {
             AccessToken resultAccessToken = accessTokenMap.get(accessToken.getId());
-            assertEquals(accessToken,resultAccessToken);
+            assertEquals(accessToken, resultAccessToken);
         }
     }
 
@@ -134,7 +137,7 @@ public class AccessTokenMapperTest {
      * test update
      */
     @Test
-    public void testUpdate() throws Exception{
+    public void testUpdate() throws Exception {
         Integer userId = 1;
         AccessToken accessToken = createAccessToken(userId);
         //update
@@ -150,7 +153,7 @@ public class AccessTokenMapperTest {
      * test delete
      */
     @Test
-    public void testDelete() throws Exception{
+    public void testDelete() throws Exception {
         Integer userId = 1;
 
         AccessToken accessToken = createAccessToken(userId);
@@ -164,21 +167,22 @@ public class AccessTokenMapperTest {
 
     /**
      * create accessTokens
-     * @param count create accessToken count
+     *
+     * @param count    create accessToken count
      * @param userName username
      * @return accessToken map
      * @throws Exception
      */
-    private Map<Integer,AccessToken> createAccessTokens(
-            Integer count,String userName) throws Exception{
+    private Map<Integer, AccessToken> createAccessTokens(
+            Integer count, String userName) throws Exception {
 
         User user = createUser(userName);
 
-        Map<Integer,AccessToken> accessTokenMap = new HashMap<>();
-        for (int i = 1 ; i<= count ; i++){
-            AccessToken accessToken = createAccessToken(user.getId(),userName);
+        Map<Integer, AccessToken> accessTokenMap = new HashMap<>();
+        for (int i = 1; i <= count; i++) {
+            AccessToken accessToken = createAccessToken(user.getId(), userName);
 
-            accessTokenMap.put(accessToken.getId(),accessToken);
+            accessTokenMap.put(accessToken.getId(), accessToken);
         }
 
         return accessTokenMap;
@@ -186,11 +190,12 @@ public class AccessTokenMapperTest {
 
     /**
      * create user
+     *
      * @param userName userName
      * @return user
      * @throws Exception
      */
-    private User createUser(String userName) throws Exception{
+    private User createUser(String userName) throws Exception {
         User user = new User();
         user.setUserName(userName);
         user.setUserPassword("123");
@@ -209,12 +214,13 @@ public class AccessTokenMapperTest {
 
     /**
      * create access token
-     * @param userId userId
+     *
+     * @param userId   userId
      * @param userName userName
      * @return accessToken
      * @throws Exception
      */
-    private AccessToken createAccessToken(Integer userId,String userName)throws Exception{
+    private AccessToken createAccessToken(Integer userId, String userName) throws Exception {
         Random random = new Random();
         //insertOne
         AccessToken accessToken = new AccessToken();
@@ -232,12 +238,13 @@ public class AccessTokenMapperTest {
 
     /**
      * create access token
+     *
      * @param userId userId
      * @return accessToken
      * @throws Exception
      */
-    private AccessToken createAccessToken(Integer userId)throws Exception{
-        return createAccessToken(userId,null);
+    private AccessToken createAccessToken(Integer userId) throws Exception {
+        return createAccessToken(userId, null);
     }
 
 }

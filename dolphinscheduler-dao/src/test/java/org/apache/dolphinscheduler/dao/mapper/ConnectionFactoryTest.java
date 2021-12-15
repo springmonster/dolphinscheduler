@@ -27,10 +27,11 @@ public class ConnectionFactoryTest {
 
     /**
      * test connection
+     *
      * @throws Exception if error throws Exception
      */
     @Test
-    public void testConnection()throws Exception{
+    public void testConnection() throws Exception {
         Connection connection = ConnectionFactory.getInstance().getDataSource().getConnection();
         Assert.assertTrue(connection != null);
     }

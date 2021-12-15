@@ -39,7 +39,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.Date;
 
 /**
- *  shell task test
+ * shell task test
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(OSUtils.class)
@@ -106,7 +106,8 @@ public class ShellTaskTest {
     }
 
     @After
-    public void after() {}
+    public void after() {
+    }
 
     /**
      * Method: ShellTask()

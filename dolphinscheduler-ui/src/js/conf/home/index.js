@@ -23,7 +23,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import i18n from '@/module/i18n'
-import { sync } from 'vuex-router-sync'
+import {sync} from 'vuex-router-sync'
 import Chart from '@/module/ana-charts'
 import '@/module/filter/formatDate'
 import themeData from '@/module/echarts/themeData.json'
@@ -38,7 +38,7 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import 'canvg/dist/browser/canvg.min.js'
 
 // Component internationalization
-const useOpt = i18n.globalScope.LOCALE === 'en_US' ? { locale: en_US } : {}
+const useOpt = i18n.globalScope.LOCALE === 'en_US' ? {locale: en_US} : {}
 
 // Vue.use(ans)
 Vue.use(ans, useOpt)
@@ -65,13 +65,13 @@ Permissions.request().then(res => {
     router,
     store,
     render: h => h(App),
-    mounted () {
+    mounted() {
       document.addEventListener('click', (e) => {
         $('#contextmenu').css('visibility', 'hidden')
       })
     },
     methods: {
-      initApp () {
+      initApp() {
         $('.global-loading').hide()
         const bootstrapTooltip = $.fn.tooltip.noConflict()
         $.fn.tooltip = bootstrapTooltip
@@ -83,7 +83,7 @@ Permissions.request().then(res => {
         i18n.init()
       }
     },
-    created () {
+    created() {
       this.initApp()
     }
   })

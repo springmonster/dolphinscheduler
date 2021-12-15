@@ -16,10 +16,10 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
-import org.apache.dolphinscheduler.dao.entity.AccessToken;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.dolphinscheduler.dao.entity.AccessToken;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -30,9 +30,10 @@ public interface AccessTokenMapper extends BaseMapper<AccessToken> {
 
     /**
      * access token page
-     * @param page page
+     *
+     * @param page     page
      * @param userName userName
-     * @param userId userId
+     * @param userId   userId
      * @return access token Ipage
      */
     IPage<AccessToken> selectAccessTokenPage(Page page,

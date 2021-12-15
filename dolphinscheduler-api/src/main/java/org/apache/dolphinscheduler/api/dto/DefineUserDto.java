@@ -31,7 +31,7 @@ public class DefineUserDto {
 
     public DefineUserDto(List<DefinitionGroupByUser> defineGroupByUsers) {
 
-        for(DefinitionGroupByUser define : defineGroupByUsers){
+        for (DefinitionGroupByUser define : defineGroupByUsers) {
             count += define.getCount();
         }
         this.userList = defineGroupByUsers;

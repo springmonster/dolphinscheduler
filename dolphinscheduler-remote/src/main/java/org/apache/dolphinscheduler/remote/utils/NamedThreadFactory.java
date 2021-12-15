@@ -20,33 +20,34 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- *  thread factory
+ * thread factory
  */
 public class NamedThreadFactory implements ThreadFactory {
 
     private final AtomicInteger increment = new AtomicInteger(1);
 
     /**
-     *  name
+     * name
      */
     private final String name;
 
     /**
-     *  count
+     * count
      */
     private final int count;
 
-    public NamedThreadFactory(String name){
+    public NamedThreadFactory(String name) {
         this(name, 0);
     }
 
-    public NamedThreadFactory(String name, int count){
+    public NamedThreadFactory(String name, int count) {
         this.name = name;
         this.count = count;
     }
 
     /**
-     *  create thread
+     * create thread
+     *
      * @param r runnable
      * @return thread
      */

@@ -21,89 +21,89 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- *  master/worker task transport
+ * master/worker task transport
  */
-public class TaskInfo implements Serializable{
+public class TaskInfo implements Serializable {
 
     /**
-     *  task instance id
+     * task instance id
      */
     private Integer taskId;
 
 
     /**
-     *  taks name
+     * taks name
      */
     private String taskName;
 
     /**
-     *  task start time
+     * task start time
      */
     private Date startTime;
 
     /**
-     *  task type
+     * task type
      */
     private String taskType;
 
     /**
-     *  task execute path
+     * task execute path
      */
     private String executePath;
 
     /**
-     *  task json
+     * task json
      */
     private String taskJson;
 
 
     /**
-     *  process instance id
+     * process instance id
      */
     private Integer processInstanceId;
 
 
     /**
-     *  process instance schedule time
+     * process instance schedule time
      */
     private Date scheduleTime;
 
     /**
-     *  process instance global parameters
+     * process instance global parameters
      */
     private String globalParams;
 
 
     /**
-     *  execute user id
+     * execute user id
      */
     private Integer executorId;
 
 
     /**
-     *  command type if complement
+     * command type if complement
      */
     private Integer cmdTypeIfComplement;
 
 
     /**
-     *  tenant code
+     * tenant code
      */
     private String tenantCode;
 
     /**
-     *  task queue
+     * task queue
      */
     private String queue;
 
 
     /**
-     *  process define id
+     * process define id
      */
     private Integer processDefineId;
 
     /**
-     *  project id
+     * project id
      */
     private Integer projectId;
 

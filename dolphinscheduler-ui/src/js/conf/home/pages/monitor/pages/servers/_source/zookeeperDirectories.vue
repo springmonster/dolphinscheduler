@@ -58,7 +58,7 @@ import mNoData from '@/module/components/noData/noData'
 
 export default {
   name: 'zookeeperDirectoriesPopup',
-  data () {
+  data() {
     return {
       tableHeaders: [
         {
@@ -71,7 +71,7 @@ export default {
   props: {
     zkDirectories: Array
   },
-  components: { mNoData }
+  components: {mNoData}
 }
 </script>
 

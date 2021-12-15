@@ -27,7 +27,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'password-index',
-  mounted () {
+  mounted() {
     this.$modal.destroy()
   },
   components: {

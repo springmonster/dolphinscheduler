@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- *  constant
+ * constant
  */
 public class Constants {
 
@@ -33,12 +33,12 @@ public class Constants {
     public static final int NETTY_CLIENT_HEART_BEAT_TIME = 1000 * 60;
 
     /**
-     *  charset
+     * charset
      */
     public static final Charset UTF8 = StandardCharsets.UTF_8;
 
     /**
-     *  cpus
+     * cpus
      */
     public static final int CPUS = Runtime.getRuntime().availableProcessors();
 

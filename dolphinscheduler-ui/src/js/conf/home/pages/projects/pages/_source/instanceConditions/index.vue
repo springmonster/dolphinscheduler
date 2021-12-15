@@ -71,12 +71,12 @@
 </template>
 <script>
 import _ from 'lodash'
-import { stateType } from './common'
+import {stateType} from './common'
 import mConditions from '@/module/components/conditions/conditions'
 
 export default {
   name: 'instance-conditions',
-  data () {
+  data() {
     return {
       // state(list)
       stateTypeList: stateType,
@@ -98,41 +98,41 @@ export default {
   },
   props: {},
   methods: {
-    _ckQuery () {
+    _ckQuery() {
       this.$emit('on-query', this.searchParams)
     },
     /**
      * change times
      */
-    _onChangeStartStop (val) {
+    _onChangeStartStop(val) {
       this.searchParams.startDate = val[0]
       this.searchParams.endDate = val[1]
     },
     /**
      * change state
      */
-    _onChangeState (val) {
+    _onChangeState(val) {
       this.searchParams.stateType = val.value
     },
     /**
      * empty date
      */
-    _dateEmpty () {
+    _dateEmpty() {
       this.searchParams.startDate = ''
       this.searchParams.endDate = ''
       this.$refs.datepicker.empty()
     }
   },
   watch: {},
-  created () {
+  created() {
     // Routing parameter merging
     if (!_.isEmpty(this.$route.query)) {
       this.searchParams = _.assign(this.searchParams, this.$route.query)
     }
   },
-  mounted () {
+  mounted() {
   },
   computed: {},
-  components: { mConditions }
+  components: {mConditions}
 }
 </script>

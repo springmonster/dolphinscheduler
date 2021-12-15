@@ -263,7 +263,7 @@ public class TimePlaceholderUtils {
      * Placeholder replacement resolver
      */
     private static class TimePlaceholderResolver implements
-        PropertyPlaceholderHelper.PlaceholderResolver {
+            PropertyPlaceholderHelper.PlaceholderResolver {
 
         private final String value;
 
@@ -494,7 +494,7 @@ public class TimePlaceholderUtils {
             if (Character.isDigit(expression.charAt(index + 1))) {
                 String addMinuteExpr = expression.substring(index + 1);
                 Date targetDate = org.apache.commons.lang.time.DateUtils
-                    .addMinutes(date, calcMinutes(addMinuteExpr));
+                        .addMinutes(date, calcMinutes(addMinuteExpr));
                 String dateFormat = expression.substring(0, index);
 
                 return new AbstractMap.SimpleImmutableEntry<>(targetDate, dateFormat);
@@ -505,7 +505,7 @@ public class TimePlaceholderUtils {
             if (Character.isDigit(expression.charAt(index + 1))) {
                 String addMinuteExpr = expression.substring(index + 1);
                 Date targetDate = org.apache.commons.lang.time.DateUtils
-                    .addMinutes(date, 0 - calcMinutes(addMinuteExpr));
+                        .addMinutes(date, 0 - calcMinutes(addMinuteExpr));
                 String dateFormat = expression.substring(0, index);
 
                 return new AbstractMap.SimpleImmutableEntry<>(targetDate, dateFormat);
@@ -535,7 +535,7 @@ public class TimePlaceholderUtils {
         } else {
 
             calcExpression = String.format("60*24*(%s)%s", minuteExpression.substring(0, index),
-                minuteExpression.substring(index));
+                    minuteExpression.substring(index));
         }
 
         return calculate(calcExpression);

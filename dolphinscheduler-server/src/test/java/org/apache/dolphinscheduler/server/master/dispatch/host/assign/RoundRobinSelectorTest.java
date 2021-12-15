@@ -30,13 +30,13 @@ import java.util.List;
 public class RoundRobinSelectorTest {
 
     @Test(expected = IllegalArgumentException.class)
-    public void testSelectWithIllegalArgumentException(){
+    public void testSelectWithIllegalArgumentException() {
         RoundRobinSelector selector = new RoundRobinSelector();
         selector.select(Collections.EMPTY_LIST);
     }
 
     @Test
-    public void testSelect1(){
+    public void testSelect1() {
         RoundRobinSelector<String> selector = new RoundRobinSelector();
         String result = selector.select(Arrays.asList("1"));
         Assert.assertTrue(StringUtils.isNotEmpty(result));
@@ -44,12 +44,12 @@ public class RoundRobinSelectorTest {
     }
 
     @Test
-    public void testSelect(){
+    public void testSelect() {
         RoundRobinSelector<Integer> selector = new RoundRobinSelector();
         List<Integer> sources = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
         int result = selector.select(sources);
         Assert.assertTrue(result == 1);
-        int result2 = selector.select(Arrays.asList(1,2,3,4,5,6,7));
+        int result2 = selector.select(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
         Assert.assertTrue(result2 == 2);
     }
 }

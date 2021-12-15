@@ -16,6 +16,8 @@
  */
 package org.apache.dolphinscheduler.api.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.dolphinscheduler.api.enums.Status;
 import org.apache.dolphinscheduler.api.utils.PageInfo;
 import org.apache.dolphinscheduler.common.Constants;
@@ -27,8 +29,6 @@ import org.apache.dolphinscheduler.dao.entity.User;
 import org.apache.dolphinscheduler.dao.mapper.ProcessDefinitionMapper;
 import org.apache.dolphinscheduler.dao.mapper.ProjectMapper;
 import org.apache.dolphinscheduler.dao.mapper.ProjectUserMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +40,10 @@ import static org.apache.dolphinscheduler.api.utils.CheckUtils.checkDesc;
 
 /**
  * project service
- *HttpTask./
+ * HttpTask./
  **/
 @Service
-public class ProjectService extends BaseService{
+public class ProjectService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 
@@ -60,8 +60,8 @@ public class ProjectService extends BaseService{
      * create project
      *
      * @param loginUser login user
-     * @param name project name
-     * @param desc description
+     * @param name      project name
+     * @param desc      description
      * @return returns an error if it exists
      */
     public Map<String, Object> createProject(User loginUser, String name, String desc) {
@@ -119,8 +119,8 @@ public class ProjectService extends BaseService{
     /**
      * check project and authorization
      *
-     * @param loginUser login user
-     * @param project project
+     * @param loginUser   login user
+     * @param project     project
      * @param projectName project name
      * @return true if the login user have permission to see the project
      */
@@ -133,7 +133,7 @@ public class ProjectService extends BaseService{
         } else if (!checkReadPermission(loginUser, project)) {
             // check read permission
             putMsg(result, Status.USER_NO_OPERATION_PROJECT_PERM, loginUser.getUserName(), projectName);
-        }else {
+        } else {
             putMsg(result, Status.SUCCESS);
         }
 
@@ -158,8 +158,8 @@ public class ProjectService extends BaseService{
      *
      * @param loginUser login user
      * @param searchVal search value
-     * @param pageSize page size
-     * @param pageNo page number
+     * @param pageSize  page size
+     * @param pageNo    page number
      * @return project list which the login user have permission to see
      */
     public Map<String, Object> queryProjectListPaging(User loginUser, Integer pageSize, Integer pageNo, String searchVal) {
@@ -172,14 +172,14 @@ public class ProjectService extends BaseService{
         IPage<Project> projectIPage = projectMapper.queryProjectListPaging(page, userId, searchVal);
 
         List<Project> projectList = projectIPage.getRecords();
-        if(userId != 0){
+        if (userId != 0) {
             for (Project project : projectList) {
                 project.setPerm(org.apache.dolphinscheduler.common.Constants.DEFAULT_ADMIN_PERMISSION);
             }
         }
-        pageInfo.setTotalCount((int)projectIPage.getTotal());
+        pageInfo.setTotalCount((int) projectIPage.getTotal());
         pageInfo.setLists(projectList);
-        result.put(Constants.COUNT, (int)projectIPage.getTotal());
+        result.put(Constants.COUNT, (int) projectIPage.getTotal());
         result.put(Constants.DATA_LIST, pageInfo);
         putMsg(result, Status.SUCCESS);
 
@@ -208,7 +208,7 @@ public class ProjectService extends BaseService{
 
         List<ProcessDefinition> processDefinitionList = processDefinitionMapper.queryAllDefinitionList(projectId);
 
-        if(processDefinitionList.size() > 0){
+        if (processDefinitionList.size() > 0) {
             putMsg(result, Status.DELETE_PROJECT_ERROR_DEFINES_NOT_NULL);
             return result;
         }
@@ -225,11 +225,11 @@ public class ProjectService extends BaseService{
      * get check result
      *
      * @param loginUser login user
-     * @param project project
+     * @param project   project
      * @return check result
      */
     private Map<String, Object> getCheckResult(User loginUser, Project project) {
-        String projectName = project == null ? null:project.getName();
+        String projectName = project == null ? null : project.getName();
         Map<String, Object> checkResult = checkProjectAndAuth(loginUser, project, projectName);
         Status status = (Status) checkResult.get(Constants.STATUS);
         if (status != Status.SUCCESS) {
@@ -241,10 +241,10 @@ public class ProjectService extends BaseService{
     /**
      * updateProcessInstance project
      *
-     * @param loginUser login user
-     * @param projectId project id
+     * @param loginUser   login user
+     * @param projectId   project id
      * @param projectName project name
-     * @param desc description
+     * @param desc        description
      * @return update result code
      */
     public Map<String, Object> update(User loginUser, Integer projectId, String projectName, String desc) {
@@ -283,7 +283,7 @@ public class ProjectService extends BaseService{
      * query unauthorized project
      *
      * @param loginUser login user
-     * @param userId user id
+     * @param userId    user id
      * @return the projects which user have not permission to see
      */
     public Map<String, Object> queryUnauthorizedProject(User loginUser, Integer userId) {
@@ -305,14 +305,14 @@ public class ProjectService extends BaseService{
             resultList = getUnauthorizedProjects(projectSet, authedProjectList);
         }
         result.put(Constants.DATA_LIST, resultList);
-        putMsg(result,Status.SUCCESS);
+        putMsg(result, Status.SUCCESS);
         return result;
     }
 
     /**
      * get unauthorized project
      *
-     * @param projectSet project set
+     * @param projectSet        project set
      * @param authedProjectList authed project list
      * @return project list that authorization
      */
@@ -333,7 +333,7 @@ public class ProjectService extends BaseService{
      * query authorized project
      *
      * @param loginUser login user
-     * @param userId user id
+     * @param userId    user id
      * @return projects which the user have permission to see, Except for items created by this user
      */
     public Map<String, Object> queryAuthorizedProject(User loginUser, Integer userId) {
@@ -345,7 +345,7 @@ public class ProjectService extends BaseService{
 
         List<Project> projects = projectMapper.queryAuthedProjectListByUserId(userId);
         result.put(Constants.DATA_LIST, projects);
-        putMsg(result,Status.SUCCESS);
+        putMsg(result, Status.SUCCESS);
 
         return result;
     }
@@ -354,7 +354,7 @@ public class ProjectService extends BaseService{
     /**
      * check whether have read permission
      *
-     * @param user user
+     * @param user    user
      * @param project project
      * @return true if the user have permission to see the project, otherwise return false
      */
@@ -366,7 +366,7 @@ public class ProjectService extends BaseService{
     /**
      * query permission id
      *
-     * @param user user
+     * @param user    user
      * @param project project
      * @return permission
      */
@@ -391,27 +391,28 @@ public class ProjectService extends BaseService{
 
     /**
      * query all project list that have one or more process definitions.
+     *
      * @return project list
      */
     public Map<String, Object> queryAllProjectList() {
         Map<String, Object> result = new HashMap<>();
         List<Project> projects = projectMapper.selectList(null);
-        List<ProcessDefinition>  processDefinitions = processDefinitionMapper.selectList(null);
-        if(projects != null){
+        List<ProcessDefinition> processDefinitions = processDefinitionMapper.selectList(null);
+        if (projects != null) {
             Set set = new HashSet<>();
-            for (ProcessDefinition processDefinition : processDefinitions){
+            for (ProcessDefinition processDefinition : processDefinitions) {
                 set.add(processDefinition.getProjectId());
             }
             List<Project> tempDeletelist = new ArrayList<Project>();
             for (Project project : projects) {
-                if(!set.contains(project.getId())){
+                if (!set.contains(project.getId())) {
                     tempDeletelist.add(project);
                 }
             }
             projects.removeAll(tempDeletelist);
         }
         result.put(Constants.DATA_LIST, projects);
-        putMsg(result,Status.SUCCESS);
+        putMsg(result, Status.SUCCESS);
         return result;
     }
 

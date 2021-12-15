@@ -37,19 +37,21 @@ import java.util.*;
 public class ExcelUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(ExcelUtils.class);
+
     /**
      * generate excel file
-     * @param content the content
-     * @param title the title
+     *
+     * @param content     the content
+     * @param title       the title
      * @param xlsFilePath the xls path
      */
-    public static void genExcelFile(String content,String title,String xlsFilePath){
+    public static void genExcelFile(String content, String title, String xlsFilePath) {
         List<LinkedHashMap> itemsList;
 
         //The JSONUtils.toList has been try catch ex
         itemsList = JSONUtils.toList(content, LinkedHashMap.class);
 
-        if (CollectionUtils.isEmpty(itemsList)){
+        if (CollectionUtils.isEmpty(itemsList)) {
             logger.error("itemsList is null");
             throw new RuntimeException("itemsList is null");
         }
@@ -59,81 +61,81 @@ public class ExcelUtils {
         List<String> headerList = new ArrayList<>();
 
         Iterator<Map.Entry<String, Object>> iter = headerMap.entrySet().iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             Map.Entry<String, Object> en = iter.next();
             headerList.add(en.getKey());
         }
 
         HSSFWorkbook wb = null;
         FileOutputStream fos = null;
-           try {
-               // declare a workbook
-               wb = new HSSFWorkbook();
-               // generate a table
-               HSSFSheet sheet = wb.createSheet();
-               HSSFRow row = sheet.createRow(0);
-               //set the height of the first line
-               row.setHeight((short)500);
+        try {
+            // declare a workbook
+            wb = new HSSFWorkbook();
+            // generate a table
+            HSSFSheet sheet = wb.createSheet();
+            HSSFRow row = sheet.createRow(0);
+            //set the height of the first line
+            row.setHeight((short) 500);
 
-               //set Horizontal right
-               CellStyle cellStyle = wb.createCellStyle();
-               cellStyle.setAlignment(HorizontalAlignment.RIGHT);
+            //set Horizontal right
+            CellStyle cellStyle = wb.createCellStyle();
+            cellStyle.setAlignment(HorizontalAlignment.RIGHT);
 
-               //setting excel headers
-               for (int i = 0; i < headerList.size(); i++) {
-                   HSSFCell cell = row.createCell(i);
-                   cell.setCellStyle(cellStyle);
-                   cell.setCellValue(headerList.get(i));
-               }
+            //setting excel headers
+            for (int i = 0; i < headerList.size(); i++) {
+                HSSFCell cell = row.createCell(i);
+                cell.setCellStyle(cellStyle);
+                cell.setCellValue(headerList.get(i));
+            }
 
-               //setting excel body
-               int rowIndex = 1;
-               for (LinkedHashMap<String, Object> itemsMap : itemsList){
-                   Object[] values = itemsMap.values().toArray();
-                   row = sheet.createRow(rowIndex);
-                   //setting excel body height
-                   row.setHeight((short)500);
-                   rowIndex++;
-                   for (int j = 0 ; j < values.length ; j++){
-                       HSSFCell cell1 = row.createCell(j);
-                       cell1.setCellStyle(cellStyle);
-                       cell1.setCellValue(String.valueOf(values[j]));
-                   }
-               }
+            //setting excel body
+            int rowIndex = 1;
+            for (LinkedHashMap<String, Object> itemsMap : itemsList) {
+                Object[] values = itemsMap.values().toArray();
+                row = sheet.createRow(rowIndex);
+                //setting excel body height
+                row.setHeight((short) 500);
+                rowIndex++;
+                for (int j = 0; j < values.length; j++) {
+                    HSSFCell cell1 = row.createCell(j);
+                    cell1.setCellStyle(cellStyle);
+                    cell1.setCellValue(String.valueOf(values[j]));
+                }
+            }
 
-               for (int i = 0; i < headerList.size(); i++) {
-                   sheet.setColumnWidth(i, headerList.get(i).length() * 800);
-               }
+            for (int i = 0; i < headerList.size(); i++) {
+                sheet.setColumnWidth(i, headerList.get(i).length() * 800);
+            }
 
-               File file = new File(xlsFilePath);
-               if (!file.exists()) {
-                   file.mkdirs();
-               }
+            File file = new File(xlsFilePath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
 
-               //setting file output
-               fos = new FileOutputStream(xlsFilePath + Constants.SINGLE_SLASH + title + Constants.EXCEL_SUFFIX_XLS);
+            //setting file output
+            fos = new FileOutputStream(xlsFilePath + Constants.SINGLE_SLASH + title + Constants.EXCEL_SUFFIX_XLS);
 
-               wb.write(fos);
+            wb.write(fos);
 
-           }catch (Exception e){
-               logger.error("generate excel error",e);
-               throw new RuntimeException("generate excel error",e);
-           }finally {
-               if (wb != null){
-                   try {
-                       wb.close();
-                   } catch (IOException e) {
-                       logger.error(e.getMessage(),e);
-                   }
-               }
-               if (fos != null){
-                   try {
-                       fos.close();
-                   } catch (IOException e) {
-                       logger.error(e.getMessage(),e);
-                   }
-               }
-           }
+        } catch (Exception e) {
+            logger.error("generate excel error", e);
+            throw new RuntimeException("generate excel error", e);
+        } finally {
+            if (wb != null) {
+                try {
+                    wb.close();
+                } catch (IOException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+        }
     }
 
 }

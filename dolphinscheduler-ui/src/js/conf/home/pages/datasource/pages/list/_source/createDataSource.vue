@@ -165,13 +165,13 @@
 <script>
 import i18n from '@/module/i18n'
 import store from '@/conf/home/store'
-import { isJson } from '@/module/util/util'
+import {isJson} from '@/module/util/util'
 import mPopup from '@/module/components/popup/popup'
 import mListBoxF from '@/module/components/listBoxF/listBoxF'
 
 export default {
   name: 'create-datasource',
-  data () {
+  data() {
     return {
       store,
       // btn loading
@@ -212,13 +212,13 @@ export default {
   },
 
   methods: {
-    _rtOtherPlaceholder () {
+    _rtOtherPlaceholder() {
       return `${i18n.$t('Please enter format')} {"key1":"value1","key2":"value2"...} ${i18n.$t('connection parameter')}`
     },
     /**
      * submit
      */
-    _ok () {
+    _ok() {
       if (this._verification()) {
         this._verifName().then(res => {
           this._submit()
@@ -228,13 +228,13 @@ export default {
     /**
      * close
      */
-    _close () {
+    _close() {
       this.$emit('close')
     },
     /**
      * return param
      */
-    _rtParam () {
+    _rtParam() {
       return {
         type: this.type,
         name: this.name,
@@ -252,7 +252,7 @@ export default {
     /**
      * test connect
      */
-    _testConnect () {
+    _testConnect() {
       if (this._verification()) {
         this.testLoading = true
         this.store.dispatch('datasource/connectDatasources', this._rtParam()).then(res => {
@@ -269,13 +269,13 @@ export default {
     /**
      * Verify that the data source name exists
      */
-    _verifName () {
+    _verifName() {
       return new Promise((resolve, reject) => {
         if (this.name === this.item.name) {
           resolve()
           return
         }
-        this.store.dispatch('datasource/verifyName', { name: this.name }).then(res => {
+        this.store.dispatch('datasource/verifyName', {name: this.name}).then(res => {
           resolve()
         }).catch(e => {
           this.$message.error(e.msg || '')
@@ -286,7 +286,7 @@ export default {
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       if (!this.name) {
         this.$message.warning(`${i18n.$t('Please enter resource name')}`)
         return false
@@ -320,7 +320,7 @@ export default {
     /**
      * submit => add/update
      */
-    _submit () {
+    _submit() {
       this.spinnerLoading = true
       let param = this._rtParam()
       // edit
@@ -339,8 +339,8 @@ export default {
     /**
      * Get modified data
      */
-    _getEditDatasource () {
-      this.store.dispatch('datasource/getEditDatasource', { id: this.item.id }).then(res => {
+    _getEditDatasource() {
+      this.store.dispatch('datasource/getEditDatasource', {id: this.item.id}).then(res => {
         this.type = res.type
         this.name = res.name
         this.note = res.note
@@ -365,7 +365,7 @@ export default {
     /**
      * Set default port for each type.
      */
-    _setDefaultValues (value) {
+    _setDefaultValues(value) {
 
       //Default type is MYSQL
       let type = this.type || 'MYSQL'
@@ -382,7 +382,7 @@ export default {
     /**
      * Get default port by type
      */
-    _getDefaultPort (type) {
+    _getDefaultPort(type) {
       var defaultPort = ''
       switch (type) {
         case 'MYSQL':
@@ -416,7 +416,7 @@ export default {
       return defaultPort
     },
   },
-  created () {
+  created() {
     // Backfill
     if (this.item.id) {
       this._getEditDatasource()
@@ -426,7 +426,7 @@ export default {
 
   },
   watch: {
-    type (value) {
+    type(value) {
       if (value == 'POSTGRESQL') {
         this.showdDatabase = true
       } else {
@@ -462,12 +462,12 @@ export default {
      * Cache the previous input port for each type datasource
      * @param value
      */
-    port (value) {
+    port(value) {
       this.prePortMapper[this.type] = value
     }
   },
 
-  mounted () {
+  mounted() {
   },
   components: {
     mPopup,

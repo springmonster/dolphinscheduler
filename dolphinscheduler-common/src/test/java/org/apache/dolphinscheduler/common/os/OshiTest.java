@@ -56,11 +56,10 @@ public class OshiTest {
     }
 
 
-
     private static void printMemory(GlobalMemory memory) {
 
-        logger.info("memory avail:{} MB" , memory.getAvailable() / 1024 / 1024 );//memory avail:6863 MB
-        logger.info("memory total:{} MB" , memory.getTotal() / 1024 / 1024 );//memory total:16384 MB
+        logger.info("memory avail:{} MB", memory.getAvailable() / 1024 / 1024);//memory avail:6863 MB
+        logger.info("memory total:{} MB", memory.getTotal() / 1024 / 1024);//memory total:16384 MB
     }
 
 
@@ -75,7 +74,7 @@ public class OshiTest {
 
         long[] prevTicks = processor.getSystemCpuLoadTicks();
         logger.info("CPU, IOWait, and IRQ ticks @ 0 sec:" + Arrays.toString(prevTicks));
-         //Wait a second...
+        //Wait a second...
         Util.sleep(1000);
         long[] ticks = processor.getSystemCpuLoadTicks();
         logger.info("CPU, IOWait, and IRQ ticks @ 1 sec:" + Arrays.toString(ticks));
@@ -94,7 +93,6 @@ public class OshiTest {
                 100d * user / totalCpu, 100d * nice / totalCpu, 100d * sys / totalCpu, 100d * idle / totalCpu,
                 100d * iowait / totalCpu, 100d * irq / totalCpu, 100d * softirq / totalCpu, 100d * steal / totalCpu));
         logger.info(String.format("CPU load: %.1f%% (counting ticks)%n", processor.getSystemCpuLoadBetweenTicks() * 100));
-
 
 
         double[] loadAverage = processor.getSystemLoadAverage(3);

@@ -56,12 +56,12 @@
 </template>
 <script>
 import i18n from '@/module/i18n'
-import { mapState, mapActions } from 'vuex'
+import {mapActions, mapState} from 'vuex'
 import mListBoxF from '@/module/components/listBoxF/listBoxF'
 
 export default {
   name: 'password-info',
-  data () {
+  data() {
     return {
       // loading
       spinnerLoading: false,
@@ -78,7 +78,7 @@ export default {
     /**
      * edit
      */
-    _edit () {
+    _edit() {
       // verification
       if (this._verification()) {
         let param = {
@@ -105,7 +105,7 @@ export default {
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       let regPassword = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?![`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]+$)[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、0-9A-Za-z]{6,22}$/
 
       // password
@@ -125,7 +125,7 @@ export default {
   computed: {
     ...mapState('user', ['userInfo'])
   },
-  components: { mListBoxF }
+  components: {mListBoxF}
 }
 </script>
 

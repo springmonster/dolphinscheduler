@@ -21,14 +21,13 @@ import org.apache.dolphinscheduler.common.model.Server;
 import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.apache.dolphinscheduler.dao.entity.ZookeeperRecord;
 import org.apache.dolphinscheduler.service.zk.AbstractZKClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * monitor zookeeper info
@@ -39,7 +38,6 @@ public class ZookeeperMonitor extends AbstractZKClient {
     private static final Logger LOG = LoggerFactory.getLogger(ZookeeperMonitor.class);
 
     /**
-     *
      * @return zookeeper info list
      */
     public List<ZookeeperRecord> zookeeperInfoList() {
@@ -47,13 +45,14 @@ public class ZookeeperMonitor extends AbstractZKClient {
         try {
             return zookeeperInfoList(zookeeperServers);
         } catch (Exception e) {
-            LOG.error(e.getMessage(),e);
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }
 
     /**
      * get master servers
+     *
      * @return master server information
      */
     public List<Server> getMasterServers() {
@@ -62,6 +61,7 @@ public class ZookeeperMonitor extends AbstractZKClient {
 
     /**
      * master construct is the same with worker, use the master instead
+     *
      * @return worker server informations
      */
     public List<Server> getWorkerServers() {
@@ -72,7 +72,7 @@ public class ZookeeperMonitor extends AbstractZKClient {
 
         List<ZookeeperRecord> list = new ArrayList<>(5);
 
-        if(StringUtils.isNotBlank(zookeeperServers)) {
+        if (StringUtils.isNotBlank(zookeeperServers)) {
             String[] zookeeperServersArray = zookeeperServers.split(",");
 
             for (String zookeeperServer : zookeeperServersArray) {
@@ -84,15 +84,15 @@ public class ZookeeperMonitor extends AbstractZKClient {
                 int watches = state.getWatches();
                 long sent = state.getSent();
                 long received = state.getReceived();
-                String mode =  state.getMode();
-                float minLatency =  state.getMinLatency();
+                String mode = state.getMode();
+                float minLatency = state.getMinLatency();
                 float avgLatency = state.getAvgLatency();
                 float maxLatency = state.getMaxLatency();
                 int nodeCount = state.getNodeCount();
-                int status = state.isHealthFlag() ? -1: (ok ? 1 : 0);
+                int status = state.isHealthFlag() ? -1 : (ok ? 1 : 0);
                 Date date = new Date();
 
-                ZookeeperRecord zookeeperRecord = new ZookeeperRecord(zookeeperServer,connections,watches,sent,received,mode,minLatency,avgLatency,maxLatency,nodeCount,status,date);
+                ZookeeperRecord zookeeperRecord = new ZookeeperRecord(zookeeperServer, connections, watches, sent, received, mode, minLatency, avgLatency, maxLatency, nodeCount, status, date);
                 list.add(zookeeperRecord);
 
             }

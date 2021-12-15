@@ -45,7 +45,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'priority',
-  data () {
+  data() {
     return {
       priorityList: [
         {
@@ -88,18 +88,18 @@ export default {
     event: 'priorityEvent'
   },
   methods: {
-    _rtUnicode (value) {
+    _rtUnicode(value) {
       let o = _.find(this.priorityList, ['code', value])
       return `<em class="${o.unicode}" style="color:${o.color}"></em>`
     },
-    _onChange (o) {
+    _onChange(o) {
       this.value = o.value
       this.$emit('priorityEvent', o.value)
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class ResponseFutureTest {
 
     @Test
-    public void testScanFutureTable(){
+    public void testScanFutureTable() {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("executor-service"));
         executorService.scheduleAtFixedRate(new Runnable() {
             @Override

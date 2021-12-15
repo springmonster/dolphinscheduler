@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import Base from '../base'
-import { checkKeyInModel, init } from '../../common'
+import {checkKeyInModel, init} from '../../common'
 
 const TYPE = 'line'
 
@@ -29,15 +29,15 @@ export default class Line extends Base {
    * @param {*} data data source
    * @param {*} options Optional
    */
-  static init (el, data, options) {
+  static init(el, data, options) {
     return init(Line, el, data, options)
   }
 
   /**
    * Convert user configuration to a configuration format that conforms to the format of echarts API
    */
-  transform () {
-    const { data = [] } = this.settings
+  transform() {
+    const {data = []} = this.settings
 
     if (data.length === 0) {
       throw new Error('Data source is empty!')
@@ -54,7 +54,7 @@ export default class Line extends Base {
   /**
    * Single broken line
    */
-  setSingleLine () {
+  setSingleLine() {
     const {
       // data
       data = [],
@@ -98,7 +98,7 @@ export default class Line extends Base {
   /**
    * Multiple broken lines
    */
-  setMultipleLines () {
+  setMultipleLines() {
     const {
       // data
       data = [],
@@ -166,7 +166,7 @@ export default class Line extends Base {
   /**
    * Drawing charts
    */
-  apply () {
+  apply() {
     const {
       title,
       xAxis,
@@ -181,7 +181,7 @@ export default class Line extends Base {
       // Injection configuration to series
       insertSeries
     } = this.settings
-    const valueAxis = { type: 'value' }
+    const valueAxis = {type: 'value'}
     let yAxisModel = reverseAxis ? xAxis : valueAxis
     const xAxisModel = reverseAxis ? valueAxis : xAxis
     // Use custom Y-axis overlay

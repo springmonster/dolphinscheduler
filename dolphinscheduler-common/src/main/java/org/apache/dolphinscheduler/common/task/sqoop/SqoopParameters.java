@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * sqoop parameters
  */
-public class SqoopParameters  extends AbstractParameters {
+public class SqoopParameters extends AbstractParameters {
 
     /**
      * sqoop job type:

@@ -50,7 +50,6 @@ public class Instance {
     private Date endTime;
 
 
-
     /**
      * node running on which host
      */
@@ -64,15 +63,16 @@ public class Instance {
     private int subflowId;
 
 
-    public Instance(){}
+    public Instance() {
+    }
 
-    public Instance(int id,String name, String type){
+    public Instance(int id, String name, String type) {
         this.id = id;
         this.name = name;
         this.type = type;
     }
 
-    public Instance(int id,String name, String type,String state,Date startTime, Date endTime, String host, String duration,int subflowId) {
+    public Instance(int id, String name, String type, String state, Date startTime, Date endTime, String host, String duration, int subflowId) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -84,10 +84,9 @@ public class Instance {
         this.subflowId = subflowId;
     }
 
-    public Instance(int id,String name, String type,String state,Date startTime, Date endTime, String host, String duration) {
-        this(id, name, type, state, startTime, endTime,host,duration,0);
+    public Instance(int id, String name, String type, String state, Date startTime, Date endTime, String host, String duration) {
+        this(id, name, type, state, startTime, endTime, host, duration, 0);
     }
-
 
 
     public int getId() {

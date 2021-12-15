@@ -31,11 +31,10 @@ import org.apache.dolphinscheduler.server.entity.SqoopTaskExecutionContext;
 import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.SqoopConstants;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.generator.ISourceGenerator;
-
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * mysql source generator
@@ -55,34 +54,34 @@ public class MysqlSourceGenerator implements ISourceGenerator {
 
             if (null != sourceMysqlParameter) {
                 BaseDataSource baseDataSource = DataSourceFactory.getDatasource(DbType.of(sqoopTaskExecutionContext.getSourcetype()),
-                    sqoopTaskExecutionContext.getSourceConnectionParams());
+                        sqoopTaskExecutionContext.getSourceConnectionParams());
 
                 if (null != baseDataSource) {
 
                     mysqlSourceSb.append(Constants.SPACE).append(SqoopConstants.DB_CONNECT)
-                        .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(baseDataSource.getJdbcUrl()).append(Constants.DOUBLE_QUOTES)
-                        .append(Constants.SPACE).append(SqoopConstants.DB_USERNAME)
-                        .append(Constants.SPACE).append(baseDataSource.getUser())
-                        .append(Constants.SPACE).append(SqoopConstants.DB_PWD)
-                        .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(baseDataSource.getPassword()).append(Constants.DOUBLE_QUOTES);
+                            .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(baseDataSource.getJdbcUrl()).append(Constants.DOUBLE_QUOTES)
+                            .append(Constants.SPACE).append(SqoopConstants.DB_USERNAME)
+                            .append(Constants.SPACE).append(baseDataSource.getUser())
+                            .append(Constants.SPACE).append(SqoopConstants.DB_PWD)
+                            .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(baseDataSource.getPassword()).append(Constants.DOUBLE_QUOTES);
 
                     //sqoop table & sql query
                     if (sourceMysqlParameter.getSrcQueryType() == SqoopQueryType.FORM.getCode()) {
                         if (StringUtils.isNotEmpty(sourceMysqlParameter.getSrcTable())) {
                             mysqlSourceSb.append(Constants.SPACE).append(SqoopConstants.TABLE)
-                                .append(Constants.SPACE).append(sourceMysqlParameter.getSrcTable());
+                                    .append(Constants.SPACE).append(sourceMysqlParameter.getSrcTable());
                         }
 
                         if (StringUtils.isNotEmpty(sourceMysqlParameter.getSrcColumns())) {
                             mysqlSourceSb.append(Constants.SPACE).append(SqoopConstants.COLUMNS)
-                                .append(Constants.SPACE).append(sourceMysqlParameter.getSrcColumns());
+                                    .append(Constants.SPACE).append(sourceMysqlParameter.getSrcColumns());
                         }
                     } else if (sourceMysqlParameter.getSrcQueryType() == SqoopQueryType.SQL.getCode()
-                        && StringUtils.isNotEmpty(sourceMysqlParameter.getSrcQuerySql())) {
+                            && StringUtils.isNotEmpty(sourceMysqlParameter.getSrcQuerySql())) {
 
                         String srcQuery = sourceMysqlParameter.getSrcQuerySql();
                         mysqlSourceSb.append(Constants.SPACE).append(SqoopConstants.QUERY)
-                            .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(srcQuery);
+                                .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(srcQuery);
 
                         if (srcQuery.toLowerCase().contains(SqoopConstants.QUERY_WHERE)) {
                             mysqlSourceSb.append(Constants.SPACE).append(SqoopConstants.QUERY_CONDITION).append(Constants.DOUBLE_QUOTES);
@@ -105,7 +104,7 @@ public class MysqlSourceGenerator implements ISourceGenerator {
 
                         if (StringUtils.isNotEmpty(columnMap.toString())) {
                             mysqlSourceSb.append(Constants.SPACE).append(SqoopConstants.MAP_COLUMN_HIVE)
-                                .append(Constants.SPACE).append(columnMap.substring(0, columnMap.length() - 1));
+                                    .append(Constants.SPACE).append(columnMap.substring(0, columnMap.length() - 1));
                         }
                     }
 
@@ -123,7 +122,7 @@ public class MysqlSourceGenerator implements ISourceGenerator {
 
                         if (StringUtils.isNotEmpty(columnJavaMap.toString())) {
                             mysqlSourceSb.append(Constants.SPACE).append(SqoopConstants.MAP_COLUMN_JAVA)
-                                .append(Constants.SPACE).append(columnJavaMap.substring(0, columnJavaMap.length() - 1));
+                                    .append(Constants.SPACE).append(columnJavaMap.substring(0, columnJavaMap.length() - 1));
                         }
                     }
                 }

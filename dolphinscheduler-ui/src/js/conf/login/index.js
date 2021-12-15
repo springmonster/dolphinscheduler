@@ -38,10 +38,10 @@ Vue.config.silent = true
 new Vue({
   el: '#app',
   render: h => h(App),
-  mounted () {
+  mounted() {
   },
   methods: {
-    initApp () {
+    initApp() {
       const bootstrapTooltip = $.fn.tooltip.noConflict()
       $.fn.tooltip = bootstrapTooltip
       $('body').tooltip({
@@ -52,7 +52,7 @@ new Vue({
       i18n.init()
     }
   },
-  created () {
+  created() {
     this.initApp()
   }
 })

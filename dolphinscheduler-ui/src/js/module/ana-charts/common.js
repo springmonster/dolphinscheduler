@@ -23,7 +23,7 @@
  */
 export const init = (Target, el, data, options) => {
   const list = getChartContainers(el)
-  const settings = Object.assign({}, { data }, options)
+  const settings = Object.assign({}, {data}, options)
   const charts = list.map(element => {
     return new Target(element, settings)
   })
@@ -34,7 +34,7 @@ export const init = (Target, el, data, options) => {
  * Unified chart container is an array of DOM elements
  * @param {*} el Selector or DOM object
  */
-function getChartContainers (el) {
+function getChartContainers(el) {
   // Parameter not transmitted, return directly
   if (!el) {
     return

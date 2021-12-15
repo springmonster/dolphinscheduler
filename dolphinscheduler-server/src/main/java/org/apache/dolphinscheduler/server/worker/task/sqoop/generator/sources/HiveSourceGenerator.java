@@ -25,7 +25,6 @@ import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.SqoopConstants;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.generator.ISourceGenerator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,25 +42,25 @@ public class HiveSourceGenerator implements ISourceGenerator {
 
         try {
             SourceHiveParameter sourceHiveParameter
-                = JSONUtils.parseObject(sqoopParameters.getSourceParams(), SourceHiveParameter.class);
+                    = JSONUtils.parseObject(sqoopParameters.getSourceParams(), SourceHiveParameter.class);
 
             if (null != sourceHiveParameter) {
                 if (StringUtils.isNotEmpty(sourceHiveParameter.getHiveDatabase())) {
                     hiveSourceSb.append(Constants.SPACE).append(SqoopConstants.HCATALOG_DATABASE)
-                        .append(Constants.SPACE).append(sourceHiveParameter.getHiveDatabase());
+                            .append(Constants.SPACE).append(sourceHiveParameter.getHiveDatabase());
                 }
 
                 if (StringUtils.isNotEmpty(sourceHiveParameter.getHiveTable())) {
                     hiveSourceSb.append(Constants.SPACE).append(SqoopConstants.HCATALOG_TABLE)
-                        .append(Constants.SPACE).append(sourceHiveParameter.getHiveTable());
+                            .append(Constants.SPACE).append(sourceHiveParameter.getHiveTable());
                 }
 
                 if (StringUtils.isNotEmpty(sourceHiveParameter.getHivePartitionKey())
-                    && StringUtils.isNotEmpty(sourceHiveParameter.getHivePartitionValue())) {
+                        && StringUtils.isNotEmpty(sourceHiveParameter.getHivePartitionValue())) {
                     hiveSourceSb.append(Constants.SPACE).append(SqoopConstants.HCATALOG_PARTITION_KEYS)
-                        .append(Constants.SPACE).append(sourceHiveParameter.getHivePartitionKey())
-                        .append(Constants.SPACE).append(SqoopConstants.HCATALOG_PARTITION_VALUES)
-                        .append(Constants.SPACE).append(sourceHiveParameter.getHivePartitionValue());
+                            .append(Constants.SPACE).append(sourceHiveParameter.getHivePartitionKey())
+                            .append(Constants.SPACE).append(SqoopConstants.HCATALOG_PARTITION_VALUES)
+                            .append(Constants.SPACE).append(sourceHiveParameter.getHivePartitionValue());
                 }
             }
         } catch (Exception e) {

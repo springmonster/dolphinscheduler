@@ -49,7 +49,9 @@
               <div class="text-num-model">
                 <div class="value-p">
                   <strong
-                    :style="{color:color[$index]}">{{ item.resInfo.loadAverage > 0 ? item.resInfo.loadAverage.toFixed(2) : 0 }}</strong>
+                    :style="{color:color[$index]}">{{
+                      item.resInfo.loadAverage > 0 ? item.resInfo.loadAverage.toFixed(2) : 0
+                    }}</strong>
                 </div>
                 <div class="text-1">
                   loadAverage
@@ -68,7 +70,7 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mGauge from './_source/gauge'
 import mList from './_source/zookeeperList'
 import mSpin from '@/module/components/spin/spin'
@@ -79,7 +81,7 @@ import zookeeperDirectoriesPopup from './_source/zookeeperDirectories'
 
 export default {
   name: 'servers-worker',
-  data () {
+  data() {
     return {
       isLoading: false,
       workerList: [],
@@ -89,7 +91,7 @@ export default {
   props: {},
   methods: {
     ...mapActions('monitor', ['getWorkerData']),
-    _showZkDirectories (item) {
+    _showZkDirectories(item) {
       let zkDirectories = []
       item.zkDirectories.forEach(zkDirectory => {
         zkDirectories.push({
@@ -98,7 +100,7 @@ export default {
       })
       this.$drawer({
         direction: 'right',
-        render (h) {
+        render(h) {
           return h(zookeeperDirectoriesPopup, {
             props: {
               zkDirectories: zkDirectories
@@ -109,10 +111,10 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
 
   },
-  mounted () {
+  mounted() {
     this.isLoading = true
     this.getWorkerData().then(res => {
       this.workerList = _.map(res, (v, i) => {

@@ -32,7 +32,7 @@
 <script>
 export default {
   name: 'list-construction',
-  data () {
+  data() {
     return {}
   },
   props: {

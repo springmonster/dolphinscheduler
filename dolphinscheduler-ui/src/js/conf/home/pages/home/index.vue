@@ -28,7 +28,7 @@ export default {
     mProjectHome,
     mListConstruction
   },
-  mounted () {
+  mounted() {
     this.$modal.destroy()
   },
 }

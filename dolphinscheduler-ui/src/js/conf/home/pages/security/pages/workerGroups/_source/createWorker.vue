@@ -55,7 +55,7 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
   name: 'create-warning',
-  data () {
+  data() {
     return {
       store,
       id: 0,
@@ -68,13 +68,13 @@ export default {
     workerAddressList: Object
   },
   methods: {
-    _ok () {
+    _ok() {
       if (this._verification()) {
         // Verify username
         this._submit()
       }
     },
-    _verification () {
+    _verification() {
       // group name
       if (!this.name) {
         this.$message.warning(`${i18n.$t('Please enter group name')}`)
@@ -86,7 +86,7 @@ export default {
       }
       return true
     },
-    _submit () {
+    _submit() {
       let param = {
         id: this.id,
         name: this.name,
@@ -109,14 +109,14 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     if (this.item) {
       this.id = this.item.id
       this.name = this.item.name
       this.addrList = this.item.addrList.split(',')
     }
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mPopup,

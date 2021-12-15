@@ -17,7 +17,6 @@
 package org.apache.dolphinscheduler.service.zk;
 
 import org.apache.dolphinscheduler.common.utils.StringUtils;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;

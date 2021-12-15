@@ -21,7 +21,6 @@ import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 
 /**
  * count execute state
- *
  */
 public class ExecuteStatusCount {
 

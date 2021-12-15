@@ -58,8 +58,9 @@ public class PermissionCheck<T> {
 
     /**
      * permission check
+     *
      * @param authorizationType authorization type
-     * @param processService        process dao
+     * @param processService    process dao
      */
     public PermissionCheck(AuthorizationType authorizationType, ProcessService processService) {
         this.authorizationType = authorizationType;
@@ -68,6 +69,7 @@ public class PermissionCheck<T> {
 
     /**
      * permission check
+     *
      * @param authorizationType
      * @param processService
      * @param needChecks
@@ -82,6 +84,7 @@ public class PermissionCheck<T> {
 
     /**
      * permission check
+     *
      * @param authorizationType
      * @param processService
      * @param needChecks
@@ -98,13 +101,14 @@ public class PermissionCheck<T> {
 
     /**
      * permission check
+     *
      * @param logger
      * @param authorizationType
      * @param processService
      * @param resourceList
      * @param userId
      */
-    public PermissionCheck(AuthorizationType authorizationType, ProcessService processService, List<ResourceInfo> resourceList, int userId,Logger logger) {
+    public PermissionCheck(AuthorizationType authorizationType, ProcessService processService, List<ResourceInfo> resourceList, int userId, Logger logger) {
         this.authorizationType = authorizationType;
         this.processService = processService;
         this.resourceList = resourceList;
@@ -154,9 +158,10 @@ public class PermissionCheck<T> {
 
     /**
      * has permission
+     *
      * @return true if has permission
      */
-    public boolean hasPermission(){
+    public boolean hasPermission() {
         try {
             checkPermission();
             return true;
@@ -167,22 +172,23 @@ public class PermissionCheck<T> {
 
     /**
      * check permission
+     *
      * @throws Exception exception
      */
-    public void checkPermission() throws Exception{
-        if(this.needChecks.length > 0){
+    public void checkPermission() throws Exception {
+        if (this.needChecks.length > 0) {
 
             // get user type in order to judge whether the user is admin
             User user = processService.getUserById(userId);
             if (user == null) {
-                logger.error("user id {} didn't exist",userId);
-                throw new RuntimeException(String.format("user %s didn't exist",userId));
+                logger.error("user id {} didn't exist", userId);
+                throw new RuntimeException(String.format("user %s didn't exist", userId));
             }
-            if (user.getUserType() != UserType.ADMIN_USER){
-                List<T> unauthorizedList = processService.listUnauthorized(userId,needChecks,authorizationType);
+            if (user.getUserType() != UserType.ADMIN_USER) {
+                List<T> unauthorizedList = processService.listUnauthorized(userId, needChecks, authorizationType);
                 // if exist unauthorized resource
-                if(CollectionUtils.isNotEmpty(unauthorizedList)){
-                    logger.error("user {} didn't has permission of {}: {}", user.getUserName(), authorizationType.getDescp(),unauthorizedList);
+                if (CollectionUtils.isNotEmpty(unauthorizedList)) {
+                    logger.error("user {} didn't has permission of {}: {}", user.getUserName(), authorizationType.getDescp(), unauthorizedList);
                     throw new RuntimeException(String.format("user %s didn't has permission of %s %s", user.getUserName(), authorizationType.getDescp(), unauthorizedList.get(0)));
                 }
             }

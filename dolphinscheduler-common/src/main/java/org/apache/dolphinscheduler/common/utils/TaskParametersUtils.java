@@ -19,8 +19,8 @@ package org.apache.dolphinscheduler.common.utils;
 import org.apache.dolphinscheduler.common.enums.TaskType;
 import org.apache.dolphinscheduler.common.task.AbstractParameters;
 import org.apache.dolphinscheduler.common.task.conditions.ConditionsParameters;
-import org.apache.dolphinscheduler.common.task.dependent.DependentParameters;
 import org.apache.dolphinscheduler.common.task.datax.DataxParameters;
+import org.apache.dolphinscheduler.common.task.dependent.DependentParameters;
 import org.apache.dolphinscheduler.common.task.flink.FlinkParameters;
 import org.apache.dolphinscheduler.common.task.http.HttpParameters;
 import org.apache.dolphinscheduler.common.task.mr.MapReduceParameters;
@@ -40,49 +40,50 @@ import org.slf4j.LoggerFactory;
  */
 public class TaskParametersUtils {
 
-  private static Logger logger = LoggerFactory.getLogger(TaskParametersUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(TaskParametersUtils.class);
 
-  /**
-   * get task parameters
-   * @param taskType task type
-   * @param parameter parameter
-   * @return task parameters
-   */
-  public static AbstractParameters getParameters(String taskType, String parameter) {
-    try {
-      switch (EnumUtils.getEnum(TaskType.class,taskType)) {
-        case SUB_PROCESS:
-          return JSONUtils.parseObject(parameter, SubProcessParameters.class);
-        case SHELL:
-          return JSONUtils.parseObject(parameter, ShellParameters.class);
-        case PROCEDURE:
-          return JSONUtils.parseObject(parameter, ProcedureParameters.class);
-        case SQL:
-          return JSONUtils.parseObject(parameter, SqlParameters.class);
-        case MR:
-          return JSONUtils.parseObject(parameter, MapReduceParameters.class);
-        case SPARK:
-          return JSONUtils.parseObject(parameter, SparkParameters.class);
-        case PYTHON:
-          return JSONUtils.parseObject(parameter, PythonParameters.class);
-        case DEPENDENT:
-          return JSONUtils.parseObject(parameter, DependentParameters.class);
-        case FLINK:
-          return JSONUtils.parseObject(parameter, FlinkParameters.class);
-        case HTTP:
-          return JSONUtils.parseObject(parameter, HttpParameters.class);
-        case DATAX:
-          return JSONUtils.parseObject(parameter, DataxParameters.class);
-        case CONDITIONS:
-          return JSONUtils.parseObject(parameter, ConditionsParameters.class);
-        case SQOOP:
-          return JSONUtils.parseObject(parameter, SqoopParameters.class);
-        default:
-          return null;
-      }
-    } catch (Exception e) {
-      logger.error(e.getMessage(), e);
+    /**
+     * get task parameters
+     *
+     * @param taskType  task type
+     * @param parameter parameter
+     * @return task parameters
+     */
+    public static AbstractParameters getParameters(String taskType, String parameter) {
+        try {
+            switch (EnumUtils.getEnum(TaskType.class, taskType)) {
+                case SUB_PROCESS:
+                    return JSONUtils.parseObject(parameter, SubProcessParameters.class);
+                case SHELL:
+                    return JSONUtils.parseObject(parameter, ShellParameters.class);
+                case PROCEDURE:
+                    return JSONUtils.parseObject(parameter, ProcedureParameters.class);
+                case SQL:
+                    return JSONUtils.parseObject(parameter, SqlParameters.class);
+                case MR:
+                    return JSONUtils.parseObject(parameter, MapReduceParameters.class);
+                case SPARK:
+                    return JSONUtils.parseObject(parameter, SparkParameters.class);
+                case PYTHON:
+                    return JSONUtils.parseObject(parameter, PythonParameters.class);
+                case DEPENDENT:
+                    return JSONUtils.parseObject(parameter, DependentParameters.class);
+                case FLINK:
+                    return JSONUtils.parseObject(parameter, FlinkParameters.class);
+                case HTTP:
+                    return JSONUtils.parseObject(parameter, HttpParameters.class);
+                case DATAX:
+                    return JSONUtils.parseObject(parameter, DataxParameters.class);
+                case CONDITIONS:
+                    return JSONUtils.parseObject(parameter, ConditionsParameters.class);
+                case SQOOP:
+                    return JSONUtils.parseObject(parameter, SqoopParameters.class);
+                default:
+                    return null;
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
-    return null;
-  }
 }

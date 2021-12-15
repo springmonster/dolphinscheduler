@@ -25,6 +25,7 @@ import org.apache.dolphinscheduler.common.Constants;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Marker;
+
 import java.util.Map;
 
 public class MasterLogFilterTest {

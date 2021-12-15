@@ -42,9 +42,10 @@ public class SessionMapperTest {
 
     /**
      * insert
+     *
      * @return Session
      */
-    private Session insertOne(){
+    private Session insertOne() {
         //insertOne
         Session session = new Session();
         session.setId(UUID.randomUUID().toString());
@@ -58,7 +59,7 @@ public class SessionMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         Session session = insertOne();
         session.setLastLoginTime(new Date());
@@ -71,7 +72,7 @@ public class SessionMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         Session session = insertOne();
         int delete = sessionMapper.deleteById(session.getId());
         Assert.assertEquals(delete, 1);

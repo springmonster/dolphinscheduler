@@ -22,38 +22,38 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- *  log asyc callback
+ * log asyc callback
  */
 public class LogPromise {
 
     private static final ConcurrentHashMap<Long, LogPromise> PROMISES = new ConcurrentHashMap<>();
 
     /**
-     *  request unique identification
+     * request unique identification
      */
     private long opaque;
 
     /**
-     *  start timemillis
+     * start timemillis
      */
     private final long start;
 
     /**
-     *  timeout
+     * timeout
      */
     private final long timeout;
 
     /**
-     *  latch
+     * latch
      */
     private final CountDownLatch latch;
 
     /**
-     *  result
+     * result
      */
     private Object result;
 
-    public LogPromise(long opaque, long timeout){
+    public LogPromise(long opaque, long timeout) {
         this.opaque = opaque;
         this.timeout = timeout;
         this.start = System.currentTimeMillis();
@@ -63,40 +63,43 @@ public class LogPromise {
 
 
     /**
-     *  notify client finish
+     * notify client finish
+     *
      * @param opaque unique identification
      * @param result result
      */
-    public static void notify(long opaque, Object result){
+    public static void notify(long opaque, Object result) {
         LogPromise promise = PROMISES.remove(opaque);
-        if(promise != null){
+        if (promise != null) {
             promise.doCountDown(result);
         }
     }
 
     /**
-     *  countdown
+     * countdown
      *
      * @param result result
      */
-    private void doCountDown(Object result){
+    private void doCountDown(Object result) {
         this.result = result;
         this.latch.countDown();
     }
 
     /**
-     *  whether timeout
+     * whether timeout
+     *
      * @return timeout
      */
-    public boolean isTimeout(){
+    public boolean isTimeout() {
         return System.currentTimeMillis() - start > timeout;
     }
 
     /**
-     *  get result
+     * get result
+     *
      * @return
      */
-    public Object getResult(){
+    public Object getResult() {
         try {
             latch.await(timeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException ignore) {

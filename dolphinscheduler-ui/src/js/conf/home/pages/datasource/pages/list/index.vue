@@ -43,7 +43,7 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/list'
 import mSpin from '@/module/components/spin/spin'
 import mNoData from '@/module/components/noData/noData'
@@ -54,7 +54,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'datasource-indexP',
-  data () {
+  data() {
     return {
       // loading
       isLoading: true,
@@ -79,7 +79,7 @@ export default {
     /**
      * create data source
      */
-    _create (item) {
+    _create(item) {
       let self = this
       let modal = this.$modal.dialog({
         closable: false,
@@ -87,14 +87,14 @@ export default {
         escClose: true,
         className: 'v-modal-custom',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mCreateDataSource, {
             on: {
-              onUpdate () {
+              onUpdate() {
                 self._debounceGET('false')
                 modal.remove()
               },
-              close () {
+              close() {
                 modal.remove()
               }
             },
@@ -108,23 +108,23 @@ export default {
     /**
      * page
      */
-    _page (val) {
+    _page(val) {
       this.searchParams.pageNo = val
     },
-    _pageSize (val) {
+    _pageSize(val) {
       this.searchParams.pageSize = val
     },
     /**
      * conditions event
      */
-    _onConditions (o) {
+    _onConditions(o) {
       this.searchParams = _.assign(this.searchParams, o)
       this.searchParams.pageNo = 1
     },
     /**
      * get data(List)
      */
-    _getList (flag) {
+    _getList(flag) {
       this.isLoading = !flag
       this.getDatasourcesListP(this.searchParams).then(res => {
         if (this.searchParams.pageNo > 1 && res.totalList.length == 0) {
@@ -139,20 +139,20 @@ export default {
         this.isLoading = false
       })
     },
-    _onUpdate () {
+    _onUpdate() {
       this._debounceGET('false')
     },
   },
   watch: {
     // router
-    '$route' (a) {
+    '$route'(a) {
       // url no params get instance list
       this.searchParams.pageNo = _.isEmpty(a.query) ? 1 : a.query.pageNo
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mList,

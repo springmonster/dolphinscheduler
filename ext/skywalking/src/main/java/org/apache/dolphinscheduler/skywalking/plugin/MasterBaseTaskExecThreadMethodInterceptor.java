@@ -29,15 +29,7 @@ import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.MethodInt
 
 import java.lang.reflect.Method;
 
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_STATE;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_TYPE;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_INSTANCE_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_DEFINITION_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_INSTANCE_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_INSTANCE_NAME;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_WORKER_GROUP;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_EXECUTE_METHOD;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.getProcessDefinitionId;
+import static org.apache.dolphinscheduler.skywalking.plugin.Utils.*;
 
 public class MasterBaseTaskExecThreadMethodInterceptor implements InstanceMethodsAroundInterceptor {
 
@@ -97,4 +89,3 @@ public class MasterBaseTaskExecThreadMethodInterceptor implements InstanceMethod
         return prefix + getProcessDefinitionId(taskInstance.getProcessDefinitionId()) + "/";
     }
 }
-

@@ -71,19 +71,19 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import Tree from './_source/tree'
-import { uuid } from '@/module/util'
+import {uuid} from '@/module/util'
 import mSpin from '@/module/components/spin/spin'
 import mNoData from '@/module/components/noData/noData'
-import { tasksType, tasksState } from '@/conf/home/pages/dag/_source/config'
+import {tasksState, tasksType} from '@/conf/home/pages/dag/_source/config'
 import mSecondaryMenu from '@/module/components/secondaryMenu/secondaryMenu'
 import mListConstruction from '@/module/components/listConstruction/listConstruction'
 import switchProject from '@/module/mixin/switchProject'
 
 export default {
   name: 'tree-view-index-index',
-  data () {
+  data() {
     return {
       // limit
       limit: 25,
@@ -106,7 +106,7 @@ export default {
     /**
      * get tree data
      */
-    _getViewTree () {
+    _getViewTree() {
       this.isLoading = true
 
       Tree.reset()
@@ -154,7 +154,7 @@ export default {
     /**
      * Return to the previous child node
      */
-    _rtTasksDag () {
+    _rtTasksDag() {
       let getIds = this.$route.query.subProcessIds
       let idsArr = getIds.split(',')
       let ids = idsArr.slice(0, idsArr.length - 1)
@@ -162,7 +162,7 @@ export default {
       let query = {}
 
       if (id !== idsArr[0]) {
-        query = { subProcessIds: ids.join(',') }
+        query = {subProcessIds: ids.join(',')}
       }
       this.$router.push({
         path: `/projects/${this.projectId}/definition/tree/${id}`,
@@ -173,7 +173,7 @@ export default {
      * Subprocess processing
      * @param subProcessId 子流程Id
      */
-    _subProcessHandle (subProcessId) {
+    _subProcessHandle(subProcessId) {
       let subProcessIds = []
       let getIds = this.$route.query.subProcessIds
       if (getIds) {
@@ -185,26 +185,26 @@ export default {
       }
       this.$router.push({
         path: `/projects/${this.projectId}/definition/tree/${subProcessId}`,
-        query: { subProcessIds: subProcessIds.join(',') }
+        query: {subProcessIds: subProcessIds.join(',')}
       })
     },
-    _onChangeSelect (o) {
+    _onChangeSelect(o) {
       this.limit = o.value
       this._getViewTree()
     },
-    _updateProject () {
+    _updateProject() {
       this._getViewTree()
     }
   },
   watch: {
-    '$route.params.id' () {
+    '$route.params.id'() {
       this._getViewTree()
     }
   },
-  created () {
+  created() {
     this._getViewTree()
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mSpin,

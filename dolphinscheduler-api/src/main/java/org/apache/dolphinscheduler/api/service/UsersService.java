@@ -81,13 +81,13 @@ public class UsersService extends BaseService {
     /**
      * create user, only system admin have permission
      *
-     * @param loginUser login user
-     * @param userName user name
+     * @param loginUser    login user
+     * @param userName     user name
      * @param userPassword user password
-     * @param email email
-     * @param tenantId tenant id
-     * @param phone phone
-     * @param queue queue
+     * @param email        email
+     * @param tenantId     tenant id
+     * @param phone        phone
+     * @param queue        queue
      * @return create result code
      * @throws Exception exception
      */
@@ -106,7 +106,7 @@ public class UsersService extends BaseService {
         String msg = this.checkUserParams(userName, userPassword, email, phone);
 
         if (!StringUtils.isEmpty(msg)) {
-            putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR,msg);
+            putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR, msg);
             return result;
         }
         if (!isAdmin(loginUser)) {
@@ -123,12 +123,12 @@ public class UsersService extends BaseService {
 
         Tenant tenant = tenantMapper.queryById(tenantId);
         // resource upload startup
-        if (PropertyUtils.getResUploadStartupState()){
+        if (PropertyUtils.getResUploadStartupState()) {
             // if tenant not exists
-            if (!HadoopUtils.getInstance().exists(HadoopUtils.getHdfsTenantDir(tenant.getTenantCode()))){
+            if (!HadoopUtils.getInstance().exists(HadoopUtils.getHdfsTenantDir(tenant.getTenantCode()))) {
                 createTenantDirIfNotExists(tenant.getTenantCode());
             }
-            String userPath = HadoopUtils.getHdfsUserDir(tenant.getTenantCode(),user.getId());
+            String userPath = HadoopUtils.getHdfsUserDir(tenant.getTenantCode(), user.getId());
             HadoopUtils.getInstance().mkdir(userPath);
         }
 
@@ -139,11 +139,11 @@ public class UsersService extends BaseService {
 
     @Transactional(rollbackFor = Exception.class)
     public User createUser(String userName,
-                                          String userPassword,
-                                          String email,
-                                          int tenantId,
-                                          String phone,
-                                          String queue) throws Exception {
+                           String userPassword,
+                           String email,
+                           int tenantId,
+                           String phone,
+                           String queue) throws Exception {
         User user = new User();
         Date now = new Date();
 
@@ -156,7 +156,7 @@ public class UsersService extends BaseService {
         user.setUserType(UserType.GENERAL_USER);
         user.setCreateTime(now);
         user.setUpdateTime(now);
-        if (StringUtils.isEmpty(queue)){
+        if (StringUtils.isEmpty(queue)) {
             queue = "";
         }
         user.setQueue(queue);
@@ -168,6 +168,7 @@ public class UsersService extends BaseService {
 
     /**
      * query user by id
+     *
      * @param id id
      * @return user info
      */
@@ -177,6 +178,7 @@ public class UsersService extends BaseService {
 
     /**
      * query user
+     *
      * @param name name
      * @return user info
      */
@@ -187,7 +189,7 @@ public class UsersService extends BaseService {
     /**
      * query user
      *
-     * @param name name
+     * @param name     name
      * @param password password
      * @return user info
      */
@@ -198,6 +200,7 @@ public class UsersService extends BaseService {
 
     /**
      * get user id by user name
+     *
      * @param name user name
      * @return if name empty 0, user not exists -1, user exist user id
      */
@@ -220,9 +223,9 @@ public class UsersService extends BaseService {
      * query user list
      *
      * @param loginUser login user
-     * @param pageNo page number
+     * @param pageNo    page number
      * @param searchVal search avlue
-     * @param pageSize page size
+     * @param pageSize  page size
      * @return user list page
      */
     public Map<String, Object> queryUserList(User loginUser, String searchVal, Integer pageNo, Integer pageSize) {
@@ -237,7 +240,7 @@ public class UsersService extends BaseService {
         IPage<User> scheduleList = userMapper.queryUserPaging(page, searchVal);
 
         PageInfo<User> pageInfo = new PageInfo<>(pageNo, pageSize);
-        pageInfo.setTotalCount((int)scheduleList.getTotal());
+        pageInfo.setTotalCount((int) scheduleList.getTotal());
         pageInfo.setLists(scheduleList.getRecords());
         result.put(Constants.DATA_LIST, pageInfo);
         putMsg(result, Status.SUCCESS);
@@ -248,15 +251,14 @@ public class UsersService extends BaseService {
     /**
      * updateProcessInstance user
      *
-     *
      * @param loginUser
-     * @param userId user id
-     * @param userName user name
+     * @param userId       user id
+     * @param userName     user name
      * @param userPassword user password
-     * @param email email
-     * @param tenantId tennat id
-     * @param phone phone
-     * @param queue  queue
+     * @param email        email
+     * @param tenantId     tennat id
+     * @param phone        phone
+     * @param queue        queue
      * @return update result code
      * @throws Exception exception
      */
@@ -280,8 +282,8 @@ public class UsersService extends BaseService {
         }
         if (StringUtils.isNotEmpty(userName)) {
 
-            if (!CheckUtils.checkUserName(userName)){
-                putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR,userName);
+            if (!CheckUtils.checkUserName(userName)) {
+                putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR, userName);
                 return result;
             }
 
@@ -294,23 +296,23 @@ public class UsersService extends BaseService {
         }
 
         if (StringUtils.isNotEmpty(userPassword)) {
-            if (!CheckUtils.checkPassword(userPassword)){
-                putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR,userPassword);
+            if (!CheckUtils.checkPassword(userPassword)) {
+                putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR, userPassword);
                 return result;
             }
             user.setUserPassword(EncryptionUtils.getMd5(userPassword));
         }
 
         if (StringUtils.isNotEmpty(email)) {
-            if (!CheckUtils.checkEmail(email)){
-                putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR,email);
+            if (!CheckUtils.checkEmail(email)) {
+                putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR, email);
                 return result;
             }
             user.setEmail(email);
         }
 
         if (StringUtils.isNotEmpty(phone) && !CheckUtils.checkPhone(phone)) {
-            putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR,phone);
+            putMsg(result, Status.REQUEST_PARAMS_NOT_VALID_ERROR, phone);
             return result;
         }
         user.setPhone(phone);
@@ -325,13 +327,13 @@ public class UsersService extends BaseService {
             Tenant newTenant = tenantMapper.queryById(tenantId);
             if (newTenant != null) {
                 // if hdfs startup
-                if (PropertyUtils.getResUploadStartupState() && oldTenant != null){
+                if (PropertyUtils.getResUploadStartupState() && oldTenant != null) {
                     String newTenantCode = newTenant.getTenantCode();
                     String oldResourcePath = HadoopUtils.getHdfsResDir(oldTenant.getTenantCode());
                     String oldUdfsPath = HadoopUtils.getHdfsUdfDir(oldTenant.getTenantCode());
 
                     // if old tenant dir exists
-                    if (HadoopUtils.getInstance().exists(oldResourcePath)){
+                    if (HadoopUtils.getInstance().exists(oldResourcePath)) {
                         String newResourcePath = HadoopUtils.getHdfsResDir(newTenantCode);
                         String newUdfsPath = HadoopUtils.getHdfsUdfDir(newTenantCode);
 
@@ -354,18 +356,18 @@ public class UsersService extends BaseService {
                         }
 
                         //Delete the user from the old tenant directory
-                        String oldUserPath = HadoopUtils.getHdfsUserDir(oldTenant.getTenantCode(),userId);
+                        String oldUserPath = HadoopUtils.getHdfsUserDir(oldTenant.getTenantCode(), userId);
                         HadoopUtils.getInstance().delete(oldUserPath, true);
-                    }else {
+                    } else {
                         // if old tenant dir not exists , create
                         createTenantDirIfNotExists(oldTenant.getTenantCode());
                     }
 
-                    if (HadoopUtils.getInstance().exists(HadoopUtils.getHdfsTenantDir(newTenant.getTenantCode()))){
+                    if (HadoopUtils.getInstance().exists(HadoopUtils.getHdfsTenantDir(newTenant.getTenantCode()))) {
                         //create user in the new tenant directory
-                        String newUserPath = HadoopUtils.getHdfsUserDir(newTenant.getTenantCode(),user.getId());
+                        String newUserPath = HadoopUtils.getHdfsUserDir(newTenant.getTenantCode(), user.getId());
                         HadoopUtils.getInstance().mkdir(newUserPath);
-                    }else {
+                    } else {
                         // if new tenant dir not exists , create
                         createTenantDirIfNotExists(newTenant.getTenantCode());
                     }
@@ -385,7 +387,7 @@ public class UsersService extends BaseService {
      * delete user
      *
      * @param loginUser login user
-     * @param id user id
+     * @param id        user id
      * @return delete result code
      * @throws Exception exception when operate hdfs
      */
@@ -407,7 +409,7 @@ public class UsersService extends BaseService {
 
         if (user != null) {
             if (PropertyUtils.getResUploadStartupState()) {
-                String userPath = HadoopUtils.getHdfsUserDir(user.getTenantCode(),id);
+                String userPath = HadoopUtils.getHdfsUserDir(user.getTenantCode(), id);
                 if (HadoopUtils.getInstance().exists(userPath)) {
                     HadoopUtils.getInstance().delete(userPath, true);
                 }
@@ -423,8 +425,8 @@ public class UsersService extends BaseService {
     /**
      * grant project
      *
-     * @param loginUser login user
-     * @param userId user id
+     * @param loginUser  login user
+     * @param userId     user id
      * @param projectIds project id array
      * @return grant result code
      */
@@ -473,8 +475,8 @@ public class UsersService extends BaseService {
     /**
      * grant resource
      *
-     * @param loginUser login user
-     * @param userId user id
+     * @param loginUser   login user
+     * @param userId      user id
      * @param resourceIds resource id array
      * @return grant result code
      */
@@ -486,7 +488,7 @@ public class UsersService extends BaseService {
             return result;
         }
         User user = userMapper.selectById(userId);
-        if(user == null){
+        if (user == null) {
             putMsg(result, Status.USER_NOT_EXIST, userId);
             return result;
         }
@@ -497,7 +499,7 @@ public class UsersService extends BaseService {
             // need authorize resource id set
             for (String resourceFullId : resourceFullIdArr) {
                 String[] resourceIdArr = resourceFullId.split("-");
-                for (int i=0;i<=resourceIdArr.length-1;i++) {
+                for (int i = 0; i <= resourceIdArr.length - 1; i++) {
                     int resourceIdValue = Integer.parseInt(resourceIdArr[i]);
                     needAuthorizeResIds.add(resourceIdValue);
                 }
@@ -524,7 +526,7 @@ public class UsersService extends BaseService {
             if (CollectionUtils.isNotEmpty(resourceIdSet)) {
                 logger.error("can't be deleted,because it is used of process definition");
                 for (Integer resId : resourceIdSet) {
-                    logger.error("resource id:{} is used of process definition {}",resId,resourceProcessMap.get(resId));
+                    logger.error("resource id:{} is used of process definition {}", resId, resourceProcessMap.get(resId));
                 }
                 putMsg(result, Status.RESOURCE_IS_USED);
                 return result;
@@ -551,7 +553,7 @@ public class UsersService extends BaseService {
             resourcesUser.setResourcesId(resourceIdValue);
             if (resource.isDirectory()) {
                 resourcesUser.setPerm(Constants.AUTHORIZE_READABLE_PERM);
-            }else{
+            } else {
                 resourcesUser.setPerm(Constants.AUTHORIZE_WRITABLE_PERM);
             }
 
@@ -571,8 +573,8 @@ public class UsersService extends BaseService {
      * grant udf function
      *
      * @param loginUser login user
-     * @param userId user id
-     * @param udfIds udf id array
+     * @param userId    user id
+     * @param udfIds    udf id array
      * @return grant result code
      */
     @Transactional(rollbackFor = Exception.class)
@@ -584,7 +586,7 @@ public class UsersService extends BaseService {
             return result;
         }
         User user = userMapper.selectById(userId);
-        if(user == null){
+        if (user == null) {
             putMsg(result, Status.USER_NOT_EXIST, userId);
             return result;
         }
@@ -617,9 +619,9 @@ public class UsersService extends BaseService {
     /**
      * grant datasource
      *
-     * @param loginUser login user
-     * @param userId user id
-     * @param datasourceIds  data source id array
+     * @param loginUser     login user
+     * @param userId        user id
+     * @param datasourceIds data source id array
      * @return grant result code
      */
     @Transactional(rollbackFor = Exception.class)
@@ -632,7 +634,7 @@ public class UsersService extends BaseService {
             return result;
         }
         User user = userMapper.selectById(userId);
-        if(user == null){
+        if (user == null) {
             putMsg(result, Status.USER_NOT_EXIST, userId);
             return result;
         }
@@ -731,7 +733,7 @@ public class UsersService extends BaseService {
             return result;
         }
 
-        List<User> userList = userMapper.selectList(null );
+        List<User> userList = userMapper.selectList(null);
         result.put(Constants.DATA_LIST, userList);
         putMsg(result, Status.SUCCESS);
 
@@ -763,7 +765,7 @@ public class UsersService extends BaseService {
     /**
      * unauthorized user
      *
-     * @param loginUser login user
+     * @param loginUser    login user
      * @param alertgroupId alert group id
      * @return unauthorize result code
      */
@@ -775,7 +777,7 @@ public class UsersService extends BaseService {
             return result;
         }
 
-        List<User> userList = userMapper.selectList(null );
+        List<User> userList = userMapper.selectList(null);
         List<User> resultUsers = new ArrayList<>();
         Set<User> userSet = null;
         if (userList != null && userList.size() > 0) {
@@ -800,7 +802,7 @@ public class UsersService extends BaseService {
     /**
      * authorized user
      *
-     * @param loginUser login user
+     * @param loginUser    login user
      * @param alertgroupId alert group id
      * @return authorized result code
      */
@@ -826,7 +828,6 @@ public class UsersService extends BaseService {
     }
 
     /**
-     *
      * @param userName
      * @param password
      * @param email
@@ -855,35 +856,36 @@ public class UsersService extends BaseService {
 
     /**
      * copy resource files
+     *
      * @param resourceComponent resource component
      * @param srcBasePath       src base path
      * @param dstBasePath       dst base path
-     * @throws IOException      io exception
+     * @throws IOException io exception
      */
     private void copyResourceFiles(ResourceComponent resourceComponent, String srcBasePath, String dstBasePath) throws IOException {
         List<ResourceComponent> components = resourceComponent.getChildren();
 
         if (CollectionUtils.isNotEmpty(components)) {
-            for (ResourceComponent component:components) {
+            for (ResourceComponent component : components) {
                 // verify whether exist
-                if (!HadoopUtils.getInstance().exists(String.format("%s/%s",srcBasePath,component.getFullName()))){
-                    logger.error("resource file: {} not exist,copy error",component.getFullName());
+                if (!HadoopUtils.getInstance().exists(String.format("%s/%s", srcBasePath, component.getFullName()))) {
+                    logger.error("resource file: {} not exist,copy error", component.getFullName());
                     throw new ServiceException(Status.RESOURCE_NOT_EXIST);
                 }
 
                 if (!component.isDirctory()) {
                     // copy it to dst
-                    HadoopUtils.getInstance().copy(String.format("%s/%s",srcBasePath,component.getFullName()),String.format("%s/%s",dstBasePath,component.getFullName()),false,true);
+                    HadoopUtils.getInstance().copy(String.format("%s/%s", srcBasePath, component.getFullName()), String.format("%s/%s", dstBasePath, component.getFullName()), false, true);
                     continue;
                 }
 
-                if(CollectionUtils.isEmpty(component.getChildren())) {
+                if (CollectionUtils.isEmpty(component.getChildren())) {
                     // if not exist,need create it
-                    if (!HadoopUtils.getInstance().exists(String.format("%s/%s",dstBasePath,component.getFullName()))) {
-                        HadoopUtils.getInstance().mkdir(String.format("%s/%s",dstBasePath,component.getFullName()));
+                    if (!HadoopUtils.getInstance().exists(String.format("%s/%s", dstBasePath, component.getFullName()))) {
+                        HadoopUtils.getInstance().mkdir(String.format("%s/%s", dstBasePath, component.getFullName()));
                     }
-                }else{
-                    copyResourceFiles(component,srcBasePath,dstBasePath);
+                } else {
+                    copyResourceFiles(component, srcBasePath, dstBasePath);
                 }
             }
         }

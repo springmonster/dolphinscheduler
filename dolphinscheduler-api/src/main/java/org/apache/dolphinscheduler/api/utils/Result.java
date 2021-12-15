@@ -50,7 +50,7 @@ public class Result<T> {
     }
 
     private Result(T data) {
-        this.code  = 0;
+        this.code = 0;
         this.data = data;
     }
 
@@ -65,7 +65,7 @@ public class Result<T> {
      * Call this function if there is success
      *
      * @param data data
-     * @param <T> type
+     * @param <T>  type
      * @return resule
      */
     public static <T> Result<T> success(T data) {
@@ -86,7 +86,7 @@ public class Result<T> {
      * Call this function if there is any error
      *
      * @param status status
-     * @param args args
+     * @param args   args
      * @return result
      */
     public static Result errorWithArgs(Status status, Object... args) {

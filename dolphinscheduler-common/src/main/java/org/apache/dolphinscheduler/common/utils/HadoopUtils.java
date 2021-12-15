@@ -16,29 +16,27 @@
  */
 package org.apache.dolphinscheduler.common.utils;
 
-import static org.apache.dolphinscheduler.common.Constants.RESOURCE_UPLOAD_PATH;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.apache.commons.io.IOUtils;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.common.enums.ResUploadType;
 import org.apache.dolphinscheduler.common.enums.ResourceType;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.FileUtil;
-import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.*;
 import org.apache.hadoop.hdfs.HdfsConfiguration;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.yarn.client.cli.RMAdminCLI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.security.PrivilegedExceptionAction;
 import java.util.Collections;
@@ -48,15 +46,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import static org.apache.dolphinscheduler.common.Constants.RESOURCE_UPLOAD_PATH;
 
 /**
  * hadoop utils
@@ -126,11 +116,11 @@ public class HadoopUtils implements Closeable {
             String resourceStorageType = PropertyUtils.getUpperCaseString(Constants.RESOURCE_STORAGE_TYPE);
             ResUploadType resUploadType = ResUploadType.valueOf(resourceStorageType);
 
-            if (resUploadType == ResUploadType.HDFS){
-                if (PropertyUtils.getBoolean(Constants.HADOOP_SECURITY_AUTHENTICATION_STARTUP_STATE,false)){
+            if (resUploadType == ResUploadType.HDFS) {
+                if (PropertyUtils.getBoolean(Constants.HADOOP_SECURITY_AUTHENTICATION_STARTUP_STATE, false)) {
                     System.setProperty(Constants.JAVA_SECURITY_KRB5_CONF,
                             PropertyUtils.getString(Constants.JAVA_SECURITY_KRB5_CONF_PATH));
-                    configuration.set(Constants.HADOOP_SECURITY_AUTHENTICATION,"kerberos");
+                    configuration.set(Constants.HADOOP_SECURITY_AUTHENTICATION, "kerberos");
                     hdfsUser = "";
                     UserGroupInformation.setConfiguration(configuration);
                     UserGroupInformation.loginUserFromKeytab(PropertyUtils.getString(Constants.LOGIN_USER_KEY_TAB_USERNAME),
@@ -156,16 +146,16 @@ public class HadoopUtils implements Closeable {
                     logger.info("get property:{} -> {}, from core-site.xml hdfs-site.xml ", Constants.FS_DEFAULTFS, defaultFS);
                 }
 
-                    if (StringUtils.isNotEmpty(hdfsUser)) {
-                        UserGroupInformation ugi = UserGroupInformation.createRemoteUser(hdfsUser);
+                if (StringUtils.isNotEmpty(hdfsUser)) {
+                    UserGroupInformation ugi = UserGroupInformation.createRemoteUser(hdfsUser);
                     ugi.doAs((PrivilegedExceptionAction<Boolean>) () -> {
-                                fs = FileSystem.get(configuration);
-                                return true;
-                        });
-                    } else {
-                        logger.warn("hdfs.root.user is not set value!");
                         fs = FileSystem.get(configuration);
-                    }
+                        return true;
+                    });
+                } else {
+                    logger.warn("hdfs.root.user is not set value!");
+                    fs = FileSystem.get(configuration);
+                }
             } else if (resUploadType == ResUploadType.S3) {
                 System.setProperty(Constants.AWS_S3_V4, Constants.STRING_TRUE);
                 configuration.set(Constants.FS_DEFAULTFS, PropertyUtils.getString(Constants.FS_DEFAULTFS));
@@ -202,7 +192,7 @@ public class HadoopUtils implements Closeable {
          *  if rmHaIds not empty: resourcemanager HA enabled
          */
 
-            yarnEnabled = true;
+        yarnEnabled = true;
         String appUrl = StringUtils.isEmpty(rmHaIds) ? appAddress : getAppAddress(appAddress, rmHaIds);
         if (StringUtils.isBlank(appUrl)) {
             throw new Exception("yarn application url generation failed");
@@ -397,9 +387,10 @@ public class HadoopUtils implements Closeable {
 
     /**
      * hadoop resourcemanager enabled or not
+     *
      * @return result
      */
-    public boolean isYarnEnabled()  {
+    public boolean isYarnEnabled() {
         return yarnEnabled;
     }
 
@@ -443,6 +434,7 @@ public class HadoopUtils implements Closeable {
 
     /**
      * get data hdfs path
+     *
      * @return data hdfs path
      */
     public static String getHdfsDataBasePath() {
@@ -460,7 +452,7 @@ public class HadoopUtils implements Closeable {
      * @param tenantCode tenant code
      * @return hdfs resource dir
      */
-    public static String getHdfsDir(ResourceType resourceType,String tenantCode) {
+    public static String getHdfsDir(ResourceType resourceType, String tenantCode) {
         String hdfsDir = "";
         if (resourceType.equals(ResourceType.FILE)) {
             hdfsDir = getHdfsResDir(tenantCode);

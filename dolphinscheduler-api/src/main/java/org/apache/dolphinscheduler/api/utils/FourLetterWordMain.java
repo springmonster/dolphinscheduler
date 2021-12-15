@@ -25,12 +25,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.net.ConnectException;
+import java.net.*;
 import java.util.Objects;
 
 public class FourLetterWordMain {
@@ -44,9 +39,10 @@ public class FourLetterWordMain {
 
     /**
      * Send the 4letterword
+     *
      * @param host the destination host
      * @param port the destination port
-     * @param cmd the 4letterword
+     * @param cmd  the 4letterword
      * @return server response
      * @throws java.io.IOException io exceptions
      */
@@ -57,9 +53,10 @@ public class FourLetterWordMain {
 
     /**
      * Send the 4letterword
-     * @param host the destination host
-     * @param port the destination port
-     * @param cmd the 4letterword
+     *
+     * @param host    the destination host
+     * @param port    the destination port
+     * @param cmd     the 4letterword
      * @param timeout in milliseconds, maximum time to wait while connecting/reading data
      * @return server response
      * @throws java.io.IOException io exceptions
@@ -68,9 +65,9 @@ public class FourLetterWordMain {
             throws IOException {
         Objects.requireNonNull(cmd, "cmd must not be null");
         LOG.info("connecting to {} {}", host, port);
-        InetSocketAddress hostaddress= host != null ? new InetSocketAddress(host, port) :
+        InetSocketAddress hostaddress = host != null ? new InetSocketAddress(host, port) :
                 new InetSocketAddress(InetAddress.getByName(null), port);
-        
+
         try (Socket sock = new Socket()) {
             sock.setSoTimeout(timeout);
             sock.connect(hostaddress, timeout);
@@ -81,8 +78,8 @@ public class FourLetterWordMain {
             sock.shutdownOutput();
 
             try (BufferedReader reader =
-                        new BufferedReader(
-                            new InputStreamReader(sock.getInputStream()))) {
+                         new BufferedReader(
+                                 new InputStreamReader(sock.getInputStream()))) {
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -90,7 +87,7 @@ public class FourLetterWordMain {
                 }
                 return sb.toString();
             }
-        } catch (SocketTimeoutException | ConnectException e ) {
+        } catch (SocketTimeoutException | ConnectException e) {
             throw new IOException("Exception while executing four letter word: " + cmd, e);
         }
     }

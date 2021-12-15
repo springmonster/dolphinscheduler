@@ -44,13 +44,13 @@ public class LoggerServiceTest {
 
 
     @Test
-    public void testQueryDataSourceList(){
+    public void testQueryDataSourceList() {
 
         TaskInstance taskInstance = new TaskInstance();
         Mockito.when(processService.findTaskInstanceById(1)).thenReturn(taskInstance);
-        Result result = loggerService.queryLog(2,1,1);
+        Result result = loggerService.queryLog(2, 1, 1);
         //TASK_INSTANCE_NOT_FOUND
-        Assert.assertEquals(Status.TASK_INSTANCE_NOT_FOUND.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.TASK_INSTANCE_NOT_FOUND.getCode(), result.getCode().intValue());
 
         try {
             //HOST NOT FOUND OR ILLEGAL
@@ -59,36 +59,36 @@ public class LoggerServiceTest {
             Assert.assertTrue(true);
             logger.error("testQueryDataSourceList error {}", e.getMessage());
         }
-        Assert.assertEquals(Status.TASK_INSTANCE_NOT_FOUND.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.TASK_INSTANCE_NOT_FOUND.getCode(), result.getCode().intValue());
 
         //SUCCESS
         taskInstance.setHost("127.0.0.1:8080");
         taskInstance.setLogPath("/temp/log");
         Mockito.when(processService.findTaskInstanceById(1)).thenReturn(taskInstance);
-        result = loggerService.queryLog(1,1,1);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        result = loggerService.queryLog(1, 1, 1);
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
     }
 
     @Test
-    public void testGetLogBytes(){
+    public void testGetLogBytes() {
 
         TaskInstance taskInstance = new TaskInstance();
         Mockito.when(processService.findTaskInstanceById(1)).thenReturn(taskInstance);
 
         //task instance is null
-        try{
+        try {
             loggerService.getLogBytes(2);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             Assert.assertTrue(true);
-            logger.error("testGetLogBytes error: {}","task instance is null");
+            logger.error("testGetLogBytes error: {}", "task instance is null");
         }
 
         //task instance host is null
-        try{
+        try {
             loggerService.getLogBytes(1);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             Assert.assertTrue(true);
-            logger.error("testGetLogBytes error: {}","task instance host is null");
+            logger.error("testGetLogBytes error: {}", "task instance host is null");
         }
 
         //success

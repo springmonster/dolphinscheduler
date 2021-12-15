@@ -20,7 +20,7 @@ import _ from 'lodash'
 import zh_CN from './locale/zh_CN'
 import en_US from './locale/en_US'
 
-export function localeList () {
+export function localeList() {
   return [
     {
       code: 'zh_CN',
@@ -35,6 +35,6 @@ export function localeList () {
   ]
 }
 
-export function findLocale (code) {
+export function findLocale(code) {
   return _.find(localeList(), ['code', code])
 }

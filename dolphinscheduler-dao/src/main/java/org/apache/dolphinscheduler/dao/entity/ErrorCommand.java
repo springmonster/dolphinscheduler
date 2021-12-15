@@ -32,7 +32,7 @@ public class ErrorCommand {
     /**
      * id
      */
-    @TableId(value="id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.INPUT)
     private int id;
 
     /**
@@ -66,7 +66,7 @@ public class ErrorCommand {
     private FailureStrategy failureStrategy;
 
     /**
-     *  warning type
+     * warning type
      */
     private WarningType warningType;
 
@@ -105,9 +105,10 @@ public class ErrorCommand {
      */
     private String workerGroup;
 
-    public ErrorCommand(){}
+    public ErrorCommand() {
+    }
 
-    public ErrorCommand(Command command, String message){
+    public ErrorCommand(Command command, String message) {
         this.id = command.getId();
         this.commandType = command.getCommandType();
         this.executorId = command.getExecutorId();
@@ -135,7 +136,7 @@ public class ErrorCommand {
             int warningGroupId,
             Date scheduleTime,
             Priority processInstancePriority,
-            String message){
+            String message) {
         this.commandType = commandType;
         this.executorId = executorId;
         this.processDefinitionId = processDefinitionId;

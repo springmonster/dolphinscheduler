@@ -20,7 +20,6 @@ package org.apache.dolphinscheduler.server.registry;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.service.zk.RegisterOperator;
 import org.apache.dolphinscheduler.service.zk.ZookeeperConfig;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

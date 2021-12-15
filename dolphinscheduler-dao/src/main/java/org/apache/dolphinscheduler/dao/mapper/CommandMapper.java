@@ -32,15 +32,17 @@ public interface CommandMapper extends BaseMapper<Command> {
 
     /**
      * get one command
+     *
      * @return command
      */
     Command getOneToRun();
 
     /**
      * count command state
-     * @param userId userId
-     * @param startTime startTime
-     * @param endTime endTime
+     *
+     * @param userId         userId
+     * @param startTime      startTime
+     * @param endTime        endTime
      * @param projectIdArray projectIdArray
      * @return CommandCount list
      */
@@ -49,7 +51,6 @@ public interface CommandMapper extends BaseMapper<Command> {
             @Param("startTime") Date startTime,
             @Param("endTime") Date endTime,
             @Param("projectIdArray") Integer[] projectIdArray);
-
 
 
 }

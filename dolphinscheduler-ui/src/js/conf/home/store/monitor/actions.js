@@ -18,7 +18,7 @@
 import io from '@/module/io'
 
 export default {
-  getMasterData ({ state }, payload) {
+  getMasterData({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('monitor/master/list', payload, res => {
         resolve(res.data)
@@ -27,7 +27,7 @@ export default {
       })
     })
   },
-  getWorkerData ({ state }, payload) {
+  getWorkerData({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('monitor/worker/list', payload, res => {
         resolve(res.data)
@@ -36,7 +36,7 @@ export default {
       })
     })
   },
-  getDatabaseData ({ state }, payload) {
+  getDatabaseData({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('monitor/database', payload, res => {
         resolve(res.data)
@@ -45,7 +45,7 @@ export default {
       })
     })
   },
-  getZookeeperData ({ state }, payload) {
+  getZookeeperData({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('monitor/zookeeper/list', payload, res => {
         resolve(res.data)

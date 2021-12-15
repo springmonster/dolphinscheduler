@@ -18,7 +18,7 @@ const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const { baseConfig } = require('./config')
+const {baseConfig} = require('./config')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ProgressPlugin = require('progress-bar-webpack-plugin')
@@ -33,7 +33,7 @@ const config = merge.smart(baseConfig, {
   },
   plugins: [
     new ProgressPlugin(),
-    new MiniCssExtractPlugin({ filename: 'css/[name].[contenthash:7].css' }),
+    new MiniCssExtractPlugin({filename: 'css/[name].[contenthash:7].css'}),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new CopyWebpackPlugin([
       {

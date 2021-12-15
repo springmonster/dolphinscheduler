@@ -125,7 +125,7 @@ public class DependentUtilsTest {
 
         dateValue = "last2Days";
         dateIntervals = DependentUtils.getDateIntervalList(curDay, dateValue);
-        for(DateInterval dateInterval : dateIntervals){
+        for (DateInterval dateInterval : dateIntervals) {
             logger.info(dateInterval.getStartTime().toString() + " == " + dateInterval.getEndTime().toString());
         }
 
@@ -270,7 +270,7 @@ public class DependentUtilsTest {
     }
 
     @Test
-    public void testWeek(){
+    public void testWeek() {
 
         Date curDay = DateUtils.stringToDate("2019-02-05 00:00:00");
         Date day1 = DateUtils.stringToDate("2019-01-28 00:00:00");
@@ -295,7 +295,7 @@ public class DependentUtilsTest {
         Date day7 = DateUtils.stringToDate("2019-02-03 00:00:00");
         DateInterval di7 = new DateInterval(DateUtils.getStartOfDay(day7),
                 DateUtils.getEndOfDay(day7));
-        List<DateInterval> dateIntervals  = DependentDateUtils.getLastWeekInterval(curDay);
+        List<DateInterval> dateIntervals = DependentDateUtils.getLastWeekInterval(curDay);
         Assert.assertEquals(dateIntervals.size(), 7);
         Assert.assertEquals(dateIntervals.get(0), di1);
         Assert.assertEquals(dateIntervals.get(1), di2);
@@ -319,7 +319,7 @@ public class DependentUtilsTest {
     }
 
     @Test
-    public void testHour(){
+    public void testHour() {
 
         Date curDay = DateUtils.stringToDate("2019-02-05 12:10:00");
         Date day1 = DateUtils.stringToDate("2019-02-05 11:00:00");
@@ -350,7 +350,7 @@ public class DependentUtilsTest {
 
         Date curDay = DateUtils.stringToDate("2020-05-15 12:10:00");
 
-        List<DateInterval> dateIntervals  = DependentUtils.getDateIntervalList(curDay, dateValue);
+        List<DateInterval> dateIntervals = DependentUtils.getDateIntervalList(curDay, dateValue);
 
         DateInterval expect = new DateInterval(DateUtils.getStartOfHour(DateUtils.stringToDate("2020-05-15 12:00:00")), DateUtils.getEndOfHour(DateUtils.stringToDate("2020-05-15 12:59:59")));
 
@@ -379,13 +379,13 @@ public class DependentUtilsTest {
 
         Assert.assertEquals(24, dateIntervals.size());
 
-        for (int i = 0; i< expect.size(); i++) {
+        for (int i = 0; i < expect.size(); i++) {
             Assert.assertEquals(expect.get(i), dateIntervals.get(i));
         }
     }
 
     @Test
-    public void testMonth(){
+    public void testMonth() {
         Date curDay = DateUtils.stringToDate("2019-02-05 00:00:00");
         Date day1 = DateUtils.stringToDate("2019-01-01 00:00:00");
         DateInterval di1 = new DateInterval(DateUtils.getStartOfDay(day1),

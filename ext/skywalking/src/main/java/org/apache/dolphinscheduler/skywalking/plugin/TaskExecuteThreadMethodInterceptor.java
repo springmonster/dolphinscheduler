@@ -29,16 +29,7 @@ import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.MethodInt
 
 import java.lang.reflect.Method;
 
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_INSTANCE_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_INSTANCE_HOST;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_EXECUTE_PATH;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_LOG_PATH;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROJECT_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_DEFINITION_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_INSTANCE_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.getProjectId;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.getProcessDefinitionId;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_EXECUTE_METHOD;
+import static org.apache.dolphinscheduler.skywalking.plugin.Utils.*;
 
 public class TaskExecuteThreadMethodInterceptor implements InstanceMethodsAroundInterceptor {
     private static final String OPERATION_NAME_PREFIX = "worker/execute/";
@@ -49,10 +40,10 @@ public class TaskExecuteThreadMethodInterceptor implements InstanceMethodsAround
         TaskExecutionContext executionContext = taskContext.getCache();
         TaskType type = EnumUtils.getEnum(TaskType.class, executionContext.getTaskType());
         String operationName = OPERATION_NAME_PREFIX
-                    + type.getDescp()
-                    + "/" + getProjectId(executionContext.getProjectId())
-                    + "/" + getProcessDefinitionId(executionContext.getProcessDefineId())
-                    + "/" + executionContext.getTaskName();
+                + type.getDescp()
+                + "/" + getProjectId(executionContext.getProjectId())
+                + "/" + getProcessDefinitionId(executionContext.getProcessDefineId())
+                + "/" + executionContext.getTaskName();
 
         AbstractSpan span = ContextManager.createLocalSpan(operationName);
         span.setComponent(Utils.DOLPHIN_SCHEDULER);
@@ -80,4 +71,3 @@ public class TaskExecuteThreadMethodInterceptor implements InstanceMethodsAround
         ContextManager.activeSpan().log(t);
     }
 }
-

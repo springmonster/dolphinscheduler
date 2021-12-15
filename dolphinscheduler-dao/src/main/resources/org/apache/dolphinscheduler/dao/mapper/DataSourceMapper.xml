@@ -23,16 +23,15 @@
         from t_ds_datasource
         where type=#{type}
         <if test="userId != 0">
-        and id in
-          (select datasource_id
-          from t_ds_relation_datasource_user
-          where user_id=#{userId}
-          union select id as datasource_id
-                from t_ds_datasource
-                where user_id=#{userId}
-         )
+            and id in
+            (select datasource_id
+            from t_ds_relation_datasource_user
+            where user_id=#{userId}
+            union select id as datasource_id
+            from t_ds_datasource
+            where user_id=#{userId}
+            )
         </if>
-
     </select>
 
     <select id="selectPaging" resultType="org.apache.dolphinscheduler.dao.entity.DataSource">
@@ -40,8 +39,8 @@
         from t_ds_datasource
         where 1 =1
         <if test="userId != 0">
-         and id in
-          (select datasource_id
+            and id in
+            (select datasource_id
             from t_ds_relation_datasource_user
             where user_id=#{userId}
             union select id as datasource_id
@@ -50,9 +49,9 @@
             )
         </if>
         <if test="name != null and name != ''">
-             and name like concat ('%', #{name}, '%')
-         </if>
-         order by update_time desc
+            and name like concat ('%', #{name}, '%')
+        </if>
+        order by update_time desc
     </select>
     <select id="queryDataSourceByName" resultType="org.apache.dolphinscheduler.dao.entity.DataSource">
         select *
@@ -79,7 +78,7 @@
         from t_ds_datasource
         where
         id in (select datasource_id from t_ds_relation_datasource_user where user_id=#{userId}
-        union select id as datasource_id  from t_ds_datasource where user_id=#{userId})
+        union select id as datasource_id from t_ds_datasource where user_id=#{userId})
         <if test="dataSourceIds != null and dataSourceIds != ''">
             and id in
             <foreach collection="dataSourceIds" item="i" open="(" close=")" separator=",">
@@ -87,6 +86,4 @@
             </foreach>
         </if>
     </select>
-
-
 </mapper>

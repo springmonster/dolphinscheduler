@@ -17,6 +17,11 @@
 
 package org.apache.dolphinscheduler.remote;
 
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.*;
+import io.netty.channel.epoll.EpollEventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import org.apache.dolphinscheduler.remote.codec.NettyDecoder;
 import org.apache.dolphinscheduler.remote.codec.NettyEncoder;
 import org.apache.dolphinscheduler.remote.command.CommandType;
@@ -25,25 +30,14 @@ import org.apache.dolphinscheduler.remote.handler.NettyServerHandler;
 import org.apache.dolphinscheduler.remote.processor.NettyRequestProcessor;
 import org.apache.dolphinscheduler.remote.utils.Constants;
 import org.apache.dolphinscheduler.remote.utils.NettyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.epoll.EpollEventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 
 /**
  * remoting netty server
@@ -144,21 +138,21 @@ public class NettyRemotingServer {
     public void start() {
         if (isStarted.compareAndSet(false, true)) {
             this.serverBootstrap
-                .group(this.bossGroup, this.workGroup)
-                .channel(NettyUtils.getServerSocketChannelClass())
-                .option(ChannelOption.SO_REUSEADDR, true)
-                .option(ChannelOption.SO_BACKLOG, serverConfig.getSoBacklog())
-                .childOption(ChannelOption.SO_KEEPALIVE, serverConfig.isSoKeepalive())
-                .childOption(ChannelOption.TCP_NODELAY, serverConfig.isTcpNoDelay())
-                .childOption(ChannelOption.SO_SNDBUF, serverConfig.getSendBufferSize())
-                .childOption(ChannelOption.SO_RCVBUF, serverConfig.getReceiveBufferSize())
-                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    .group(this.bossGroup, this.workGroup)
+                    .channel(NettyUtils.getServerSocketChannelClass())
+                    .option(ChannelOption.SO_REUSEADDR, true)
+                    .option(ChannelOption.SO_BACKLOG, serverConfig.getSoBacklog())
+                    .childOption(ChannelOption.SO_KEEPALIVE, serverConfig.isSoKeepalive())
+                    .childOption(ChannelOption.TCP_NODELAY, serverConfig.isTcpNoDelay())
+                    .childOption(ChannelOption.SO_SNDBUF, serverConfig.getSendBufferSize())
+                    .childOption(ChannelOption.SO_RCVBUF, serverConfig.getReceiveBufferSize())
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
 
-                    @Override
-                    protected void initChannel(SocketChannel ch) throws Exception {
-                        initNettyChannel(ch);
-                    }
-                });
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            initNettyChannel(ch);
+                        }
+                    });
 
             ChannelFuture future;
             try {
@@ -228,7 +222,7 @@ public class NettyRemotingServer {
                 if (workGroup != null) {
                     this.workGroup.shutdownGracefully();
                 }
-                if(defaultExecutor != null){
+                if (defaultExecutor != null) {
                     defaultExecutor.shutdown();
                 }
             } catch (Exception ex) {

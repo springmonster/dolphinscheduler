@@ -29,12 +29,6 @@ import org.apache.dolphinscheduler.dao.mapper.ProcessInstanceMapper;
 import org.apache.dolphinscheduler.dao.mapper.WorkerGroupMapper;
 import org.apache.dolphinscheduler.service.zk.ZookeeperCachedOperator;
 import org.apache.dolphinscheduler.service.zk.ZookeeperConfig;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +37,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WorkerGroupServiceTest {
@@ -87,7 +86,7 @@ public class WorkerGroupServiceTest {
     }
 
     /**
-     *  create or update a worker group
+     * create or update a worker group
      */
     @Test
     public void testSaveWorkerGroup() {
@@ -137,7 +136,7 @@ public class WorkerGroupServiceTest {
      * delete group by id
      */
     @Test
-    public  void testDeleteWorkerGroupById() {
+    public void testDeleteWorkerGroupById() {
         User user = new User();
         user.setUserType(UserType.ADMIN_USER);
         WorkerGroup wg2 = getWorkerGroup(2);
@@ -174,6 +173,7 @@ public class WorkerGroupServiceTest {
 
     /**
      * get Group
+     *
      * @return
      */
     private WorkerGroup getWorkerGroup(int id) {

@@ -159,7 +159,7 @@
           "subsection-name": "dynamic-row1-col1",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/resource.storage.type"
               ],
               "if": "${dolphin-common/resource.storage.type} === HDFS || ${dolphin-common/resource.storage.type} === S3",
@@ -181,7 +181,7 @@
           "subsection-name": "dynamic-row1-col1",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/resource.storage.type"
               ],
               "if": "${dolphin-common/resource.storage.type} === HDFS",
@@ -203,7 +203,7 @@
           "subsection-name": "dynamic-row1-col1",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/resource.storage.type"
               ],
               "if": "${dolphin-common/resource.storage.type} === HDFS",
@@ -225,7 +225,7 @@
           "subsection-name": "dynamic-row1-col1",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/resource.storage.type"
               ],
               "if": "${dolphin-common/resource.storage.type} === HDFS",
@@ -247,7 +247,7 @@
           "subsection-name": "dynamic-row1-col1",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/resource.storage.type"
               ],
               "if": "${dolphin-common/resource.storage.type} === S3",
@@ -269,7 +269,7 @@
           "subsection-name": "dynamic-row1-col1",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/resource.storage.type"
               ],
               "if": "${dolphin-common/resource.storage.type} === S3",
@@ -291,7 +291,7 @@
           "subsection-name": "dynamic-row1-col1",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/resource.storage.type"
               ],
               "if": "${dolphin-common/resource.storage.type} === S3",
@@ -317,7 +317,7 @@
           "subsection-name": "dynamic-row1-col2",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/hadoop.security.authentication.startup.state"
               ],
               "if": "${dolphin-common/hadoop.security.authentication.startup.state}",
@@ -339,7 +339,7 @@
           "subsection-name": "dynamic-row1-col2",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/hadoop.security.authentication.startup.state"
               ],
               "if": "${dolphin-common/hadoop.security.authentication.startup.state}",
@@ -361,7 +361,7 @@
           "subsection-name": "dynamic-row1-col2",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/hadoop.security.authentication.startup.state"
               ],
               "if": "${dolphin-common/hadoop.security.authentication.startup.state}",
@@ -383,7 +383,7 @@
           "subsection-name": "dynamic-row1-col2",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-common/hadoop.security.authentication.startup.state"
               ],
               "if": "${dolphin-common/hadoop.security.authentication.startup.state}",
@@ -409,7 +409,7 @@
           "subsection-name": "dynamic-row1-col3",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-alert/enterprise.wechat.enable"
               ],
               "if": "${dolphin-alert/enterprise.wechat.enable}",
@@ -431,7 +431,7 @@
           "subsection-name": "dynamic-row1-col3",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-alert/enterprise.wechat.enable"
               ],
               "if": "${dolphin-alert/enterprise.wechat.enable}",
@@ -453,7 +453,7 @@
           "subsection-name": "dynamic-row1-col3",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-alert/enterprise.wechat.enable"
               ],
               "if": "${dolphin-alert/enterprise.wechat.enable}",
@@ -475,7 +475,7 @@
           "subsection-name": "dynamic-row1-col3",
           "depends-on": [
             {
-              "configs":[
+              "configs": [
                 "dolphin-alert/enterprise.wechat.enable"
               ],
               "if": "${dolphin-alert/enterprise.wechat.enable}",

@@ -15,11 +15,16 @@
  * limitations under the License.
  */
 package org.apache.dolphinscheduler.common.utils;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import java.io.StringReader;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 public class ScriptRunnerTest {
     @Test
@@ -57,7 +62,7 @@ public class ScriptRunnerTest {
                 s.runScript(new StringReader("select 1;"), dbName);
             }
             Mockito.verify(md).getColumnLabel(1);
-        } catch(Exception e) {
+        } catch (Exception e) {
             Assert.assertNotNull(e);
         }
     }

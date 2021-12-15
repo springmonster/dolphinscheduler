@@ -46,14 +46,15 @@ public class ShellCommandExecutor extends AbstractCommandExecutor {
 
     /**
      * constructor
-     * @param logHandler logHandler
+     *
+     * @param logHandler           logHandler
      * @param taskExecutionContext taskExecutionContext
-     * @param logger logger
+     * @param logger               logger
      */
     public ShellCommandExecutor(Consumer<LinkedBlockingQueue<String>> logHandler,
                                 TaskExecutionContext taskExecutionContext,
                                 Logger logger) {
-        super(logHandler,taskExecutionContext,logger);
+        super(logHandler, taskExecutionContext, logger);
     }
 
 
@@ -68,6 +69,7 @@ public class ShellCommandExecutor extends AbstractCommandExecutor {
 
     /**
      * get command type
+     *
      * @return command type
      */
     @Override
@@ -78,9 +80,10 @@ public class ShellCommandExecutor extends AbstractCommandExecutor {
 
     /**
      * create command file if not exists
-     * @param execCommand   exec command
-     * @param commandFile   command file
-     * @throws IOException  io exception
+     *
+     * @param execCommand exec command
+     * @param commandFile command file
+     * @throws IOException io exception
      */
     @Override
     protected void createCommandFileIfNotExists(String execCommand, String commandFile) throws IOException {

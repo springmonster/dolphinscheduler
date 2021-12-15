@@ -19,7 +19,6 @@ package org.apache.dolphinscheduler.service.zk;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
-
 import org.junit.Assert;
 import org.junit.Test;
 

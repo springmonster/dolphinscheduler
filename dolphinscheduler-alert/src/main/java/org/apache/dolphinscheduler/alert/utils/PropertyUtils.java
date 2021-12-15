@@ -43,11 +43,11 @@ public class PropertyUtils {
 
     private static final PropertyUtils propertyUtils = new PropertyUtils();
 
-    private PropertyUtils(){
+    private PropertyUtils() {
         init();
     }
 
-    private void init(){
+    private void init() {
         String[] propertyFiles = new String[]{ALERT_PROPERTIES_PATH};
         for (String fileName : propertyFiles) {
             InputStream fis = null;
@@ -69,6 +69,7 @@ public class PropertyUtils {
 
     /**
      * get property value
+     *
      * @param key property name
      * @return the value
      */
@@ -82,7 +83,7 @@ public class PropertyUtils {
     /**
      * get property value
      *
-     * @param key property name
+     * @param key        property name
      * @param defaultVal default value
      * @return property value
      */
@@ -95,7 +96,7 @@ public class PropertyUtils {
      * get property value
      *
      * @param key property name
-     * @return  get property int value , if key == null, then return -1
+     * @return get property int value , if key == null, then return -1
      */
     public static int getInt(String key) {
 
@@ -104,7 +105,8 @@ public class PropertyUtils {
 
     /**
      * get int value
-     * @param key the key
+     *
+     * @param key          the key
      * @param defaultValue the default value
      * @return the value related the key or the default value if the key not existed
      */
@@ -117,15 +119,16 @@ public class PropertyUtils {
         try {
             return Integer.parseInt(value);
         } catch (NumberFormatException e) {
-            logger.info(e.getMessage(),e);
+            logger.info(e.getMessage(), e);
         }
         return defaultValue;
     }
 
     /**
      * get property value
+     *
      * @param key property name
-     * @return  the boolean result value
+     * @return the boolean result value
      */
     public static Boolean getBoolean(String key) {
 
@@ -134,7 +137,7 @@ public class PropertyUtils {
         }
 
         String value = properties.getProperty(key.trim());
-        if(null != value){
+        if (null != value) {
             return Boolean.parseBoolean(value);
         }
 
@@ -143,16 +146,18 @@ public class PropertyUtils {
 
     /**
      * get long value
+     *
      * @param key the key
      * @return if the value not existed, return -1, or will return the related value
      */
     public static long getLong(String key) {
-        return getLong(key,-1);
+        return getLong(key, -1);
     }
 
     /**
      * get long value
-     * @param key the key
+     *
+     * @param key        the key
      * @param defaultVal the default value
      * @return the value related the key or the default value if the key not existed
      */
@@ -166,7 +171,7 @@ public class PropertyUtils {
         try {
             return Long.parseLong(val);
         } catch (NumberFormatException e) {
-            logger.info(e.getMessage(),e);
+            logger.info(e.getMessage(), e);
         }
 
         return defaultVal;
@@ -174,17 +179,19 @@ public class PropertyUtils {
 
     /**
      * get double value
+     *
      * @param key the key
      * @return if the value not existed, return -1.0, or will return the related value
      */
     public static double getDouble(String key) {
         String val = getString(key);
-        return getDouble(key,-1.0);
+        return getDouble(key, -1.0);
     }
 
     /**
      * get double value
-     * @param key the key
+     *
+     * @param key        the key
      * @param defaultVal the default value
      * @return the value related the key or the default value if the key not existed
      */
@@ -198,7 +205,7 @@ public class PropertyUtils {
         try {
             return Double.parseDouble(val);
         } catch (NumberFormatException e) {
-            logger.info(e.getMessage(),e);
+            logger.info(e.getMessage(), e);
         }
 
         return defaultVal;
@@ -206,9 +213,10 @@ public class PropertyUtils {
 
 
     /**
-     *  get array
-     * @param key       property name
-     * @param splitStr  separator
+     * get array
+     *
+     * @param key      property name
+     * @param splitStr separator
      * @return the result array
      */
     public static String[] getArray(String key, String splitStr) {
@@ -219,21 +227,22 @@ public class PropertyUtils {
         try {
             return value.split(splitStr);
         } catch (PatternSyntaxException e) {
-            logger.info(e.getMessage(),e);
+            logger.info(e.getMessage(), e);
         }
         return null;
     }
 
     /**
      * get enum
-     * @param key the key
-     * @param type the class type
+     *
+     * @param key          the key
+     * @param type         the class type
      * @param defaultValue the default value
-     * @param <T> the generic class type
-     * @return  get enum value
+     * @param <T>          the generic class type
+     * @return get enum value
      */
     public static <T extends Enum<T>> T getEnum(String key, Class<T> type,
-                                         T defaultValue) {
+                                                T defaultValue) {
         String val = getString(key);
         if (val == null) {
             return defaultValue;
@@ -242,7 +251,7 @@ public class PropertyUtils {
         try {
             return Enum.valueOf(type, val);
         } catch (IllegalArgumentException e) {
-            logger.info(e.getMessage(),e);
+            logger.info(e.getMessage(), e);
         }
 
         return defaultValue;

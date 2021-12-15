@@ -21,12 +21,10 @@ import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.utils.FileUtils;
 import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -35,9 +33,6 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * python command executor
@@ -57,14 +52,15 @@ public class PythonCommandExecutor extends AbstractCommandExecutor {
 
     /**
      * constructor
-     * @param logHandler    log handler
-     * @param taskExecutionContext       taskExecutionContext
-     * @param logger        logger
+     *
+     * @param logHandler           log handler
+     * @param taskExecutionContext taskExecutionContext
+     * @param logger               logger
      */
     public PythonCommandExecutor(Consumer<LinkedBlockingQueue<String>> logHandler,
                                  TaskExecutionContext taskExecutionContext,
                                  Logger logger) {
-        super(logHandler,taskExecutionContext,logger);
+        super(logHandler, taskExecutionContext, logger);
     }
 
 
@@ -80,9 +76,10 @@ public class PythonCommandExecutor extends AbstractCommandExecutor {
 
     /**
      * create command file if not exists
-     * @param execCommand   exec command
-     * @param commandFile   command file
-     * @throws IOException  io exception
+     *
+     * @param execCommand exec command
+     * @param commandFile command file
+     * @throws IOException io exception
      */
     @Override
     protected void createCommandFileIfNotExists(String execCommand, String commandFile) throws IOException {
@@ -107,6 +104,7 @@ public class PythonCommandExecutor extends AbstractCommandExecutor {
 
     /**
      * get command options
+     *
      * @return command options list
      */
     @Override
@@ -117,6 +115,7 @@ public class PythonCommandExecutor extends AbstractCommandExecutor {
 
     /**
      * Gets the command path to which Python can execute
+     *
      * @return python command path
      */
     @Override

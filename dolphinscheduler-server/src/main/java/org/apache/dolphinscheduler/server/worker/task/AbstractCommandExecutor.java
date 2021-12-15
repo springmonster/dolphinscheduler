@@ -18,7 +18,6 @@ package org.apache.dolphinscheduler.server.worker.task;
 
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT;
-
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.common.thread.Stopper;
@@ -32,7 +31,6 @@ import org.apache.dolphinscheduler.server.utils.ProcessUtils;
 import org.apache.dolphinscheduler.server.worker.cache.TaskExecutionContextCacheManager;
 import org.apache.dolphinscheduler.server.worker.cache.impl.TaskExecutionContextCacheManagerImpl;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
-
 import org.slf4j.Logger;
 
 import java.io.*;
@@ -49,9 +47,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.apache.dolphinscheduler.common.Constants.EXIT_CODE_FAILURE;
-import static org.apache.dolphinscheduler.common.Constants.EXIT_CODE_KILL;
-import static org.apache.dolphinscheduler.common.Constants.EXIT_CODE_SUCCESS;
+import static org.apache.dolphinscheduler.common.Constants.*;
 
 /**
  * abstract command executor

@@ -16,7 +16,6 @@
  */
 package org.apache.dolphinscheduler.server.worker.task.processdure;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cronutils.utils.StringUtils;
 import org.apache.dolphinscheduler.common.Constants;
@@ -42,7 +41,7 @@ import java.util.Map;
 import static org.apache.dolphinscheduler.common.enums.DataType.*;
 
 /**
- *  procedure task
+ * procedure task
  */
 public class ProcedureTask extends AbstractTask {
 
@@ -64,8 +63,9 @@ public class ProcedureTask extends AbstractTask {
 
     /**
      * constructor
+     *
      * @param taskExecutionContext taskExecutionContext
-     * @param logger    logger
+     * @param logger               logger
      */
     public ProcedureTask(TaskExecutionContext taskExecutionContext, Logger logger) {
         super(taskExecutionContext, logger);
@@ -112,7 +112,6 @@ public class ProcedureTask extends AbstractTask {
                     baseDataSource.getPassword());
 
 
-
             // combining local and global parameters
             Map<String, Property> paramsMap = ParamUtils.convert(ParamUtils.getUserDefParamsMap(taskExecutionContext.getDefinedParams()),
                     taskExecutionContext.getDefinedParams(),
@@ -123,13 +122,13 @@ public class ProcedureTask extends AbstractTask {
 
             Collection<Property> userDefParamsList = null;
 
-            if (procedureParameters.getLocalParametersMap() != null){
+            if (procedureParameters.getLocalParametersMap() != null) {
                 userDefParamsList = procedureParameters.getLocalParametersMap().values();
             }
 
             String method = getCallMethod(userDefParamsList);
 
-            logger.info("call method : {}",method);
+            logger.info("call method : {}", method);
 
             // call method
             stmt = connection.prepareCall(method);
@@ -149,48 +148,49 @@ public class ProcedureTask extends AbstractTask {
             printOutParameter(stmt, outParameterMap);
 
             setExitStatusCode(Constants.EXIT_CODE_SUCCESS);
-        }catch (Exception e){
+        } catch (Exception e) {
             setExitStatusCode(Constants.EXIT_CODE_FAILURE);
-            logger.error("procedure task error",e);
+            logger.error("procedure task error", e);
             throw e;
-        }
-        finally {
-            close(stmt,connection);
+        } finally {
+            close(stmt, connection);
         }
     }
 
     /**
      * get call method
+     *
      * @param userDefParamsList userDefParamsList
      * @return method
      */
     private String getCallMethod(Collection<Property> userDefParamsList) {
         String method;// no parameters
-        if (CollectionUtils.isEmpty(userDefParamsList)){
+        if (CollectionUtils.isEmpty(userDefParamsList)) {
             method = "{call " + procedureParameters.getMethod() + "}";
-        }else { // exists parameters
+        } else { // exists parameters
             int size = userDefParamsList.size();
             StringBuilder parameter = new StringBuilder();
             parameter.append("(");
-            for (int i = 0 ;i < size - 1; i++){
+            for (int i = 0; i < size - 1; i++) {
                 parameter.append("?,");
             }
             parameter.append("?)");
-            method = "{call " + procedureParameters.getMethod() + parameter.toString()+ "}";
+            method = "{call " + procedureParameters.getMethod() + parameter.toString() + "}";
         }
         return method;
     }
 
     /**
      * print outParameter
-     * @param stmt CallableStatement
+     *
+     * @param stmt            CallableStatement
      * @param outParameterMap outParameterMap
      * @throws SQLException
      */
     private void printOutParameter(CallableStatement stmt,
                                    Map<Integer, Property> outParameterMap) throws SQLException {
         Iterator<Map.Entry<Integer, Property>> iter = outParameterMap.entrySet().iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             Map.Entry<Integer, Property> en = iter.next();
 
             int index = en.getKey();
@@ -205,8 +205,8 @@ public class ProcedureTask extends AbstractTask {
     /**
      * get output parameter
      *
-     * @param stmt CallableStatement
-     * @param paramsMap paramsMap
+     * @param stmt              CallableStatement
+     * @param paramsMap         paramsMap
      * @param userDefParamsList userDefParamsList
      * @return outParameterMap
      * @throws Exception
@@ -214,22 +214,22 @@ public class ProcedureTask extends AbstractTask {
     private Map<Integer, Property> getOutParameterMap(CallableStatement stmt,
                                                       Map<String, Property> paramsMap,
                                                       Collection<Property> userDefParamsList) throws Exception {
-        Map<Integer,Property> outParameterMap = new HashMap<>();
-        if (userDefParamsList != null && userDefParamsList.size() > 0){
+        Map<Integer, Property> outParameterMap = new HashMap<>();
+        if (userDefParamsList != null && userDefParamsList.size() > 0) {
             int index = 1;
-            for (Property property : userDefParamsList){
+            for (Property property : userDefParamsList) {
                 logger.info("localParams : prop : {} , dirct : {} , type : {} , value : {}"
-                        ,property.getProp(),
+                        , property.getProp(),
                         property.getDirect(),
                         property.getType(),
                         property.getValue());
                 // set parameters
-                if (property.getDirect().equals(Direct.IN)){
+                if (property.getDirect().equals(Direct.IN)) {
                     ParameterUtils.setInParameter(index, stmt, property.getType(), paramsMap.get(property.getProp()).getValue());
-                }else if (property.getDirect().equals(Direct.OUT)){
-                    setOutParameter(index,stmt,property.getType(),paramsMap.get(property.getProp()).getValue());
+                } else if (property.getDirect().equals(Direct.OUT)) {
+                    setOutParameter(index, stmt, property.getType(), paramsMap.get(property.getProp()).getValue());
                     property.setValue(paramsMap.get(property.getProp()).getValue());
-                    outParameterMap.put(index,property);
+                    outParameterMap.put(index, property);
                 }
                 index++;
             }
@@ -239,13 +239,14 @@ public class ProcedureTask extends AbstractTask {
 
     /**
      * set timtou
+     *
      * @param stmt CallableStatement
      * @throws SQLException
      */
     private void setTimeout(CallableStatement stmt) throws SQLException {
         Boolean failed = TaskTimeoutStrategy.of(taskExecutionContext.getTaskTimeoutStrategy()) == TaskTimeoutStrategy.FAILED;
         Boolean warnfailed = TaskTimeoutStrategy.of(taskExecutionContext.getTaskTimeoutStrategy()) == TaskTimeoutStrategy.WARNFAILED;
-        if(failed || warnfailed){
+        if (failed || warnfailed) {
             stmt.setQueryTimeout(taskExecutionContext.getTaskTimeout());
         }
     }
@@ -257,7 +258,7 @@ public class ProcedureTask extends AbstractTask {
      * @param connection
      */
     private void close(PreparedStatement stmt,
-                       Connection connection){
+                       Connection connection) {
         if (stmt != null) {
             try {
                 stmt.close();
@@ -276,6 +277,7 @@ public class ProcedureTask extends AbstractTask {
 
     /**
      * get output parameter
+     *
      * @param stmt
      * @param index
      * @param prop
@@ -283,33 +285,33 @@ public class ProcedureTask extends AbstractTask {
      * @throws SQLException
      */
     private void getOutputParameter(CallableStatement stmt, int index, String prop, DataType dataType) throws SQLException {
-        switch (dataType){
+        switch (dataType) {
             case VARCHAR:
-                logger.info("out prameter varchar key : {} , value : {}",prop,stmt.getString(index));
+                logger.info("out prameter varchar key : {} , value : {}", prop, stmt.getString(index));
                 break;
             case INTEGER:
                 logger.info("out prameter integer key : {} , value : {}", prop, stmt.getInt(index));
                 break;
             case LONG:
-                logger.info("out prameter long key : {} , value : {}",prop,stmt.getLong(index));
+                logger.info("out prameter long key : {} , value : {}", prop, stmt.getLong(index));
                 break;
             case FLOAT:
-                logger.info("out prameter float key : {} , value : {}",prop,stmt.getFloat(index));
+                logger.info("out prameter float key : {} , value : {}", prop, stmt.getFloat(index));
                 break;
             case DOUBLE:
-                logger.info("out prameter double key : {} , value : {}",prop,stmt.getDouble(index));
+                logger.info("out prameter double key : {} , value : {}", prop, stmt.getDouble(index));
                 break;
             case DATE:
-                logger.info("out prameter date key : {} , value : {}",prop,stmt.getDate(index));
+                logger.info("out prameter date key : {} , value : {}", prop, stmt.getDate(index));
                 break;
             case TIME:
-                logger.info("out prameter time key : {} , value : {}",prop,stmt.getTime(index));
+                logger.info("out prameter time key : {} , value : {}", prop, stmt.getTime(index));
                 break;
             case TIMESTAMP:
-                logger.info("out prameter timestamp key : {} , value : {}",prop,stmt.getTimestamp(index));
+                logger.info("out prameter timestamp key : {} , value : {}", prop, stmt.getTimestamp(index));
                 break;
             case BOOLEAN:
-                logger.info("out prameter boolean key : {} , value : {}",prop, stmt.getBoolean(index));
+                logger.info("out prameter boolean key : {} , value : {}", prop, stmt.getBoolean(index));
                 break;
             default:
                 break;
@@ -323,72 +325,73 @@ public class ProcedureTask extends AbstractTask {
 
     /**
      * set out parameter
-     * @param index     index
-     * @param stmt      stmt
-     * @param dataType  dataType
-     * @param value     value
+     *
+     * @param index    index
+     * @param stmt     stmt
+     * @param dataType dataType
+     * @param value    value
      * @throws Exception exception
      */
-    private void setOutParameter(int index,CallableStatement stmt,DataType dataType,String value)throws Exception{
-        if (dataType.equals(VARCHAR)){
-            if (StringUtils.isEmpty(value)){
+    private void setOutParameter(int index, CallableStatement stmt, DataType dataType, String value) throws Exception {
+        if (dataType.equals(VARCHAR)) {
+            if (StringUtils.isEmpty(value)) {
                 stmt.registerOutParameter(index, Types.VARCHAR);
-            }else {
+            } else {
                 stmt.registerOutParameter(index, Types.VARCHAR, value);
             }
 
-        }else if (dataType.equals(INTEGER)){
-            if (StringUtils.isEmpty(value)){
+        } else if (dataType.equals(INTEGER)) {
+            if (StringUtils.isEmpty(value)) {
                 stmt.registerOutParameter(index, Types.INTEGER);
-            }else {
+            } else {
                 stmt.registerOutParameter(index, Types.INTEGER, value);
             }
 
-        }else if (dataType.equals(LONG)){
-            if (StringUtils.isEmpty(value)){
-                stmt.registerOutParameter(index,Types.INTEGER);
-            }else {
-                stmt.registerOutParameter(index,Types.INTEGER ,value);
+        } else if (dataType.equals(LONG)) {
+            if (StringUtils.isEmpty(value)) {
+                stmt.registerOutParameter(index, Types.INTEGER);
+            } else {
+                stmt.registerOutParameter(index, Types.INTEGER, value);
             }
-        }else if (dataType.equals(FLOAT)){
-            if (StringUtils.isEmpty(value)){
+        } else if (dataType.equals(FLOAT)) {
+            if (StringUtils.isEmpty(value)) {
                 stmt.registerOutParameter(index, Types.FLOAT);
-            }else {
-                stmt.registerOutParameter(index, Types.FLOAT,value);
+            } else {
+                stmt.registerOutParameter(index, Types.FLOAT, value);
             }
-        }else if (dataType.equals(DOUBLE)){
-            if (StringUtils.isEmpty(value)){
+        } else if (dataType.equals(DOUBLE)) {
+            if (StringUtils.isEmpty(value)) {
                 stmt.registerOutParameter(index, Types.DOUBLE);
-            }else {
-                stmt.registerOutParameter(index, Types.DOUBLE , value);
+            } else {
+                stmt.registerOutParameter(index, Types.DOUBLE, value);
             }
 
-        }else if (dataType.equals(DATE)){
-            if (StringUtils.isEmpty(value)){
+        } else if (dataType.equals(DATE)) {
+            if (StringUtils.isEmpty(value)) {
                 stmt.registerOutParameter(index, Types.DATE);
-            }else {
-                stmt.registerOutParameter(index, Types.DATE , value);
+            } else {
+                stmt.registerOutParameter(index, Types.DATE, value);
             }
 
-        }else if (dataType.equals(TIME)){
-            if (StringUtils.isEmpty(value)){
+        } else if (dataType.equals(TIME)) {
+            if (StringUtils.isEmpty(value)) {
                 stmt.registerOutParameter(index, Types.TIME);
-            }else {
-                stmt.registerOutParameter(index, Types.TIME , value);
+            } else {
+                stmt.registerOutParameter(index, Types.TIME, value);
             }
 
-        }else if (dataType.equals(TIMESTAMP)){
-            if (StringUtils.isEmpty(value)){
+        } else if (dataType.equals(TIMESTAMP)) {
+            if (StringUtils.isEmpty(value)) {
                 stmt.registerOutParameter(index, Types.TIMESTAMP);
-            }else {
-                stmt.registerOutParameter(index, Types.TIMESTAMP , value);
+            } else {
+                stmt.registerOutParameter(index, Types.TIMESTAMP, value);
             }
 
-        }else if (dataType.equals(BOOLEAN)){
-            if (StringUtils.isEmpty(value)){
+        } else if (dataType.equals(BOOLEAN)) {
+            if (StringUtils.isEmpty(value)) {
                 stmt.registerOutParameter(index, Types.BOOLEAN);
-            }else {
-                stmt.registerOutParameter(index, Types.BOOLEAN , value);
+            } else {
+                stmt.registerOutParameter(index, Types.BOOLEAN, value);
             }
         }
     }

@@ -16,8 +16,8 @@
  */
 package org.apache.dolphinscheduler.dao.utils;
 
-import org.apache.dolphinscheduler.common.Constants;
 import com.baomidou.mybatisplus.core.toolkit.IOUtils;
+import org.apache.dolphinscheduler.common.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ public class PropertyUtils {
     /**
      * init
      */
-    static{
+    static {
         String[] propertyFiles = new String[]{Constants.DATASOURCE_PROPERTIES};
         for (String fileName : propertyFiles) {
             InputStream fis = null;
@@ -73,6 +73,7 @@ public class PropertyUtils {
 
     /**
      * get property value
+     *
      * @param key property name
      * @return get string value
      */
@@ -83,7 +84,7 @@ public class PropertyUtils {
     /**
      * get property value
      *
-     * @param key property name
+     * @param key        property name
      * @param defaultVal default value
      * @return property value
      */
@@ -94,8 +95,9 @@ public class PropertyUtils {
 
     /**
      * get property value
+     *
      * @param key property name
-     * @return  get property int value , if key == null, then return -1
+     * @return get property int value , if key == null, then return -1
      */
     public static int getInt(String key) {
         return getInt(key, -1);
@@ -103,7 +105,8 @@ public class PropertyUtils {
 
     /**
      * get property value
-     * @param key key
+     *
+     * @param key          key
      * @param defaultValue defaultValue
      * @return get property int value，if key == null ，then return  defaultValue
      */
@@ -116,7 +119,7 @@ public class PropertyUtils {
         try {
             return Integer.parseInt(value);
         } catch (NumberFormatException e) {
-            logger.info(e.getMessage(),e);
+            logger.info(e.getMessage(), e);
         }
         return defaultValue;
     }
@@ -129,7 +132,7 @@ public class PropertyUtils {
      */
     public static Boolean getBoolean(String key) {
         String value = properties.getProperty(key.trim());
-        if(null != value){
+        if (null != value) {
             return Boolean.parseBoolean(value);
         }
 
@@ -139,13 +142,13 @@ public class PropertyUtils {
     /**
      * get property value
      *
-     * @param key property name
+     * @param key          property name
      * @param defaultValue default value
      * @return property value
      */
     public static Boolean getBoolean(String key, boolean defaultValue) {
         String value = properties.getProperty(key.trim());
-        if(null != value){
+        if (null != value) {
             return Boolean.parseBoolean(value);
         }
 
@@ -154,7 +157,8 @@ public class PropertyUtils {
 
     /**
      * get property long value
-     * @param key key
+     *
+     * @param key        key
      * @param defaultVal default value
      * @return property value
      */

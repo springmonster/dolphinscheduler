@@ -35,24 +35,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * login controller test
  */
-public class LoginControllerTest extends AbstractControllerTest{
+public class LoginControllerTest extends AbstractControllerTest {
     private static Logger logger = LoggerFactory.getLogger(LoginControllerTest.class);
 
 
     @Test
     public void testLogin() throws Exception {
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("userName","cxc");
-        paramsMap.add("userPassword","123456");
+        paramsMap.add("userName", "cxc");
+        paramsMap.add("userPassword", "123456");
 
         MvcResult mvcResult = mockMvc.perform(post("/login")
-                .params(paramsMap))
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -62,14 +62,14 @@ public class LoginControllerTest extends AbstractControllerTest{
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
 
         MvcResult mvcResult = mockMvc.perform(post("/signOut")
-                .header("sessionId", sessionId)
-                .params(paramsMap))
+                        .header("sessionId", sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 }

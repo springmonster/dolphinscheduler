@@ -17,6 +17,7 @@
 
 package org.apache.dolphinscheduler.server.worker.task.sqoop;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.dolphinscheduler.common.enums.CommandType;
 import org.apache.dolphinscheduler.common.process.Property;
 import org.apache.dolphinscheduler.common.task.AbstractParameters;
@@ -27,13 +28,10 @@ import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.utils.ParamUtils;
 import org.apache.dolphinscheduler.server.worker.task.AbstractYarnTask;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.generator.SqoopJobGenerator;
-
-import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
 
 /**
  * sqoop task extends the shell task
@@ -59,7 +57,7 @@ public class SqoopTask extends AbstractYarnTask {
     public void init() {
         logger.info("sqoop task params {}", sqoopTaskExecutionContext.getTaskParams());
         sqoopParameters =
-            JSONUtils.parseObject(sqoopTaskExecutionContext.getTaskParams(), SqoopParameters.class);
+                JSONUtils.parseObject(sqoopTaskExecutionContext.getTaskParams(), SqoopParameters.class);
         //check sqoop task params
         if (null == sqoopParameters) {
             throw new IllegalArgumentException("Sqoop Task params is null");
@@ -77,14 +75,14 @@ public class SqoopTask extends AbstractYarnTask {
         String script = generator.generateSqoopJob(sqoopParameters, sqoopTaskExecutionContext);
 
         Map<String, Property> paramsMap = ParamUtils.convert(ParamUtils.getUserDefParamsMap(sqoopTaskExecutionContext.getDefinedParams()),
-            sqoopTaskExecutionContext.getDefinedParams(),
-            sqoopParameters.getLocalParametersMap(),
-            CommandType.of(sqoopTaskExecutionContext.getCmdTypeIfComplement()),
-            sqoopTaskExecutionContext.getScheduleTime());
-        if(MapUtils.isEmpty(paramsMap)){
-            paramsMap=new HashMap<>();
+                sqoopTaskExecutionContext.getDefinedParams(),
+                sqoopParameters.getLocalParametersMap(),
+                CommandType.of(sqoopTaskExecutionContext.getCmdTypeIfComplement()),
+                sqoopTaskExecutionContext.getScheduleTime());
+        if (MapUtils.isEmpty(paramsMap)) {
+            paramsMap = new HashMap<>();
         }
-        if (MapUtils.isNotEmpty(sqoopTaskExecutionContext.getParamsMap())){
+        if (MapUtils.isNotEmpty(sqoopTaskExecutionContext.getParamsMap())) {
             paramsMap.putAll(sqoopTaskExecutionContext.getParamsMap());
         }
         if (paramsMap != null) {

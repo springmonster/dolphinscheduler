@@ -70,7 +70,7 @@ let editor
 
 export default {
   name: 'python',
-  data () {
+  data() {
     return {
       valueConsistsOf: 'LEAF_PRIORITY',
       // script
@@ -82,7 +82,7 @@ export default {
       // Cache ResourceList
       cacheResourceList: [],
       resourceOptions: [],
-      normalizer (node) {
+      normalizer(node) {
         return {
           label: node.name
         }
@@ -99,7 +99,7 @@ export default {
     /**
      * return localParams
      */
-    _onLocalParams (a) {
+    _onLocalParams(a) {
       this.localParams = a
     },
     /**
@@ -111,13 +111,13 @@ export default {
     /**
      * cache resourceList
      */
-    _onCacheResourcesData (a) {
+    _onCacheResourcesData(a) {
       this.cacheResourceList = a
     },
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       // rawScript 验证
       if (!editor.getValue()) {
         this.$message.warning(`${i18n.$t('Please enter script(required)')}`)
@@ -138,7 +138,7 @@ export default {
       // storage
       this.$emit('on-params', {
         resourceList: _.map(this.resourceList, v => {
-          return { id: v }
+          return {id: v}
         }),
         localParams: this.localParams,
         rawScript: editor.getValue()
@@ -148,7 +148,7 @@ export default {
     /**
      * Processing code highlighting
      */
-    _handlerEditor () {
+    _handlerEditor() {
       // editor
       editor = codemirror('code-python-mirror', {
         mode: 'python',
@@ -170,19 +170,19 @@ export default {
 
       return editor
     },
-    diGuiTree (item) {  // Recursive convenience tree structure
+    diGuiTree(item) {  // Recursive convenience tree structure
       item.forEach(item => {
         item.children === '' || item.children === undefined || item.children === null || item.children.length === 0 ?
           this.operationTree(item) : this.diGuiTree(item.children)
       })
     },
-    operationTree (item) {
+    operationTree(item) {
       if (item.dirctory) {
         item.isDisabled = true
       }
       delete item.children
     },
-    searchTree (element, id) {
+    searchTree(element, id) {
       // 根据id查找节点
       if (element.id == id) {
         return element
@@ -196,7 +196,7 @@ export default {
       }
       return null
     },
-    dataProcess (backResource) {
+    dataProcess(backResource) {
       let isResourceId = []
       let resourceIdArr = []
       if (this.resourceList.length > 0) {
@@ -251,12 +251,12 @@ export default {
   },
   watch: {
     //Watch the cacheParams
-    cacheParams (val) {
+    cacheParams(val) {
       this.$emit('on-cache-params', val)
     }
   },
   computed: {
-    cacheParams () {
+    cacheParams() {
       let isResourceId = []
       let resourceIdArr = []
       if (this.resourceList.length > 0) {
@@ -291,7 +291,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     let item = this.store.state.dag.resourcesListS
     this.diGuiTree(item)
     this.resourceOptions = item
@@ -332,7 +332,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     // Added delay loading in script input box
     this.$nextTick(() => {
       setTimeout(() => {
@@ -340,7 +340,7 @@ export default {
       }, 350)
     })
   },
-  destroyed () {
+  destroyed() {
     editor.toTextArea() // Uninstall
     editor.off($('.code-python-mirror'), 'keypress', this.keypress)
   },

@@ -38,15 +38,15 @@ import java.util.List;
 public class ResourceUserMapperTest {
 
 
-
     @Autowired
     ResourceUserMapper resourceUserMapper;
 
     /**
      * insert
+     *
      * @return ResourcesUser
      */
-    private ResourcesUser insertOne(){
+    private ResourcesUser insertOne() {
         //insertOne
         ResourcesUser resourcesUser = new ResourcesUser();
         resourcesUser.setCreateTime(new Date());
@@ -62,7 +62,7 @@ public class ResourceUserMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         ResourcesUser queue = insertOne();
         queue.setCreateTime(new Date());
@@ -75,7 +75,7 @@ public class ResourceUserMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         ResourcesUser queue = insertOne();
         int delete = resourceUserMapper.deleteById(queue.getId());
         Assert.assertEquals(1, delete);

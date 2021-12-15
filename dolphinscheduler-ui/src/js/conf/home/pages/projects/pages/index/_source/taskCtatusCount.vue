@@ -51,17 +51,16 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions, mapState } from 'vuex'
-import { pie } from './chartConfig'
+import {mapActions, mapState} from 'vuex'
+import {pie} from './chartConfig'
 import Chart from '@/module/ana-charts'
 import echarts from 'echarts'
-import store from '@/conf/home/store'
 import mNoData from '@/module/components/noData/noData'
-import { stateType } from '@/conf/home/pages/projects/pages/_source/instanceConditions/common'
+import {stateType} from '@/conf/home/pages/projects/pages/_source/instanceConditions/common'
 
 export default {
   name: 'task-ctatus-count',
-  data () {
+  data() {
     return {
       isSpin: true,
       msg: '',
@@ -74,10 +73,10 @@ export default {
   },
   methods: {
     ...mapActions('projects', ['getTaskCtatusCount']),
-    _goTask (name) {
+    _goTask(name) {
       this.$router.push({
         name: 'task-instance',
-        params: { projectId: this.projectId },
+        params: {projectId: this.projectId},
         query: {
           stateType: _.find(stateType, ['label', name])['code'],
           startDate: this.searchParams.startDate,
@@ -85,7 +84,7 @@ export default {
         }
       })
     },
-    _handleTaskCtatus (res) {
+    _handleTaskCtatus(res) {
       let data = res.data.taskCountDtos
       this.taskCtatusList = _.map(data, v => {
         return {
@@ -94,7 +93,7 @@ export default {
           type: 'type'
         }
       })
-      const myChart = Chart.pie('#task-status-pie', this.taskCtatusList, { title: '' })
+      const myChart = Chart.pie('#task-status-pie', this.taskCtatusList, {title: ''})
       myChart.echart.setOption(pie)
 
       // 首页不允许跳转
@@ -109,7 +108,7 @@ export default {
     'searchParams': {
       deep: true,
       immediate: true,
-      handler (o) {
+      handler(o) {
         this.isSpin = true
         this.getTaskCtatusCount(o).then(res => {
           this.taskCtatusList = []
@@ -125,27 +124,27 @@ export default {
       echarts.init(document.getElementById('task-status-pie')).resize()
     }
   },
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     this.currentName = this.$router.currentRoute.name
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
   },
-  beforeUpdate () {
+  beforeUpdate() {
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {
     ...mapState('dag', ['projectId'])
   },
-  components: { mNoData }
+  components: {mNoData}
 }
 </script>
 

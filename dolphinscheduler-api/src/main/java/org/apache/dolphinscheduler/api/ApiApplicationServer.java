@@ -30,8 +30,8 @@ import org.springframework.context.annotation.FilterType;
         excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.apache.dolphinscheduler.server.*"))
 public class ApiApplicationServer extends SpringBootServletInitializer {
 
-  public static void main(String[] args) {
-    SpringApplication.run(ApiApplicationServer.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(ApiApplicationServer.class, args);
+    }
 
 }

@@ -24,222 +24,220 @@ import org.slf4j.LoggerFactory;
 import java.util.Scanner;
 
 /**
- *	zookeeper state monitor
- *
+ * zookeeper state monitor
  */
 public class ZooKeeperState {
 
-	private static final Logger logger = LoggerFactory.getLogger(ZooKeeperState.class);
+    private static final Logger logger = LoggerFactory.getLogger(ZooKeeperState.class);
 
-	private final String host;
-	private final int port;
+    private final String host;
+    private final int port;
 
-	private float minLatency = -1, avgLatency = -1, maxLatency = -1;
-	private long received = -1;
-	private long sent = -1;
-	private int outStanding = -1;
-	private long zxid = -1;
-	private String mode = null;
-	private int nodeCount = -1;
-	private int watches = -1;
-	private int connections = -1;
+    private float minLatency = -1, avgLatency = -1, maxLatency = -1;
+    private long received = -1;
+    private long sent = -1;
+    private int outStanding = -1;
+    private long zxid = -1;
+    private String mode = null;
+    private int nodeCount = -1;
+    private int watches = -1;
+    private int connections = -1;
 
-	private boolean healthFlag = false;
+    private boolean healthFlag = false;
 
-	public ZooKeeperState(String connectionString) {
-		String host = connectionString.substring(0,
-				connectionString.indexOf(':'));
-		int port = Integer.parseInt(connectionString.substring(connectionString
-				.indexOf(':') + 1));
-		this.host = host;
-		this.port = port;
-	}
+    public ZooKeeperState(String connectionString) {
+        String host = connectionString.substring(0,
+                connectionString.indexOf(':'));
+        int port = Integer.parseInt(connectionString.substring(connectionString
+                .indexOf(':') + 1));
+        this.host = host;
+        this.port = port;
+    }
 
-	public void getZookeeperInfo() {
-		String content = cmd("srvr");
-		if (StringUtils.isNotBlank(content)) {
-			if(Constants.STRING_FALSE.equals(content)){
-				healthFlag = true;
-			}else {
-				try (Scanner scannerForStat = new Scanner(content))  {
-					while (scannerForStat.hasNext()) {
-						String line = scannerForStat.nextLine();
-						if (line.startsWith("Latency min/avg/max:")) {
-							String[] latencys = getStringValueFromLine(line).split("/");
-							minLatency = Float.parseFloat(latencys[0]);
-							avgLatency = Float.parseFloat(latencys[1]);
-							maxLatency = Float.parseFloat(latencys[2]);
-						} else if (line.startsWith("Received:")) {
-							received = Long.parseLong(getStringValueFromLine(line));
-						} else if (line.startsWith("Sent:")) {
-							sent = Long.parseLong(getStringValueFromLine(line));
-						} else if (line.startsWith("Outstanding:")) {
-							outStanding = Integer.parseInt(getStringValueFromLine(line));
-						} else if (line.startsWith("Zxid:")) {
-							zxid = Long.parseLong(getStringValueFromLine(line).substring(2), 16);
-						} else if (line.startsWith("Mode:")) {
-							mode = getStringValueFromLine(line);
-						} else if (line.startsWith("Node count:")) {
-							nodeCount = Integer.parseInt(getStringValueFromLine(line));
-						}
-					}
-				}
-			}
+    public void getZookeeperInfo() {
+        String content = cmd("srvr");
+        if (StringUtils.isNotBlank(content)) {
+            if (Constants.STRING_FALSE.equals(content)) {
+                healthFlag = true;
+            } else {
+                try (Scanner scannerForStat = new Scanner(content)) {
+                    while (scannerForStat.hasNext()) {
+                        String line = scannerForStat.nextLine();
+                        if (line.startsWith("Latency min/avg/max:")) {
+                            String[] latencys = getStringValueFromLine(line).split("/");
+                            minLatency = Float.parseFloat(latencys[0]);
+                            avgLatency = Float.parseFloat(latencys[1]);
+                            maxLatency = Float.parseFloat(latencys[2]);
+                        } else if (line.startsWith("Received:")) {
+                            received = Long.parseLong(getStringValueFromLine(line));
+                        } else if (line.startsWith("Sent:")) {
+                            sent = Long.parseLong(getStringValueFromLine(line));
+                        } else if (line.startsWith("Outstanding:")) {
+                            outStanding = Integer.parseInt(getStringValueFromLine(line));
+                        } else if (line.startsWith("Zxid:")) {
+                            zxid = Long.parseLong(getStringValueFromLine(line).substring(2), 16);
+                        } else if (line.startsWith("Mode:")) {
+                            mode = getStringValueFromLine(line);
+                        } else if (line.startsWith("Node count:")) {
+                            nodeCount = Integer.parseInt(getStringValueFromLine(line));
+                        }
+                    }
+                }
+            }
 
-		}
+        }
 
-		String wchsText = cmd("wchs");
-		if (StringUtils.isNotBlank(wchsText)) {
-			if(Constants.STRING_FALSE.equals(wchsText)){
-				healthFlag = true;
-			}else {
-				try (Scanner scannerForWchs = new Scanner(wchsText)) {
-					while (scannerForWchs.hasNext()) {
-						String line = scannerForWchs.nextLine();
-						if (line.startsWith("Total watches:")) {
-							watches = Integer.parseInt(getStringValueFromLine(line));
-						}
-					}
-				}
-			}
-		}
+        String wchsText = cmd("wchs");
+        if (StringUtils.isNotBlank(wchsText)) {
+            if (Constants.STRING_FALSE.equals(wchsText)) {
+                healthFlag = true;
+            } else {
+                try (Scanner scannerForWchs = new Scanner(wchsText)) {
+                    while (scannerForWchs.hasNext()) {
+                        String line = scannerForWchs.nextLine();
+                        if (line.startsWith("Total watches:")) {
+                            watches = Integer.parseInt(getStringValueFromLine(line));
+                        }
+                    }
+                }
+            }
+        }
 
-		String consText = cmd("cons");
-		if (StringUtils.isNotBlank(consText)) {
-			if(Constants.STRING_FALSE.equals(consText)){
-				healthFlag = true;
-			}else {
-				Scanner scannerForCons = new Scanner(consText);
-				if (StringUtils.isNotBlank(consText)) {
-					connections = 0;
-				}
-				while (scannerForCons.hasNext()) {
-					@SuppressWarnings("unused")
-					String line = scannerForCons.nextLine();
-					++connections;
-				}
-				scannerForCons.close();
-			}
-		}
-	}
-
-
-	public boolean ruok() {
-		return "imok\n".equals(cmd("ruok"));
-	}
+        String consText = cmd("cons");
+        if (StringUtils.isNotBlank(consText)) {
+            if (Constants.STRING_FALSE.equals(consText)) {
+                healthFlag = true;
+            } else {
+                Scanner scannerForCons = new Scanner(consText);
+                if (StringUtils.isNotBlank(consText)) {
+                    connections = 0;
+                }
+                while (scannerForCons.hasNext()) {
+                    @SuppressWarnings("unused")
+                    String line = scannerForCons.nextLine();
+                    ++connections;
+                }
+                scannerForCons.close();
+            }
+        }
+    }
 
 
-	private String getStringValueFromLine(String line) {
-		return line.substring(line.indexOf(":") + 1, line.length()).replaceAll(
-				" ", "").trim();
-	}
+    public boolean ruok() {
+        return "imok\n".equals(cmd("ruok"));
+    }
 
-	private class SendThread extends Thread {
-		private String cmd;
 
-		private String ret = Constants.STRING_FALSE;
+    private String getStringValueFromLine(String line) {
+        return line.substring(line.indexOf(":") + 1, line.length()).replaceAll(
+                " ", "").trim();
+    }
 
-		public SendThread(String cmd) {
-			this.cmd = cmd;
-		}
+    private class SendThread extends Thread {
+        private String cmd;
 
-		@Override
-		public void run() {
-			try {
-				ret = FourLetterWordMain.send4LetterWord(host, port, cmd);
-			} catch (Exception e) {
-				logger.error(e.getMessage(),e);
-				return;
-			}
-		}
+        private String ret = Constants.STRING_FALSE;
 
-	}
+        public SendThread(String cmd) {
+            this.cmd = cmd;
+        }
 
-	private String cmd(String cmd) {
-		final int waitTimeout = 5;
-		SendThread sendThread = new SendThread(cmd);
-		sendThread.setName("FourLetterCmd:" + cmd);
-		sendThread.start();
-		try {
-			sendThread.join(waitTimeout * 1000L);
-			return sendThread.ret;
-		} catch (InterruptedException e) {
-			logger.error("send " + cmd + " to server " + host + ":" + port + " failed!", e);
-		}
-		return Constants.STRING_FALSE;
-	}
+        @Override
+        public void run() {
+            try {
+                ret = FourLetterWordMain.send4LetterWord(host, port, cmd);
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+                return;
+            }
+        }
 
-	public Logger getLogger() {
-		return logger;
-	}
+    }
 
-	public String getHost() {
-		return host;
-	}
+    private String cmd(String cmd) {
+        final int waitTimeout = 5;
+        SendThread sendThread = new SendThread(cmd);
+        sendThread.setName("FourLetterCmd:" + cmd);
+        sendThread.start();
+        try {
+            sendThread.join(waitTimeout * 1000L);
+            return sendThread.ret;
+        } catch (InterruptedException e) {
+            logger.error("send " + cmd + " to server " + host + ":" + port + " failed!", e);
+        }
+        return Constants.STRING_FALSE;
+    }
 
-	public int getPort() {
-		return port;
-	}
+    public Logger getLogger() {
+        return logger;
+    }
 
-	public float getMinLatency() {
-		return minLatency;
-	}
+    public String getHost() {
+        return host;
+    }
 
-	public float getAvgLatency() {
-		return avgLatency;
-	}
+    public int getPort() {
+        return port;
+    }
 
-	public float getMaxLatency() {
-		return maxLatency;
-	}
+    public float getMinLatency() {
+        return minLatency;
+    }
 
-	public long getReceived() {
-		return received;
-	}
+    public float getAvgLatency() {
+        return avgLatency;
+    }
 
-	public long getSent() {
-		return sent;
-	}
+    public float getMaxLatency() {
+        return maxLatency;
+    }
 
-	public int getOutStanding() {
-		return outStanding;
-	}
+    public long getReceived() {
+        return received;
+    }
 
-	public long getZxid() {
-		return zxid;
-	}
+    public long getSent() {
+        return sent;
+    }
 
-	public String getMode() {
-		return mode;
-	}
+    public int getOutStanding() {
+        return outStanding;
+    }
 
-	public int getNodeCount() {
-		return nodeCount;
-	}
+    public long getZxid() {
+        return zxid;
+    }
 
-	public int getWatches() {
-		return watches;
-	}
+    public String getMode() {
+        return mode;
+    }
 
-	public int getConnections() {
-		return connections;
-	}
+    public int getNodeCount() {
+        return nodeCount;
+    }
 
-	public boolean isHealthFlag() {
-		return healthFlag;
-	}
+    public int getWatches() {
+        return watches;
+    }
 
-	@Override
-	public String toString() {
-		return "ZooKeeperState [host=" + host + ", port=" + port
-				+ ", minLatency=" + minLatency + ", avgLatency=" + avgLatency
-				+ ", maxLatency=" + maxLatency + ", received=" + received
-				+ ", sent=" + sent + ", outStanding=" + outStanding + ", zxid="
-				+ zxid + ", mode=" + mode + ", nodeCount=" + nodeCount
-				+ ", watches=" + watches + ", connections="
-				+ connections + ",healthFlag=" + healthFlag + "]";
-	}
+    public int getConnections() {
+        return connections;
+    }
 
+    public boolean isHealthFlag() {
+        return healthFlag;
+    }
+
+    @Override
+    public String toString() {
+        return "ZooKeeperState [host=" + host + ", port=" + port
+                + ", minLatency=" + minLatency + ", avgLatency=" + avgLatency
+                + ", maxLatency=" + maxLatency + ", received=" + received
+                + ", sent=" + sent + ", outStanding=" + outStanding + ", zxid="
+                + zxid + ", mode=" + mode + ", nodeCount=" + nodeCount
+                + ", watches=" + watches + ", connections="
+                + connections + ",healthFlag=" + healthFlag + "]";
+    }
 
 
 }

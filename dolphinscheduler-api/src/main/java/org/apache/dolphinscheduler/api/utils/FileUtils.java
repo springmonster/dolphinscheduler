@@ -83,6 +83,7 @@ public class FileUtils {
 
     /**
      * file convert String
+     *
      * @param file MultipartFile file
      * @return file content string
      */

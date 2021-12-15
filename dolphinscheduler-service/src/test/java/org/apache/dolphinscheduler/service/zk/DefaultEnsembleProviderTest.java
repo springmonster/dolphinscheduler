@@ -17,14 +17,10 @@
 package org.apache.dolphinscheduler.service.zk;
 
 import org.apache.curator.ensemble.EnsembleProvider;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 public class DefaultEnsembleProviderTest {
     private static final String DEFAULT_SERVER_LIST = "localhost:2181";

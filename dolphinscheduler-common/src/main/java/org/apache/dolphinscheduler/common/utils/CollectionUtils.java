@@ -40,6 +40,7 @@ public class CollectionUtils {
     private CollectionUtils() {
         throw new IllegalStateException("CollectionUtils class");
     }
+
     /**
      * Returns a new {@link Collection} containing <i>a</i> minus a subset of
      * <i>b</i>.  Only the elements of <i>b</i> that satisfy the predicate
@@ -51,8 +52,8 @@ public class CollectionUtils {
      * <p>The cardinality of each element <i>e</i> in the returned {@link Collection} that does <b>not</b>
      * satisfy the predicate condition will be equal to the cardinality of <i>e</i> in <i>a</i>.</p>
      *
-     * @param a the collection to subtract from, must not be null
-     * @param b the collection to subtract, must not be null
+     * @param a   the collection to subtract from, must not be null
+     * @param b   the collection to subtract, must not be null
      * @param <T> T
      * @return a new collection with the results
      * @see Collection#removeAll
@@ -102,7 +103,7 @@ public class CollectionUtils {
             return emptyMap;
         }
         String[] strings = str.split(separator);
-        int initialCapacity = (int)(strings.length / DEFAULT_LOAD_FACTOR) + 1;
+        int initialCapacity = (int) (strings.length / DEFAULT_LOAD_FACTOR) + 1;
         Map<String, String> map = new HashMap<>(initialCapacity);
         for (int i = 0; i < strings.length; i++) {
             String[] strArray = strings[i].split("=");
@@ -249,9 +250,10 @@ public class CollectionUtils {
 
     /**
      * Removes certain attributes of each object in the list
-     * @param originList origin list
+     *
+     * @param originList   origin list
      * @param exclusionSet exclusion set
-     * @param <T> T
+     * @param <T>          T
      * @return removes certain attributes of each object in the list
      */
     public static <T extends Object> List<Map<String, Object>> getListByExclusion(List<T> originList, Set<String> exclusionSet) {
@@ -265,8 +267,8 @@ public class CollectionUtils {
         Map<String, Object> instanceMap;
         for (T instance : originList) {
             Map<String, Object> dataMap = new BeanMap(instance);
-            instanceMap = new LinkedHashMap<>(16,0.75f,true);
-            for (Map.Entry<String, Object> entry: dataMap.entrySet()) {
+            instanceMap = new LinkedHashMap<>(16, 0.75f, true);
+            for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
                 if (exclusionSet.contains(entry.getKey())) {
                     continue;
                 }

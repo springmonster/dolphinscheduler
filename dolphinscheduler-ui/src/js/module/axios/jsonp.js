@@ -27,7 +27,7 @@ var count = 0
  */
 
 /* istanbul ignore next */
-function noop () {
+function noop() {
 }
 
 /**
@@ -44,7 +44,7 @@ function noop () {
  * @param {Function} optional callback
  */
 
-function jsonp (url, opts, fn) {
+function jsonp(url, opts, fn) {
   if (typeof opts === 'function') {
     fn = opts
     opts = {}
@@ -74,7 +74,7 @@ function jsonp (url, opts, fn) {
       }, timeout)
   }
 
-  function cleanup () {
+  function cleanup() {
     script.onerror = null
     script.onload = null
     /* istanbul ignore else */
@@ -84,7 +84,7 @@ function jsonp (url, opts, fn) {
     if (timer) clearTimeout(timer)
   }
 
-  function cancel () {
+  function cancel() {
     /* istanbul ignore else */
     if (window[id]) {
       cleanup()
@@ -102,7 +102,7 @@ function jsonp (url, opts, fn) {
   url = url.replace('?&', '?')
 
   // debug('jsonp req "%s"', url);
-  var handler = ({ type }) => {
+  var handler = ({type}) => {
     /* istanbul ignore else */
     if (type === 'error') {
       cleanup()

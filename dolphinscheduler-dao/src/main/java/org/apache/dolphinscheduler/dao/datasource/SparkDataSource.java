@@ -24,20 +24,21 @@ import org.apache.dolphinscheduler.common.enums.DbType;
  */
 public class SparkDataSource extends BaseDataSource {
 
-  /**
-   * gets the JDBC url for the data source connection
-   * @return jdbc url
-   */
-  @Override
-  public String driverClassSelector() {
-    return Constants.ORG_APACHE_HIVE_JDBC_HIVE_DRIVER;
-  }
+    /**
+     * gets the JDBC url for the data source connection
+     *
+     * @return jdbc url
+     */
+    @Override
+    public String driverClassSelector() {
+        return Constants.ORG_APACHE_HIVE_JDBC_HIVE_DRIVER;
+    }
 
-  /**
-   * @return db type
-   */
-  @Override
-  public DbType dbTypeSelector() {
-    return DbType.SPARK;
-  }
+    /**
+     * @return db type
+     */
+    @Override
+    public DbType dbTypeSelector() {
+        return DbType.SPARK;
+    }
 }

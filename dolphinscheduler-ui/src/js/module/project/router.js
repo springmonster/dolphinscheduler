@@ -18,7 +18,7 @@
 import store from '@/conf/home/store'
 import localStore from '@/module/util/localStorage'
 
-export function beforeProjectRoute (to, from, next) {
+export function beforeProjectRoute(to, from, next) {
   const blacklist = ['projects', 'projects-list']
   if (!blacklist.includes(to.name) && to.params.projectId && to.params.projectId !== localStore.getItem('projectId')) {
     store.dispatch('projects/getProjectById', {
@@ -30,7 +30,7 @@ export function beforeProjectRoute (to, from, next) {
       localStore.setItem('projectName', res.name)
       next()
     }).catch(e => {
-      next({ name: 'projects-list' })
+      next({name: 'projects-list'})
     })
   } else {
     next()

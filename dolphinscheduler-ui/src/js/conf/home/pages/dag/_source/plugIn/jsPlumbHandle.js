@@ -20,20 +20,13 @@ import 'jquery-ui/ui/widgets/resizable'
 import Vue from 'vue'
 import _ from 'lodash'
 import i18n from '@/module/i18n'
-import { jsPlumb } from 'jsplumb'
+import {jsPlumb} from 'jsplumb'
 import DragZoom from './dragZoom'
 import store from '@/conf/home/store'
 import router from '@/conf/home/router'
-import { uuid, findComponentDownward } from '@/module/util/'
+import {findComponentDownward, uuid} from '@/module/util/'
 
-import {
-  tasksAll,
-  rtTasksTpl,
-  setSvgColor,
-  saveTargetarr,
-  rtTargetarrArr,
-  computeScale
-} from './util'
+import {computeScale, rtTargetarrArr, rtTasksTpl, saveTargetarr, setSvgColor, tasksAll} from './util'
 import mStart from '@/conf/home/pages/projects/pages/definition/pages/list/_source/start'
 
 let JSP = function () {
@@ -59,10 +52,10 @@ let JSP = function () {
  * dag init
  */
 JSP.prototype.init = function ({
-  dag,
-  instance,
-  options
-}) {
+                                 dag,
+                                 instance,
+                                 options
+                               }) {
   // Get the dag component instance
   this.dag = dag
   // Get jsplumb instance
@@ -193,9 +186,9 @@ JSP.prototype.draggable = function () {
  * Echo json processing and old data structure processing
  */
 JSP.prototype.jsonHandle = function ({
-  largeJson,
-  locations
-}) {
+                                       largeJson,
+                                       locations
+                                     }) {
   _.map(largeJson, v => {
     // Generate template
     $('#canvas').append(rtTasksTpl({
@@ -261,7 +254,7 @@ JSP.prototype.initNode = function (el) {
 
   // Node connection property configuration
   this.JspInstance.makeTarget(el, {
-    dropOptions: { hoverClass: 'dragHover' },
+    dropOptions: {hoverClass: 'dragHover'},
     anchor: 'Continuous',
     allowLoopback: false // Forbid yourself to connect yourself
   })
@@ -310,20 +303,20 @@ JSP.prototype.tasksContextmenu = function (event) {
       $('#startRunning').on('click', () => {
         const name = store.state.dag.name
         const id = router.history.current.params.id
-        store.dispatch('dag/getStartCheck', { processDefinitionId: id }).then(res => {
+        store.dispatch('dag/getStartCheck', {processDefinitionId: id}).then(res => {
           const modal = Vue.$modal.dialog({
             closable: false,
             showMask: true,
             escClose: true,
             className: 'v-modal-custom',
             transitionName: 'opacityp',
-            render (h) {
+            render(h) {
               return h(mStart, {
                 on: {
-                  onUpdate () {
+                  onUpdate() {
                     modal.remove()
                   },
-                  close () {
+                  close() {
                     modal.remove()
                   }
                 },
@@ -605,9 +598,9 @@ JSP.prototype.copyNodes = function ($id) {
  * @param {Screen}
  */
 JSP.prototype.handleEventScreen = function ({
-  item,
-  is
-}) {
+                                              item,
+                                              is
+                                            }) {
   let screenOpen = true
   if (is) {
     item.icon = 'ans-icon-min'
@@ -769,10 +762,10 @@ JSP.prototype.handleEvent = function () {
  * Backfill data processing
  */
 JSP.prototype.jspBackfill = function ({
-  connects,
-  locations,
-  largeJson
-}) {
+                                        connects,
+                                        locations,
+                                        largeJson
+                                      }) {
   // Backfill nodes
   this.jsonHandle({
     largeJson: largeJson,

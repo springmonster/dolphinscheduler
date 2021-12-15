@@ -34,14 +34,14 @@ public class PageCommon extends BrowserCommon {
 
     /**
      * @param driver driver
-     * @param jedis jedis
+     * @param jedis  jedis
      */
     public PageCommon(WebDriver driver, Jedis jedis) {
         super(driver, jedis);
     }
 
     /**
-     * @param driver driver
+     * @param driver    driver
      * @param redisUtil redisUtil
      */
     public PageCommon(WebDriver driver, RedisUtil redisUtil) {

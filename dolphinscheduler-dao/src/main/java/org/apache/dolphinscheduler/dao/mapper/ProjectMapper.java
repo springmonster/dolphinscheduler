@@ -16,9 +16,9 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
-import org.apache.dolphinscheduler.dao.entity.Project;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.dolphinscheduler.dao.entity.Project;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,6 +30,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     /**
      * query project detail by id
+     *
      * @param projectId projectId
      * @return project
      */
@@ -37,6 +38,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     /**
      * query project by name
+     *
      * @param projectName projectName
      * @return project
      */
@@ -44,8 +46,9 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     /**
      * project page
-     * @param page page
-     * @param userId userId
+     *
+     * @param page       page
+     * @param userId     userId
      * @param searchName searchName
      * @return project Ipage
      */
@@ -54,7 +57,8 @@ public interface ProjectMapper extends BaseMapper<Project> {
                                           @Param("searchName") String searchName);
 
     /**
-     *  query create project user
+     * query create project user
+     *
      * @param userId userId
      * @return project list
      */
@@ -62,6 +66,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     /**
      * query authed project list by userId
+     *
      * @param userId userId
      * @return project list
      */
@@ -69,6 +74,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     /**
      * query project except userId
+     *
      * @param userId userId
      * @return project list
      */

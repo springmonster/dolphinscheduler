@@ -43,6 +43,7 @@ public class DependentParam implements ProcessAddTaskParam, InitializingBean {
 
     /**
      * add dependent param
+     *
      * @param taskNode task node json object
      * @return task node json object
      */
@@ -74,13 +75,14 @@ public class DependentParam implements ProcessAddTaskParam, InitializingBean {
 
     /**
      * import process add dependent param
+     *
      * @param taskNode task node json object
      * @return
      */
     @Override
     public JSONObject addImportSpecialParam(JSONObject taskNode) {
-        JSONObject dependentParameters =  JSONUtils.parseObject(taskNode.getString("dependence"));
-        if(dependentParameters != null){
+        JSONObject dependentParameters = JSONUtils.parseObject(taskNode.getString("dependence"));
+        if (dependentParameters != null) {
             JSONArray dependTaskList = (JSONArray) dependentParameters.get("dependTaskList");
             for (int h = 0; h < dependTaskList.size(); h++) {
                 JSONObject dependentTaskModel = dependTaskList.getJSONObject(h);
@@ -88,11 +90,11 @@ public class DependentParam implements ProcessAddTaskParam, InitializingBean {
                 for (int k = 0; k < dependItemList.size(); k++) {
                     JSONObject dependentItem = dependItemList.getJSONObject(k);
                     Project dependentItemProject = projectMapper.queryByName(dependentItem.getString("projectName"));
-                    if(dependentItemProject != null){
-                        ProcessDefinition definition = processDefineMapper.queryByDefineName(dependentItemProject.getId(),dependentItem.getString("definitionName"));
-                        if(definition != null){
-                            dependentItem.put("projectId",dependentItemProject.getId());
-                            dependentItem.put("definitionId",definition.getId());
+                    if (dependentItemProject != null) {
+                        ProcessDefinition definition = processDefineMapper.queryByDefineName(dependentItemProject.getId(), dependentItem.getString("definitionName"));
+                        if (definition != null) {
+                            dependentItem.put("projectId", dependentItemProject.getId());
+                            dependentItem.put("definitionId", definition.getId());
                         }
                     }
                 }

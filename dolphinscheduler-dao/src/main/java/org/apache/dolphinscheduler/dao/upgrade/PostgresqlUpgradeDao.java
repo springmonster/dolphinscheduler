@@ -52,9 +52,10 @@ public class PostgresqlUpgradeDao extends UpgradeDao {
 
     /**
      * getSchema
+     *
      * @return schema
      */
-    public static String getSchema(){
+    public static String getSchema() {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
@@ -62,14 +63,14 @@ public class PostgresqlUpgradeDao extends UpgradeDao {
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement("select current_schema()");
             resultSet = pstmt.executeQuery();
-            while (resultSet.next()){
-                if(resultSet.isFirst()){
+            while (resultSet.next()) {
+                if (resultSet.isFirst()) {
                     return resultSet.getString(1);
                 }
             }
 
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         } finally {
             ConnectionUtils.releaseResource(resultSet, pstmt, conn);
         }
@@ -79,6 +80,7 @@ public class PostgresqlUpgradeDao extends UpgradeDao {
 
     /**
      * determines whether a table exists
+     *
      * @param tableName tableName
      * @return if table exist return true，else return false
      */
@@ -93,8 +95,8 @@ public class PostgresqlUpgradeDao extends UpgradeDao {
 
             return rs.next();
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } finally {
             ConnectionUtils.releaseResource(rs, conn);
         }
@@ -103,21 +105,22 @@ public class PostgresqlUpgradeDao extends UpgradeDao {
 
     /**
      * determines whether a field exists in the specified table
-     * @param tableName tableName
+     *
+     * @param tableName  tableName
      * @param columnName columnName
-     * @return  if column name exist return true，else return false
+     * @return if column name exist return true，else return false
      */
     @Override
-    public boolean isExistsColumn(String tableName,String columnName) {
+    public boolean isExistsColumn(String tableName, String columnName) {
         Connection conn = null;
         ResultSet rs = null;
         try {
             conn = dataSource.getConnection();
-            rs = conn.getMetaData().getColumns(null, SCHEMA,tableName,columnName);
+            rs = conn.getMetaData().getColumns(null, SCHEMA, tableName, columnName);
             return rs.next();
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         } finally {
             ConnectionUtils.releaseResource(rs, conn);
 

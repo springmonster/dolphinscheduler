@@ -67,7 +67,7 @@ import cookies from 'js-cookie'
 
 export default {
   name: 'login-model',
-  data () {
+  data() {
     return {
       spinnerLoading: false,
       userName: '',
@@ -80,7 +80,7 @@ export default {
   },
   props: {},
   methods: {
-    _ok () {
+    _ok() {
       if (this._verification()) {
         this.spinnerLoading = true
         this._gLogin().then(res => {
@@ -90,7 +90,7 @@ export default {
             if (res.data.hasOwnProperty('sessionId')) {
               let sessionId = res.data.sessionId
               sessionStorage.setItem('sessionId', sessionId)
-              cookies.set('sessionId', sessionId, { path: '/' })
+              cookies.set('sessionId', sessionId, {path: '/'})
             }
 
             if (this.userName === 'admin') {
@@ -106,7 +106,7 @@ export default {
         })
       }
     },
-    _verification () {
+    _verification() {
       let flag = true
       if (!this.userName) {
         this.userNameText = `${i18n.$t('Please enter user name')}`
@@ -121,7 +121,7 @@ export default {
       return flag
     },
     // khc:登录接口
-    _gLogin () {
+    _gLogin() {
       return new Promise((resolve, reject) => {
         io.post(`login`, {
           userName: this.userName,
@@ -135,16 +135,16 @@ export default {
     }
   },
   watch: {
-    userName () {
+    userName() {
       this.isUserName = false
     },
-    userPassword () {
+    userPassword() {
       this.isUserPassword = false
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

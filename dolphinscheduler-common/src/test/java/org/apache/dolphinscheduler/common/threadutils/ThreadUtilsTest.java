@@ -24,20 +24,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
 
 public class ThreadUtilsTest {
     private static final Logger logger = LoggerFactory.getLogger(ThreadUtilsTest.class);
+
     /**
      * create a naming thread
      */
     @Test
     public void testNewDaemonFixedThreadExecutor() {
         // create core size and max size are all 3
-        ExecutorService testExec = ThreadUtils.newDaemonFixedThreadExecutor("test-exec-thread",10);
+        ExecutorService testExec = ThreadUtils.newDaemonFixedThreadExecutor("test-exec-thread", 10);
 
         for (int i = 0; i < 19; i++) {
             final int index = i;
@@ -73,8 +77,8 @@ public class ThreadUtilsTest {
                 // send heart beat work
                 while (start.getTime().getTime() <= end.getTime().getTime()) {
                     System.out.println("worker here");
-                    System.out.println(index ++);
-                    start.add(Calendar.SECOND,  1);
+                    System.out.println(index++);
+                    start.add(Calendar.SECOND, 1);
                     globalTimer.add(Calendar.SECOND, 1);
                 }
                 System.out.println("time is " + System.currentTimeMillis());
@@ -103,12 +107,13 @@ public class ThreadUtilsTest {
 
     /**
      * test threadPoolExecutors with 3 workers and current each 5 tasks
+     *
      * @throws InterruptedException
      */
     @Test
     public void testThreadInfo() throws InterruptedException {
         ThreadPoolExecutors workers = ThreadPoolExecutors.getInstance("worker", 3);
-        for (int i = 0; i < 5; ++i ) {
+        for (int i = 0; i < 5; ++i) {
             int index = i;
             workers.execute(() -> {
                 for (int j = 0; j < 10; ++j) {
@@ -121,7 +126,7 @@ public class ThreadUtilsTest {
                         e.printStackTrace();
                     }
                 }
-           });
+            });
             workers.submit(() -> {
                 for (int j = 0; j < 10; ++j) {
                     try {
@@ -143,7 +148,7 @@ public class ThreadUtilsTest {
      * test a single daemon thread pool
      */
     @Test
-    public void  testNewDaemonSingleThreadExecutor() {
+    public void testNewDaemonSingleThreadExecutor() {
         ExecutorService threadTest = ThreadUtils.newDaemonSingleThreadExecutor("thread_test");
         threadTest.execute(() -> {
             for (int i = 0; i < 100; ++i) {
@@ -162,7 +167,7 @@ public class ThreadUtilsTest {
         ThreadPoolExecutor threadPoolExecutor = ThreadUtils.newDaemonCachedThreadPool("threadTest-");
         Thread thread1 = threadPoolExecutor.getThreadFactory().newThread(() -> {
             for (int i = 0; i < 10; ++i) {
-                System.out.println("this task is with index " + i );
+                System.out.println("this task is with index " + i);
             }
         });
         assertTrue(thread1.getName().startsWith("threadTest-"));
@@ -174,7 +179,7 @@ public class ThreadUtilsTest {
     @Test
     public void testNewDaemonCachedThreadPoolWithThreadNumber() {
         ThreadPoolExecutor threadPoolExecutor = ThreadUtils.newDaemonCachedThreadPool("threadTest--", 3, 10);
-        for (int i = 0; i < 10; ++ i) {
+        for (int i = 0; i < 10; ++i) {
             threadPoolExecutor.getThreadFactory().newThread(() -> {
                 assertEquals(3, threadPoolExecutor.getActiveCount());
                 System.out.println("this task is first work to do");
@@ -184,7 +189,6 @@ public class ThreadUtilsTest {
         threadPoolExecutor.shutdown();
         assertTrue(threadPoolExecutor.isShutdown());
     }
-
 
 
 }

@@ -24,7 +24,7 @@ export default {
    * @param users/verifyUserName
    * @param tenant/verifyTenantCode
    */
-  verifyName ({ state }, payload) {
+  verifyName({state}, payload) {
     const o = {
       user: {
         param: {
@@ -62,7 +62,7 @@ export default {
    * @param "email":string
    * @param "phone":string
    */
-  createUser ({ state }, payload) {
+  createUser({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('users/create', payload, res => {
         resolve(res)
@@ -75,7 +75,7 @@ export default {
    * Verify that the username exists
    * @param userName
    */
-  verifyUserName ({ state }, payload) {
+  verifyUserName({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('users/verify-user-name', payload, res => {
         resolve(res)
@@ -90,7 +90,7 @@ export default {
    * @param "searchVal":string,
    * @param "pageSize":int
    */
-  getUsersListP ({ state }, payload) {
+  getUsersListP({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('users/list-paging', payload, res => {
         resolve(res.data)
@@ -102,7 +102,7 @@ export default {
   /**
    * user list expect admin
    */
-  getUsersList ({ state }, payload) {
+  getUsersList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('users/list', payload, res => {
         resolve(res.data)
@@ -114,7 +114,7 @@ export default {
   /**
    * user all  list
    */
-  getUsersAll ({ state }, payload) {
+  getUsersAll({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('users/list-all', payload, res => {
         resolve(res.data)
@@ -132,7 +132,7 @@ export default {
    * @param "email":string,
    * @param "phone":string
    */
-  updateUser ({ state }, payload) {
+  updateUser({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('users/update', payload, res => {
         resolve(res)
@@ -145,7 +145,7 @@ export default {
    * delete users
    * @param "id":int
    */
-  deleteUser ({ state }, payload) {
+  deleteUser({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('users/delete', payload, res => {
         resolve(res)
@@ -157,7 +157,7 @@ export default {
   /**
    * Obtain authorized and unauthorized items
    */
-  getAuthList ({ state }, payload) {
+  getAuthList({state}, payload) {
     const o = {
       type: payload.type,
       category: payload.category
@@ -196,7 +196,7 @@ export default {
     })
   },
 
-  getResourceList ({ state }, payload) {
+  getResourceList({state}, payload) {
     const o = {
       type: payload.type,
       category: payload.category
@@ -238,7 +238,7 @@ export default {
    * Authorization [project, resource, data source]
    * @param Project,Resources,Datasource
    */
-  grantAuthorization ({ state }, payload) {
+  grantAuthorization({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post(payload.api, payload.param, res => {
         resolve(res)
@@ -252,7 +252,7 @@ export default {
    * Query user details
    * @param "userId":int
    */
-  getUsersDetails ({ state }, payload) {
+  getUsersDetails({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('users/select-by-id', payload, res => {
         resolve(res.data)
@@ -264,7 +264,7 @@ export default {
   /**
    * Tenant list - pagination
    */
-  getTenantListP ({ state }, payload) {
+  getTenantListP({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('tenant/list-paging', payload, res => {
         resolve(res.data)
@@ -276,7 +276,7 @@ export default {
   /**
    * Tenant list - no paging
    */
-  getTenantList ({ state }, payload) {
+  getTenantList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('tenant/list', payload, res => {
         const list = res.data
@@ -294,7 +294,7 @@ export default {
   /**
    * Queue interface
    */
-  getQueueList ({ state }, payload) {
+  getQueueList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('queue/list', payload, res => {
         resolve(res.data)
@@ -306,7 +306,7 @@ export default {
   /**
    * Create Queue
    */
-  createQueue ({ state }, payload) {
+  createQueue({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('tenant/create', payload, res => {
         resolve(res)
@@ -318,7 +318,7 @@ export default {
   /**
    * update Queue
    */
-  updateQueue ({ state }, payload) {
+  updateQueue({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('tenant/update', payload, res => {
         resolve(res)
@@ -330,7 +330,7 @@ export default {
   /**
    * delete Queue
    */
-  deleteQueue ({ state }, payload) {
+  deleteQueue({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('tenant/delete', payload, res => {
         resolve(res)
@@ -342,7 +342,7 @@ export default {
   /**
    * Paging query alarm group list
    */
-  getAlertgroupP ({ state }, payload) {
+  getAlertgroupP({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('alert-group/list-paging', payload, res => {
         resolve(res.data)
@@ -354,7 +354,7 @@ export default {
   /**
    * Alarm group list
    */
-  getAlertgroup ({ state }, payload) {
+  getAlertgroup({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('alert-group/list', payload, res => {
         resolve(res.data)
@@ -366,7 +366,7 @@ export default {
   /**
    * Create an alarm group.
    */
-  createAlertgrou ({ state }, payload) {
+  createAlertgrou({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('alert-group/create', payload, res => {
         resolve(res)
@@ -378,7 +378,7 @@ export default {
   /**
    * update an alarm group.
    */
-  updateAlertgrou ({ state }, payload) {
+  updateAlertgrou({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('alert-group/update', payload, res => {
         resolve(res)
@@ -390,7 +390,7 @@ export default {
   /**
    * delete alarm group.
    */
-  deleteAlertgrou ({ state }, payload) {
+  deleteAlertgrou({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('alert-group/delete', payload, res => {
         resolve(res)
@@ -402,7 +402,7 @@ export default {
   /**
    * Master list
    */
-  getProcessMasterList ({ state }, payload) {
+  getProcessMasterList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('process/master/list', payload, res => {
         resolve(res)
@@ -414,7 +414,7 @@ export default {
   /**
    * Worker list
    */
-  getProcessWorkerList ({ state }, payload) {
+  getProcessWorkerList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('process/worker/list', payload, res => {
         resolve(res)
@@ -426,7 +426,7 @@ export default {
   /**
    * get queue list pages
    */
-  getQueueListP ({ state }, payload) {
+  getQueueListP({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('queue/list-paging', payload, res => {
         resolve(res.data)
@@ -438,7 +438,7 @@ export default {
   /**
    * create queue
    */
-  createQueueQ ({ state }, payload) {
+  createQueueQ({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('queue/create', payload, res => {
         resolve(res)
@@ -450,7 +450,7 @@ export default {
   /**
    * update queue
    */
-  updateQueueQ ({ state }, payload) {
+  updateQueueQ({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('queue/update', payload, res => {
         resolve(res)
@@ -462,7 +462,7 @@ export default {
   /**
    * update queue
    */
-  verifyQueueQ ({ state }, payload) {
+  verifyQueueQ({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('queue/verify-queue', payload, res => {
         resolve(res)
@@ -474,7 +474,7 @@ export default {
   /**
    * get worker groups
    */
-  getWorkerGroups ({ state }, payload) {
+  getWorkerGroups({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('worker-group/list-paging', payload, res => {
         resolve(res.data)
@@ -486,7 +486,7 @@ export default {
   /**
    * get worker groups all
    */
-  getWorkerGroupsAll ({ state }, payload) {
+  getWorkerGroupsAll({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('worker-group/all-groups', payload, res => {
         let list = res.data
@@ -510,7 +510,7 @@ export default {
       })
     })
   },
-  saveWorkerGroups ({ state }, payload) {
+  saveWorkerGroups({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('worker-group/save', payload, res => {
         resolve(res)
@@ -519,7 +519,7 @@ export default {
       })
     })
   },
-  deleteWorkerGroups ({ state }, payload) {
+  deleteWorkerGroups({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('worker-group/delete-by-id', payload, res => {
         resolve(res)
@@ -528,7 +528,7 @@ export default {
       })
     })
   },
-  getWorkerAddresses ({ state }, payload) {
+  getWorkerAddresses({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('worker-group/worker-address-list', payload, res => {
         resolve(res)

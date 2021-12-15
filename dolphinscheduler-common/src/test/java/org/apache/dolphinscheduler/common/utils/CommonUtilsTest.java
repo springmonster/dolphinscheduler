@@ -29,23 +29,27 @@ import java.net.UnknownHostException;
  */
 public class CommonUtilsTest {
     private static final Logger logger = LoggerFactory.getLogger(CommonUtilsTest.class);
+
     @Test
     public void getSystemEnvPath() {
         logger.info(CommonUtils.getSystemEnvPath());
         Assert.assertTrue(true);
     }
+
     @Test
     public void isDevelopMode() {
-        logger.info("develop mode: {}",CommonUtils.isDevelopMode());
+        logger.info("develop mode: {}", CommonUtils.isDevelopMode());
         Assert.assertTrue(true);
     }
+
     @Test
-    public void getKerberosStartupState(){
-        logger.info("kerberos startup state: {}",CommonUtils.getKerberosStartupState());
+    public void getKerberosStartupState() {
+        logger.info("kerberos startup state: {}", CommonUtils.getKerberosStartupState());
         Assert.assertTrue(true);
     }
+
     @Test
-    public void loadKerberosConf(){
+    public void loadKerberosConf() {
         try {
             CommonUtils.loadKerberosConf();
             Assert.assertTrue(true);
@@ -79,7 +83,7 @@ public class CommonUtilsTest {
     }
 
     @Test
-    public void test(){
+    public void test() {
         InetAddress IP = null;
         try {
             IP = InetAddress.getLocalHost();

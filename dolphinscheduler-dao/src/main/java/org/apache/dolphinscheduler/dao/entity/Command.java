@@ -33,7 +33,7 @@ public class Command {
     /**
      * id
      */
-    @TableId(value="id", type=IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private int id;
 
     /**
@@ -334,6 +334,7 @@ public class Command {
         result = 31 * result + (workerGroup != null ? workerGroup.hashCode() : 0);
         return result;
     }
+
     @Override
     public String toString() {
         return "Command{" +
@@ -354,4 +355,3 @@ public class Command {
                 '}';
     }
 }
-

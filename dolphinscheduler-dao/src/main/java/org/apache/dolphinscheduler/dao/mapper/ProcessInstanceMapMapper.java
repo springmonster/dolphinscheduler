@@ -16,8 +16,8 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
-import org.apache.dolphinscheduler.dao.entity.ProcessInstanceMap;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.dolphinscheduler.dao.entity.ProcessInstanceMap;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,8 +29,9 @@ public interface ProcessInstanceMapMapper extends BaseMapper<ProcessInstanceMap>
 
     /**
      * query process instance by parentId
+     *
      * @param parentProcessId parentProcessId
-     * @param parentTaskId parentTaskId
+     * @param parentTaskId    parentTaskId
      * @return process instance map
      */
     ProcessInstanceMap queryByParentId(@Param("parentProcessId") int parentProcessId,
@@ -39,6 +40,7 @@ public interface ProcessInstanceMapMapper extends BaseMapper<ProcessInstanceMap>
 
     /**
      * query by sub process id
+     *
      * @param subProcessId subProcessId
      * @return process instance map
      */
@@ -46,13 +48,15 @@ public interface ProcessInstanceMapMapper extends BaseMapper<ProcessInstanceMap>
 
     /**
      * delete by parent process id
+     *
      * @param parentProcessId parentProcessId
      * @return delete result
      */
     int deleteByParentProcessId(@Param("parentProcessId") int parentProcessId);
 
     /**
-     *  query sub process instance  ids by parent instance id
+     * query sub process instance  ids by parent instance id
+     *
      * @param parentInstanceId parentInstanceId
      * @return sub process instance ids
      */

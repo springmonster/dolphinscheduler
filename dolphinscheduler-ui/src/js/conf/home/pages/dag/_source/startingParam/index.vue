@@ -24,19 +24,25 @@
           <li><span class="tab">{{ $t('Startup type') }}：</span><span
             class="content">{{ _rtRunningType(startupParam.commandType) }}</span></li>
           <li><span class="tab">{{ $t('Complement range') }}：</span><span class="content"
-                                                                          v-if="startupParam.commandParam && startupParam.commandParam.complementStartDate">{{ startupParam.commandParam.complementStartDate }}-{{ startupParam.commandParam.complementEndDate }}</span><span
+                                                                          v-if="startupParam.commandParam && startupParam.commandParam.complementStartDate">{{
+              startupParam.commandParam.complementStartDate
+            }}-{{ startupParam.commandParam.complementEndDate }}</span><span
             class="content" v-else>-</span></li>
           <li><span class="tab">{{ $t('Failure Strategy') }}：</span><span
             class="content">{{ startupParam.failureStrategy === 'END' ? $t('End') : $t('Continue') }}</span></li>
           <li><span class="tab">{{ $t('Process priority') }}：</span><span
             class="content">{{ startupParam.processInstancePriority }}</span></li>
           <li><span class="tab">{{ $t('Worker group') }}：</span><span class="content"
-                                                                      v-if="workerGroupList.length">{{ startupParam.workerGroup }}</span>
+                                                                      v-if="workerGroupList.length">{{
+              startupParam.workerGroup
+            }}</span>
           </li>
           <li><span class="tab">{{ $t('Notification strategy') }}：</span><span
             class="content">{{ _rtWarningType(startupParam.warningType) }}</span></li>
           <li><span class="tab">{{ $t('Notification group') }}：</span><span class="content"
-                                                                            v-if="notifyGroupList.length">{{ _rtNotifyGroupName(startupParam.warningGroupId) }}</span>
+                                                                            v-if="notifyGroupList.length">{{
+              _rtNotifyGroupName(startupParam.warningGroupId)
+            }}</span>
           </li>
           <li><span class="tab">{{ $t('Recipient') }}：</span><span
             class="content">{{ startupParam.receivers || '-' }}</span></li>
@@ -49,12 +55,12 @@
 </template>
 <script>
 import store from '@/conf/home/store'
-import { runningType } from '@/conf/home/pages/dag/_source/config'
-import { warningTypeList } from '@/conf/home/pages/projects/pages/definition/pages/list/_source/util'
+import {runningType} from '@/conf/home/pages/dag/_source/config'
+import {warningTypeList} from '@/conf/home/pages/projects/pages/definition/pages/list/_source/util'
 
 export default {
   name: 'starting-params-dag-index',
-  data () {
+  data() {
     return {
       store,
       startupParam: store.state.dag.startup,
@@ -65,30 +71,30 @@ export default {
     }
   },
   methods: {
-    _toggleParam () {
+    _toggleParam() {
       this.isView = !this.isView
     },
-    _rtRunningType (code) {
+    _rtRunningType(code) {
       return _.filter(runningType, v => v.code === code)[0].desc
     },
-    _rtWarningType (id) {
+    _rtWarningType(id) {
       return _.filter(warningTypeList, v => v.id === id)[0].code
     },
-    _rtNotifyGroupName (id) {
+    _rtNotifyGroupName(id) {
       let o = _.filter(this.notifyGroupList, v => v.id === id)
       if (o && o.length) {
         return o[0].code
       }
       return '-'
     },
-    _rtWorkerGroupName (id) {
+    _rtWorkerGroupName(id) {
       let o = _.filter(this.workerGroupList, v => v.id === id)
       if (o && o.length) {
         return o[0].name
       }
       return '-'
     },
-    _getNotifyGroupList () {
+    _getNotifyGroupList() {
       let notifyGroupListS = _.cloneDeep(this.store.state.dag.notifyGroupListS) || []
       if (!notifyGroupListS.length) {
         this.store.dispatch('dag/getNotifyGroupList').then(res => {
@@ -98,7 +104,7 @@ export default {
         this.notifyGroupList = notifyGroupListS
       }
     },
-    _getWorkerGroupList () {
+    _getWorkerGroupList() {
       let stateWorkerGroupsList = this.store.state.security.workerGroupsListAll || []
       if (!stateWorkerGroupsList.length) {
         this.store.dispatch('security/getWorkerGroupsAll').then(res => {
@@ -112,13 +118,13 @@ export default {
   watch: {
     '$route': {
       deep: true,
-      handler () {
+      handler() {
         this.isActive = false
         this.$nextTick(() => (this.isActive = true))
       }
     }
   },
-  mounted () {
+  mounted() {
     this._getNotifyGroupList()
     this._getWorkerGroupList()
   }

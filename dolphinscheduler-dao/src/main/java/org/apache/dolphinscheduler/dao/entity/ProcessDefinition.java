@@ -17,14 +17,14 @@
 package org.apache.dolphinscheduler.dao.entity;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.dolphinscheduler.common.enums.Flag;
-import org.apache.dolphinscheduler.common.enums.ReleaseState;
-import org.apache.dolphinscheduler.common.process.Property;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import org.apache.dolphinscheduler.common.enums.Flag;
+import org.apache.dolphinscheduler.common.enums.ReleaseState;
+import org.apache.dolphinscheduler.common.process.Property;
 
 import java.util.Date;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ProcessDefinition {
     /**
      * id
      */
-    @TableId(value="id", type=IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private int id;
 
     /**
@@ -81,14 +81,14 @@ public class ProcessDefinition {
     /**
      * user defined parameter list
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private List<Property> globalParamList;
 
     /**
      * user define parameter map
      */
-    @TableField(exist=false)
-    private Map<String,String> globalParamMap;
+    @TableField(exist = false)
+    private Map<String, String> globalParamMap;
 
     /**
      * create time
@@ -145,7 +145,7 @@ public class ProcessDefinition {
     /**
      * schedule release state : online/offline
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private ReleaseState scheduleReleaseState;
 
     /**

@@ -28,18 +28,18 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions, mapState } from 'vuex'
-import { bar } from './chartConfig'
+import {mapActions, mapState} from 'vuex'
+import {bar} from './chartConfig'
 import Chart from '@/module/ana-charts'
 import mNoData from '@/module/components/noData/noData'
 
 export default {
   name: 'define-user-count',
-  data () {
+  data() {
     return {
       isSpin: true,
       msg: true,
-      parameter: { projectId: 0 }
+      parameter: {projectId: 0}
     }
   },
   props: {
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     ...mapActions('projects', ['getDefineUserCount']),
-    _handleDefineUser (res) {
+    _handleDefineUser(res) {
       let data = res.data.userList || []
       this.defineUserList = _.map(data, v => {
         return {
@@ -62,7 +62,7 @@ export default {
         myChart.echart.on('click', e => {
           this.$router.push({
             name: 'projects-definition-list',
-            params: { projectId: this.projectId },
+            params: {projectId: this.projectId},
             query: {
               userId: e.name.split(',')[1]
             }
@@ -71,7 +71,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.isSpin = true
     this.parameter.projectId = this.projectId
     this.getDefineUserCount(this.parameter).then(res => {
@@ -83,11 +83,11 @@ export default {
       this.isSpin = false
     })
   },
-  mounted () {
+  mounted() {
   },
   computed: {
     ...mapState('dag', ['projectId'])
   },
-  components: { mNoData }
+  components: {mNoData}
 }
 </script>

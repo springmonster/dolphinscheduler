@@ -47,7 +47,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'sub_process',
-  data () {
+  data() {
     return {
       // Process definition(List)
       processDefinitionList: [],
@@ -63,7 +63,7 @@ export default {
     /**
      * Node unified authentication parameters
      */
-    _verification () {
+    _verification() {
       if (!this.wdiCurr) {
         this.$message.warning(`${i18n.$t('Please select a sub-Process')}`)
         return false
@@ -76,24 +76,24 @@ export default {
     /**
      * The selected process defines the upper component name padding
      */
-    _handleWdiChanged (o) {
+    _handleWdiChanged(o) {
       this.$emit('on-set-process-name', this._handleName(o.value))
     },
     /**
      * Return the name according to the process definition id
      */
-    _handleName (id) {
+    _handleName(id) {
       return _.filter(this.processDefinitionList, v => id === v.id)[0].code
     }
   },
   watch: {
-    wdiCurr (val) {
+    wdiCurr(val) {
       this.$emit('on-cache-params', {
         processDefinitionId: this.wdiCurr
       })
     }
   },
-  created () {
+  created() {
     let processListS = _.cloneDeep(this.store.state.dag.processListS)
     let id = null
     if (this.router.history.current.name === 'projects-instance-details') {
@@ -123,7 +123,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

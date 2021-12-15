@@ -22,7 +22,7 @@ package org.apache.dolphinscheduler.remote.future;
 public interface InvokeCallback {
 
     /**
-     *  operation
+     * operation
      *
      * @param responseFuture responseFuture
      */

@@ -17,7 +17,7 @@
 const clickoutsideContext = '@@clickoutsideContext'
 
 export default {
-  bind (el, binding, vnode) {
+  bind(el, binding, vnode) {
     const documentHandler = function (e) {
       if (!vnode.context || el.contains(e.target)) {
         return false
@@ -37,11 +37,11 @@ export default {
       document.addEventListener('click', documentHandler)
     }, 0)
   },
-  update (el, binding) {
+  update(el, binding) {
     el[clickoutsideContext].methodName = binding.expression
     el[clickoutsideContext].bindingFn = binding.value
   },
-  unbind (el) {
+  unbind(el) {
     document.removeEventListener('click', el[clickoutsideContext].documentHandler)
   }
 }

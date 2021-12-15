@@ -109,10 +109,10 @@ public class StringUtils {
      * <p>Returns either the passed in CharSequence, or if the CharSequence is
      * whitespace, empty ("") or {@code null}, the value of {@code defaultStr}.</p>
      *
-     * @param <T> the specific kind of CharSequence
-     * @param str the CharSequence to check, may be null
-     * @param defaultStr  the default CharSequence to return
-     *  if the input is whitespace, empty ("") or {@code null}, may be null
+     * @param <T>        the specific kind of CharSequence
+     * @param str        the CharSequence to check, may be null
+     * @param defaultStr the default CharSequence to return
+     *                   if the input is whitespace, empty ("") or {@code null}, may be null
      * @return the passed in CharSequence, or the default
      */
     public static <T extends CharSequence> T defaultIfBlank(final T str, final T defaultStr) {
@@ -123,10 +123,10 @@ public class StringUtils {
      * <p>Compares two String, returning {@code true} if they represent
      * equal string, ignoring case.</p>
      *
-     * @param str1  the first String, may be null
-     * @param str2  the second String, may be null
+     * @param str1 the first String, may be null
+     * @param str2 the second String, may be null
      * @return {@code true} if the String are equal, case insensitive, or
-     *  both {@code null}
+     * both {@code null}
      */
     public static boolean equalsIgnoreCase(String str1, String str2) {
         return str1 == null ? str2 == null : str1.equalsIgnoreCase(str2);
@@ -137,7 +137,7 @@ public class StringUtils {
      * containing the provided Collection of elements.</p>
      *
      * @param collection the collection, may be null
-     * @param separator the separator
+     * @param separator  the separator
      * @return a single String
      */
     public static String join(Collection<?> collection, String separator) {
@@ -148,7 +148,7 @@ public class StringUtils {
      * <p>Joins the elements of the provided Iterator into a single String
      * containing the provided Iterator of elements.</p>
      *
-     * @param iterator the iterator, may be null
+     * @param iterator  the iterator, may be null
      * @param separator the separator
      * @return a single String
      */

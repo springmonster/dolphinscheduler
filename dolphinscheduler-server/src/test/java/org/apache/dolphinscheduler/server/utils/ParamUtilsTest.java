@@ -51,6 +51,7 @@ public class ParamUtilsTest {
 
     /**
      * Init params
+     *
      * @throws Exception
      */
     @Before
@@ -87,7 +88,7 @@ public class ParamUtilsTest {
 
         //Define expected date , the month is 0-base
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2019,11,30);
+        calendar.set(2019, 11, 30);
         Date date = calendar.getTime();
 
         //Invoke convert

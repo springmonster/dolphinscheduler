@@ -26,6 +26,7 @@ import org.apache.dolphinscheduler.dao.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class PasswordAuthenticator implements Authenticator {
             result.setMsg(Status.LOGIN_SESSION_FAILED.getMsg());
             return result;
         }
-        logger.info("sessionId : {}" , sessionId);
+        logger.info("sessionId : {}", sessionId);
         result.setData(Collections.singletonMap(Constants.SESSION_ID, sessionId));
         result.setCode(Status.SUCCESS.getCode());
         result.setMsg(Status.LOGIN_SUCCESS.getMsg());

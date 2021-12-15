@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- *  task priority info
+ * task priority info
  */
 public class TaskPriority implements Comparable<TaskPriority> {
 
@@ -55,7 +55,8 @@ public class TaskPriority implements Comparable<TaskPriority> {
      */
     private Map<String, Object> context;
 
-    public TaskPriority(){}
+    public TaskPriority() {
+    }
 
     public TaskPriority(int processInstancePriority,
                         int processInstanceId,
@@ -159,7 +160,7 @@ public class TaskPriority implements Comparable<TaskPriority> {
         }
         TaskPriority that = (TaskPriority) o;
         return processInstancePriority == that.processInstancePriority
-                &&  processInstanceId == that.processInstanceId
+                && processInstanceId == that.processInstanceId
                 && taskInstancePriority == that.taskInstancePriority
                 && taskId == that.taskId
                 && Objects.equals(groupName, that.groupName);

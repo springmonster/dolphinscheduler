@@ -38,7 +38,7 @@ public class TaskLogDiscriminator extends AbstractDiscriminator<ILoggingEvent> {
 
     /**
      * logger name should be like:
-     *     Task Logger name should be like: Task-{processDefinitionId}-{processInstanceId}-{taskInstanceId}
+     * Task Logger name should be like: Task-{processDefinitionId}-{processInstanceId}-{taskInstanceId}
      */
     @Override
     public String getDiscriminatingValue(ILoggingEvent event) {
@@ -47,7 +47,7 @@ public class TaskLogDiscriminator extends AbstractDiscriminator<ILoggingEvent> {
         String prefix = LoggerUtils.TASK_LOGGER_INFO_PREFIX + "-";
         if (loggerName.startsWith(prefix)) {
             return loggerName.substring(prefix.length(),
-                    loggerName.length() - 1).replace("-","/");
+                    loggerName.length() - 1).replace("-", "/");
         } else {
             return "unknown_task";
         }

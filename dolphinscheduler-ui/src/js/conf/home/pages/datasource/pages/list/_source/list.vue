@@ -116,13 +116,13 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import { findComponentDownward } from '@/module/util/'
+import {mapActions} from 'vuex'
+import {findComponentDownward} from '@/module/util/'
 import mTooltipsJSON from '@/module/components/tooltipsJSON/tooltipsJSON'
 
 export default {
   name: 'datasource-list',
-  data () {
+  data() {
     return {
       // list
       list: []
@@ -141,13 +141,13 @@ export default {
     /**
      * Close delete popup layer
      */
-    _closeDelete (i) {
+    _closeDelete(i) {
       this.$refs[`poptip-delete-${i}`][0].doClose()
     },
     /**
      * Delete current line
      */
-    _delete (item, i) {
+    _delete(item, i) {
       this.$refs[`poptip-delete-${i}`][0].doClose()
       this.deleteDatasource({
         id: item.id
@@ -161,7 +161,7 @@ export default {
     /**
      * edit
      */
-    _edit (item) {
+    _edit(item) {
       findComponentDownward(this.$root, 'datasource-indexP')._create(item)
     }
   },
@@ -169,18 +169,18 @@ export default {
     /**
      * Monitor external data changes
      */
-    datasourcesList (a) {
+    datasourcesList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
       })
     }
   },
-  created () {
+  created() {
     this.list = this.datasourcesList
   },
-  mounted () {
+  mounted() {
   },
-  components: { mTooltipsJSON }
+  components: {mTooltipsJSON}
 }
 </script>

@@ -18,16 +18,10 @@
 package org.apache.dolphinscheduler.remote;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
-
 import org.apache.dolphinscheduler.remote.codec.NettyDecoder;
 import org.apache.dolphinscheduler.remote.codec.NettyEncoder;
 import org.apache.dolphinscheduler.remote.command.Command;
@@ -41,11 +35,10 @@ import org.apache.dolphinscheduler.remote.future.ReleaseSemaphore;
 import org.apache.dolphinscheduler.remote.future.ResponseFuture;
 import org.apache.dolphinscheduler.remote.handler.NettyClientHandler;
 import org.apache.dolphinscheduler.remote.processor.NettyRequestProcessor;
-import org.apache.dolphinscheduler.remote.utils.Host;
 import org.apache.dolphinscheduler.remote.utils.CallerThreadExecutePolicy;
+import org.apache.dolphinscheduler.remote.utils.Host;
 import org.apache.dolphinscheduler.remote.utils.NamedThreadFactory;
 import org.apache.dolphinscheduler.remote.utils.NettyUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,8 +131,8 @@ public class NettyRemotingClient {
             });
         }
         this.callbackExecutor = new ThreadPoolExecutor(5, 10, 1, TimeUnit.MINUTES,
-            new LinkedBlockingQueue<>(1000), new NamedThreadFactory("CallbackExecutor", 10),
-            new CallerThreadExecutePolicy());
+                new LinkedBlockingQueue<>(1000), new NamedThreadFactory("CallbackExecutor", 10),
+                new CallerThreadExecutePolicy());
         this.clientHandler = new NettyClientHandler(this, callbackExecutor);
 
         this.responseFutureExecutor = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("ResponseFutureExecutor"));
@@ -153,22 +146,22 @@ public class NettyRemotingClient {
     private void start() {
 
         this.bootstrap
-            .group(this.workerGroup)
-            .channel(NettyUtils.getSocketChannelClass())
-            .option(ChannelOption.SO_KEEPALIVE, clientConfig.isSoKeepalive())
-            .option(ChannelOption.TCP_NODELAY, clientConfig.isTcpNoDelay())
-            .option(ChannelOption.SO_SNDBUF, clientConfig.getSendBufferSize())
-            .option(ChannelOption.SO_RCVBUF, clientConfig.getReceiveBufferSize())
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, clientConfig.getConnectTimeoutMillis())
-            .handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(
-                        new NettyDecoder(),
-                        clientHandler,
-                        encoder);
-                }
-            });
+                .group(this.workerGroup)
+                .channel(NettyUtils.getSocketChannelClass())
+                .option(ChannelOption.SO_KEEPALIVE, clientConfig.isSoKeepalive())
+                .option(ChannelOption.TCP_NODELAY, clientConfig.isTcpNoDelay())
+                .option(ChannelOption.SO_SNDBUF, clientConfig.getSendBufferSize())
+                .option(ChannelOption.SO_RCVBUF, clientConfig.getReceiveBufferSize())
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, clientConfig.getConnectTimeoutMillis())
+                .handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    public void initChannel(SocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(
+                                new NettyDecoder(),
+                                clientHandler,
+                                encoder);
+                    }
+                });
         this.responseFutureExecutor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
@@ -211,9 +204,9 @@ public class NettyRemotingClient {
              *  response future
              */
             final ResponseFuture responseFuture = new ResponseFuture(opaque,
-                timeoutMillis,
-                invokeCallback,
-                releaseSemaphore);
+                    timeoutMillis,
+                    invokeCallback,
+                    releaseSemaphore);
             try {
                 channel.writeAndFlush(command).addListener(new ChannelFutureListener() {
 
@@ -242,7 +235,7 @@ public class NettyRemotingClient {
             }
         } else {
             String message = String.format("try to acquire async semaphore timeout: %d, waiting thread num: %d, total permits: %d",
-                timeoutMillis, asyncSemaphore.getQueueLength(), asyncSemaphore.availablePermits());
+                    timeoutMillis, asyncSemaphore.getQueueLength(), asyncSemaphore.availablePermits());
             throw new RemotingTooMuchRequestException(message);
         }
     }

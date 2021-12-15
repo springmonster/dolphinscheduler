@@ -21,10 +21,9 @@ import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.CommandType;
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.common.model.TaskNode;
-import org.apache.dolphinscheduler.dao.entity.TaskInstance;
 import org.apache.dolphinscheduler.common.utils.LoggerUtils;
+import org.apache.dolphinscheduler.dao.entity.TaskInstance;
 import org.apache.dolphinscheduler.server.worker.task.AbstractTask;
-import org.apache.dolphinscheduler.server.worker.task.TaskManager;
 import org.apache.dolphinscheduler.server.worker.task.TaskProps;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
 import org.apache.dolphinscheduler.service.process.ProcessService;
@@ -37,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 
 /**
- *  python shell command executor test
+ * python shell command executor test
  */
 @Ignore
 public class SqlExecutorTest {
@@ -47,7 +46,7 @@ public class SqlExecutorTest {
     private ProcessService processService = null;
 
     @Before
-    public void before(){
+    public void before() {
         processService = SpringApplicationContext.getBean(ProcessService.class);
     }
 
@@ -89,8 +88,9 @@ public class SqlExecutorTest {
 
     /**
      * Basic test template for SQLTasks, mainly test different types of DBMS types
-     * @param nodeName node name for selected task
-     * @param taskAppId task app id
+     *
+     * @param nodeName   node name for selected task
+     * @param taskAppId  task app id
      * @param tenantCode tenant code
      * @param taskInstId task instance id
      * @throws Exception
@@ -126,7 +126,7 @@ public class SqlExecutorTest {
 //        AbstractTask task = TaskManager.newTask(taskInstance.getTaskType(), taskProps, taskLogger);
         AbstractTask task = null;
 
-                logger.info("task info : {}", task);
+        logger.info("task info : {}", task);
 
         // job init
         task.init();
@@ -135,11 +135,11 @@ public class SqlExecutorTest {
         task.handle();
         ExecutionStatus status = ExecutionStatus.SUCCESS;
 
-        if (task.getExitStatusCode() == Constants.EXIT_CODE_SUCCESS){
+        if (task.getExitStatusCode() == Constants.EXIT_CODE_SUCCESS) {
             status = ExecutionStatus.SUCCESS;
-        }else if (task.getExitStatusCode() == Constants.EXIT_CODE_KILL){
+        } else if (task.getExitStatusCode() == Constants.EXIT_CODE_KILL) {
             status = ExecutionStatus.KILL;
-        }else {
+        } else {
             status = ExecutionStatus.FAILURE;
         }
 

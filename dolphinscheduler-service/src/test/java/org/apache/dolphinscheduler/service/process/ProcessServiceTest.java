@@ -16,6 +16,7 @@
  */
 package org.apache.dolphinscheduler.service.process;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.CommandType;
 import org.apache.dolphinscheduler.common.enums.WarningType;
@@ -24,11 +25,8 @@ import org.apache.dolphinscheduler.dao.entity.Command;
 import org.apache.dolphinscheduler.dao.entity.ProcessInstance;
 import org.apache.dolphinscheduler.dao.entity.ProcessInstanceMap;
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.alibaba.fastjson.JSONObject;
 
 /**
  * process service test

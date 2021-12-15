@@ -62,7 +62,7 @@ public class ConditionsTaskTest {
         Mockito.when(applicationContext.getBean(MasterConfig.class)).thenReturn(config);
 
         Mockito.when(processService
-                .findTaskInstanceById(252612))
+                        .findTaskInstanceById(252612))
                 .thenReturn(getTaskInstance());
 
         Mockito.when(processService.saveTaskInstance(getTaskInstance()))
@@ -72,12 +72,12 @@ public class ConditionsTaskTest {
                 .thenReturn(getProcessInstance());
 
         Mockito.when(processService
-                .findValidTaskListByProcessId(10112))
+                        .findValidTaskListByProcessId(10112))
                 .thenReturn(getTaskInstances());
     }
 
     @Test
-    public void testCondition(){
+    public void testCondition() {
         TaskInstance taskInstance = getTaskInstance();
         String dependString = "{\"dependTaskList\":[{\"dependItemList\":[{\"depTasks\":\"1\",\"status\":\"SUCCESS\"}],\"relation\":\"AND\"}],\"relation\":\"AND\"}";
         String conditionResult = "{\"successNode\":[\"2\"],\"failedNode\":[\"3\"]}";
@@ -98,7 +98,7 @@ public class ConditionsTaskTest {
     }
 
 
-    private TaskInstance getTaskInstance(){
+    private TaskInstance getTaskInstance() {
         TaskInstance taskInstance = new TaskInstance();
         taskInstance.setId(252612);
         taskInstance.setName("C");
@@ -109,8 +109,7 @@ public class ConditionsTaskTest {
     }
 
 
-
-    private List<TaskInstance> getTaskInstances(){
+    private List<TaskInstance> getTaskInstances() {
         List<TaskInstance> list = new ArrayList<>();
         TaskInstance taskInstance = new TaskInstance();
         taskInstance.setId(199999);
@@ -120,7 +119,7 @@ public class ConditionsTaskTest {
         return list;
     }
 
-    private ProcessInstance getProcessInstance(){
+    private ProcessInstance getProcessInstance() {
         ProcessInstance processInstance = new ProcessInstance();
         processInstance.setId(10112);
         processInstance.setProcessDefinitionId(100001);

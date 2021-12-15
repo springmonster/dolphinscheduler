@@ -40,8 +40,8 @@ import java.text.ParseException;
 import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * test for ExecutorService
@@ -84,7 +84,7 @@ public class ExecutorService2Test {
     private String cronTime;
 
     @Before
-    public void init(){
+    public void init() {
         // user
         loginUser.setId(userId);
 
@@ -111,6 +111,7 @@ public class ExecutorService2Test {
 
     /**
      * not complement
+     *
      * @throws ParseException
      */
     @Test
@@ -125,12 +126,13 @@ public class ExecutorService2Test {
                     Priority.LOW, Constants.DEFAULT_WORKER_GROUP, 110);
             Assert.assertEquals(Status.SUCCESS, result.get(Constants.STATUS));
             verify(processService, times(1)).createCommand(any(Command.class));
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
     /**
      * date error
+     *
      * @throws ParseException
      */
     @Test
@@ -145,12 +147,13 @@ public class ExecutorService2Test {
                     Priority.LOW, Constants.DEFAULT_WORKER_GROUP, 110);
             Assert.assertEquals(Status.START_PROCESS_INSTANCE_ERROR, result.get(Constants.STATUS));
             verify(processService, times(0)).createCommand(any(Command.class));
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
     /**
      * serial
+     *
      * @throws ParseException
      */
     @Test
@@ -165,17 +168,18 @@ public class ExecutorService2Test {
                     Priority.LOW, Constants.DEFAULT_WORKER_GROUP, 110);
             Assert.assertEquals(Status.SUCCESS, result.get(Constants.STATUS));
             verify(processService, times(1)).createCommand(any(Command.class));
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
     /**
      * without schedule
+     *
      * @throws ParseException
      */
     @Test
     public void testParallelWithOutSchedule() throws ParseException {
-        try{
+        try {
             Mockito.when(processService.queryReleaseSchedulerListByProcessDefinitionId(processDefinitionId)).thenReturn(zeroSchedulerList());
             Map<String, Object> result = executorService.execProcessInstance(loginUser, projectName,
                     processDefinitionId, cronTime, CommandType.COMPLEMENT_DATA,
@@ -185,17 +189,18 @@ public class ExecutorService2Test {
                     Priority.LOW, Constants.DEFAULT_WORKER_GROUP, 110);
             Assert.assertEquals(Status.SUCCESS, result.get(Constants.STATUS));
             verify(processService, times(31)).createCommand(any(Command.class));
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
     /**
      * with schedule
+     *
      * @throws ParseException
      */
     @Test
     public void testParallelWithSchedule() throws ParseException {
-        try{
+        try {
             Mockito.when(processService.queryReleaseSchedulerListByProcessDefinitionId(processDefinitionId)).thenReturn(oneSchedulerList());
             Map<String, Object> result = executorService.execProcessInstance(loginUser, projectName,
                     processDefinitionId, cronTime, CommandType.COMPLEMENT_DATA,
@@ -205,13 +210,13 @@ public class ExecutorService2Test {
                     Priority.LOW, Constants.DEFAULT_WORKER_GROUP, 110);
             Assert.assertEquals(Status.SUCCESS, result.get(Constants.STATUS));
             verify(processService, times(15)).createCommand(any(Command.class));
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
 
     @Test
-    public void testNoMsterServers() throws ParseException{
+    public void testNoMsterServers() throws ParseException {
         Mockito.when(monitorService.getServerListFromZK(true)).thenReturn(new ArrayList<Server>());
 
         Map<String, Object> result = executorService.execProcessInstance(loginUser, projectName,
@@ -220,11 +225,11 @@ public class ExecutorService2Test {
                 null, null, 0,
                 "", "", RunMode.RUN_MODE_PARALLEL,
                 Priority.LOW, Constants.DEFAULT_WORKER_GROUP, 110);
-        Assert.assertEquals(result.get(Constants.STATUS),Status.MASTER_NOT_EXISTS);
+        Assert.assertEquals(result.get(Constants.STATUS), Status.MASTER_NOT_EXISTS);
 
     }
 
-    private List<Server> getMasterServersList(){
+    private List<Server> getMasterServersList() {
         List<Server> masterServerList = new ArrayList<>();
         Server masterServer1 = new Server();
         masterServer1.setId(1);
@@ -242,11 +247,11 @@ public class ExecutorService2Test {
 
     }
 
-    private List<Schedule> zeroSchedulerList(){
+    private List<Schedule> zeroSchedulerList() {
         return Collections.EMPTY_LIST;
     }
 
-    private List<Schedule> oneSchedulerList(){
+    private List<Schedule> oneSchedulerList() {
         List<Schedule> schedulerList = new LinkedList<>();
         Schedule schedule = new Schedule();
         schedule.setCrontab("0 0 0 1/2 * ?");
@@ -254,7 +259,7 @@ public class ExecutorService2Test {
         return schedulerList;
     }
 
-    private Map<String, Object> checkProjectAndAuth(){
+    private Map<String, Object> checkProjectAndAuth() {
         Map<String, Object> result = new HashMap<>();
         result.put(Constants.STATUS, Status.SUCCESS);
         return result;

@@ -51,11 +51,12 @@ public class UserAlertGroupMapperTest {
 
     /**
      * insert one UserAlertGroup
-     * @param user user
+     *
+     * @param user       user
      * @param alertGroup alertGroup
      * @return UserAlertGroup
      */
-    private UserAlertGroup insertOne(User user,AlertGroup alertGroup){
+    private UserAlertGroup insertOne(User user, AlertGroup alertGroup) {
         UserAlertGroup userAlertGroup = new UserAlertGroup();
         userAlertGroup.setAlertgroupName(alertGroup.getGroupName());
         userAlertGroup.setAlertgroupId(alertGroup.getId());
@@ -68,9 +69,10 @@ public class UserAlertGroupMapperTest {
 
     /**
      * insert one UserAlertGroup
+     *
      * @return UserAlertGroup
      */
-    private UserAlertGroup insertOne(){
+    private UserAlertGroup insertOne() {
         UserAlertGroup userAlertGroup = new UserAlertGroup();
         userAlertGroup.setAlertgroupName("dolphin_alert_group");
         userAlertGroup.setAlertgroupId(10);
@@ -83,9 +85,10 @@ public class UserAlertGroupMapperTest {
 
     /**
      * insert one user
+     *
      * @return User
      */
-    private User insertOneUser(){
+    private User insertOneUser() {
         User user = new User();
         user.setUserName("user1");
         user.setUserPassword("1");
@@ -101,9 +104,10 @@ public class UserAlertGroupMapperTest {
 
     /**
      * insert one AlertGroup
+     *
      * @return AlertGroup
      */
-    private AlertGroup insertOneAlertGroup(){
+    private AlertGroup insertOneAlertGroup() {
         //insertOne
         AlertGroup alertGroup = new AlertGroup();
         alertGroup.setGroupName("alert group 1");
@@ -120,7 +124,7 @@ public class UserAlertGroupMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOneUser
         User user = insertOneUser();
         //insertOneAlertGroup
@@ -141,7 +145,7 @@ public class UserAlertGroupMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         //insertOne
         UserAlertGroup userAlertGroup = insertOne();
         //delete
@@ -172,7 +176,7 @@ public class UserAlertGroupMapperTest {
         AlertGroup alertGroup = insertOneAlertGroup();
 
         //insertOne
-        UserAlertGroup userAlertGroup = insertOne(user,alertGroup);
+        UserAlertGroup userAlertGroup = insertOne(user, alertGroup);
         int delete = userAlertGroupMapper.deleteByAlertgroupId(alertGroup.getId());
         Assert.assertEquals(delete, 1);
     }
@@ -188,7 +192,7 @@ public class UserAlertGroupMapperTest {
         AlertGroup alertGroup = insertOneAlertGroup();
 
         //insertOne
-        UserAlertGroup userAlertGroup = insertOne(user,alertGroup);
+        UserAlertGroup userAlertGroup = insertOne(user, alertGroup);
         List<User> userList = userAlertGroupMapper.listUserByAlertgroupId(alertGroup.getId());
         Assert.assertNotEquals(userList.size(), 0);
 

@@ -92,11 +92,11 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 
 export default {
   name: 'token-list',
-  data () {
+  data() {
     return {
       list: []
     }
@@ -108,10 +108,10 @@ export default {
   },
   methods: {
     ...mapActions('user', ['deleteToken']),
-    _closeDelete (i) {
+    _closeDelete(i) {
       this.$refs[`poptip-delete-${i}`][0].doClose()
     },
-    _delete (item, i) {
+    _delete(item, i) {
       this.deleteToken({
         id: item.id
       }).then(res => {
@@ -123,22 +123,22 @@ export default {
         this.$message.error(e.msg || '')
       })
     },
-    _edit (item) {
+    _edit(item) {
       this.$emit('on-edit', item)
     }
   },
   watch: {
-    tokenList (a) {
+    tokenList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
       })
     }
   },
-  created () {
+  created() {
     this.list = this.tokenList
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

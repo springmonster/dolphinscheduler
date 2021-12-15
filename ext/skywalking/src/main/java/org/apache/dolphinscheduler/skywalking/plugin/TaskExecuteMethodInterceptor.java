@@ -29,9 +29,7 @@ import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.MethodInt
 
 import java.lang.reflect.Method;
 
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_PARAMS;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_STATE;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_EXECUTE_METHOD;
+import static org.apache.dolphinscheduler.skywalking.plugin.Utils.*;
 
 public class TaskExecuteMethodInterceptor implements InstanceMethodsAroundInterceptor {
     private static final int DEFAULT_TASK_STATUS_CODE = -1;

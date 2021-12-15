@@ -43,13 +43,13 @@
         select *
         from t_ds_udfs
         where 1=1
-        <if test="searchVal!= null and searchVal != ''">
+        <if test="searchVal != null and searchVal != ''">
             and func_name like concat('%', #{searchVal}, '%')
         </if>
         <if test="userId != 0">
             and id in (
-              select udf_id from t_ds_relation_udfs_user where user_id=#{userId}
-              union select id as udf_id  from t_ds_udfs where user_id=#{userId})
+            select udf_id from t_ds_relation_udfs_user where user_id=#{userId}
+            union select id as udf_id from t_ds_udfs where user_id=#{userId})
         </if>
         order by create_time desc
     </select>
@@ -60,7 +60,7 @@
         <if test="userId != 0">
             and id in (
             select udf_id from t_ds_relation_udfs_user where user_id=#{userId}
-            union select id as udf_id  from t_ds_udfs where user_id=#{userId})
+            union select id as udf_id from t_ds_udfs where user_id=#{userId})
         </if>
     </select>
     <select id="queryUdfFuncExceptUserId" resultType="org.apache.dolphinscheduler.dao.entity.UdfFunc">
@@ -79,7 +79,7 @@
         from t_ds_udfs
         where
         id in (select udf_id from t_ds_relation_udfs_user where user_id=#{userId}
-        union select id as udf_id  from t_ds_udfs where user_id=#{userId})
+        union select id as udf_id from t_ds_udfs where user_id=#{userId})
         <if test="udfIds != null and udfIds != ''">
             and id in
             <foreach collection="udfIds" item="i" open="(" close=")" separator=",">
@@ -103,7 +103,7 @@
         from t_ds_udfs
         where
         id in (select udf_id from t_ds_relation_udfs_user where user_id=#{userId}
-        union select id as udf_id  from t_ds_udfs where user_id=#{userId})
+        union select id as udf_id from t_ds_udfs where user_id=#{userId})
         <if test="resourceIds != null and resourceIds != ''">
             and resource_id in
             <foreach collection="resourceIds" item="i" open="(" close=")" separator=",">
@@ -113,7 +113,7 @@
     </select>
 
     <update id="batchUpdateUdfFunc" parameterType="java.util.List">
-        <foreach collection="udfFuncList" item="udf" index="index" open="" close="" separator =";">
+        <foreach collection="udfFuncList" item="udf" index="index" open="" close="" separator=";">
             update t_ds_udfs
             <set>
                 resource_name=#{udf.resourceName},

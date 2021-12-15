@@ -17,10 +17,6 @@
 
 package org.apache.dolphinscheduler.api.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.apache.dolphinscheduler.api.enums.Status;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.ProgramType;
@@ -38,14 +34,15 @@ import org.apache.dolphinscheduler.common.task.spark.SparkParameters;
 import org.apache.dolphinscheduler.common.task.sql.SqlParameters;
 import org.apache.dolphinscheduler.common.task.subprocess.SubProcessParameters;
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
-
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 public class CheckUtilsTest {
 
@@ -92,7 +89,7 @@ public class CheckUtilsTest {
         Map<String, Object> objectMap = CheckUtils.checkDesc("I am desc");
         Status status = (Status) objectMap.get(Constants.STATUS);
 
-        assertEquals(status.getCode(),Status.SUCCESS.getCode());
+        assertEquals(status.getCode(), Status.SUCCESS.getCode());
 
     }
 
@@ -104,6 +101,7 @@ public class CheckUtilsTest {
         assertFalse(CheckUtils.checkOtherParams("{}"));
         assertFalse(CheckUtils.checkOtherParams("{\"key1\":111}"));
     }
+
     /**
      * check passwd
      */
@@ -132,13 +130,14 @@ public class CheckUtilsTest {
 
         assertTrue(CheckUtils.checkPhone("17362537263"));
     }
+
     @Test
     public void testCheckTaskNodeParameters() {
 
-        assertFalse(CheckUtils.checkTaskNodeParameters(null,null));
-        assertFalse(CheckUtils.checkTaskNodeParameters(null,"unKnown"));
-        assertFalse(CheckUtils.checkTaskNodeParameters("unKnown","unKnown"));
-        assertFalse(CheckUtils.checkTaskNodeParameters("unKnown",null));
+        assertFalse(CheckUtils.checkTaskNodeParameters(null, null));
+        assertFalse(CheckUtils.checkTaskNodeParameters(null, "unKnown"));
+        assertFalse(CheckUtils.checkTaskNodeParameters("unKnown", "unKnown"));
+        assertFalse(CheckUtils.checkTaskNodeParameters("unKnown", null));
 
         // sub SubProcessParameters
         SubProcessParameters subProcessParameters = new SubProcessParameters();

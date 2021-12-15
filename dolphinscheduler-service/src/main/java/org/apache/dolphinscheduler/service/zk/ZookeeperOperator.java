@@ -17,8 +17,6 @@
 
 package org.apache.dolphinscheduler.service.zk;
 
-import static org.apache.dolphinscheduler.common.utils.Preconditions.checkNotNull;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -30,16 +28,17 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException.NoNodeException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.ACL;
-
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.dolphinscheduler.common.utils.Preconditions.checkNotNull;
 
 /**
  * zk base operator
@@ -67,7 +66,8 @@ public class ZookeeperOperator implements InitializingBean {
     protected void registerListener(AbstractListener abstractListener) {
     }
 
-    protected void treeCacheStart(){}
+    protected void treeCacheStart() {
+    }
 
     public void initStateListener() {
         checkNotNull(zkClient);
@@ -86,7 +86,7 @@ public class ZookeeperOperator implements InitializingBean {
     private CuratorFramework buildClient() {
         logger.info("zookeeper registry center init, server lists is: {}.", zookeeperConfig.getServerList());
 
-        CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder().ensembleProvider(new DefaultEnsembleProvider(checkNotNull(zookeeperConfig.getServerList(),"zookeeper quorum can't be null")))
+        CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder().ensembleProvider(new DefaultEnsembleProvider(checkNotNull(zookeeperConfig.getServerList(), "zookeeper quorum can't be null")))
                 .retryPolicy(new ExponentialBackoffRetry(zookeeperConfig.getBaseSleepTimeMs(), zookeeperConfig.getMaxRetries(), zookeeperConfig.getMaxSleepMs()));
 
         //these has default value

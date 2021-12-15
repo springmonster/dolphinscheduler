@@ -40,11 +40,11 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/list'
 import mSpin from '@/module/components/spin/spin'
 import localStore from '@/module/util/localStorage'
-import { setUrlParams } from '@/module/util/routerUtil'
+import {setUrlParams} from '@/module/util/routerUtil'
 import switchProject from '@/module/mixin/switchProject'
 import mNoData from '@/module/components/noData/noData'
 import mSecondaryMenu from '@/module/components/secondaryMenu/secondaryMenu'
@@ -53,7 +53,7 @@ import mInstanceConditions from '@/conf/home/pages/projects/pages/_source/instan
 
 export default {
   name: 'instance-list-index',
-  data () {
+  data() {
     return {
       // loading
       isLoading: true,
@@ -90,7 +90,7 @@ export default {
     /**
      * Query
      */
-    _onQuery (o) {
+    _onQuery(o) {
       this.searchParams.pageNo = 1
       this.searchParams = _.assign(this.searchParams, o)
       setUrlParams(this.searchParams)
@@ -99,12 +99,12 @@ export default {
     /**
      * Paging event
      */
-    _page (val) {
+    _page(val) {
       this.searchParams.pageNo = val
       setUrlParams(this.searchParams)
       this._debounceGET()
     },
-    _pageSize (val) {
+    _pageSize(val) {
       this.searchParams.pageSize = val
       setUrlParams(this.searchParams)
       this._debounceGET()
@@ -112,7 +112,7 @@ export default {
     /**
      * get list data
      */
-    _getProcessInstanceListP (flag) {
+    _getProcessInstanceListP(flag) {
       this.isLoading = !flag
       this.getProcessInstance(this.searchParams).then(res => {
         if (this.searchParams.pageNo > 1 && res.totalList.length == 0) {
@@ -130,16 +130,16 @@ export default {
     /**
      * update
      */
-    _onUpdate () {
+    _onUpdate() {
       this._debounceGET()
     },
-    _updateProject () {
+    _updateProject() {
       this._debounceGET()
     },
     /**
      * Routing changes
      */
-    _routerView () {
+    _routerView() {
       return this.$route.name === 'projects-instance-details'
     },
     /**
@@ -160,7 +160,7 @@ export default {
   },
   watch: {
     // Routing changes
-    '$route' (a, b) {
+    '$route'(a, b) {
       if (a.name === 'instance' && b.name === 'projects-instance-details') {
         this._debounceGET()
       } else {
@@ -170,12 +170,12 @@ export default {
     },
     'searchParams': {
       deep: true,
-      handler () {
+      handler() {
         this._debounceGET()
       }
     }
   },
-  created () {
+  created() {
     // Delete process definition ID
     localStore.removeItem('subProcessId')
 
@@ -189,14 +189,14 @@ export default {
       this._debounceGET()
     }
   },
-  mounted () {
+  mounted() {
     this.$modal.destroy()
     // Cycle acquisition status
     this.setIntervalP = setInterval(() => {
       this._debounceGET('false')
     }, 90000)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     // Destruction wheel
     clearInterval(this.setIntervalP)
     sessionStorage.setItem('isLeft', 1)

@@ -17,11 +17,7 @@
 
 package org.apache.dolphinscheduler.server;
 
-import static org.apache.dolphinscheduler.common.Constants.SPRING_DATASOURCE_DRIVER_CLASS_NAME;
-import static org.apache.dolphinscheduler.common.Constants.SPRING_DATASOURCE_PASSWORD;
-import static org.apache.dolphinscheduler.common.Constants.SPRING_DATASOURCE_URL;
-import static org.apache.dolphinscheduler.common.Constants.SPRING_DATASOURCE_USERNAME;
-
+import org.apache.curator.test.TestingServer;
 import org.apache.dolphinscheduler.alert.AlertServer;
 import org.apache.dolphinscheduler.api.ApiApplicationServer;
 import org.apache.dolphinscheduler.common.utils.ScriptRunner;
@@ -29,22 +25,20 @@ import org.apache.dolphinscheduler.dao.datasource.ConnectionFactory;
 import org.apache.dolphinscheduler.server.log.LoggerServer;
 import org.apache.dolphinscheduler.server.master.MasterServer;
 import org.apache.dolphinscheduler.server.worker.WorkerServer;
+import org.h2.tools.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
-import org.apache.curator.test.TestingServer;
-
+import javax.sql.DataSource;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
-import org.h2.tools.Server;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import static org.apache.dolphinscheduler.common.Constants.*;
 
 @SpringBootApplication
 public class StandaloneServer {
@@ -73,7 +67,7 @@ public class StandaloneServer {
         AlertServer.getInstance().start();
     }
 
-    private static void startLoggerServer(){
+    private static void startLoggerServer() {
         new LoggerServer().start();
     }
 

@@ -28,19 +28,24 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 
 /**
+ *
  */
 public class MailUtilsTest {
     private static final Logger logger = LoggerFactory.getLogger(MailUtilsTest.class);
+
     @Test
     public void testSendMails() {
         String[] receivers = new String[]{"347801120@qq.com"};
         String[] receiversCc = new String[]{"347801120@qq.com"};
 
-        String content ="[\"id:69\"," +
+        String content = "[\"id:69\"," +
                 "\"name:UserBehavior-0--1193959466\"," +
                 "\"Job name: Start workflow\"," +
                 "\"State: SUCCESS\"," +
@@ -58,42 +63,42 @@ public class MailUtilsTest {
         alert.setAlertType(AlertType.EMAIL);
         alert.setAlertGroupId(4);
 
-        MailUtils.sendMails(Arrays.asList(receivers),Arrays.asList(receiversCc),alert.getTitle(),alert.getContent(), ShowType.TEXT.getDescp());
+        MailUtils.sendMails(Arrays.asList(receivers), Arrays.asList(receiversCc), alert.getTitle(), alert.getContent(), ShowType.TEXT.getDescp());
     }
 
 
     @Test
-    public void testQuery(){
+    public void testQuery() {
         AlertDao alertDao = DaoFactory.getDaoInstance(AlertDao.class);
         List<Alert> alerts = alertDao.listWaitExecutionAlert();
 
         String[] mails = new String[]{"xx@xx.com"};
 
-        for(Alert alert : alerts){
-            MailUtils.sendMails(Arrays.asList(mails),"gaojing", alert.getContent(), ShowType.TABLE.getDescp());
+        for (Alert alert : alerts) {
+            MailUtils.sendMails(Arrays.asList(mails), "gaojing", alert.getContent(), ShowType.TABLE.getDescp());
         }
 
     }
 
-    public String list2String(){
+    public String list2String() {
 
         LinkedHashMap<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("mysql service name","mysql200");
-        map1.put("mysql address","192.168.xx.xx");
-        map1.put("port","3306");
-        map1.put("no index of number","80");
-        map1.put("database client connections","190");
+        map1.put("mysql service name", "mysql200");
+        map1.put("mysql address", "192.168.xx.xx");
+        map1.put("port", "3306");
+        map1.put("no index of number", "80");
+        map1.put("database client connections", "190");
 
         LinkedHashMap<String, Object> map2 = new LinkedHashMap<>();
-        map2.put("mysql service name","mysql210");
-        map2.put("mysql address","192.168.xx.xx");
-        map2.put("port","3306");
-        map2.put("no index of number","10");
-        map2.put("database client connections","90");
+        map2.put("mysql service name", "mysql210");
+        map2.put("mysql address", "192.168.xx.xx");
+        map2.put("port", "3306");
+        map2.put("no index of number", "10");
+        map2.put("database client connections", "90");
 
         List<LinkedHashMap<String, Object>> maps = new ArrayList<>();
-        maps.add(0,map1);
-        maps.add(1,map2);
+        maps.add(0, map1);
+        maps.add(1, map2);
         String mapjson = JSONUtils.toJsonString(maps);
         logger.info(mapjson);
 
@@ -102,16 +107,16 @@ public class MailUtilsTest {
     }
 
     @Test
-    public void testSendTableMail(){
+    public void testSendTableMail() {
         String[] mails = new String[]{"347801120@qq.com"};
         Alert alert = new Alert();
         alert.setTitle("Mysql Exception");
         alert.setShowType(ShowType.TABLE);
-        String content= list2String();
+        String content = list2String();
         alert.setContent(content);
         alert.setAlertType(AlertType.EMAIL);
         alert.setAlertGroupId(1);
-        MailUtils.sendMails(Arrays.asList(mails),"gaojing", alert.getContent(), ShowType.TABLE.getDescp());
+        MailUtils.sendMails(Arrays.asList(mails), "gaojing", alert.getContent(), ShowType.TABLE.getDescp());
     }
 
     /**
@@ -119,7 +124,7 @@ public class MailUtilsTest {
      * Text
      */
     @Test
-    public void addAlertText(){
+    public void addAlertText() {
         AlertDao alertDao = DaoFactory.getDaoInstance(AlertDao.class);
         Alert alert = new Alert();
         alert.setTitle("Mysql Exception");
@@ -137,7 +142,7 @@ public class MailUtilsTest {
      * Table
      */
     @Test
-    public void testAddAlertTable(){
+    public void testAddAlertTable() {
         logger.info("testAddAlertTable");
         AlertDao alertDao = DaoFactory.getDaoInstance(AlertDao.class);
         Assert.assertNotNull(alertDao);
@@ -150,18 +155,18 @@ public class MailUtilsTest {
         alert.setAlertType(AlertType.EMAIL);
         alert.setAlertGroupId(1);
         alertDao.addAlert(alert);
-        logger.info("" +alert);
+        logger.info("" + alert);
     }
 
     @Test
-    public void testAlertDao(){
+    public void testAlertDao() {
         AlertDao alertDao = DaoFactory.getDaoInstance(AlertDao.class);
         List<User> users = alertDao.listUserByAlertgroupId(3);
         logger.info(users.toString());
     }
 
     @Test
-    public void testAttachmentFile()throws Exception{
+    public void testAttachmentFile() throws Exception {
         String[] mails = new String[]{"xx@xx.com"};
         Alert alert = new Alert();
         alert.setTitle("Mysql Exception");
@@ -170,11 +175,11 @@ public class MailUtilsTest {
         alert.setContent(content);
         alert.setAlertType(AlertType.EMAIL);
         alert.setAlertGroupId(1);
-        MailUtils.sendMails(Arrays.asList(mails),"gaojing",alert.getContent(),ShowType.ATTACHMENT.getDescp());
+        MailUtils.sendMails(Arrays.asList(mails), "gaojing", alert.getContent(), ShowType.ATTACHMENT.getDescp());
     }
 
     @Test
-    public void testTableAttachmentFile()throws Exception{
+    public void testTableAttachmentFile() throws Exception {
         String[] mails = new String[]{"xx@xx.com"};
         Alert alert = new Alert();
         alert.setTitle("Mysql Exception");
@@ -183,7 +188,7 @@ public class MailUtilsTest {
         alert.setContent(content);
         alert.setAlertType(AlertType.EMAIL);
         alert.setAlertGroupId(1);
-        MailUtils.sendMails(Arrays.asList(mails),"gaojing",alert.getContent(),ShowType.TABLEATTACHMENT.getDescp());
+        MailUtils.sendMails(Arrays.asList(mails), "gaojing", alert.getContent(), ShowType.TABLEATTACHMENT.getDescp());
     }
 
 }

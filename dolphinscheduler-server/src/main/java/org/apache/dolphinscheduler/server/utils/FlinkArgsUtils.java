@@ -41,6 +41,7 @@ public class FlinkArgsUtils {
 
     /**
      * build args
+     *
      * @param param flink parameters
      * @return argument list
      */

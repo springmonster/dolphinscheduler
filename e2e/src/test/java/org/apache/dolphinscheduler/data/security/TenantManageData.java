@@ -45,5 +45,4 @@ public class TenantManageData {
     public static final String TENANT_MANAGE = "租户管理 - DolphinScheduler";
 
 
-
 }

@@ -16,13 +16,13 @@
  */
 package org.apache.dolphinscheduler.common.task.datax;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.dolphinscheduler.common.enums.Flag;
 import org.apache.dolphinscheduler.common.process.ResourceInfo;
 import org.apache.dolphinscheduler.common.task.AbstractParameters;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DataX parameter

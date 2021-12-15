@@ -35,7 +35,7 @@ import i18n from '@/module/i18n'
 
 export default {
   name: 'popup',
-  data () {
+  data() {
     return {
       spinnerLoading: false,
       apDisabled: false
@@ -60,11 +60,11 @@ export default {
     }
   },
   methods: {
-    close () {
+    close() {
       this.$emit('close')
       this.$modal.destroy()
     },
-    ok () {
+    ok() {
       if (this.asynLoading) {
         this.spinnerLoading = true
         this.$emit('ok', () => {

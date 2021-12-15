@@ -29,7 +29,7 @@ import java.util.concurrent.*;
 public class ThreadUtils {
 
 
-    private static final ThreadMXBean threadBean =  ManagementFactory.getThreadMXBean();
+    private static final ThreadMXBean threadBean = ManagementFactory.getThreadMXBean();
     private static final int STACK_DEPTH = 20;
 
     /**
@@ -39,13 +39,14 @@ public class ThreadUtils {
      * @param prefix prefix
      * @return ThreadPoolExecutor
      */
-    public static ThreadPoolExecutor newDaemonCachedThreadPool(String prefix){
+    public static ThreadPoolExecutor newDaemonCachedThreadPool(String prefix) {
         ThreadFactory threadFactory = namedThreadFactory(prefix);
         return ((ThreadPoolExecutor) Executors.newCachedThreadPool(threadFactory));
     }
 
     /**
      * Create a thread factory that names threads with a prefix and also sets the threads to daemon.
+     *
      * @param prefix prefix
      * @return ThreadFactory
      */
@@ -57,14 +58,15 @@ public class ThreadUtils {
     /**
      * Create a cached thread pool whose max number of threads is `maxThreadNumber`. Thread names
      * are formatted as prefix-ID, where ID is a unique, sequentially assigned integer.
-     * @param prefix prefix
-     * @param maxThreadNumber maxThreadNumber
+     *
+     * @param prefix           prefix
+     * @param maxThreadNumber  maxThreadNumber
      * @param keepAliveSeconds keepAliveSeconds
      * @return ThreadPoolExecutor
      */
-    public static ThreadPoolExecutor newDaemonCachedThreadPool(String prefix ,
+    public static ThreadPoolExecutor newDaemonCachedThreadPool(String prefix,
                                                                int maxThreadNumber,
-                                                               int keepAliveSeconds){
+                                                               int keepAliveSeconds) {
         ThreadFactory threadFactory = namedThreadFactory(prefix);
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
                 // corePoolSize: the max number of threads to create before queuing the tasks
@@ -83,21 +85,23 @@ public class ThreadUtils {
     /**
      * Wrapper over newFixedThreadPool. Thread names are formatted as prefix-ID, where ID is a
      * unique, sequentially assigned integer.
+     *
      * @param nThreads nThreads
-     * @param prefix prefix
+     * @param prefix   prefix
      * @return ThreadPoolExecutor
      */
-    public static ThreadPoolExecutor newDaemonFixedThreadPool(int nThreads , String prefix){
+    public static ThreadPoolExecutor newDaemonFixedThreadPool(int nThreads, String prefix) {
         ThreadFactory threadFactory = namedThreadFactory(prefix);
         return ((ThreadPoolExecutor) Executors.newFixedThreadPool(nThreads, threadFactory));
     }
 
     /**
      * Wrapper over newSingleThreadExecutor.
+     *
      * @param threadName threadName
      * @return ExecutorService
      */
-    public static ExecutorService newDaemonSingleThreadExecutor(String threadName){
+    public static ExecutorService newDaemonSingleThreadExecutor(String threadName) {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setDaemon(true)
                 .setNameFormat(threadName)
@@ -107,20 +111,23 @@ public class ThreadUtils {
 
     /**
      * Wrapper over newDaemonFixedThreadExecutor.
+     *
      * @param threadName threadName
      * @param threadsNum threadsNum
      * @return ExecutorService
      */
-    public static ExecutorService newDaemonFixedThreadExecutor(String threadName,int threadsNum){
+    public static ExecutorService newDaemonFixedThreadExecutor(String threadName, int threadsNum) {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setDaemon(true)
                 .setNameFormat(threadName)
                 .build();
         return Executors.newFixedThreadPool(threadsNum, threadFactory);
     }
+
     /**
      * Wrapper over ScheduledThreadPoolExecutor
-     * @param threadName threadName
+     *
+     * @param threadName   threadName
      * @param corePoolSize corePoolSize
      * @return ScheduledExecutorService
      */
@@ -130,9 +137,10 @@ public class ThreadUtils {
 
     /**
      * Wrapper over ScheduledThreadPoolExecutor
-     * @param threadName threadName
+     *
+     * @param threadName   threadName
      * @param corePoolSize corePoolSize
-     * @param isDaemon isDaemon
+     * @param isDaemon     isDaemon
      * @return ScheduledThreadPoolExecutor
      */
     public static ScheduledExecutorService newThreadScheduledExecutor(String threadName, int corePoolSize, boolean isDaemon) {
@@ -149,6 +157,7 @@ public class ThreadUtils {
 
     /**
      * get thread info
+     *
      * @param t t
      * @return thread info
      */
@@ -160,8 +169,9 @@ public class ThreadUtils {
 
     /**
      * Format the given ThreadInfo object as a String.
+     *
      * @param threadInfo threadInfo
-     * @param indent indent
+     * @param indent     indent
      * @return threadInfo
      */
     public static String formatThreadInfo(ThreadInfo threadInfo, String indent) {
@@ -174,8 +184,8 @@ public class ThreadUtils {
     /**
      * Print all of the thread's information and stack traces.
      *
-     * @param sb StringBuilder
-     * @param info ThreadInfo
+     * @param sb     StringBuilder
+     * @param info   ThreadInfo
      * @param indent indent
      */
     public static void appendThreadInfo(StringBuilder sb,
@@ -200,20 +210,21 @@ public class ThreadUtils {
         }
         if (state == Thread.State.WAITING) {
             sb.append(indent).append("  Waiting on ").append(info.getLockName()).append("\n");
-        } else  if (state == Thread.State.BLOCKED) {
+        } else if (state == Thread.State.BLOCKED) {
             sb.append(indent).append("  Blocked on ").append(info.getLockName()).append("\n");
             sb.append(indent).append("  Blocked by ").append(
                     getTaskName(info.getLockOwnerId(), info.getLockOwnerName())).append("\n");
         }
         sb.append(indent).append("  Stack:").append("\n");
-        for (StackTraceElement frame: info.getStackTrace()) {
+        for (StackTraceElement frame : info.getStackTrace()) {
             sb.append(indent).append("    ").append(frame.toString()).append("\n");
         }
     }
 
     /**
-     *  getTaskName
-     * @param id id
+     * getTaskName
+     *
+     * @param id   id
      * @param name name
      * @return task name
      */
@@ -226,11 +237,13 @@ public class ThreadUtils {
 
     /**
      * sleep
+     *
      * @param millis millis
      */
     public static void sleep(final long millis) {
         try {
             Thread.sleep(millis);
-        } catch (final InterruptedException ignore) {}
+        } catch (final InterruptedException ignore) {
+        }
     }
 }

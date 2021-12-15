@@ -17,11 +17,11 @@
 package org.apache.dolphinscheduler.dao.entity;
 
 
-import org.apache.dolphinscheduler.common.enums.UserType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import org.apache.dolphinscheduler.common.enums.UserType;
 
 import java.util.Date;
 
@@ -29,12 +29,12 @@ import java.util.Date;
  * user
  */
 @TableName("t_ds_user")
-public class  User {
+public class User {
 
     /**
      * id
      */
-    @TableId(value="id", type=IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private int id;
 
     /**
@@ -63,7 +63,7 @@ public class  User {
     private UserType userType;
 
     /**
-     *  tenant id
+     * tenant id
      */
     private int tenantId;
 

@@ -16,8 +16,8 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
-import org.apache.dolphinscheduler.dao.entity.UDFUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.dolphinscheduler.dao.entity.UDFUser;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -27,6 +27,7 @@ public interface UDFUserMapper extends BaseMapper<UDFUser> {
 
     /**
      * delete udf user realtion by userId
+     *
      * @param userId userId
      * @return delete result
      */
@@ -34,10 +35,10 @@ public interface UDFUserMapper extends BaseMapper<UDFUser> {
 
     /**
      * delete udf user realtion by function id
+     *
      * @param udfFuncId udfFuncId
      * @return delete result
      */
     int deleteByUdfFuncId(@Param("udfFuncId") int udfFuncId);
 
 }
-

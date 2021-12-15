@@ -50,13 +50,13 @@ public interface TaskInstanceMapper extends BaseMapper<TaskInstance> {
                                           @Param("name") String name);
 
     Integer countTask(
-                      @Param("projectIds") Integer[] projectIds,
-                      @Param("taskIds") int[] taskIds);
+            @Param("projectIds") Integer[] projectIds,
+            @Param("taskIds") int[] taskIds);
 
     List<ExecuteStatusCount> countTaskInstanceStateByUser(
-                                                          @Param("startTime") Date startTime,
-                                                          @Param("endTime") Date endTime,
-                                                          @Param("projectIds") Integer[] projectIds);
+            @Param("startTime") Date startTime,
+            @Param("endTime") Date endTime,
+            @Param("projectIds") Integer[] projectIds);
 
     IPage<TaskInstance> queryTaskInstanceListPaging(IPage<TaskInstance> page,
                                                     @Param("projectId") int projectId,

@@ -21,12 +21,12 @@ import org.apache.dolphinscheduler.page.project.CreateProjectPage;
 import org.apache.dolphinscheduler.page.project.CreateWorkflowPage;
 import org.testng.annotations.Test;
 
-public class CreateWorkflowTest  extends BaseTest {
+public class CreateWorkflowTest extends BaseTest {
     private CreateWorkflowPage createWorkflowPage;
     private CreateProjectPage createProjectPage;
 
 
-    @Test(groups={"functionTests","workflow"},dependsOnGroups = { "login" },description = "CreateWorkflowTest",priority=5)
+    @Test(groups = {"functionTests", "workflow"}, dependsOnGroups = {"login"}, description = "CreateWorkflowTest", priority = 5)
     public void testCreateWorkflow() throws InterruptedException {
         createProjectPage = new CreateProjectPage(driver);
         System.out.println("jump to the projectManage page to create workflow");

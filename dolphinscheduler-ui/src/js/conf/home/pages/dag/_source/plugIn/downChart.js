@@ -17,9 +17,9 @@
 
 import _ from 'lodash'
 import canvg from 'canvg'
-import { tasksAll } from './util'
+import {tasksAll} from './util'
 import html2canvas from 'html2canvas'
-import { findComponentDownward } from '@/module/util/'
+import {findComponentDownward} from '@/module/util/'
 
 const DownChart = function () {
   this.dag = {}
@@ -46,13 +46,13 @@ DownChart.prototype.maxVal = function () {
 /**
  * Download to image
  */
-DownChart.prototype.download = function ({ dagThis }) {
+DownChart.prototype.download = function ({dagThis}) {
   this.dag = dagThis
 
   this.maxVal().then(({
-    width,
-    height
-  }) => {
+                        width,
+                        height
+                      }) => {
     // Dom to save
     const copyDom = $('#canvas')
     // gain

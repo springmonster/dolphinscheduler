@@ -16,9 +16,9 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
-import org.apache.dolphinscheduler.dao.entity.Schedule;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.dolphinscheduler.dao.entity.Schedule;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,9 +30,10 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
 
     /**
      * scheduler page
-     * @param page page
+     *
+     * @param page                page
      * @param processDefinitionId processDefinitionId
-     * @param searchVal searchVal
+     * @param searchVal           searchVal
      * @return scheduler IPage
      */
     IPage<Schedule> queryByProcessDefineIdPaging(IPage<Schedule> page,
@@ -41,6 +42,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
 
     /**
      * query schedule list by project name
+     *
      * @param projectName projectName
      * @return schedule list
      */
@@ -48,6 +50,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
 
     /**
      * query schedule list by process definition ids
+     *
      * @param processDefineIds processDefineIds
      * @return schedule list
      */
@@ -55,6 +58,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
 
     /**
      * query schedule list by process definition id
+     *
      * @param processDefinitionId processDefinitionId
      * @return schedule list
      */
@@ -62,6 +66,7 @@ public interface ScheduleMapper extends BaseMapper<Schedule> {
 
     /**
      * query schedule list by process definition id
+     *
      * @param processDefinitionId processDefinitionId
      * @return schedule list
      */

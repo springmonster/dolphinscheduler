@@ -33,7 +33,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'form-tenant',
-  data () {
+  data() {
     return {
       itemList: []
     }
@@ -49,7 +49,7 @@ export default {
     prop: 'value',
     event: 'tenantSelectEvent'
   },
-  mounted () {
+  mounted() {
     let result = this.itemList.some(item => {
       if (item.id == this.value) {
         return true
@@ -60,13 +60,13 @@ export default {
     }
   },
   methods: {
-    _onChange (o) {
+    _onChange(o) {
       this.value = o.value
       this.$emit('tenantSelectEvent', o.value)
     }
   },
   watch: {},
-  created () {
+  created() {
     let stateTenantAllList = this.store.state.security.tenantAllList || []
     if (stateTenantAllList.length) {
       this.itemList = stateTenantAllList

@@ -37,52 +37,52 @@ public class TaskRecordControllerTest extends AbstractControllerTest {
 
     @Test
     public void testQueryTaskRecordListPaging() throws Exception {
-            MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-            paramsMap.add("taskName","taskName");
-            paramsMap.add("state","state");
-            paramsMap.add("sourceTable","");
-            paramsMap.add("destTable","");
-            paramsMap.add("taskDate","");
-            paramsMap.add("startDate","2019-12-16 00:00:00");
-            paramsMap.add("endDate","2019-12-17 00:00:00");
-            paramsMap.add("pageNo","1");
-            paramsMap.add("pageSize","30");
-
-            MvcResult mvcResult = mockMvc.perform(get("/projects/task-record/list-paging")
-                    .header(SESSION_ID, sessionId)
-                    .params(paramsMap))
-                    .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                    .andReturn();
-
-            Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-            Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
-            logger.info(mvcResult.getResponse().getContentAsString());
-        }
-
-
-    @Test
-    public void testQueryHistoryTaskRecordListPaging() throws Exception {
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("taskName","taskName");
-        paramsMap.add("state","state");
-        paramsMap.add("sourceTable","");
-        paramsMap.add("destTable","");
-        paramsMap.add("taskDate","");
-        paramsMap.add("startDate","2019-12-16 00:00:00");
-        paramsMap.add("endDate","2019-12-17 00:00:00");
-        paramsMap.add("pageNo","1");
-        paramsMap.add("pageSize","30");
+        paramsMap.add("taskName", "taskName");
+        paramsMap.add("state", "state");
+        paramsMap.add("sourceTable", "");
+        paramsMap.add("destTable", "");
+        paramsMap.add("taskDate", "");
+        paramsMap.add("startDate", "2019-12-16 00:00:00");
+        paramsMap.add("endDate", "2019-12-17 00:00:00");
+        paramsMap.add("pageNo", "1");
+        paramsMap.add("pageSize", "30");
 
-        MvcResult mvcResult = mockMvc.perform(get("/projects/task-record/history-list-paging")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+        MvcResult mvcResult = mockMvc.perform(get("/projects/task-record/list-paging")
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
+        logger.info(mvcResult.getResponse().getContentAsString());
+    }
+
+
+    @Test
+    public void testQueryHistoryTaskRecordListPaging() throws Exception {
+        MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
+        paramsMap.add("taskName", "taskName");
+        paramsMap.add("state", "state");
+        paramsMap.add("sourceTable", "");
+        paramsMap.add("destTable", "");
+        paramsMap.add("taskDate", "");
+        paramsMap.add("startDate", "2019-12-16 00:00:00");
+        paramsMap.add("endDate", "2019-12-17 00:00:00");
+        paramsMap.add("pageNo", "1");
+        paramsMap.add("pageSize", "30");
+
+        MvcResult mvcResult = mockMvc.perform(get("/projects/task-record/history-list-paging")
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andReturn();
+
+        Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
 
     }

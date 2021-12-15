@@ -17,6 +17,7 @@
 
 package org.apache.dolphinscheduler.server.worker.task.spark;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.dolphinscheduler.common.enums.CommandType;
 import org.apache.dolphinscheduler.common.enums.SparkVersion;
 import org.apache.dolphinscheduler.common.process.Property;
@@ -30,15 +31,12 @@ import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.utils.ParamUtils;
 import org.apache.dolphinscheduler.server.utils.SparkArgsUtils;
 import org.apache.dolphinscheduler.server.worker.task.AbstractYarnTask;
-
-import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
 
 /**
  * spark task
@@ -93,6 +91,7 @@ public class SparkTask extends AbstractYarnTask {
 
     /**
      * create command
+     *
      * @return command
      */
     @Override
@@ -114,14 +113,14 @@ public class SparkTask extends AbstractYarnTask {
 
         // replace placeholder
         Map<String, Property> paramsMap = ParamUtils.convert(ParamUtils.getUserDefParamsMap(taskExecutionContext.getDefinedParams()),
-            taskExecutionContext.getDefinedParams(),
-            sparkParameters.getLocalParametersMap(),
-            CommandType.of(taskExecutionContext.getCmdTypeIfComplement()),
-            taskExecutionContext.getScheduleTime());
-        if(MapUtils.isEmpty(paramsMap)){
-            paramsMap=new HashMap<>();
+                taskExecutionContext.getDefinedParams(),
+                sparkParameters.getLocalParametersMap(),
+                CommandType.of(taskExecutionContext.getCmdTypeIfComplement()),
+                taskExecutionContext.getScheduleTime());
+        if (MapUtils.isEmpty(paramsMap)) {
+            paramsMap = new HashMap<>();
         }
-        if (MapUtils.isNotEmpty(taskExecutionContext.getParamsMap())){
+        if (MapUtils.isNotEmpty(taskExecutionContext.getParamsMap())) {
             paramsMap.putAll(taskExecutionContext.getParamsMap());
         }
 

@@ -16,10 +16,10 @@
  */
 package org.apache.dolphinscheduler.dao.entity;
 
-import org.apache.dolphinscheduler.common.enums.UdfType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import org.apache.dolphinscheduler.common.enums.UdfType;
 
 import java.util.Date;
 
@@ -31,7 +31,7 @@ public class UdfFunc {
     /**
      * id
      */
-    @TableId(value="id", type=IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private int id;
     /**
      * user id

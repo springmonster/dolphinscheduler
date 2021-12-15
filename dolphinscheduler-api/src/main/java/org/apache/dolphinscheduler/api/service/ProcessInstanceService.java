@@ -16,7 +16,9 @@
  */
 package org.apache.dolphinscheduler.api.service;
 
-import java.nio.charset.StandardCharsets;
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.dolphinscheduler.api.dto.gantt.GanttDto;
 import org.apache.dolphinscheduler.api.dto.gantt.Task;
 import org.apache.dolphinscheduler.api.enums.Status;
@@ -33,11 +35,11 @@ import org.apache.dolphinscheduler.common.model.TaskNodeRelation;
 import org.apache.dolphinscheduler.common.process.Property;
 import org.apache.dolphinscheduler.common.utils.*;
 import org.apache.dolphinscheduler.common.utils.placeholder.BusinessTimeUtils;
-import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.dolphinscheduler.dao.entity.*;
-import org.apache.dolphinscheduler.dao.mapper.*;
+import org.apache.dolphinscheduler.dao.mapper.ProcessDefinitionMapper;
+import org.apache.dolphinscheduler.dao.mapper.ProcessInstanceMapper;
+import org.apache.dolphinscheduler.dao.mapper.ProjectMapper;
+import org.apache.dolphinscheduler.dao.mapper.TaskInstanceMapper;
 import org.apache.dolphinscheduler.service.process.ProcessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -92,16 +95,15 @@ public class ProcessInstanceService extends BaseDAGService {
     LoggerService loggerService;
 
 
-
     @Autowired
     UsersService usersService;
 
     /**
      * query process instance by id
      *
-     * @param loginUser login user
+     * @param loginUser   login user
      * @param projectName project name
-     * @param processId process instance id
+     * @param processId   process instance id
      * @return process instance detail
      */
     public Map<String, Object> queryProcessInstanceById(User loginUser, String projectName, Integer processId) {
@@ -127,21 +129,21 @@ public class ProcessInstanceService extends BaseDAGService {
     /**
      * paging query process instance list, filtering according to project, process definition, time range, keyword, process status
      *
-     * @param loginUser login user
-     * @param projectName project name
-     * @param pageNo page number
-     * @param pageSize page size
+     * @param loginUser       login user
+     * @param projectName     project name
+     * @param pageNo          page number
+     * @param pageSize        page size
      * @param processDefineId process definition id
-     * @param searchVal search value
-     * @param stateType state type
-     * @param host host
-     * @param startDate start time
-     * @param endDate end time
+     * @param searchVal       search value
+     * @param stateType       state type
+     * @param host            host
+     * @param startDate       start time
+     * @param endDate         end time
      * @return process instance list
      */
     public Map<String, Object> queryProcessInstanceList(User loginUser, String projectName, Integer processDefineId,
                                                         String startDate, String endDate,
-                                                        String searchVal, String executorName,ExecutionStatus stateType, String host,
+                                                        String searchVal, String executorName, ExecutionStatus stateType, String host,
                                                         Integer pageNo, Integer pageSize) {
 
         Map<String, Object> result = new HashMap<>(5);
@@ -171,12 +173,12 @@ public class ProcessInstanceService extends BaseDAGService {
 
         IPage<ProcessInstance> processInstanceList =
                 processInstanceMapper.queryProcessInstanceListPaging(page,
-                project.getId(), processDefineId, searchVal, executorId,statusArray, host, start, end);
+                        project.getId(), processDefineId, searchVal, executorId, statusArray, host, start, end);
 
         List<ProcessInstance> processInstances = processInstanceList.getRecords();
 
-        for(ProcessInstance processInstance: processInstances){
-            processInstance.setDuration(DateUtils.format2Duration(processInstance.getStartTime(),processInstance.getEndTime()));
+        for (ProcessInstance processInstance : processInstances) {
+            processInstance.setDuration(DateUtils.format2Duration(processInstance.getStartTime(), processInstance.getEndTime()));
             User executor = usersService.queryUser(processInstance.getExecutorId());
             if (null != executor) {
                 processInstance.setExecutorName(executor.getUserName());
@@ -191,13 +193,12 @@ public class ProcessInstanceService extends BaseDAGService {
     }
 
 
-
     /**
      * query task list by process instance id
      *
-     * @param loginUser login user
+     * @param loginUser   login user
      * @param projectName project name
-     * @param processId process instance id
+     * @param processId   process instance id
      * @return task list for the process instance
      * @throws IOException io exception
      */
@@ -224,14 +225,15 @@ public class ProcessInstanceService extends BaseDAGService {
 
     /**
      * add dependent result for dependent task
+     *
      * @param taskInstanceList
      */
     private void addDependResultForTaskList(List<TaskInstance> taskInstanceList) throws IOException {
-        for(TaskInstance taskInstance: taskInstanceList){
-            if(taskInstance.getTaskType().equalsIgnoreCase(TaskType.DEPENDENT.toString())){
+        for (TaskInstance taskInstance : taskInstanceList) {
+            if (taskInstance.getTaskType().equalsIgnoreCase(TaskType.DEPENDENT.toString())) {
                 Result logResult = loggerService.queryLog(
                         taskInstance.getId(), 0, 4098);
-                if(logResult.getCode() == Status.SUCCESS.ordinal()){
+                if (logResult.getCode() == Status.SUCCESS.ordinal()) {
                     String log = (String) logResult.getData();
                     Map<String, DependResult> resultMap = parseLogForDependentResult(log);
                     taskInstance.setDependentResult(JSONUtils.toJson(resultMap));
@@ -240,24 +242,24 @@ public class ProcessInstanceService extends BaseDAGService {
         }
     }
 
-    public Map<String,DependResult> parseLogForDependentResult(String log) throws IOException {
+    public Map<String, DependResult> parseLogForDependentResult(String log) throws IOException {
         Map<String, DependResult> resultMap = new HashMap<>();
-        if(StringUtils.isEmpty(log)){
+        if (StringUtils.isEmpty(log)) {
             return resultMap;
         }
 
         BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(log.getBytes(
-            StandardCharsets.UTF_8)), StandardCharsets.UTF_8));
+                StandardCharsets.UTF_8)), StandardCharsets.UTF_8));
         String line;
         while ((line = br.readLine()) != null) {
-            if(line.contains(DEPENDENT_SPLIT)){
+            if (line.contains(DEPENDENT_SPLIT)) {
                 String[] tmpStringArray = line.split(":\\|\\|");
-                if(tmpStringArray.length != 2){
+                if (tmpStringArray.length != 2) {
                     continue;
                 }
                 String dependResultString = tmpStringArray[1];
                 String[] dependStringArray = dependResultString.split(",");
-                if(dependStringArray.length != 2){
+                if (dependStringArray.length != 2) {
                     continue;
                 }
                 String key = dependStringArray[0].trim();
@@ -272,9 +274,9 @@ public class ProcessInstanceService extends BaseDAGService {
     /**
      * query sub process instance detail info by task id
      *
-     * @param loginUser login user
+     * @param loginUser   login user
      * @param projectName project name
-     * @param taskId task id
+     * @param taskId      task id
      * @return sub process instance detail
      */
     public Map<String, Object> querySubProcessInstanceByTaskId(User loginUser, String projectName, Integer taskId) {
@@ -313,15 +315,15 @@ public class ProcessInstanceService extends BaseDAGService {
     /**
      * update process instance
      *
-     * @param loginUser login user
-     * @param projectName project name
+     * @param loginUser           login user
+     * @param projectName         project name
      * @param processInstanceJson process instance json
-     * @param processInstanceId process instance id
-     * @param scheduleTime schedule time
-     * @param syncDefine sync define
-     * @param flag flag
-     * @param locations locations
-     * @param connects connects
+     * @param processInstanceId   process instance id
+     * @param scheduleTime        schedule time
+     * @param syncDefine          sync define
+     * @param flag                flag
+     * @param locations           locations
+     * @param connects            connects
      * @return update result code
      * @throws ParseException parse exception for json parse
      */
@@ -381,7 +383,7 @@ public class ProcessInstanceService extends BaseDAGService {
             processInstance.setTimeout(timeout);
             Tenant tenant = processService.getTenantForProcess(processData.getTenantId(),
                     processDefinition.getUserId());
-            if(tenant != null){
+            if (tenant != null) {
                 processInstance.setTenantCode(tenant.getTenantCode());
             }
             processInstance.setProcessInstanceJson(processInstanceJson);
@@ -412,9 +414,9 @@ public class ProcessInstanceService extends BaseDAGService {
     /**
      * query parent process instance detail info by sub process instance id
      *
-     * @param loginUser login user
+     * @param loginUser   login user
      * @param projectName project name
-     * @param subId sub process id
+     * @param subId       sub process id
      * @return parent instance detail
      */
     public Map<String, Object> queryParentInstanceBySubId(User loginUser, String projectName, Integer subId) {
@@ -451,8 +453,9 @@ public class ProcessInstanceService extends BaseDAGService {
 
     /**
      * delete process instance by id, at the same time，delete task instance and their mapping relation data
-     * @param loginUser login user
-     * @param projectName project name
+     *
+     * @param loginUser         login user
+     * @param projectName       project name
      * @param processInstanceId process instance id
      * @return delete result code
      */
@@ -472,7 +475,6 @@ public class ProcessInstanceService extends BaseDAGService {
             putMsg(result, Status.PROCESS_INSTANCE_NOT_EXIST, processInstanceId);
             return result;
         }
-
 
 
         processService.removeTaskLogFile(processInstanceId);
@@ -499,7 +501,7 @@ public class ProcessInstanceService extends BaseDAGService {
      * @return variables data
      * @throws Exception exception
      */
-    public Map<String, Object> viewVariables( Integer processInstanceId) throws Exception {
+    public Map<String, Object> viewVariables(Integer processInstanceId) throws Exception {
         Map<String, Object> result = new HashMap<>(5);
 
         ProcessInstance processInstance = processInstanceMapper.queryDetailById(processInstanceId);
@@ -538,7 +540,7 @@ public class ProcessInstanceService extends BaseDAGService {
         }
 
         // local params
-        Map<String, Map<String,Object>> localUserDefParams = new HashMap<>();
+        Map<String, Map<String, Object>> localUserDefParams = new HashMap<>();
         for (TaskNode taskNode : taskNodeList) {
             String parameter = taskNode.getParams();
             Map<String, String> map = JSONUtils.toMap(parameter);
@@ -546,9 +548,9 @@ public class ProcessInstanceService extends BaseDAGService {
             if (localParams != null && !localParams.isEmpty()) {
                 localParams = ParameterUtils.convertParameterPlaceholders(localParams, timeParams);
                 List<Property> localParamsList = JSON.parseArray(localParams, Property.class);
-                Map<String,Object> localParamsMap = new HashMap<>();
-                localParamsMap.put("taskType",taskNode.getType());
-                localParamsMap.put("localParamsList",localParamsList);
+                Map<String, Object> localParamsMap = new HashMap<>();
+                localParamsMap.put("taskType", taskNode.getType());
+                localParamsMap.put("localParamsList", localParamsList);
                 if (CollectionUtils.isNotEmpty(localParamsList)) {
                     localUserDefParams.put(taskNode.getName(), localParamsMap);
                 }

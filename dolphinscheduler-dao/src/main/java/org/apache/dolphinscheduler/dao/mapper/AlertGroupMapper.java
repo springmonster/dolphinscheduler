@@ -16,11 +16,11 @@
  */
 package org.apache.dolphinscheduler.dao.mapper;
 
-import org.apache.dolphinscheduler.common.enums.AlertType;
-import org.apache.dolphinscheduler.dao.entity.AlertGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.dolphinscheduler.common.enums.AlertType;
+import org.apache.dolphinscheduler.dao.entity.AlertGroup;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -33,7 +33,8 @@ public interface AlertGroupMapper extends BaseMapper<AlertGroup> {
 
     /**
      * alertgroup page
-     * @param page page
+     *
+     * @param page      page
      * @param groupName groupName
      * @return alertgroup Ipage
      */
@@ -43,6 +44,7 @@ public interface AlertGroupMapper extends BaseMapper<AlertGroup> {
 
     /**
      * query by group name
+     *
      * @param groupName groupName
      * @return alertgroup list
      */
@@ -50,6 +52,7 @@ public interface AlertGroupMapper extends BaseMapper<AlertGroup> {
 
     /**
      * query by userId
+     *
      * @param userId userId
      * @return alertgroup list
      */
@@ -58,6 +61,7 @@ public interface AlertGroupMapper extends BaseMapper<AlertGroup> {
 
     /**
      * query by alert type
+     *
      * @param alertType alertType
      * @return alertgroup list
      */
@@ -65,6 +69,7 @@ public interface AlertGroupMapper extends BaseMapper<AlertGroup> {
 
     /**
      * query all group list
+     *
      * @return alertgroup list
      */
     List<AlertGroup> queryAllGroupList();

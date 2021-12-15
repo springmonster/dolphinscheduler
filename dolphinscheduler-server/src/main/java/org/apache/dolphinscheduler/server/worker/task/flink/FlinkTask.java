@@ -17,6 +17,7 @@
 
 package org.apache.dolphinscheduler.server.worker.task.flink;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.dolphinscheduler.common.enums.CommandType;
 import org.apache.dolphinscheduler.common.process.Property;
 import org.apache.dolphinscheduler.common.process.ResourceInfo;
@@ -30,15 +31,12 @@ import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.utils.FlinkArgsUtils;
 import org.apache.dolphinscheduler.server.utils.ParamUtils;
 import org.apache.dolphinscheduler.server.worker.task.AbstractYarnTask;
-
-import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
 
 /**
  * flink task
@@ -46,14 +44,14 @@ import org.slf4j.Logger;
 public class FlinkTask extends AbstractYarnTask {
 
     /**
-     *  flink command
-     *  usage: flink run [OPTIONS] <jar-file> <arguments>
+     * flink command
+     * usage: flink run [OPTIONS] <jar-file> <arguments>
      */
     private static final String FLINK_COMMAND = "flink";
     private static final String FLINK_RUN = "run";
 
     /**
-     *  flink parameters
+     * flink parameters
      */
     private FlinkParameters flinkParameters;
 
@@ -89,10 +87,10 @@ public class FlinkTask extends AbstractYarnTask {
                     flinkParameters.getLocalParametersMap(),
                     CommandType.of(taskExecutionContext.getCmdTypeIfComplement()),
                     taskExecutionContext.getScheduleTime());
-            if(MapUtils.isEmpty(paramsMap)){
-                paramsMap=new HashMap<>();
+            if (MapUtils.isEmpty(paramsMap)) {
+                paramsMap = new HashMap<>();
             }
-            if (MapUtils.isNotEmpty(taskExecutionContext.getParamsMap())){
+            if (MapUtils.isNotEmpty(taskExecutionContext.getParamsMap())) {
                 paramsMap.putAll(taskExecutionContext.getParamsMap());
             }
 
@@ -107,6 +105,7 @@ public class FlinkTask extends AbstractYarnTask {
 
     /**
      * create command
+     *
      * @return command
      */
     @Override

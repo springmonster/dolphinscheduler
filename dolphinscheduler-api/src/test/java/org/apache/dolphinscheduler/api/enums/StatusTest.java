@@ -22,7 +22,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class StatusTest {
 

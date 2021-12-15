@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *  server address
+ * server address
  */
 public class Host implements Serializable {
 
@@ -76,11 +76,12 @@ public class Host implements Serializable {
 
     /**
      * address convert host
+     *
      * @param address address
      * @return host
      */
-    public static Host of(String address){
-        if(address == null) {
+    public static Host of(String address) {
+        if (address == null) {
             throw new IllegalArgumentException("Host : address is null.");
         }
         String[] parts = address.split(":");
@@ -93,10 +94,11 @@ public class Host implements Serializable {
 
     /**
      * whether old version
+     *
      * @param address address
      * @return old version is true , otherwise is false
      */
-    public static Boolean isOldVersion(String address){
+    public static Boolean isOldVersion(String address) {
         String[] parts = address.split(":");
         return parts.length != 2 ? true : false;
     }

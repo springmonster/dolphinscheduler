@@ -17,6 +17,9 @@
 
 package org.apache.dolphinscheduler.server.master.registry;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.ZKNodeType;
 import org.apache.dolphinscheduler.common.utils.StringUtils;
@@ -27,26 +30,6 @@ import org.apache.dolphinscheduler.remote.utils.NamedThreadFactory;
 import org.apache.dolphinscheduler.server.registry.ZookeeperRegistryCenter;
 import org.apache.dolphinscheduler.service.zk.AbstractListener;
 import org.apache.dolphinscheduler.service.zk.AbstractZKClient;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import javax.annotation.PreDestroy;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -54,8 +37,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PreDestroy;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
- *  server node manager
+ * server node manager
  */
 @Service
 public class ServerNodeManager implements InitializingBean {
@@ -123,6 +115,7 @@ public class ServerNodeManager implements InitializingBean {
 
     /**
      * init listener
+     *
      * @throws Exception if error throws Exception
      */
     @Override
@@ -147,7 +140,7 @@ public class ServerNodeManager implements InitializingBean {
     }
 
     /**
-     *  load nodes from zookeeper
+     * load nodes from zookeeper
      */
     private void load() {
         /**
@@ -169,10 +162,11 @@ public class ServerNodeManager implements InitializingBean {
      * zookeeper client
      */
     @Component
-    static class ZKClient extends AbstractZKClient {}
+    static class ZKClient extends AbstractZKClient {
+    }
 
     /**
-     *  worker node info and worker group db sync task
+     * worker node info and worker group db sync task
      */
     class WorkerNodeInfoAndGroupDbSyncTask implements Runnable {
 
@@ -203,7 +197,7 @@ public class ServerNodeManager implements InitializingBean {
     }
 
     /**
-     *  worker group node listener
+     * worker group node listener
      */
     class WorkerGroupNodeListener extends AbstractListener {
 
@@ -246,7 +240,7 @@ public class ServerNodeManager implements InitializingBean {
     }
 
     /**
-     *  master node listener
+     * master node listener
      */
     class MasterNodeListener extends AbstractListener {
 
@@ -276,7 +270,8 @@ public class ServerNodeManager implements InitializingBean {
     }
 
     /**
-     *  get master nodes
+     * get master nodes
+     *
      * @return master nodes
      */
     public Set<String> getMasterNodes() {
@@ -289,7 +284,8 @@ public class ServerNodeManager implements InitializingBean {
     }
 
     /**
-     *  sync master nodes
+     * sync master nodes
+     *
      * @param nodes master nodes
      */
     private void syncMasterNodes(Set<String> nodes) {
@@ -304,8 +300,9 @@ public class ServerNodeManager implements InitializingBean {
 
     /**
      * sync worker group nodes
+     *
      * @param workerGroup worker group
-     * @param nodes worker nodes
+     * @param nodes       worker nodes
      */
     private void syncWorkerGroupNodes(String workerGroup, Set<String> nodes) {
         workerGroupLock.lock();
@@ -326,6 +323,7 @@ public class ServerNodeManager implements InitializingBean {
 
     /**
      * get worker group nodes
+     *
      * @param workerGroup workerGroup
      * @return worker nodes
      */
@@ -348,6 +346,7 @@ public class ServerNodeManager implements InitializingBean {
 
     /**
      * get worker node info
+     *
      * @return worker node info
      */
     public Map<String, String> getWorkerNodeInfo() {
@@ -356,6 +355,7 @@ public class ServerNodeManager implements InitializingBean {
 
     /**
      * get worker node info
+     *
      * @param workerNode worker node
      * @return worker node info
      */
@@ -370,6 +370,7 @@ public class ServerNodeManager implements InitializingBean {
 
     /**
      * sync worker node info
+     *
      * @param newWorkerNodeInfo new worker node info
      */
     private void syncWorkerNodeInfo(Map<String, String> newWorkerNodeInfo) {
@@ -383,7 +384,7 @@ public class ServerNodeManager implements InitializingBean {
     }
 
     /**
-     *  destroy
+     * destroy
      */
     @PreDestroy
     public void destroy() {

@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -35,7 +36,7 @@ public class PreconditionsTest {
     public void testCheckNotNull() throws Exception {
         String testReference = "test object";
         Assert.assertEquals(testReference, Preconditions.checkNotNull(testReference));
-        Assert.assertEquals(testReference,Preconditions.checkNotNull(testReference,"object is null"));
+        Assert.assertEquals(testReference, Preconditions.checkNotNull(testReference, "object is null"));
 
         //test  reference is  null
         try {
@@ -51,13 +52,13 @@ public class PreconditionsTest {
         }
 
         try {
-            Preconditions.checkNotNull(null,"object is null");
+            Preconditions.checkNotNull(null, "object is null");
         } catch (NullPointerException ex) {
             assertThat(ex.getMessage(), containsString("object is null"));
         }
 
         try {
-            Preconditions.checkNotNull("","object is null");
+            Preconditions.checkNotNull("", "object is null");
         } catch (NullPointerException ex) {
             assertThat(ex.getMessage(), containsString("object is null"));
         }

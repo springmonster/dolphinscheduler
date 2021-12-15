@@ -35,7 +35,7 @@ import java.util.List;
 
 
 /**
- *  alert manager test
+ * alert manager test
  */
 @Ignore
 public class AlertManagerTest {
@@ -57,7 +57,7 @@ public class AlertManagerTest {
      * send worker alert fault tolerance
      */
     @Test
-    public void sendWarnningWorkerleranceFaultTest(){
+    public void sendWarnningWorkerleranceFaultTest() {
         // process instance
         ProcessInstance processInstance = processInstanceMapper.queryDetailById(13028);
 
@@ -82,7 +82,7 @@ public class AlertManagerTest {
      * send worker alert fault tolerance
      */
     @Test
-    public void sendWarnningOfProcessInstanceTest(){
+    public void sendWarnningOfProcessInstanceTest() {
         // process instance
         ProcessInstance processInstance = processInstanceMapper.queryDetailById(13028);
 

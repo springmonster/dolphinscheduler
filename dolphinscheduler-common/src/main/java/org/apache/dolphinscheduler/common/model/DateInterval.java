@@ -28,7 +28,7 @@ public class DateInterval {
 
     private Date endTime;
 
-    public DateInterval(Date beginTime, Date endTime){
+    public DateInterval(Date beginTime, Date endTime) {
         this.startTime = beginTime;
         this.endTime = endTime;
 

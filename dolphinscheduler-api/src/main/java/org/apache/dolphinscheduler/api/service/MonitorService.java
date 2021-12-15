@@ -16,8 +16,7 @@
  */
 package org.apache.dolphinscheduler.api.service;
 
-import static org.apache.dolphinscheduler.common.utils.Preconditions.checkNotNull;
-
+import com.google.common.collect.Sets;
 import org.apache.dolphinscheduler.api.enums.Status;
 import org.apache.dolphinscheduler.api.utils.ZookeeperMonitor;
 import org.apache.dolphinscheduler.common.Constants;
@@ -28,6 +27,8 @@ import org.apache.dolphinscheduler.dao.MonitorDBDao;
 import org.apache.dolphinscheduler.dao.entity.MonitorRecord;
 import org.apache.dolphinscheduler.dao.entity.User;
 import org.apache.dolphinscheduler.dao.entity.ZookeeperRecord;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,10 +36,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.google.common.collect.Sets;
+import static org.apache.dolphinscheduler.common.utils.Preconditions.checkNotNull;
 
 /**
  * monitor service
@@ -46,113 +44,114 @@ import com.google.common.collect.Sets;
 @Service
 public class MonitorService extends BaseService {
 
-  @Autowired
-  private ZookeeperMonitor zookeeperMonitor;
+    @Autowired
+    private ZookeeperMonitor zookeeperMonitor;
 
-  @Autowired
-  private MonitorDBDao monitorDBDao;
-  /**
-   * query database state
-   *
-   * @param loginUser login user
-   * @return data base state
-   */
-  public Map<String,Object> queryDatabaseState(User loginUser) {
-    Map<String, Object> result = new HashMap<>(5);
+    @Autowired
+    private MonitorDBDao monitorDBDao;
 
-    List<MonitorRecord> monitorRecordList = monitorDBDao.queryDatabaseState();
+    /**
+     * query database state
+     *
+     * @param loginUser login user
+     * @return data base state
+     */
+    public Map<String, Object> queryDatabaseState(User loginUser) {
+        Map<String, Object> result = new HashMap<>(5);
 
-    result.put(Constants.DATA_LIST, monitorRecordList);
-    putMsg(result, Status.SUCCESS);
+        List<MonitorRecord> monitorRecordList = monitorDBDao.queryDatabaseState();
 
-    return result;
+        result.put(Constants.DATA_LIST, monitorRecordList);
+        putMsg(result, Status.SUCCESS);
 
-  }
+        return result;
 
-  /**
-   * query master list
-   *
-   * @param loginUser login user
-   * @return master information list
-   */
-  public Map<String,Object> queryMaster(User loginUser) {
+    }
 
-    Map<String, Object> result = new HashMap<>(5);
+    /**
+     * query master list
+     *
+     * @param loginUser login user
+     * @return master information list
+     */
+    public Map<String, Object> queryMaster(User loginUser) {
 
-    List<Server> masterServers = getServerListFromZK(true);
-    result.put(Constants.DATA_LIST, masterServers);
-    putMsg(result,Status.SUCCESS);
+        Map<String, Object> result = new HashMap<>(5);
 
-    return result;
-  }
+        List<Server> masterServers = getServerListFromZK(true);
+        result.put(Constants.DATA_LIST, masterServers);
+        putMsg(result, Status.SUCCESS);
 
-  /**
-   * query zookeeper state
-   *
-   * @param loginUser login user
-   * @return zookeeper information list
-   */
-  public Map<String,Object> queryZookeeperState(User loginUser) {
-    Map<String, Object> result = new HashMap<>(5);
+        return result;
+    }
 
-    List<ZookeeperRecord> zookeeperRecordList = zookeeperMonitor.zookeeperInfoList();
+    /**
+     * query zookeeper state
+     *
+     * @param loginUser login user
+     * @return zookeeper information list
+     */
+    public Map<String, Object> queryZookeeperState(User loginUser) {
+        Map<String, Object> result = new HashMap<>(5);
 
-    result.put(Constants.DATA_LIST, zookeeperRecordList);
-    putMsg(result, Status.SUCCESS);
+        List<ZookeeperRecord> zookeeperRecordList = zookeeperMonitor.zookeeperInfoList();
 
-    return result;
+        result.put(Constants.DATA_LIST, zookeeperRecordList);
+        putMsg(result, Status.SUCCESS);
 
-  }
+        return result;
+
+    }
 
 
-  /**
-   * query worker list
-   *
-   * @param loginUser login user
-   * @return worker information list
-   */
-  public Map<String,Object> queryWorker(User loginUser) {
+    /**
+     * query worker list
+     *
+     * @param loginUser login user
+     * @return worker information list
+     */
+    public Map<String, Object> queryWorker(User loginUser) {
 
-    Map<String, Object> result = new HashMap<>(5);
-    List<WorkerServerModel> workerServers = getServerListFromZK(false)
-            .stream()
-            .map((Server server) -> {
-              WorkerServerModel model = new WorkerServerModel();
-              model.setId(server.getId());
-              model.setHost(server.getHost());
-              model.setPort(server.getPort());
-              model.setZkDirectories(Sets.newHashSet(server.getZkDirectory()));
-              model.setResInfo(server.getResInfo());
-              model.setCreateTime(server.getCreateTime());
-              model.setLastHeartbeatTime(server.getLastHeartbeatTime());
-              return model;
-            })
-            .collect(Collectors.toList());
+        Map<String, Object> result = new HashMap<>(5);
+        List<WorkerServerModel> workerServers = getServerListFromZK(false)
+                .stream()
+                .map((Server server) -> {
+                    WorkerServerModel model = new WorkerServerModel();
+                    model.setId(server.getId());
+                    model.setHost(server.getHost());
+                    model.setPort(server.getPort());
+                    model.setZkDirectories(Sets.newHashSet(server.getZkDirectory()));
+                    model.setResInfo(server.getResInfo());
+                    model.setCreateTime(server.getCreateTime());
+                    model.setLastHeartbeatTime(server.getLastHeartbeatTime());
+                    return model;
+                })
+                .collect(Collectors.toList());
 
-    Map<String, WorkerServerModel> workerHostPortServerMapping = workerServers
-            .stream()
-            .collect(Collectors.toMap(
-                    (WorkerServerModel worker) -> {
-                        String[] s = worker.getZkDirectories().iterator().next().split("/");
-                        return s[s.length - 1];
-                    }
-                    , Function.identity()
-                    , (WorkerServerModel oldOne, WorkerServerModel newOne) -> {
-                      oldOne.getZkDirectories().addAll(newOne.getZkDirectories());
-                      return oldOne;
-                    }));
+        Map<String, WorkerServerModel> workerHostPortServerMapping = workerServers
+                .stream()
+                .collect(Collectors.toMap(
+                        (WorkerServerModel worker) -> {
+                            String[] s = worker.getZkDirectories().iterator().next().split("/");
+                            return s[s.length - 1];
+                        }
+                        , Function.identity()
+                        , (WorkerServerModel oldOne, WorkerServerModel newOne) -> {
+                            oldOne.getZkDirectories().addAll(newOne.getZkDirectories());
+                            return oldOne;
+                        }));
 
-    result.put(Constants.DATA_LIST, workerHostPortServerMapping.values());
-    putMsg(result,Status.SUCCESS);
+        result.put(Constants.DATA_LIST, workerHostPortServerMapping.values());
+        putMsg(result, Status.SUCCESS);
 
-    return result;
-  }
+        return result;
+    }
 
-  public List<Server> getServerListFromZK(boolean isMaster) {
+    public List<Server> getServerListFromZK(boolean isMaster) {
 
-    checkNotNull(zookeeperMonitor);
-    ZKNodeType zkNodeType = isMaster ? ZKNodeType.MASTER : ZKNodeType.WORKER;
-    return zookeeperMonitor.getServerList(zkNodeType);
-  }
+        checkNotNull(zookeeperMonitor);
+        ZKNodeType zkNodeType = isMaster ? ZKNodeType.MASTER : ZKNodeType.WORKER;
+        return zookeeperMonitor.getServerList(zkNodeType);
+    }
 
 }

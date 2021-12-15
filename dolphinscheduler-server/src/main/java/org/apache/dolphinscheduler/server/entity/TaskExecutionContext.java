@@ -27,28 +27,28 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- *  master/worker task transport
+ * master/worker task transport
  */
-public class TaskExecutionContext implements Serializable{
+public class TaskExecutionContext implements Serializable {
 
     /**
-     *  task id
+     * task id
      */
     private int taskInstanceId;
 
 
     /**
-     *  taks name
+     * taks name
      */
     private String taskName;
 
     /**
-     *  task start time
+     * task start time
      */
     private Date startTime;
 
     /**
-     *  task type
+     * task type
      */
     private String taskType;
 
@@ -56,9 +56,9 @@ public class TaskExecutionContext implements Serializable{
      * host
      */
     private String host;
-    
+
     /**
-     *  task execute path
+     * task execute path
      */
     private String executePath;
 
@@ -68,7 +68,7 @@ public class TaskExecutionContext implements Serializable{
     private String logPath;
 
     /**
-     *  task json
+     * task json
      */
     private String taskJson;
 
@@ -83,52 +83,52 @@ public class TaskExecutionContext implements Serializable{
     private String appIds;
 
     /**
-     *  process instance id
+     * process instance id
      */
     private int processInstanceId;
 
 
     /**
-     *  process instance schedule time
+     * process instance schedule time
      */
     private Date scheduleTime;
 
     /**
-     *  process instance global parameters
+     * process instance global parameters
      */
     private String globalParams;
 
 
     /**
-     *  execute user id
+     * execute user id
      */
     private int executorId;
 
 
     /**
-     *  command type if complement
+     * command type if complement
      */
     private int cmdTypeIfComplement;
 
 
     /**
-     *  tenant code
+     * tenant code
      */
     private String tenantCode;
 
     /**
-     *  task queue
+     * task queue
      */
     private String queue;
 
 
     /**
-     *  process define id
+     * process define id
      */
     private int processDefineId;
 
     /**
-     *  project id
+     * project id
      */
     private int projectId;
 
@@ -138,12 +138,12 @@ public class TaskExecutionContext implements Serializable{
     private String taskParams;
 
     /**
-     *  envFile
+     * envFile
      */
     private String envFile;
 
     /**
-     *  definedParams
+     * definedParams
      */
     private Map<String, String> definedParams;
 
@@ -153,7 +153,7 @@ public class TaskExecutionContext implements Serializable{
     private String taskAppId;
 
     /**
-     *  task timeout strategy
+     * task timeout strategy
      */
     private int taskTimeoutStrategy;
 
@@ -170,15 +170,15 @@ public class TaskExecutionContext implements Serializable{
     /**
      * resources full name and tenant code
      */
-    private Map<String,String> resources;
+    private Map<String, String> resources;
 
     /**
-     *  sql TaskExecutionContext
+     * sql TaskExecutionContext
      */
     private SQLTaskExecutionContext sqlTaskExecutionContext;
 
     /**
-     *  datax TaskExecutionContext
+     * datax TaskExecutionContext
      */
     private DataxTaskExecutionContext dataxTaskExecutionContext;
 
@@ -206,7 +206,7 @@ public class TaskExecutionContext implements Serializable{
     }
 
     /**
-     *  procedure TaskExecutionContext
+     * procedure TaskExecutionContext
      */
     private ProcedureTaskExecutionContext procedureTaskExecutionContext;
 
@@ -442,7 +442,7 @@ public class TaskExecutionContext implements Serializable{
         this.procedureTaskExecutionContext = procedureTaskExecutionContext;
     }
 
-    public Command toCommand(){
+    public Command toCommand() {
         TaskExecuteRequestCommand requestCommand = new TaskExecuteRequestCommand();
         requestCommand.setTaskExecutionContext(FastJsonSerializer.serializeToString(this));
         return requestCommand.convert2Command();

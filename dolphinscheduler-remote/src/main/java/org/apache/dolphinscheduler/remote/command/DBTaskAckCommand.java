@@ -21,14 +21,14 @@ import org.apache.dolphinscheduler.remote.utils.FastJsonSerializer;
 import java.io.Serializable;
 
 /**
- *  db task ack request command
+ * db task ack request command
  */
 public class DBTaskAckCommand implements Serializable {
 
     private int taskInstanceId;
     private int status;
 
-    public DBTaskAckCommand(int status,int taskInstanceId) {
+    public DBTaskAckCommand(int status, int taskInstanceId) {
         this.status = status;
         this.taskInstanceId = taskInstanceId;
     }
@@ -51,9 +51,10 @@ public class DBTaskAckCommand implements Serializable {
 
     /**
      * package response command
+     *
      * @return command
      */
-    public Command convert2Command(){
+    public Command convert2Command() {
         Command command = new Command();
         command.setType(CommandType.DB_TASK_ACK);
         byte[] body = FastJsonSerializer.serialize(this);

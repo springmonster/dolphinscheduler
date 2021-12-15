@@ -35,7 +35,7 @@ public class ProcessInstance {
     /**
      * id
      */
-    @TableId(value="id", type=IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private int id;
     /**
      * process definition id
@@ -105,7 +105,7 @@ public class ProcessInstance {
     private FailureStrategy failureStrategy;
 
     /**
-     *  warning type
+     * warning type
      */
     private WarningType warningType;
 
@@ -184,6 +184,7 @@ public class ProcessInstance {
 
     /**
      * process duration
+     *
      * @return
      */
     @TableField(exist = false)
@@ -221,15 +222,16 @@ public class ProcessInstance {
     @TableField(exist = false)
     private String receiversCc;
 
-    public ProcessInstance(){
+    public ProcessInstance() {
 
     }
 
     /**
      * set the process name with process define version and timestamp
+     *
      * @param processDefinition processDefinition
      */
-    public ProcessInstance(ProcessDefinition processDefinition){
+    public ProcessInstance(ProcessDefinition processDefinition) {
         this.processDefinition = processDefinition;
         this.name = processDefinition.getName() + "-" +
                 processDefinition.getVersion() + "-" +
@@ -360,7 +362,7 @@ public class ProcessInstance {
     }
 
 
-    public boolean isProcessInstanceStop(){
+    public boolean isProcessInstanceStop() {
         return this.state.typeIsFinished();
     }
 
@@ -452,6 +454,7 @@ public class ProcessInstance {
     public void setProcessInstancePriority(Priority processInstancePriority) {
         this.processInstancePriority = processInstancePriority;
     }
+
     public String getLocations() {
         return locations;
     }
@@ -486,22 +489,24 @@ public class ProcessInstance {
 
     /**
      * add command to history
+     *
      * @param cmd cmd
      */
-    public void addHistoryCmd(CommandType cmd){
-        if(StringUtils.isNotEmpty(this.historyCmd)){
+    public void addHistoryCmd(CommandType cmd) {
+        if (StringUtils.isNotEmpty(this.historyCmd)) {
             this.historyCmd = String.format("%s,%s", this.historyCmd, cmd.toString());
-        }else{
+        } else {
             this.historyCmd = cmd.toString();
         }
     }
 
     /**
      * check this process is start complement data
+     *
      * @return whether complement data
      */
-    public boolean isComplementData(){
-        if(StringUtils.isEmpty(this.historyCmd)){
+    public boolean isComplementData() {
+        if (StringUtils.isEmpty(this.historyCmd)) {
             return false;
         }
         return historyCmd.startsWith(CommandType.COMPLEMENT_DATA.toString());
@@ -510,10 +515,11 @@ public class ProcessInstance {
     /**
      * get current command type,
      * if start with complement data,return complement
+     *
      * @return CommandType
      */
-    public CommandType getCmdTypeIfComplement(){
-        if(isComplementData()){
+    public CommandType getCmdTypeIfComplement() {
+        if (isComplementData()) {
             return CommandType.COMPLEMENT_DATA;
         }
         return commandType;
@@ -557,7 +563,7 @@ public class ProcessInstance {
     }
 
     public int getTenantId() {
-        return this.tenantId ;
+        return this.tenantId;
     }
 
     public String getReceivers() {

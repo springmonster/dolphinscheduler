@@ -17,13 +17,12 @@
 package org.apache.dolphinscheduler.service.zk;
 
 import org.apache.curator.framework.recipes.cache.TreeCache;
-
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 public class ZookeeperCachedOperator extends ZookeeperOperator {

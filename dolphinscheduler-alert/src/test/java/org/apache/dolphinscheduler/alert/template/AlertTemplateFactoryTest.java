@@ -17,19 +17,16 @@
 package org.apache.dolphinscheduler.alert.template;
 
 import org.apache.dolphinscheduler.alert.template.impl.DefaultHTMLTemplate;
-import org.apache.dolphinscheduler.alert.utils.Constants;
 import org.apache.dolphinscheduler.alert.utils.PropertyUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * test class for AlertTemplateFactory
@@ -44,7 +41,7 @@ public class AlertTemplateFactoryTest {
      * GetMessageTemplate method test
      */
     @Test
-    public void testGetMessageTemplate(){
+    public void testGetMessageTemplate() {
 
         PowerMockito.mockStatic(PropertyUtils.class);
 
@@ -57,7 +54,7 @@ public class AlertTemplateFactoryTest {
      * GetMessageTemplate method throw Exception test
      */
     @Test
-    public void testGetMessageTemplateException(){
+    public void testGetMessageTemplateException() {
 
         AlertTemplate defaultTemplate = AlertTemplateFactory.getMessageTemplate();
         assertTrue(defaultTemplate instanceof DefaultHTMLTemplate);

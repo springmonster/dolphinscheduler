@@ -21,16 +21,16 @@
     <select id="queryQueuePaging" resultType="org.apache.dolphinscheduler.dao.entity.Queue">
         select *
         from t_ds_queue
-        where  1= 1
+        where 1= 1
         <if test="searchVal != null and searchVal != ''">
             and queue_name like concat('%', #{searchVal}, '%')
         </if>
-        order by  update_time desc
+        order by update_time desc
     </select>
     <select id="queryAllQueueList" resultType="org.apache.dolphinscheduler.dao.entity.Queue">
         select *
         from t_ds_queue
-        where  1=1
+        where 1=1
         <if test="queue != null and queue != ''">
             and queue = #{queue}
         </if>
@@ -38,5 +38,4 @@
             and queue_name =#{queueName}
         </if>
     </select>
-
 </mapper>

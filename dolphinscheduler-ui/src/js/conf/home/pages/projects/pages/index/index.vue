@@ -77,7 +77,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'projects-index-index',
-  data () {
+  data() {
     return {
       searchParams: {
         projectId: null,
@@ -91,15 +91,15 @@ export default {
   },
   mixins: [switchProject],
   methods: {
-    _datepicker (val) {
+    _datepicker(val) {
       this.searchParams.startDate = val[0]
       this.searchParams.endDate = val[1]
     },
-    _updateProject () {
+    _updateProject() {
       this.searchParams.projectId = this.id === 0 ? 0 : this.projectId
     }
   },
-  created () {
+  created() {
     this.searchParams.projectId = this.id === 0 ? 0 : this.projectId
     this.searchParams.startDate = dayjs().format('YYYY-MM-DD 00:00:00')
     this.searchParams.endDate = dayjs().format('YYYY-MM-DD HH:mm:ss')

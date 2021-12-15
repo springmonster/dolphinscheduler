@@ -127,7 +127,7 @@ import mUdfUpdate from '@/module/components/fileUpdate/udfUpdate'
 
 export default {
   name: 'udf-create',
-  data () {
+  data() {
     return {
       store,
       type: 'HIVE',
@@ -141,7 +141,7 @@ export default {
       udfResourceList: [],
       isUpdate: false,
       upDisabled: false,
-      normalizer (node) {
+      normalizer(node) {
         return {
           label: node.name
         }
@@ -152,7 +152,7 @@ export default {
     item: Object
   },
   methods: {
-    _ok () {
+    _ok() {
       this.$refs['popup'].spinnerLoading = true
       if (this._validation()) {
         this._verifyUdfFuncName().then(res => {
@@ -168,7 +168,7 @@ export default {
         this.$refs['popup'].spinnerLoading = false
       }
     },
-    _createUdfFunc () {
+    _createUdfFunc() {
       return new Promise((resolve, reject) => {
         // parameter
         let param = {
@@ -198,22 +198,22 @@ export default {
         })
       })
     },
-    _onUpdatePresent () {
+    _onUpdatePresent() {
       // disabled submit
       this.$refs.popup.apDisabled = true
       // disabled update
       this.upDisabled = true
     },
     // selTree
-    selTree (node) {
+    selTree(node) {
       this.$refs.assignment.receivedValue(node.id, node.fullName)
     },
     /**
      * get udf resources
      */
-    _getUdfList () {
+    _getUdfList() {
       return new Promise((resolve, reject) => {
-        this.store.dispatch('resource/getResourcesList', { type: 'UDF' }).then(res => {
+        this.store.dispatch('resource/getResourcesList', {type: 'UDF'}).then(res => {
           let item = res.data
           this.filterEmptyDirectory(item)
           item = this.filterEmptyDirectory(item)
@@ -233,7 +233,7 @@ export default {
       })
     },
     // filterEmptyDirectory
-    filterEmptyDirectory (array) {
+    filterEmptyDirectory(array) {
       for (const item of array) {
         if (item.children) {
           this.filterEmptyDirectory(item.children)
@@ -242,7 +242,7 @@ export default {
       return array.filter(n => ((/\.jar$/.test(n.name) && n.children.length == 0) || (!/\.jar$/.test(n.name) && n.children.length > 0)))
     },
     // filterJarFile
-    filterJarFile (array) {
+    filterJarFile(array) {
       for (const item of array) {
         if (item.children) {
           item.children = this.filterJarFile(item.children)
@@ -251,7 +251,7 @@ export default {
       return array.filter(n => !/\.jar$/.test(n.name))
     },
     // diGuiTree
-    diGuiTree (item) {  // Recursive convenience tree structure
+    diGuiTree(item) {  // Recursive convenience tree structure
       item.forEach(item => {
         item.children === '' || item.children === undefined || item.children === null || item.children.length === 0 ?
           delete item.children : this.diGuiTree(item.children)
@@ -260,7 +260,7 @@ export default {
     /**
      * Upload udf resources
      */
-    _onUpdate (o) {
+    _onUpdate(o) {
       this.upDisabled = false
       this.udfResourceList.push(o)
       this.isUpdate = false
@@ -269,7 +269,7 @@ export default {
       })
       this.$refs.popup.apDisabled = false
     },
-    _toggleUpdate () {
+    _toggleUpdate() {
       this.isUpdate = !this.isUpdate
       if (this.isUpdate) {
         this.resourceId = null
@@ -278,7 +278,7 @@ export default {
     /**
      * verification
      */
-    _validation () {
+    _validation() {
       if (!this.funcName) {
         this.$message.warning(`${i18n.$t('Please enter a UDF function name')}`)
         return false
@@ -296,12 +296,12 @@ export default {
     /**
      * Verify that the function name exists
      */
-    _verifyUdfFuncName () {
+    _verifyUdfFuncName() {
       return new Promise((resolve, reject) => {
         if (this.item && this.item.funcName === this.funcName) {
           resolve()
         } else {
-          this.store.dispatch('resource/verifyUdfFuncName', { name: this.funcName }).then(res => {
+          this.store.dispatch('resource/verifyUdfFuncName', {name: this.funcName}).then(res => {
             resolve()
           }).catch(e => {
             this.$message.error(e.msg || '')
@@ -312,7 +312,7 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     this._getUdfList().then(res => {
       // edit
       if (this.item) {
@@ -328,7 +328,7 @@ export default {
       }
     })
   },
-  mounted () {
+  mounted() {
 
   },
   components: {

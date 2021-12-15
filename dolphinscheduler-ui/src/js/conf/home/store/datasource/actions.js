@@ -25,7 +25,7 @@ export default {
    * @param "desc": string,
    * @param "parameter":string //{"address":"jdbc:hive2://192.168.220.189:10000","autoReconnect":"true","characterEncoding":"utf8","database":"default","initialTimeout":3000,"jdbcUrl":"jdbc:hive2://192.168.220.189:10000/default","maxReconnect":10,"password":"","useUnicode":true,"user":"hive"}
    */
-  createDatasources ({ state }, payload) {
+  createDatasources({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('datasources/create', payload, res => {
         resolve(res)
@@ -38,7 +38,7 @@ export default {
    * Test connection
    * @param "id": int
    */
-  connectDatasources ({ state }, payload) {
+  connectDatasources({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('datasources/connect', payload, res => {
         resolve(res)
@@ -51,7 +51,7 @@ export default {
    * Query data source list - no paging
    * @param "type": string//MYSQL, POSTGRESQL, HIVE, SPARK, CLICKHOUSE, ORACLE, SQLSERVER
    */
-  getDatasourcesList ({ state }, payload) {
+  getDatasourcesList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('datasources/list', payload, res => {
         resolve(res)
@@ -66,7 +66,7 @@ export default {
    * @param "pageNo": int,
    * @param "pageSize": int
    */
-  getDatasourcesListP ({ state }, payload) {
+  getDatasourcesListP({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('datasources/list-paging', payload, res => {
         resolve(res.data)
@@ -78,7 +78,7 @@ export default {
   /**
    * Delete data source
    */
-  deleteDatasource ({ state }, payload) {
+  deleteDatasource({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('datasources/delete', payload, res => {
         resolve(res)
@@ -90,7 +90,7 @@ export default {
   /**
    * Data source editing
    */
-  updateDatasource ({ state }, payload) {
+  updateDatasource({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('datasources/update', payload, res => {
         resolve(res)
@@ -99,7 +99,7 @@ export default {
       })
     })
   },
-  getEditDatasource ({ state }, payload) {
+  getEditDatasource({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('datasources/update-ui', payload, res => {
         resolve(res.data)
@@ -108,7 +108,7 @@ export default {
       })
     })
   },
-  verifyName ({ state }, payload) {
+  verifyName({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('datasources/verify-name', payload, res => {
         resolve(res.data)
@@ -117,7 +117,7 @@ export default {
       })
     })
   },
-  getKerberosStartupState ({ state }, payload) {
+  getKerberosStartupState({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('datasources/kerberos-startup-state', payload, res => {
         resolve(res.data)

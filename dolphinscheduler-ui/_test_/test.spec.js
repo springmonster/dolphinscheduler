@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { shallowMount } from '@vue/test-utils'
+import {shallowMount} from '@vue/test-utils'
 import Message from '../src/components/Message.vue'
 
 describe('Message', () => {
   it('renders props.msg when passed', () => {
     const msg = 'new message'
     const wrapper = shallowMount(Message, {
-      propsData: { msg }
+      propsData: {msg}
     })
     expect(wrapper.text()).toBe(msg)
   })

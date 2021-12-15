@@ -88,7 +88,7 @@
 <script>
 export default {
   name: 'list',
-  data () {
+  data() {
     return {
       list: [],
       backfillItem: {}
@@ -100,21 +100,21 @@ export default {
     pageSize: Number
   },
   methods: {
-    _rtTooltip (name) {
+    _rtTooltip(name) {
       return `<div style="word-wrap:break-word;text-align: left;">${name}</div>`
     }
   },
   watch: {
-    taskRecordList (a) {
+    taskRecordList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
       })
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.list = this.taskRecordList
   },
   components: {}

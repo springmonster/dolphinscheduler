@@ -74,7 +74,7 @@ public class ProcessUtils {
             }
 
             cmdstr = createCommandLine(
-                VERIFICATION_LEGACY, executablePath, cmd);
+                    VERIFICATION_LEGACY, executablePath, cmd);
         } else {
             String executablePath;
             try {
@@ -97,7 +97,7 @@ public class ProcessUtils {
 
             cmdstr = createCommandLine(
 
-                isShellFile(executablePath) ? VERIFICATION_CMD_BAT : VERIFICATION_WIN32, quoteString(executablePath), cmd);
+                    isShellFile(executablePath) ? VERIFICATION_CMD_BAT : VERIFICATION_WIN32, quoteString(executablePath), cmd);
         }
         return cmdstr;
     }
@@ -127,7 +127,7 @@ public class ProcessUtils {
      * @return executable path
      * @throws IOException io exception
      */
-    private static String getExecutablePath(String path)  throws IOException {
+    private static String getExecutablePath(String path) throws IOException {
         boolean pathIsQuoted = isQuoted(true, path, "Executable name has embedded quote, split the arguments");
 
         File fileToRun = new File(pathIsQuoted ? path.substring(1, path.length() - 1) : path);
@@ -202,7 +202,7 @@ public class ProcessUtils {
      */
     private static final char[][] ESCAPE_VERIFICATION = {{' ', '\t', '<', '>', '&', '|', '^'},
 
-        {' ', '\t', '<', '>'}, {' ', '\t'}};
+            {' ', '\t', '<', '>'}, {' ', '\t'}};
 
     /**
      * create command line
@@ -298,7 +298,7 @@ public class ProcessUtils {
 
                     if (!applicationStatus.typeIsFinished()) {
                         String commandFile = String
-                            .format("%s/%s.kill", executePath, appId);
+                                .format("%s/%s.kill", executePath, appId);
                         String cmd = "yarn application -kill " + appId;
                         execYarnKillCommand(logger, tenantCode, appId, commandFile, cmd);
                     }
@@ -358,7 +358,7 @@ public class ProcessUtils {
             int processId = taskExecutionContext.getProcessId();
             if (processId == 0) {
                 logger.error("process kill failed, process id :{}, task id:{}",
-                    processId, taskExecutionContext.getTaskInstanceId());
+                        processId, taskExecutionContext.getTaskInstanceId());
                 return;
             }
 
@@ -422,8 +422,8 @@ public class ProcessUtils {
             try {
                 logClient = new LogClientService();
                 log = logClient.viewLog(Host.of(taskExecutionContext.getHost()).getIp(),
-                    Constants.RPC_PORT,
-                    taskExecutionContext.getLogPath());
+                        Constants.RPC_PORT,
+                        taskExecutionContext.getLogPath());
             } finally {
                 if (logClient != null) {
                     logClient.close();

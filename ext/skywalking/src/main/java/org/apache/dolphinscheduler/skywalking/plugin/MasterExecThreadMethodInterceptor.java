@@ -30,18 +30,7 @@ import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.MethodInt
 
 import java.lang.reflect.Method;
 
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROJECT_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_STATE;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_INSTANCE_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_INSTANCE_NAME;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_INSTANCE_HOST;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_DEFINITION_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_COMMAND_TYPE;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_WORKER_GROUP;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_TIMEOUT;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.MASTER_PROCESS_EXECUTION_STATUS;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_EXECUTE_METHOD;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.getProjectId;
+import static org.apache.dolphinscheduler.skywalking.plugin.Utils.*;
 
 public class MasterExecThreadMethodInterceptor implements InstanceMethodsAroundInterceptor {
     private static final String OPERATION_NAME_PREFIX = "master/process/";

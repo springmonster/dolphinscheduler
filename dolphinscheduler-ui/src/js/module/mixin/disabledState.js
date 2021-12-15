@@ -19,18 +19,18 @@ import store from '@/conf/home/store'
 import router from '@/conf/home/router'
 
 export default {
-  data () {
+  data() {
     return {
       router,
       store,
       isDetails: false
     }
   },
-  created () {
+  created() {
     this.isDetails = this.store.state.dag.isDetails// Permissions.getAuth() ? this.store.state.dag.isDetails : true
   },
   computed: {
-    _isDetails () {
+    _isDetails() {
       return ''// this.isDetails ? 'icon-disabled' : ''
     }
   }

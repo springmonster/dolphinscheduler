@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * base DAG service
  */
-public class BaseDAGService extends BaseService{
+public class BaseDAGService extends BaseService {
 
 
     /**

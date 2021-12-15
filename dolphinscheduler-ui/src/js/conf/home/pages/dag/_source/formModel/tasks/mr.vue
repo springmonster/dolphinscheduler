@@ -124,7 +124,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'mr',
-  data () {
+  data() {
     return {
       valueConsistsOf: 'LEAF_PRIORITY',
       // Main function class
@@ -151,8 +151,8 @@ export default {
       // Program type
       programType: 'JAVA',
       // Program type(List)
-      programTypeList: [{ code: 'JAVA' }, { code: 'PYTHON' }],
-      normalizer (node) {
+      programTypeList: [{code: 'JAVA'}, {code: 'PYTHON'}],
+      normalizer(node) {
         return {
           label: node.name
         }
@@ -169,7 +169,7 @@ export default {
     /**
      * programType change
      */
-    _onChange (o) {
+    _onChange(o) {
       if (o.value === 'PYTHON') {
         this.mainJarLists = this.pyList
       } else {
@@ -179,7 +179,7 @@ export default {
     /**
      * getResourceId
      */
-    marjarId (name) {
+    marjarId(name) {
       this.store.dispatch('dag/getResourceId', {
         type: 'FILE',
         fullName: '/' + name
@@ -192,34 +192,34 @@ export default {
     /**
      * return localParams
      */
-    _onLocalParams (a) {
+    _onLocalParams(a) {
       this.localParams = a
     },
     /**
      * return resourceList
      */
-    _onResourcesData (a) {
+    _onResourcesData(a) {
       this.resourceList = a
     },
     /**
      * cache resourceList
      */
-    _onCacheResourcesData (a) {
+    _onCacheResourcesData(a) {
       this.cacheResourceList = a
     },
-    diGuiTree (item) {  // Recursive convenience tree structure
+    diGuiTree(item) {  // Recursive convenience tree structure
       item.forEach(item => {
         item.children === '' || item.children === undefined || item.children === null || item.children.length === 0 ?
           this.operationTree(item) : this.diGuiTree(item.children)
       })
     },
-    operationTree (item) {
+    operationTree(item) {
       if (item.dirctory) {
         item.isDisabled = true
       }
       delete item.children
     },
-    searchTree (element, id) {
+    searchTree(element, id) {
       // 根据id查找节点
       if (element.id == id) {
         return element
@@ -233,7 +233,7 @@ export default {
       }
       return null
     },
-    dataProcess (backResource) {
+    dataProcess(backResource) {
       let isResourceId = []
       let resourceIdArr = []
       if (this.resourceList.length > 0) {
@@ -287,7 +287,7 @@ export default {
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       if (this.programType !== 'PYTHON' && !this.mainClass) {
         this.$message.warning(`${i18n.$t('Please enter main class')}`)
         return false
@@ -315,7 +315,7 @@ export default {
           id: this.mainJar
         },
         resourceList: _.map(this.resourceList, v => {
-          return { id: v }
+          return {id: v}
         }),
         localParams: this.localParams,
         appName: this.appName,
@@ -331,18 +331,18 @@ export default {
     /**
      * monitor
      */
-    programType (type) {
+    programType(type) {
       if (type === 'PYTHON') {
         this.mainClass = ''
       }
     },
     //Watch the cacheParams
-    cacheParams (val) {
+    cacheParams(val) {
       this.$emit('on-cache-params', val)
     }
   },
   computed: {
-    cacheParams () {
+    cacheParams() {
       let isResourceId = []
       let resourceIdArr = []
       if (this.resourceList.length > 0) {
@@ -385,7 +385,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     let o = this.backfillItem
     let item = this.store.state.dag.resourcesListS
     let items = this.store.state.dag.resourcesListJar
@@ -450,7 +450,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
 
   },
   components: {

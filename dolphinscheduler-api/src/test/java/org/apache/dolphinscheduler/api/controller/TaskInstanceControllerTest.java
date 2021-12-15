@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * task instance controller test
  */
-public class TaskInstanceControllerTest extends AbstractControllerTest{
+public class TaskInstanceControllerTest extends AbstractControllerTest {
     private static Logger logger = LoggerFactory.getLogger(TaskInstanceControllerTest.class);
 
     @Test
@@ -43,23 +43,23 @@ public class TaskInstanceControllerTest extends AbstractControllerTest{
 
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
         //paramsMap.add("processInstanceId","1380");
-        paramsMap.add("searchVal","");
-        paramsMap.add("taskName","");
+        paramsMap.add("searchVal", "");
+        paramsMap.add("taskName", "");
         //paramsMap.add("stateType","");
-        paramsMap.add("startDate","2019-02-26 19:48:00");
-        paramsMap.add("endDate","2019-02-26 19:48:22");
-        paramsMap.add("pageNo","1");
-        paramsMap.add("pageSize","20");
+        paramsMap.add("startDate", "2019-02-26 19:48:00");
+        paramsMap.add("endDate", "2019-02-26 19:48:22");
+        paramsMap.add("pageNo", "1");
+        paramsMap.add("pageSize", "20");
 
-        MvcResult mvcResult = mockMvc.perform(get("/projects/{projectName}/task-instance/list-paging","cxc_1113")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+        MvcResult mvcResult = mockMvc.perform(get("/projects/{projectName}/task-instance/list-paging", "cxc_1113")
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 }

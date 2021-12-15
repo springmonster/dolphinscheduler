@@ -17,10 +17,10 @@
 package org.apache.dolphinscheduler.dao.mapper;
 
 
-import org.apache.dolphinscheduler.dao.entity.Queue;
-import org.apache.dolphinscheduler.dao.entity.Tenant;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.dolphinscheduler.dao.entity.Queue;
+import org.apache.dolphinscheduler.dao.entity.Tenant;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,9 +47,10 @@ public class TenantMapperTest {
 
     /**
      * insert
+     *
      * @return Tenant
      */
-    private Tenant insertOne(){
+    private Tenant insertOne() {
         //insertOne
         Tenant tenant = new Tenant();
         tenant.setCreateTime(new Date());
@@ -62,7 +63,7 @@ public class TenantMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         Tenant tenant = insertOne();
         tenant.setUpdateTime(new Date());
@@ -75,7 +76,7 @@ public class TenantMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         Tenant tenant = insertOne();
         int delete = tenantMapper.deleteById(tenant.getId());
         Assert.assertEquals(1, delete);
@@ -140,7 +141,7 @@ public class TenantMapperTest {
         tenant.setTenantName("ut name");
         tenant.setQueueId(queue.getId());
         tenantMapper.updateById(tenant);
-        Page<Tenant> page = new Page(1,3);
+        Page<Tenant> page = new Page(1, 3);
 
         IPage<Tenant> tenantIPage = tenantMapper.queryTenantPaging(page, tenant.getTenantName());
 

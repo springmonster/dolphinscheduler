@@ -16,35 +16,33 @@
  */
 package org.apache.dolphinscheduler.alert.utils;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.dolphinscheduler.common.enums.AlertType;
 import org.apache.dolphinscheduler.common.enums.ShowType;
 import org.apache.dolphinscheduler.dao.entity.Alert;
 import org.apache.dolphinscheduler.plugin.model.AlertData;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Please manually modify the configuration file before testing.
  * file: alert.properties
- *   enterprise.wechat.corp.id
- *   enterprise.wechat.secret
- *   enterprise.wechat.token.url
- *   enterprise.wechat.push.url
- *   enterprise.wechat.send.msg
- *   enterprise.wechat.agent.id
- *   enterprise.wechat.users
+ * enterprise.wechat.corp.id
+ * enterprise.wechat.secret
+ * enterprise.wechat.token.url
+ * enterprise.wechat.push.url
+ * enterprise.wechat.send.msg
+ * enterprise.wechat.agent.id
+ * enterprise.wechat.users
  */
 @PrepareForTest(PropertyUtils.class)
 @RunWith(PowerMockRunner.class)
@@ -53,14 +51,14 @@ public class EnterpriseWeChatUtilsTest {
     private static final String toParty = "wwc99134b6fc1edb6";
     private static final String enterpriseWechatSecret = "Uuv2KFrkdf7SeKOsTDCpsTkpawXBMNRhFy6VKX5FV";
     private static final String enterpriseWechatAgentId = "1000004";
-    private static final String enterpriseWechatUsers="LiGang,journey";
+    private static final String enterpriseWechatUsers = "LiGang,journey";
     private static final String msg = "hello world";
 
     private static final String enterpriseWechatTeamSendMsg = "{\\\"toparty\\\":\\\"$toParty\\\",\\\"agentid\\\":\\\"$agentId\\\",\\\"msgtype\\\":\\\"text\\\",\\\"text\\\":{\\\"content\\\":\\\"$msg\\\"},\\\"safe\\\":\\\"0\\\"}";
     private static final String enterpriseWechatUserSendMsg = "{\\\"touser\\\":\\\"$toUser\\\",\\\"agentid\\\":\\\"$agentId\\\",\\\"msgtype\\\":\\\"markdown\\\",\\\"markdown\\\":{\\\"content\\\":\\\"$msg\\\"}}";
 
     @Before
-    public void init(){
+    public void init() {
         PowerMockito.mockStatic(PropertyUtils.class);
         Mockito.when(PropertyUtils.getBoolean(Constants.ENTERPRISE_WECHAT_ENABLE)).thenReturn(true);
         Mockito.when(PropertyUtils.getString(Constants.ENTERPRISE_WECHAT_USER_SEND_MSG)).thenReturn(enterpriseWechatUserSendMsg);
@@ -68,14 +66,14 @@ public class EnterpriseWeChatUtilsTest {
     }
 
     @Test
-    public void testIsEnable(){
+    public void testIsEnable() {
         Boolean weChartEnable = EnterpriseWeChatUtils.isEnable();
         Assert.assertTrue(weChartEnable);
     }
 
 
     @Test
-    public void testMakeTeamSendMsg1(){
+    public void testMakeTeamSendMsg1() {
         String sendMsg = EnterpriseWeChatUtils.makeTeamSendMsg(toParty, enterpriseWechatSecret, msg);
         Assert.assertTrue(sendMsg.contains(toParty));
         Assert.assertTrue(sendMsg.contains(enterpriseWechatSecret));
@@ -85,7 +83,7 @@ public class EnterpriseWeChatUtilsTest {
 
 
     @Test
-    public void testMakeTeamSendMsg2(){
+    public void testMakeTeamSendMsg2() {
         List<String> parties = new ArrayList<>();
         parties.add(toParty);
         parties.add("test1");
@@ -97,7 +95,7 @@ public class EnterpriseWeChatUtilsTest {
     }
 
     @Test
-    public void tesMakeUserSendMsg1(){
+    public void tesMakeUserSendMsg1() {
 
         String sendMsg = EnterpriseWeChatUtils.makeUserSendMsg(enterpriseWechatUsers, enterpriseWechatAgentId, msg);
         Assert.assertTrue(sendMsg.contains(enterpriseWechatUsers));
@@ -106,7 +104,7 @@ public class EnterpriseWeChatUtilsTest {
     }
 
     @Test
-    public void tesMakeUserSendMsg2(){
+    public void tesMakeUserSendMsg2() {
         List<String> users = new ArrayList<>();
         users.add("user1");
         users.add("user2");
@@ -119,7 +117,7 @@ public class EnterpriseWeChatUtilsTest {
     }
 
     @Test
-    public void testMarkdownByAlertForText(){
+    public void testMarkdownByAlertForText() {
         Alert alertForText = createAlertForText();
         AlertData alertData = new AlertData();
         alertData.setTitle(alertForText.getTitle())
@@ -130,7 +128,7 @@ public class EnterpriseWeChatUtilsTest {
     }
 
     @Test
-    public void testMarkdownByAlertForTable(){
+    public void testMarkdownByAlertForTable() {
         Alert alertForText = createAlertForTable();
         AlertData alertData = new AlertData();
         alertData.setTitle(alertForText.getTitle())
@@ -140,8 +138,8 @@ public class EnterpriseWeChatUtilsTest {
         Assert.assertNotNull(result);
     }
 
-    private Alert createAlertForText(){
-        String content ="[\"id:69\"," +
+    private Alert createAlertForText() {
+        String content = "[\"id:69\"," +
                 "\"name:UserBehavior-0--1193959466\"," +
                 "\"Job name: Start workflow\"," +
                 "\"State: SUCCESS\"," +
@@ -162,18 +160,18 @@ public class EnterpriseWeChatUtilsTest {
         return alert;
     }
 
-    private String list2String(){
+    private String list2String() {
 
         LinkedHashMap<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("mysql service name","mysql200");
-        map1.put("mysql address","192.168.xx.xx");
-        map1.put("port","3306");
-        map1.put("no index of number","80");
-        map1.put("database client connections","190");
+        map1.put("mysql service name", "mysql200");
+        map1.put("mysql address", "192.168.xx.xx");
+        map1.put("port", "3306");
+        map1.put("no index of number", "80");
+        map1.put("database client connections", "190");
 
         LinkedHashMap<String, Object> map2 = new LinkedHashMap<>();
-        map2.put("mysql service name","mysql210");
-        map2.put("mysql address","192.168.xx.xx");
+        map2.put("mysql service name", "mysql210");
+        map2.put("mysql address", "192.168.xx.xx");
         map2.put("port", "3306");
         map2.put("no index of number", "10");
         map2.put("database client connections", "90");
@@ -185,18 +183,16 @@ public class EnterpriseWeChatUtilsTest {
         return mapjson;
     }
 
-    private Alert createAlertForTable(){
+    private Alert createAlertForTable() {
         Alert alert = new Alert();
         alert.setTitle("Mysql Exception");
         alert.setShowType(ShowType.TABLE);
-        String content= list2String();
+        String content = list2String();
         alert.setContent(content);
         alert.setAlertType(AlertType.EMAIL);
         alert.setAlertGroupId(1);
         return alert;
     }
-
-
 
 
 //    @Test

@@ -18,12 +18,11 @@
 package org.apache.dolphinscheduler.server.worker.config;
 
 import org.apache.dolphinscheduler.common.Constants;
-
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 @PropertySource(value = "worker.properties")
@@ -88,7 +87,7 @@ public class WorkerConfig {
     }
 
     public int getWorkerMaxCpuloadAvg() {
-        if (workerMaxCpuloadAvg == -1){
+        if (workerMaxCpuloadAvg == -1) {
             return Constants.DEFAULT_WORKER_CPU_LOAD;
         }
         return workerMaxCpuloadAvg;

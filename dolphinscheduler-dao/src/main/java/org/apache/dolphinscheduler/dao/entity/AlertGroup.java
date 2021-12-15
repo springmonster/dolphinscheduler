@@ -16,11 +16,11 @@
  */
 package org.apache.dolphinscheduler.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import org.apache.dolphinscheduler.common.enums.AlertType;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import org.apache.dolphinscheduler.common.enums.AlertType;
 
 import java.util.Date;
 

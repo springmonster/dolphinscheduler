@@ -48,10 +48,10 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mList from './_source/list'
 import mSpin from '@/module/components/spin/spin'
-import { findComponentDownward } from '@/module/util/'
+import {findComponentDownward} from '@/module/util/'
 import mNoData from '@/module/components/noData/noData'
 import listUrlParamHandle from '@/module/mixin/listUrlParamHandle'
 import mConditions from '@/module/components/conditions/conditions'
@@ -59,7 +59,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'resource-list-index-UDF',
-  data () {
+  data() {
     return {
       total: null,
       isLoading: false,
@@ -81,28 +81,28 @@ export default {
     /**
      * File Upload
      */
-    _uploading () {
+    _uploading() {
       findComponentDownward(this.$root, 'roof-nav')._fileUpdate('UDF')
     },
-    _onConditions (o) {
+    _onConditions(o) {
       this.searchParams = _.assign(this.searchParams, o)
       this.searchParams.pageNo = 1
     },
-    _page (val) {
+    _page(val) {
       this.searchParams.pageNo = val
     },
-    _pageSize (val) {
+    _pageSize(val) {
       this.searchParams.pageSize = val
     },
-    _onUpdate () {
+    _onUpdate() {
       this._debounceGET()
     },
-    _updateList () {
+    _updateList() {
       this.searchParams.pageNo = 1
       this.searchParams.searchVal = ''
       this._debounceGET()
     },
-    _getList (flag) {
+    _getList(flag) {
       if (sessionStorage.getItem('isLeft') == 0) {
         this.isLeft = false
       } else {
@@ -125,17 +125,17 @@ export default {
   },
   watch: {
     // router
-    '$route' (a) {
+    '$route'(a) {
       // url no params get instance list
       this.searchParams.pageNo = _.isEmpty(a.query) ? 1 : a.query.pageNo
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.$modal.destroy()
   },
-  beforeDestroy () {
+  beforeDestroy() {
     sessionStorage.setItem('isLeft', 1)
   },
   components: {

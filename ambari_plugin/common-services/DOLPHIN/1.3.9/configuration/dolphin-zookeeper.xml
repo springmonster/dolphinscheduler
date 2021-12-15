@@ -15,62 +15,62 @@
   ~ limitations under the License.
   -->
 <configuration>
-	<property>
-		<name>zookeeper.dolphinscheduler.root</name>
-		<value>/dolphinscheduler</value>
-		<description>
-			dolphinscheduler root directory
-		</description>
-		<on-ambari-upgrade add="true"/>
-	</property>
-	<property>
-		<name>zookeeper.session.timeout</name>
-		<value>300</value>
-		<value-attributes>
-			<type>int</type>
-		</value-attributes>
-		<description>
-		</description>
-		<on-ambari-upgrade add="true"/>
-	</property>
-	<property>
-		<name>zookeeper.connection.timeout</name>
-		<value>300</value>
-		<value-attributes>
-			<type>int</type>
-		</value-attributes>
-		<description>
-		</description>
-		<on-ambari-upgrade add="true"/>
-	</property>
-	<property>
-		<name>zookeeper.retry.base.sleep</name>
-		<value>100</value>
-		<value-attributes>
-			<type>int</type>
-		</value-attributes>
-		<description>
-		</description>
-		<on-ambari-upgrade add="true"/>
-	</property>
-	<property>
-		<name>zookeeper.retry.max.sleep</name>
-		<value>30000</value>
-		<value-attributes>
-			<type>int</type>
-		</value-attributes>
-		<description>
-		</description>
-		<on-ambari-upgrade add="true"/>
-	</property>
-	<property>
-		<name>zookeeper.retry.maxtime</name>
-		<value>5</value>
-		<value-attributes>
-			<type>int</type>
-		</value-attributes>
-		<description>
-		</description>
-		<on-ambari-upgrade add="true"/>
-	</property>
+    <property>
+        <name>zookeeper.dolphinscheduler.root</name>
+        <value>/dolphinscheduler</value>
+        <description>
+            dolphinscheduler root directory
+        </description>
+        <on-ambari-upgrade add="true"/>
+    </property>
+    <property>
+        <name>zookeeper.session.timeout</name>
+        <value>300</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+        <description>
+        </description>
+        <on-ambari-upgrade add="true"/>
+    </property>
+    <property>
+        <name>zookeeper.connection.timeout</name>
+        <value>300</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+        <description>
+        </description>
+        <on-ambari-upgrade add="true"/>
+    </property>
+    <property>
+        <name>zookeeper.retry.base.sleep</name>
+        <value>100</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+        <description>
+        </description>
+        <on-ambari-upgrade add="true"/>
+    </property>
+    <property>
+        <name>zookeeper.retry.max.sleep</name>
+        <value>30000</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+        <description>
+        </description>
+        <on-ambari-upgrade add="true"/>
+    </property>
+    <property>
+        <name>zookeeper.retry.maxtime</name>
+        <value>5</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+        <description>
+        </description>
+        <on-ambari-upgrade add="true"/>
+    </property>
 </configuration>

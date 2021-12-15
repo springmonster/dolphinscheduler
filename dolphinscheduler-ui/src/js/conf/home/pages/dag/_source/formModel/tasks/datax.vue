@@ -157,7 +157,7 @@ let jsonEditor
 export default {
   name: 'datax',
 
-  data () {
+  data() {
     return {
       // Data Custom template
       enable: false,
@@ -197,7 +197,7 @@ export default {
     createNodeId: Number
   },
   methods: {
-    _onSwitch (is) {
+    _onSwitch(is) {
       if (is) {
         this.customConfig = 1
         setTimeout(() => {
@@ -213,39 +213,39 @@ export default {
     /**
      * return data source
      */
-    _onDsData (o) {
+    _onDsData(o) {
       this.dsType = o.type
       this.rtDatasource = o.datasource
     },
     /**
      * return data target
      */
-    _onDtData (o) {
+    _onDtData(o) {
       this.dtType = o.type
       this.rtDatatarget = o.datasource
     },
     /**
      * return pre statements
      */
-    _onPreStatements (a) {
+    _onPreStatements(a) {
       this.preStatements = a
     },
     /**
      * return post statements
      */
-    _onPostStatements (a) {
+    _onPostStatements(a) {
       this.postStatements = a
     },
     /**
      * return localParams
      */
-    _onLocalParams (a) {
+    _onLocalParams(a) {
       this.localParams = a
     },
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       if (this.customConfig) {
         if (!jsonEditor.getValue()) {
           this.$message.warning(`${i18n.$t('Please enter a JSON Statement(required)')}`)
@@ -315,7 +315,7 @@ export default {
     /**
      * Processing code highlighting
      */
-    _handlerEditor () {
+    _handlerEditor() {
       this._destroyEditor()
 
       // editor
@@ -343,7 +343,7 @@ export default {
 
       return editor
     },
-    _handlerJsonEditor () {
+    _handlerJsonEditor() {
       this._destroyJsonEditor()
 
       // jsonEditor
@@ -371,7 +371,7 @@ export default {
 
       return jsonEditor
     },
-    _cacheParams () {
+    _cacheParams() {
       this.$emit('on-cache-params', {
         dsType: this.dsType,
         dataSource: this.rtDatasource,
@@ -385,14 +385,14 @@ export default {
         postStatements: this.postStatements
       })
     },
-    _destroyEditor () {
+    _destroyEditor() {
       if (editor) {
         editor.toTextArea() // Uninstall
         editor.off($('.code-sql-mirror'), 'keypress', this.keypress)
         editor.off($('.code-sql-mirror'), 'changes', this.changes)
       }
     },
-    _destroyJsonEditor () {
+    _destroyJsonEditor() {
       if (jsonEditor) {
         jsonEditor.toTextArea() // Uninstall
         jsonEditor.off($('.code-json-mirror'), 'keypress', this.keypress)
@@ -400,7 +400,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     let o = this.backfillItem
 
     // Non-null objects represent backfill
@@ -427,7 +427,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     if (this.customConfig) {
       setTimeout(() => {
         this._handlerJsonEditor()
@@ -438,7 +438,7 @@ export default {
       }, 350)
     }
   },
-  destroyed () {
+  destroyed() {
     /**
      * Destroy the editor instance
      */
@@ -453,12 +453,12 @@ export default {
   },
   watch: {
     //Watch the cacheParams
-    cacheParams (val) {
+    cacheParams(val) {
       this._cacheParams()
     }
   },
   computed: {
-    cacheParams () {
+    cacheParams() {
       return {
         dsType: this.dsType,
         dataSource: this.rtDatasource,

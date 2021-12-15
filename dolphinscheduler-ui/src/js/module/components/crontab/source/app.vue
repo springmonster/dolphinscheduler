@@ -78,7 +78,7 @@ import mYear from './_times/year'
 
 export default {
   name: 'app',
-  data () {
+  data() {
     return {
       tabVal: 'second',
       secondVal: '*',
@@ -107,16 +107,16 @@ export default {
     event: 'valueEvent'
   },
   methods: {
-    onTab (val) {
+    onTab(val) {
       this.tabVal = val
     },
-    _onDayValue (val) {
+    _onDayValue(val) {
       this.dayVal = val
     },
-    _onWeekValue (val) {
+    _onWeekValue(val) {
       this.weekVal = val
     },
-    _reset () {
+    _reset() {
       let str = this.value.split(' ')
       this.secondVal = str[0]
       this.minuteVal = str[1]
@@ -128,36 +128,36 @@ export default {
     }
   },
   watch: {
-    rtValue (val) {
+    rtValue(val) {
       this.$emit('valueEvent', val)
     },
-    value () {
+    value() {
       this._reset()
     }
   },
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     // International binding under win
     window.localeCrontab = this.locale
 
     // Initialization
     this._reset()
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
   },
-  beforeUpdate () {
+  beforeUpdate() {
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {
-    rtValue () {
+    rtValue() {
       return `${this.secondVal} ${this.minuteVal} ${this.hourVal} ${this.dayVal} ${this.monthVal} ${this.weekVal} ${this.yearVal}`
     }
   },

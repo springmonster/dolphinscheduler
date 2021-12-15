@@ -29,7 +29,6 @@ import org.apache.dolphinscheduler.server.entity.SqoopTaskExecutionContext;
 import org.apache.dolphinscheduler.server.entity.TaskExecutionContext;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.SqoopConstants;
 import org.apache.dolphinscheduler.server.worker.task.sqoop.generator.ITargetGenerator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +46,7 @@ public class MysqlTargetGenerator implements ITargetGenerator {
 
         try {
             TargetMysqlParameter targetMysqlParameter =
-                JSONUtils.parseObject(sqoopParameters.getTargetParams(), TargetMysqlParameter.class);
+                    JSONUtils.parseObject(sqoopParameters.getTargetParams(), TargetMysqlParameter.class);
 
             SqoopTaskExecutionContext sqoopTaskExecutionContext = taskExecutionContext.getSqoopTaskExecutionContext();
 
@@ -55,22 +54,22 @@ public class MysqlTargetGenerator implements ITargetGenerator {
 
                 // get datasource
                 BaseDataSource baseDataSource = DataSourceFactory.getDatasource(DbType.of(sqoopTaskExecutionContext.getTargetType()),
-                    sqoopTaskExecutionContext.getTargetConnectionParams());
+                        sqoopTaskExecutionContext.getTargetConnectionParams());
 
                 if (null != baseDataSource) {
 
                     mysqlTargetSb.append(Constants.SPACE).append(SqoopConstants.DB_CONNECT)
-                        .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(baseDataSource.getJdbcUrl()).append(Constants.DOUBLE_QUOTES)
-                        .append(Constants.SPACE).append(SqoopConstants.DB_USERNAME)
-                        .append(Constants.SPACE).append(baseDataSource.getUser())
-                        .append(Constants.SPACE).append(SqoopConstants.DB_PWD)
-                        .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(baseDataSource.getPassword()).append(Constants.DOUBLE_QUOTES)
-                        .append(Constants.SPACE).append(SqoopConstants.TABLE)
-                        .append(Constants.SPACE).append(targetMysqlParameter.getTargetTable());
+                            .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(baseDataSource.getJdbcUrl()).append(Constants.DOUBLE_QUOTES)
+                            .append(Constants.SPACE).append(SqoopConstants.DB_USERNAME)
+                            .append(Constants.SPACE).append(baseDataSource.getUser())
+                            .append(Constants.SPACE).append(SqoopConstants.DB_PWD)
+                            .append(Constants.SPACE).append(Constants.DOUBLE_QUOTES).append(baseDataSource.getPassword()).append(Constants.DOUBLE_QUOTES)
+                            .append(Constants.SPACE).append(SqoopConstants.TABLE)
+                            .append(Constants.SPACE).append(targetMysqlParameter.getTargetTable());
 
                     if (StringUtils.isNotEmpty(targetMysqlParameter.getTargetColumns())) {
                         mysqlTargetSb.append(Constants.SPACE).append(SqoopConstants.COLUMNS)
-                            .append(Constants.SPACE).append(targetMysqlParameter.getTargetColumns());
+                                .append(Constants.SPACE).append(targetMysqlParameter.getTargetColumns());
                     }
 
                     if (StringUtils.isNotEmpty(targetMysqlParameter.getFieldsTerminated())) {
@@ -93,12 +92,12 @@ public class MysqlTargetGenerator implements ITargetGenerator {
                     }
 
                     if (targetMysqlParameter.getIsUpdate()
-                        && StringUtils.isNotEmpty(targetMysqlParameter.getTargetUpdateKey())
-                        && StringUtils.isNotEmpty(targetMysqlParameter.getTargetUpdateMode())) {
+                            && StringUtils.isNotEmpty(targetMysqlParameter.getTargetUpdateKey())
+                            && StringUtils.isNotEmpty(targetMysqlParameter.getTargetUpdateMode())) {
                         mysqlTargetSb.append(Constants.SPACE).append(SqoopConstants.UPDATE_KEY)
-                            .append(Constants.SPACE).append(targetMysqlParameter.getTargetUpdateKey())
-                            .append(Constants.SPACE).append(SqoopConstants.UPDATE_MODE)
-                            .append(Constants.SPACE).append(targetMysqlParameter.getTargetUpdateMode());
+                                .append(Constants.SPACE).append(targetMysqlParameter.getTargetUpdateKey())
+                                .append(Constants.SPACE).append(SqoopConstants.UPDATE_MODE)
+                                .append(Constants.SPACE).append(targetMysqlParameter.getTargetUpdateMode());
                     }
                 }
             }

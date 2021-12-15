@@ -25,9 +25,9 @@ import java.util.List;
 public class StringTest {
 
     @Test
-    public void stringCompareTest(){
+    public void stringCompareTest() {
 
-        for(int j = 0; j < 5; j++) {
+        for (int j = 0; j < 5; j++) {
             long start = System.currentTimeMillis();
             int size = 10000;
 

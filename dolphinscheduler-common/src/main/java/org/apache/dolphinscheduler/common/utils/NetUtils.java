@@ -17,25 +17,16 @@
 
 package org.apache.dolphinscheduler.common.utils;
 
-import static java.util.Collections.emptyList;
-
 import org.apache.dolphinscheduler.common.Constants;
-
-import java.io.IOException;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.regex.Pattern;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.*;
+import java.util.*;
+import java.util.regex.Pattern;
+
+import static java.util.Collections.emptyList;
 
 /**
  * NetUtils
@@ -56,6 +47,7 @@ public class NetUtils {
 
     /**
      * get addr like host:port
+     *
      * @return addr
      */
     public static String getAddr(String host, int port) {
@@ -64,6 +56,7 @@ public class NetUtils {
 
     /**
      * get addr like host:port
+     *
      * @return addr
      */
     public static String getAddr(int port) {
@@ -72,6 +65,7 @@ public class NetUtils {
 
     /**
      * get host
+     *
      * @return host
      */
     public static String getHost(InetAddress inetAddress) {

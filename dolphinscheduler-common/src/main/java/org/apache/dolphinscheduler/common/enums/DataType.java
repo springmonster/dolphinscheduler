@@ -31,5 +31,5 @@ public enum DataType {
      * 7 time stamp
      * 8 Boolean
      */
-    VARCHAR,INTEGER,LONG,FLOAT,DOUBLE,DATE,TIME,TIMESTAMP,BOOLEAN
+    VARCHAR, INTEGER, LONG, FLOAT, DOUBLE, DATE, TIME, TIMESTAMP, BOOLEAN
 }

@@ -17,6 +17,8 @@
 
 package org.apache.dolphinscheduler.server.master.registry;
 
+import com.google.common.collect.Sets;
+import org.apache.curator.framework.state.ConnectionState;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.utils.DateUtils;
 import org.apache.dolphinscheduler.common.utils.NetUtils;
@@ -24,22 +26,16 @@ import org.apache.dolphinscheduler.remote.utils.NamedThreadFactory;
 import org.apache.dolphinscheduler.server.master.config.MasterConfig;
 import org.apache.dolphinscheduler.server.registry.HeartBeatTask;
 import org.apache.dolphinscheduler.server.registry.ZookeeperRegistryCenter;
-
-import org.apache.curator.framework.state.ConnectionState;
-
-import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Sets;
+import javax.annotation.PostConstruct;
+import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * master registry
@@ -85,17 +81,17 @@ public class MasterRegistry {
         String localNodePath = getMasterPath();
         zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(localNodePath, "");
         zookeeperRegistryCenter.getRegisterOperator().getZkClient().getConnectionStateListenable().addListener(
-            (client, newState) -> {
-                if (newState == ConnectionState.LOST) {
-                    logger.error("master : {} connection lost from zookeeper", address);
-                } else if (newState == ConnectionState.RECONNECTED) {
-                    logger.info("master : {} reconnected to zookeeper", address);
-                    zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(localNodePath, "");
-                } else if (newState == ConnectionState.SUSPENDED) {
-                    logger.warn("master : {} connection SUSPENDED ", address);
-                    zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(localNodePath, "");
-                }
-            });
+                (client, newState) -> {
+                    if (newState == ConnectionState.LOST) {
+                        logger.error("master : {} connection lost from zookeeper", address);
+                    } else if (newState == ConnectionState.RECONNECTED) {
+                        logger.info("master : {} reconnected to zookeeper", address);
+                        zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(localNodePath, "");
+                    } else if (newState == ConnectionState.SUSPENDED) {
+                        logger.warn("master : {} connection SUSPENDED ", address);
+                        zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(localNodePath, "");
+                    }
+                });
         int masterHeartbeatInterval = masterConfig.getMasterHeartbeatInterval();
         HeartBeatTask heartBeatTask = new HeartBeatTask(startTime,
                 masterConfig.getMasterMaxCpuloadAvg(),
@@ -130,6 +126,7 @@ public class MasterRegistry {
 
     /**
      * get local address
+     *
      * @return
      */
     private String getLocalAddress() {
@@ -138,6 +135,7 @@ public class MasterRegistry {
 
     /**
      * get zookeeper registry center
+     *
      * @return ZookeeperRegistryCenter
      */
     public ZookeeperRegistryCenter getZookeeperRegistryCenter() {

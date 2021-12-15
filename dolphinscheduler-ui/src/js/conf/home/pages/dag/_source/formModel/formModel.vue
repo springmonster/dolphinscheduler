@@ -25,7 +25,9 @@
             class="ansicon ans-icon-timer"></em><em>{{ $t('View history') }}</em></a></template>
           <template slot="log"><a href="javascript:"><em class="ansicon ans-icon-log"></em><em>{{ $t('View log') }}</em></a></template>
         </m-log>
-        <a href="javascript:" @click="_goSubProcess" v-if="_isGoSubProcess"><em class="ansicon ans-icon-node"></em><em>{{ $t('Enter this child node') }}</em></a>
+        <a href="javascript:" @click="_goSubProcess" v-if="_isGoSubProcess"><em class="ansicon ans-icon-node"></em><em>{{
+            $t('Enter this child node')
+          }}</em></a>
       </span>
     </div>
     <div class="content-box" v-if="isContentBox">
@@ -271,7 +273,7 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions, mapState } from 'vuex'
+import {mapActions, mapState} from 'vuex'
 import mLog from './log'
 import mMr from './tasks/mr'
 import mSql from './tasks/sql'
@@ -293,12 +295,12 @@ import mTimeoutAlarm from './_source/timeoutAlarm'
 import mWorkerGroups from './_source/workerGroups'
 import clickoutside from '@/module/util/clickoutside'
 import disabledState from '@/module/mixin/disabledState'
-import { isNameExDag, rtBantpl } from './../plugIn/util'
+import {isNameExDag, rtBantpl} from './../plugIn/util'
 import mPriority from '@/module/components/priority/priority'
 
 export default {
   name: 'form-model',
-  data () {
+  data() {
     return {
       // loading
       spinnerLoading: false,
@@ -354,7 +356,7 @@ export default {
   /**
    * Click on events that are not generated internally by the component
    */
-  directives: { clickoutside },
+  directives: {clickoutside},
   mixins: [disabledState],
   props: {
     id: Number,
@@ -369,35 +371,35 @@ export default {
     /**
      * depend
      */
-    _onDependent (o) {
+    _onDependent(o) {
       this.dependence = Object.assign(this.dependence, {}, o)
     },
     /**
      * cache dependent
      */
-    _onCacheDependent (o) {
+    _onCacheDependent(o) {
       this.cacheDependence = Object.assign(this.cacheDependence, {}, o)
     },
     /**
      * Task timeout alarm
      */
-    _onTimeout (o) {
+    _onTimeout(o) {
       this.timeout = Object.assign({}, o)
       this._cacheTimeOut(o)
     },
     /**
      * Click external to close the current component
      */
-    _handleClose () {
+    _handleClose() {
       // this.close()
     },
     /**
      * Jump to task instance
      */
-    _seeHistory () {
+    _seeHistory() {
       this.self.$router.push({
         name: 'task-instance',
-        params: { projectId: this.self.projectId },
+        params: {projectId: this.self.projectId},
         query: {
           processInstanceId: this.self.$route.params.id,
           taskName: this.backfillItem.name
@@ -409,7 +411,7 @@ export default {
      * Enter the child node to judge the process instance or the process definition
      * @param  type = instance
      */
-    _goSubProcess () {
+    _goSubProcess() {
       if (_.isEmpty(this.backfillItem)) {
         this.$message.warning(`${i18n.$t('The newly created sub-Process has not yet been executed and cannot enter the sub-Process')}`)
         return
@@ -420,7 +422,7 @@ export default {
           this.$message.warning(`${i18n.$t('The task has not been executed and cannot enter the sub-Process')}`)
           return
         }
-        this.store.dispatch('dag/getSubProcessId', { taskId: stateId }).then(res => {
+        this.store.dispatch('dag/getSubProcessId', {taskId: stateId}).then(res => {
           this.$emit('onSubProcess', {
             subProcessId: res.data.subProcessInstanceId,
             fromThis: this
@@ -438,15 +440,15 @@ export default {
     /**
      * return params
      */
-    _onParams (o) {
+    _onParams(o) {
       this.params = Object.assign({}, o)
     },
 
-    _onCacheParams (o) {
+    _onCacheParams(o) {
       this.params = Object.assign(this.params, {}, o)
       this._cacheItem(o)
     },
-    _cacheTimeOut (o) {
+    _cacheTimeOut(o) {
       this.conditionResult.successNode[0] = this.successBranch
       this.conditionResult.failedNode[0] = this.failedBranch
       this.$emit('cacheTaskInfo', {
@@ -470,7 +472,7 @@ export default {
         fromThis: this
       })
     },
-    _cacheItem () {
+    _cacheItem() {
       this.conditionResult.successNode[0] = this.successBranch
       this.conditionResult.failedNode[0] = this.failedBranch
       this.$emit('cacheTaskInfo', {
@@ -496,7 +498,7 @@ export default {
     /**
      * verification name
      */
-    _verifName () {
+    _verifName() {
       if (!_.trim(this.name)) {
         this.$message.warning(`${i18n.$t('Please enter name (required)')}`)
         return false
@@ -515,7 +517,7 @@ export default {
       }
       return true
     },
-    _verifWorkGroup () {
+    _verifWorkGroup() {
       let item = this.store.state.security.workerGroupsListAll.find(item => {
         return item.id == this.workerGroup
       })
@@ -528,7 +530,7 @@ export default {
     /**
      * Global verification procedure
      */
-    _verification () {
+    _verification() {
       // Verify name
       if (!this._verifName()) {
         return
@@ -577,13 +579,13 @@ export default {
     /**
      * Sub-workflow selected node echo name
      */
-    _onSetProcessName (name) {
+    _onSetProcessName(name) {
       this.name = name
     },
     /**
      *  set run flag
      */
-    _setRunFlag () {
+    _setRunFlag() {
       let dom = $(`#${this.id}`).find('.ban-p')
       dom.html('')
       if (this.runFlag === 'FORBIDDEN') {
@@ -593,13 +595,13 @@ export default {
     /**
      * Submit verification
      */
-    ok () {
+    ok() {
       this._verification()
     },
     /**
      * Close and destroy component and component internal events
      */
-    close () {
+    close() {
       let flag = false
       // Delete node without storage
       if (!this.backfillItem.name) {
@@ -615,7 +617,7 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     // Unbind copy and paste events
     JSP.removePaste()
     // Backfill data
@@ -681,26 +683,26 @@ export default {
     this.cacheBackfillItem = JSON.parse(JSON.stringify(o))
     this.isContentBox = true
   },
-  mounted () {
+  mounted() {
 
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {
     ...mapState('dag', ['projectId']),
     /**
      * Child workflow entry show/hide
      */
-    _isGoSubProcess () {
+    _isGoSubProcess() {
       return this.taskType === 'SUB_PROCESS' && this.name
     },
 
     //Define the item model
-    _item () {
+    _item() {
       return {
         type: this.taskType,
         id: this.id,

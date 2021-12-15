@@ -25,12 +25,11 @@ public class EncryptionUtils {
 
 
     /**
-     * 
      * @param rawStr raw string
      * @return md5(rawStr)
      */
     public static String getMd5(String rawStr) {
-      return DigestUtils.md5Hex(null == rawStr ? StringUtils.EMPTY : rawStr);
+        return DigestUtils.md5Hex(null == rawStr ? StringUtils.EMPTY : rawStr);
     }
 
 }

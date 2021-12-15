@@ -48,7 +48,7 @@
 <script>
 export default {
   name: 'spin',
-  data () {
+  data() {
     return {}
   },
   props: {

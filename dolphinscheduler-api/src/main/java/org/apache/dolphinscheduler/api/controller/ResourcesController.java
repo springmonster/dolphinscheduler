@@ -151,7 +151,7 @@ public class ResourcesController extends BaseController {
                                  @RequestParam(value = "type") ResourceType type,
                                  @RequestParam(value = "name") String alias,
                                  @RequestParam(value = "description", required = false) String description,
-                                 @RequestParam(value = "file" ,required = false) MultipartFile file) {
+                                 @RequestParam(value = "file", required = false) MultipartFile file) {
         logger.info("login user {}, update resource, type: {}, resource alias: {}, desc: {}, file: {}",
                 loginUser.getUserName(), type, alias, description, file);
         return resourceService.updateResource(loginUser, resourceId, alias, description, type, file);
@@ -285,13 +285,13 @@ public class ResourcesController extends BaseController {
     @ApiException(QUERY_RESOURCES_LIST_ERROR)
     public Result queryResourceJarList(@ApiIgnore @RequestAttribute(value = Constants.SESSION_USER) User loginUser,
                                        @RequestParam(value = "type") ResourceType type,
-                                       @RequestParam(value = "programType",required = false) ProgramType programType
+                                       @RequestParam(value = "programType", required = false) ProgramType programType
     ) {
         String programTypeName = programType == null ? "" : programType.name();
         String userName = loginUser.getUserName();
         userName = userName.replaceAll("[\n|\r|\t]", "_");
-        logger.info("query resource list, login user:{}, resource type:{}, program type:{}", userName,programTypeName);
-        Map<String, Object> result = resourceService.queryResourceByProgramType(loginUser, type,programType);
+        logger.info("query resource list, login user:{}, resource type:{}, program type:{}", userName, programTypeName);
+        Map<String, Object> result = resourceService.queryResourceByProgramType(loginUser, type, programType);
         return returnDataList(result);
     }
 
@@ -570,9 +570,9 @@ public class ResourcesController extends BaseController {
     @ResponseStatus(HttpStatus.OK)
     @ApiException(QUERY_UDF_FUNCTION_LIST_PAGING_ERROR)
     public Result<Object> queryUdfFuncListPaging(@ApiIgnore @RequestAttribute(value = Constants.SESSION_USER) User loginUser,
-                                   @RequestParam("pageNo") Integer pageNo,
-                                   @RequestParam(value = "searchVal", required = false) String searchVal,
-                                   @RequestParam("pageSize") Integer pageSize
+                                                 @RequestParam("pageNo") Integer pageNo,
+                                                 @RequestParam(value = "searchVal", required = false) String searchVal,
+                                                 @RequestParam("pageSize") Integer pageSize
     ) {
         logger.info("query udf functions list, login user:{},search value:{}",
                 loginUser.getUserName(), searchVal);
@@ -600,7 +600,7 @@ public class ResourcesController extends BaseController {
     @ResponseStatus(HttpStatus.OK)
     @ApiException(QUERY_DATASOURCE_BY_TYPE_ERROR)
     public Result<Object> queryUdfFuncList(@ApiIgnore @RequestAttribute(value = Constants.SESSION_USER) User loginUser,
-                                    @RequestParam("type") UdfType type) {
+                                           @RequestParam("type") UdfType type) {
         String userName = loginUser.getUserName();
         userName = userName.replaceAll("[\n|\r|\t]", "_");
         logger.info("query udf func list, user:{}, type:{}", userName, type);

@@ -1,6 +1,8 @@
 ## *Tips*
+
 - *Thanks very much for contributing to Apache DolphinScheduler.*
-- *Please review https://dolphinscheduler.apache.org/en-us/community/development/pull-request.html before opening a pull request.*
+- *Please review https://dolphinscheduler.apache.org/en-us/community/development/pull-request.html before opening a pull
+  request.*
 
 ## What is the purpose of the pull request
 
@@ -9,7 +11,8 @@
 ## Brief change log
 
 *(for example:)*
-  - *Add maven-checkstyle-plugin to root pom.xml*
+
+- *Add maven-checkstyle-plugin to root pom.xml*
 
 ## Verify this pull request
 
@@ -27,6 +30,6 @@ This change added tests and can be verified as follows:
 
 *(example:)*
 
-  - *Added dolphinscheduler-dao tests for end-to-end.*
-  - *Added CronUtilsTest to verify the change.*
-  - *Manually verified the change by testing locally.*
+- *Added dolphinscheduler-dao tests for end-to-end.*
+- *Added CronUtilsTest to verify the change.*
+- *Manually verified the change by testing locally.*

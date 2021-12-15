@@ -39,8 +39,9 @@ public class ResourceFilter implements IFilter {
 
     /**
      * constructor
-     * @param suffix        resource suffix
-     * @param resourceList  resource list
+     *
+     * @param suffix       resource suffix
+     * @param resourceList resource list
      */
     public ResourceFilter(String suffix, List<Resource> resourceList) {
         this.suffixs.add(suffix);
@@ -49,8 +50,9 @@ public class ResourceFilter implements IFilter {
 
     /**
      * constructor
-     * @param suffixs        resource suffixs
-     * @param resourceList  resource list
+     *
+     * @param suffixs      resource suffixs
+     * @param resourceList resource list
      */
     public ResourceFilter(Set<String> suffixs, List<Resource> resourceList) {
         this.suffixs = suffixs;
@@ -59,9 +61,10 @@ public class ResourceFilter implements IFilter {
 
     /**
      * file filter
+     *
      * @return file filtered by suffix
      */
-    public Set<Resource> fileFilter(){
+    public Set<Resource> fileFilter() {
         Set<Resource> resources = resourceList.stream().filter(t -> {
             String alias = t.getAlias();
             boolean result = false;
@@ -77,14 +80,15 @@ public class ResourceFilter implements IFilter {
 
     /**
      * list all parent dir
+     *
      * @return parent resource dir set
      */
-    Set<Resource> listAllParent(){
-        Set<Resource> parentList =  new HashSet<>();
+    Set<Resource> listAllParent() {
+        Set<Resource> parentList = new HashSet<>();
         Set<Resource> filterFileList = fileFilter();
-        for(Resource file:filterFileList){
+        for (Resource file : filterFileList) {
             parentList.add(file);
-            setAllParent(file,parentList);
+            setAllParent(file, parentList);
         }
         return parentList;
 
@@ -92,14 +96,15 @@ public class ResourceFilter implements IFilter {
 
     /**
      * list all parent dir
-     * @param resource  resource
+     *
+     * @param resource resource
      * @return parent resource dir set
      */
-    private void setAllParent(Resource resource,Set<Resource> parentList){
+    private void setAllParent(Resource resource, Set<Resource> parentList) {
         for (Resource resourceTemp : resourceList) {
             if (resourceTemp.getId() == resource.getPid()) {
                 parentList.add(resourceTemp);
-                setAllParent(resourceTemp,parentList);
+                setAllParent(resourceTemp, parentList);
             }
         }
     }

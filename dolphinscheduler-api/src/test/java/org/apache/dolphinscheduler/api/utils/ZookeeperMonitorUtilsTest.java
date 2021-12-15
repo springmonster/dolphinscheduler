@@ -19,6 +19,7 @@ package org.apache.dolphinscheduler.api.utils;
 import org.apache.dolphinscheduler.common.model.Server;
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class ZookeeperMonitorUtilsTest {
 
 
     @Test
-    public void testGetMasterList(){
+    public void testGetMasterList() {
 
         ZookeeperMonitor zookeeperMonitor = new ZookeeperMonitor();
 

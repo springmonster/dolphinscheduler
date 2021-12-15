@@ -26,11 +26,11 @@ import mSpin from '@/module/components/spin/spin'
 import Affirm from './_source/jumpAffirm'
 import disabledState from '@/module/mixin/disabledState'
 import switchProject from '@/module/mixin/switchProject'
-import { mapActions, mapMutations } from 'vuex'
+import {mapActions, mapMutations} from 'vuex'
 
 export default {
   name: 'definition-details',
-  data () {
+  data() {
     return {
       // loading
       isLoading: true,
@@ -47,7 +47,7 @@ export default {
     /**
      * init
      */
-    init () {
+    init() {
       this.isLoading = true
       // Initialization parameters
       this.resetParams()
@@ -81,7 +81,7 @@ export default {
     /**
      * Redraw (refresh operation)
      */
-    _reset () {
+    _reset() {
       this.getProcessDetails(this.$route.params.id).then(res => {
         let item = res
         this.setIsDetails(item.releaseState === 'ONLINE')
@@ -93,15 +93,15 @@ export default {
     // Listening for routing changes
     '$route': {
       deep: true,
-      handler () {
+      handler() {
         this.init()
       }
     }
   },
-  created () {
+  created() {
     this.init()
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mDag,

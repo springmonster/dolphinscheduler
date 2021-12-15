@@ -17,9 +17,8 @@
 
 package org.apache.dolphinscheduler.server.worker.registry;
 
-import static org.apache.dolphinscheduler.common.Constants.DEFAULT_WORKER_GROUP;
-import static org.apache.dolphinscheduler.common.Constants.SLASH;
-
+import com.google.common.collect.Sets;
+import org.apache.curator.framework.state.ConnectionState;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.utils.DateUtils;
 import org.apache.dolphinscheduler.common.utils.NetUtils;
@@ -28,23 +27,20 @@ import org.apache.dolphinscheduler.remote.utils.NamedThreadFactory;
 import org.apache.dolphinscheduler.server.registry.HeartBeatTask;
 import org.apache.dolphinscheduler.server.registry.ZookeeperRegistryCenter;
 import org.apache.dolphinscheduler.server.worker.config.WorkerConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import org.apache.curator.framework.state.ConnectionState;
-
+import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.PostConstruct;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.google.common.collect.Sets;
+import static org.apache.dolphinscheduler.common.Constants.DEFAULT_WORKER_GROUP;
+import static org.apache.dolphinscheduler.common.Constants.SLASH;
 
 /**
  * worker registry
@@ -88,6 +84,7 @@ public class WorkerRegistry {
 
     /**
      * get zookeeper registry center
+     *
      * @return ZookeeperRegistryCenter
      */
     public ZookeeperRegistryCenter getZookeeperRegistryCenter() {
@@ -105,17 +102,17 @@ public class WorkerRegistry {
         for (String workerZKPath : workerZkPaths) {
             zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(workerZKPath, "");
             zookeeperRegistryCenter.getRegisterOperator().getZkClient().getConnectionStateListenable().addListener(
-                (client,newState) -> {
-                    if (newState == ConnectionState.LOST) {
-                        logger.error("worker : {} connection lost from zookeeper", address);
-                    } else if (newState == ConnectionState.RECONNECTED) {
-                        logger.info("worker : {} reconnected to zookeeper", address);
-                        zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(workerZKPath, "");
-                    } else if (newState == ConnectionState.SUSPENDED) {
-                        logger.warn("worker : {} connection SUSPENDED ", address);
-                        zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(workerZKPath, "");
-                    }
-                });
+                    (client, newState) -> {
+                        if (newState == ConnectionState.LOST) {
+                            logger.error("worker : {} connection lost from zookeeper", address);
+                        } else if (newState == ConnectionState.RECONNECTED) {
+                            logger.info("worker : {} reconnected to zookeeper", address);
+                            zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(workerZKPath, "");
+                        } else if (newState == ConnectionState.SUSPENDED) {
+                            logger.warn("worker : {} connection SUSPENDED ", address);
+                            zookeeperRegistryCenter.getRegisterOperator().persistEphemeral(workerZKPath, "");
+                        }
+                    });
             logger.info("worker node : {} registry to ZK {} successfully", address, workerZKPath);
         }
 
@@ -169,6 +166,7 @@ public class WorkerRegistry {
 
     /**
      * get local address
+     *
      * @return local address
      */
     private String getLocalAddress() {

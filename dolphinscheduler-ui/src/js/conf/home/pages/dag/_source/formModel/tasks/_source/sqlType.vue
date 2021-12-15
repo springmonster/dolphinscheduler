@@ -31,13 +31,12 @@
   </div>
 </template>
 <script>
-import _ from 'lodash'
-import { sqlTypeList } from './commcon'
+import {sqlTypeList} from './commcon'
 import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'sql-type',
-  data () {
+  data() {
     return {
       // sql(List)
       sqlTypeList: sqlTypeList,
@@ -53,12 +52,12 @@ export default {
     /**
      * return sqlType
      */
-    _handleSqlTypeChanged (val) {
+    _handleSqlTypeChanged(val) {
       this.$emit('on-sqlType', val.value)
     }
   },
   watch: {},
-  created () {
+  created() {
     this.$nextTick(() => {
       if (this.sqlType != 0) {
         this.sqlTypeId = this.sqlType
@@ -67,7 +66,7 @@ export default {
       }
     })
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

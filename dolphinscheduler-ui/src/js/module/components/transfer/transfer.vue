@@ -78,7 +78,7 @@ import mListBoxF from '@/module/components/listBoxF/listBoxF'
 
 export default {
   name: 'transfer',
-  data () {
+  data() {
     return {
       sourceList: this.sourceListPrs,
       targetList: this.targetListPrs,
@@ -94,20 +94,20 @@ export default {
     type: Object
   },
   methods: {
-    _ok () {
+    _ok() {
       this.$refs['popup'].spinnerLoading = true
       setTimeout(() => {
         this.$refs['popup'].spinnerLoading = false
         this.$emit('onUpdate', _.map(this.targetList, v => v.id).join(','))
       }, 800)
     },
-    _sourceQuery () {
+    _sourceQuery() {
       this.sourceList = this.sourceList.filter(v => v.name.indexOf(this.searchSourceVal) > -1)
     },
-    _targetQuery () {
+    _targetQuery() {
       this.targetList = this.targetList.filter(v => v.name.indexOf(this.searchTargetVal) > -1)
     },
-    _ckSource (item) {
+    _ckSource(item) {
       this.targetList = this.cacheTargetList
       this.targetList.unshift(item)
       this.searchTargetVal = ''
@@ -118,7 +118,7 @@ export default {
         this.cacheSourceList.splice(i2, 1)
       }
     },
-    _ckTarget (item) {
+    _ckTarget(item) {
       this.sourceList = this.cacheSourceList
       this.sourceList.unshift(item)
       this.searchSourceVal = ''
@@ -131,14 +131,14 @@ export default {
     }
   },
   watch: {
-    searchSourceVal (val) {
+    searchSourceVal(val) {
       if (!val) {
         this.sourceList = _.cloneDeep(this.cacheSourceList)
         return
       }
       this._sourceQuery()
     },
-    searchTargetVal (val) {
+    searchTargetVal(val) {
       if (!val) {
         this.targetList = _.cloneDeep(this.cacheTargetList)
         return

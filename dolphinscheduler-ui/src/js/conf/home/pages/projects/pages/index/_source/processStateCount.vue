@@ -50,17 +50,16 @@
 </template>
 <script>
 import _ from 'lodash'
-import { mapActions, mapState } from 'vuex'
-import { pie } from './chartConfig'
+import {mapActions, mapState} from 'vuex'
+import {pie} from './chartConfig'
 import Chart from '@/module/ana-charts'
 import echarts from 'echarts'
-import store from '@/conf/home/store'
 import mNoData from '@/module/components/noData/noData'
-import { stateType } from '@/conf/home/pages/projects/pages/_source/instanceConditions/common'
+import {stateType} from '@/conf/home/pages/projects/pages/_source/instanceConditions/common'
 
 export default {
   name: 'process-state-count',
-  data () {
+  data() {
     return {
       isSpin: true,
       msg: '',
@@ -73,10 +72,10 @@ export default {
   },
   methods: {
     ...mapActions('projects', ['getProcessStateCount']),
-    _goProcess (name) {
+    _goProcess(name) {
       this.$router.push({
         name: 'projects-instance-list',
-        params: { projectId: this.projectId },
+        params: {projectId: this.projectId},
         query: {
           stateType: _.find(stateType, ['label', name])['code'],
           startDate: this.searchParams.startDate,
@@ -84,7 +83,7 @@ export default {
         }
       })
     },
-    _handleProcessState (res) {
+    _handleProcessState(res) {
       let data = res.data.taskCountDtos
       this.processStateList = _.map(data, v => {
         return {
@@ -92,7 +91,7 @@ export default {
           value: v.count
         }
       })
-      const myChart = Chart.pie('#process-state-pie', this.processStateList, { title: '' })
+      const myChart = Chart.pie('#process-state-pie', this.processStateList, {title: ''})
       myChart.echart.setOption(pie)
       // 首页不允许跳转
       if (this.searchParams.projectId) {
@@ -106,7 +105,7 @@ export default {
     'searchParams': {
       deep: true,
       immediate: true,
-      handler (o) {
+      handler(o) {
         this.isSpin = true
         this.getProcessStateCount(o).then(res => {
           this.processStateList = []
@@ -122,27 +121,27 @@ export default {
       echarts.init(document.getElementById('process-state-pie')).resize()
     }
   },
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     this.currentName = this.$router.currentRoute.name
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
   },
-  beforeUpdate () {
+  beforeUpdate() {
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {
     ...mapState('dag', ['projectId'])
   },
-  components: { mNoData }
+  components: {mNoData}
 }
 </script>
 

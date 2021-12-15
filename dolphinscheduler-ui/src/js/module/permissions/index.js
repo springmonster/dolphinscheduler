@@ -25,7 +25,7 @@ const Permissions = function () {
 
 Permissions.prototype = {
   // Get permission based on userInfo
-  request () {
+  request() {
     return new Promise((resolve, reject) => {
       store.dispatch('user/getUserInfo').then(res => {
         if (res.userType !== 'GENERAL_USER') {
@@ -37,7 +37,7 @@ Permissions.prototype = {
     })
   },
   // Command authority status
-  ps (res) {
+  ps(res) {
     Vue.directive('ps', {
       bind: function (el, binding, vnode) {
         if (!Vue.prototype.$_ps(binding.value)) {
@@ -58,7 +58,7 @@ Permissions.prototype = {
     }
   },
   // External access permission status
-  getAuth () {
+  getAuth() {
     return this.isAuth
   }
 }

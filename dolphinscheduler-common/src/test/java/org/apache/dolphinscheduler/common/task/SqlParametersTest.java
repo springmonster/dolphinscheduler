@@ -19,7 +19,6 @@ package org.apache.dolphinscheduler.common.task;
 
 import org.apache.dolphinscheduler.common.task.sql.SqlParameters;
 import org.apache.dolphinscheduler.common.utils.CollectionUtils;
-
 import org.junit.Assert;
 import org.junit.Test;
 

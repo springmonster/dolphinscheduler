@@ -55,13 +55,13 @@ public class RunConfig {
 
     public String getWorkers() {
         StringBuilder sb = new StringBuilder(50);
-        if(StringUtils.isNotBlank(workers)){
+        if (StringUtils.isNotBlank(workers)) {
             String[] workersArr = workers.trim().split(Constants.COMMA);
             for (String workerGroup : workersArr) {
                 sb.append(workerGroup.split(Constants.COLON)[0]).append(Constants.COMMA);
             }
         }
-        if( sb.length() > 0) {
+        if (sb.length() > 0) {
             sb.deleteCharAt(sb.length() - 1);
         }
 

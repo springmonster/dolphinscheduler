@@ -29,18 +29,18 @@ import org.slf4j.LoggerFactory;
 public class HttpUtilsTest {
 
 
-	public static final Logger logger = LoggerFactory.getLogger(HttpUtilsTest.class);
+    public static final Logger logger = LoggerFactory.getLogger(HttpUtilsTest.class);
 
 
-	@Test
-	public void testGetTest(){
-		//success
-		String result = HttpUtils.get("https://github.com/manifest.json");
-		Assert.assertNotNull(result);
-		JSONObject jsonObject = JSON.parseObject(result);
-		Assert.assertEquals("GitHub", jsonObject.getString("name"));
+    @Test
+    public void testGetTest() {
+        //success
+        String result = HttpUtils.get("https://github.com/manifest.json");
+        Assert.assertNotNull(result);
+        JSONObject jsonObject = JSON.parseObject(result);
+        Assert.assertEquals("GitHub", jsonObject.getString("name"));
 
-		result = HttpUtils.get("https://123.333.111.33/ccc");
-		Assert.assertNull(result);
-	}
+        result = HttpUtils.get("https://123.333.111.33/ccc");
+        Assert.assertNull(result);
+    }
 }

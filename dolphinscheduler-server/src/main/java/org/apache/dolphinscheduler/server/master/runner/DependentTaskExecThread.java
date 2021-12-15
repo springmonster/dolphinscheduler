@@ -16,8 +16,6 @@
  */
 package org.apache.dolphinscheduler.server.master.runner;
 
-import static org.apache.dolphinscheduler.common.Constants.DEPENDENT_SPLIT;
-
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.DependResult;
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
@@ -30,14 +28,11 @@ import org.apache.dolphinscheduler.common.utils.LoggerUtils;
 import org.apache.dolphinscheduler.common.utils.NetUtils;
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
 import org.apache.dolphinscheduler.server.utils.DependentExecute;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
+
+import static org.apache.dolphinscheduler.common.Constants.DEPENDENT_SPLIT;
 
 public class DependentTaskExecThread extends MasterBaseTaskExecThread {
 
@@ -63,7 +58,7 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
     /**
      * constructor of MasterBaseTaskExecThread
      *
-     * @param taskInstance    task instance
+     * @param taskInstance task instance
      */
     public DependentTaskExecThread(TaskInstance taskInstance) {
         super(taskInstance);
@@ -72,7 +67,7 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
 
     @Override
     public Boolean submitWaitComplete() {
-        try{
+        try {
             logger.info("dependent task start");
             this.taskInstance = submit();
             logger = LoggerFactory.getLogger(LoggerUtils.buildTaskId(LoggerUtils.TASK_LOGGER_INFO_PREFIX,
@@ -85,8 +80,8 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
             initDependParameters();
             waitTaskQuit();
             updateTaskState();
-        }catch (Exception e){
-            logger.error("dependent task run exception" , e);
+        } catch (Exception e) {
+            logger.error("dependent task run exception", e);
         }
         return true;
     }
@@ -99,13 +94,13 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
         this.dependentParameters = JSONUtils.parseObject(this.taskInstance.getDependency(),
                 DependentParameters.class);
 
-        for(DependentTaskModel taskModel : dependentParameters.getDependTaskList()){
+        for (DependentTaskModel taskModel : dependentParameters.getDependTaskList()) {
             this.dependentTaskList.add(new DependentExecute(
                     taskModel.getDependItemList(), taskModel.getRelation()));
         }
-        if(this.processInstance.getScheduleTime() != null){
+        if (this.processInstance.getScheduleTime() != null) {
             this.dependentDate = this.processInstance.getScheduleTime();
-        }else{
+        } else {
             this.dependentDate = new Date();
         }
     }
@@ -115,9 +110,9 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
      */
     private void updateTaskState() {
         ExecutionStatus status;
-        if(this.cancel){
+        if (this.cancel) {
             status = ExecutionStatus.KILL;
-        }else{
+        } else {
             DependResult result = getTaskDependResult();
             status = (result == DependResult.SUCCESS) ? ExecutionStatus.SUCCESS : ExecutionStatus.FAILURE;
         }
@@ -138,8 +133,8 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
             return true;
         }
         while (Stopper.isRunning()) {
-            try{
-                if(this.processInstance == null){
+            try {
+                if (this.processInstance == null) {
                     logger.error("process instance not exists , master task exec thread exit");
                     return true;
                 }
@@ -147,12 +142,12 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
                     this.checkTimeoutFlag = !alertTimeout();
                     handleTimeoutFailed();
                 }
-                if(this.cancel || this.processInstance.getState() == ExecutionStatus.READY_STOP){
+                if (this.cancel || this.processInstance.getState() == ExecutionStatus.READY_STOP) {
                     cancelTaskInstance();
                     break;
                 }
 
-                if ( allDependentTaskFinish() || taskInstance.getState().typeIsFinished()){
+                if (allDependentTaskFinish() || taskInstance.getState().typeIsFinished()) {
                     break;
                 }
                 // update process task
@@ -160,7 +155,7 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
                 processInstance = processService.findProcessInstanceById(processInstance.getId());
                 Thread.sleep(Constants.SLEEP_TIME_MILLIS);
             } catch (Exception e) {
-                logger.error("exception",e);
+                logger.error("exception", e);
                 if (processInstance != null) {
                     logger.error("wait task quit failed, instance id:{}, task id:{}",
                             processInstance.getId(), taskInstance.getId());
@@ -187,20 +182,21 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
 
     /**
      * judge all dependent tasks finish
+     *
      * @return whether all dependent tasks finish
      */
-    private boolean allDependentTaskFinish(){
+    private boolean allDependentTaskFinish() {
         boolean finish = true;
-        for(DependentExecute dependentExecute : dependentTaskList){
-            for(Map.Entry<String, DependResult> entry: dependentExecute.getDependResultMap().entrySet()) {
-                if(!dependResultMap.containsKey(entry.getKey())){
+        for (DependentExecute dependentExecute : dependentTaskList) {
+            for (Map.Entry<String, DependResult> entry : dependentExecute.getDependResultMap().entrySet()) {
+                if (!dependResultMap.containsKey(entry.getKey())) {
                     dependResultMap.put(entry.getKey(), entry.getValue());
                     //save depend result to log
                     logger.info("dependent item complete {} {},{}",
                             DEPENDENT_SPLIT, entry.getKey(), entry.getValue());
                 }
             }
-            if(!dependentExecute.finish(dependentDate)){
+            if (!dependentExecute.finish(dependentDate)) {
                 finish = false;
             }
         }
@@ -209,11 +205,12 @@ public class DependentTaskExecThread extends MasterBaseTaskExecThread {
 
     /**
      * get dependent result
+     *
      * @return DependResult
      */
-    private DependResult getTaskDependResult(){
+    private DependResult getTaskDependResult() {
         List<DependResult> dependResultList = new ArrayList<>();
-        for(DependentExecute dependentExecute : dependentTaskList){
+        for (DependentExecute dependentExecute : dependentTaskList) {
             DependResult dependResult = dependentExecute.getModelDependResult(dependentDate);
             dependResultList.add(dependResult);
         }

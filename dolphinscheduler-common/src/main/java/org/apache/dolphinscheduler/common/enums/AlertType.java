@@ -29,7 +29,7 @@ public enum AlertType {
     SMS(1, "SMS");
 
 
-    AlertType(int code, String descp){
+    AlertType(int code, String descp) {
         this.code = code;
         this.descp = descp;
     }

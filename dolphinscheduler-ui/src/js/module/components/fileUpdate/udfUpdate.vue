@@ -61,7 +61,7 @@ import store from '@/conf/home/store'
 
 export default {
   name: 'udf-update',
-  data () {
+  data() {
     return {
       store,
       udfName: '',
@@ -78,7 +78,7 @@ export default {
     /**
      * validation
      */
-    _validation () {
+    _validation() {
       if (!this.currentDir) {
         this.$message.warning(`${i18n.$t('Please select UDF resources directory')}`)
         return false
@@ -93,7 +93,7 @@ export default {
       }
       return true
     },
-    _verifyName () {
+    _verifyName() {
       return new Promise((resolve, reject) => {
         this.store.dispatch('resource/resourceVerifyName', {
           fullName: '/' + this.currentDir + '/' + this.udfName,
@@ -106,11 +106,11 @@ export default {
         })
       })
     },
-    receivedValue (pid, name) {
+    receivedValue(pid, name) {
       this.pid = pid
       this.currentDir = name
     },
-    _formDataUpdate () {
+    _formDataUpdate() {
       let self = this
       let formData = new FormData()
       formData.append('file', this.file)
@@ -135,7 +135,7 @@ export default {
         data: formData,
         emulateJSON: false,
         timeout: 99999999,
-        onUploadProgress (progressEvent) {
+        onUploadProgress(progressEvent) {
           // Size has been uploaded
           let loaded = progressEvent.loaded
           // Total attachment size
@@ -144,7 +144,7 @@ export default {
         }
       })
     },
-    _ok () {
+    _ok() {
       if (this._validation()) {
         this._verifyName().then(res => {
           this._formDataUpdate()
@@ -153,20 +153,20 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     $('#file').change(() => {
       let file = $('#file')[0].files[0]
       this.file = file
       this.udfName = file.name
     })
   },
-  updated () {
+  updated() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
-  destroyed () {
+  destroyed() {
   },
   computed: {},
   components: {}

@@ -61,7 +61,7 @@ public class SpringZKServer implements PriorityOrdered {
         }
     }
 
-    public static boolean isStarted(){
+    public static boolean isStarted() {
         return isStarted.get();
     }
 
@@ -130,7 +130,7 @@ public class SpringZKServer implements PriorityOrdered {
 
         CuratorFramework zkClient = CuratorFrameworkFactory.builder()
                 .connectString(DEFAULT_ZK_STR)
-                .retryPolicy(new ExponentialBackoffRetry(10,100))
+                .retryPolicy(new ExponentialBackoffRetry(10, 100))
                 .sessionTimeoutMs(1000 * 30)
                 .connectionTimeoutMs(1000 * 30)
                 .build();
@@ -151,7 +151,7 @@ public class SpringZKServer implements PriorityOrdered {
             logger.info("zk server stopped");
 
         } catch (Exception e) {
-            logger.error("Failed to stop ZK ",e);
+            logger.error("Failed to stop ZK ", e);
         }
     }
 

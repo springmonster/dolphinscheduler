@@ -21,7 +21,7 @@ export default {
   /**
    * Get item list
    */
-  getProjectsList ({ state }, payload) {
+  getProjectsList({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/list-paging', payload, res => {
         resolve(res.data)
@@ -33,7 +33,7 @@ export default {
   /**
    * Get project by id
    */
-  getProjectById ({ state }, payload) {
+  getProjectById({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/query-by-id', payload, res => {
         resolve(res.data)
@@ -45,7 +45,7 @@ export default {
   /**
    * Create project
    */
-  createProjects ({ state }, payload) {
+  createProjects({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('projects/create', payload, res => {
         resolve(res)
@@ -57,7 +57,7 @@ export default {
   /**
    * Delete Project
    */
-  deleteProjects ({ state }, payload) {
+  deleteProjects({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/delete', payload, res => {
         resolve(res)
@@ -69,7 +69,7 @@ export default {
   /**
    * edit Project
    */
-  updateProjects ({ state }, payload) {
+  updateProjects({state}, payload) {
     return new Promise((resolve, reject) => {
       io.post('projects/update', payload, res => {
         resolve(res)
@@ -81,7 +81,7 @@ export default {
   /**
    * Task status statistics
    */
-  getTaskCtatusCount ({ state }, payload) {
+  getTaskCtatusCount({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/analysis/task-state-count', payload, res => {
         resolve(res)
@@ -93,7 +93,7 @@ export default {
   /**
    * get command state count
    */
-  getCommandStateCount ({ state }, payload) {
+  getCommandStateCount({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/analysis/command-state-count', payload, res => {
         resolve(res)
@@ -105,7 +105,7 @@ export default {
   /**
    * get command state count
    */
-  getQueueCount ({ state }, payload) {
+  getQueueCount({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/analysis/queue-count', payload, res => {
         resolve(res)
@@ -117,7 +117,7 @@ export default {
   /**
    * Process status statistics
    */
-  getProcessStateCount ({ state }, payload) {
+  getProcessStateCount({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/analysis/process-state-count', payload, res => {
         resolve(res)
@@ -129,7 +129,7 @@ export default {
   /**
    * Process definition statistics
    */
-  getDefineUserCount ({ state }, payload) {
+  getDefineUserCount({state}, payload) {
     return new Promise((resolve, reject) => {
       io.get('projects/analysis/define-user-count', payload, res => {
         resolve(res)

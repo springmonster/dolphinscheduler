@@ -17,6 +17,8 @@
 package org.apache.dolphinscheduler.dao.mapper;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.dolphinscheduler.common.enums.FailureStrategy;
 import org.apache.dolphinscheduler.common.enums.ReleaseState;
 import org.apache.dolphinscheduler.common.enums.WarningType;
@@ -24,8 +26,6 @@ import org.apache.dolphinscheduler.dao.entity.ProcessDefinition;
 import org.apache.dolphinscheduler.dao.entity.Project;
 import org.apache.dolphinscheduler.dao.entity.Schedule;
 import org.apache.dolphinscheduler.dao.entity.User;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,9 +59,10 @@ public class ScheduleMapperTest {
 
     /**
      * insert
+     *
      * @return Schedule
      */
-    private Schedule insertOne(){
+    private Schedule insertOne() {
         //insertOne
         Schedule schedule = new Schedule();
         schedule.setStartTime(new Date());
@@ -80,7 +81,7 @@ public class ScheduleMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         Schedule schedule = insertOne();
         schedule.setCreateTime(new Date());
@@ -93,7 +94,7 @@ public class ScheduleMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         Schedule schedule = insertOne();
         int delete = scheduleMapper.deleteById(schedule.getId());
         Assert.assertEquals(delete, 1);
@@ -131,12 +132,12 @@ public class ScheduleMapperTest {
         processDefinition.setLocations("");
         processDefinitionMapper.insert(processDefinition);
 
-        Schedule schedule= insertOne();
+        Schedule schedule = insertOne();
         schedule.setUserId(user.getId());
         schedule.setProcessDefinitionId(processDefinition.getId());
         scheduleMapper.insert(schedule);
 
-        Page<Schedule> page = new Page(1,3);
+        Page<Schedule> page = new Page(1, 3);
         IPage<Schedule> scheduleIPage = scheduleMapper.queryByProcessDefineIdPaging(page,
                 processDefinition.getId(), ""
         );
@@ -167,12 +168,12 @@ public class ScheduleMapperTest {
         processDefinition.setLocations("");
         processDefinitionMapper.insert(processDefinition);
 
-        Schedule schedule= insertOne();
+        Schedule schedule = insertOne();
         schedule.setUserId(user.getId());
         schedule.setProcessDefinitionId(processDefinition.getId());
         scheduleMapper.insert(schedule);
 
-        Page<Schedule> page = new Page(1,3);
+        Page<Schedule> page = new Page(1, 3);
         List<Schedule> schedules = scheduleMapper.querySchedulerListByProjectName(
                 project.getName()
         );
@@ -191,7 +192,7 @@ public class ScheduleMapperTest {
         schedule.setReleaseState(ReleaseState.ONLINE);
         scheduleMapper.updateById(schedule);
 
-        List<Schedule> schedules= scheduleMapper.selectAllByProcessDefineArray(new int[] {schedule.getProcessDefinitionId()});
+        List<Schedule> schedules = scheduleMapper.selectAllByProcessDefineArray(new int[]{schedule.getProcessDefinitionId()});
         Assert.assertNotEquals(schedules.size(), 0);
     }
 
@@ -204,7 +205,7 @@ public class ScheduleMapperTest {
         schedule.setProcessDefinitionId(12345);
         scheduleMapper.updateById(schedule);
 
-        List<Schedule> schedules= scheduleMapper.queryByProcessDefinitionId(schedule.getProcessDefinitionId());
+        List<Schedule> schedules = scheduleMapper.queryByProcessDefinitionId(schedule.getProcessDefinitionId());
         Assert.assertNotEquals(schedules.size(), 0);
     }
 }

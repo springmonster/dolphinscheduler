@@ -171,9 +171,8 @@ public class RedisUtil {
     /**
      * set key
      *
-     * @param key key
+     * @param key   key
      * @param value value
-     *
      */
 
     public void setKey(String key, String value) {

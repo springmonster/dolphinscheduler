@@ -19,7 +19,7 @@ export default {
   /**
    * set userInfo
    */
-  setUserInfo (state, payload) {
+  setUserInfo(state, payload) {
     state.userInfo = Object.assign(state.userInfo, {}, payload)
   }
 }

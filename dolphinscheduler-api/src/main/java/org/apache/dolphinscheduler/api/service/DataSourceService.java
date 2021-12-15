@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.collections.MapUtils;
 import org.apache.dolphinscheduler.api.enums.Status;
 import org.apache.dolphinscheduler.api.exceptions.ServiceException;
 import org.apache.dolphinscheduler.api.utils.PageInfo;
@@ -37,8 +38,6 @@ import org.apache.dolphinscheduler.dao.entity.Resource;
 import org.apache.dolphinscheduler.dao.entity.User;
 import org.apache.dolphinscheduler.dao.mapper.DataSourceMapper;
 import org.apache.dolphinscheduler.dao.mapper.DataSourceUserMapper;
-
-import org.apache.commons.collections.MapUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.slf4j.Logger;
@@ -59,7 +58,7 @@ import static org.apache.dolphinscheduler.common.utils.PropertyUtils.getString;
  * datasource service
  */
 @Service
-public class DataSourceService extends BaseService{
+public class DataSourceService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(DataSourceService.class);
 
@@ -94,9 +93,9 @@ public class DataSourceService extends BaseService{
      * create data source
      *
      * @param loginUser login user
-     * @param name data source name
-     * @param desc data source description
-     * @param type data source type
+     * @param name      data source name
+     * @param desc      data source description
+     * @param type      data source type
      * @param parameter datasource parameters
      * @return create result code
      */
@@ -145,11 +144,11 @@ public class DataSourceService extends BaseService{
      * updateProcessInstance datasource
      *
      * @param loginUser login user
-     * @param name data source name
-     * @param desc data source description
-     * @param type data source type
+     * @param name      data source name
+     * @param desc      data source description
+     * @param type      data source type
      * @param parameter datasource parameters
-     * @param id data source id
+     * @param id        data source id
      * @return update result code
      */
     public Map<String, Object> updateDataSource(int id, User loginUser, String name, String desc, DbType type, String parameter) {
@@ -162,13 +161,13 @@ public class DataSourceService extends BaseService{
             return result;
         }
 
-        if(!hasPerm(loginUser, dataSource.getUserId())){
+        if (!hasPerm(loginUser, dataSource.getUserId())) {
             putMsg(result, Status.USER_NO_OPERATION_PERM);
             return result;
         }
 
         //check name can use or not
-        if(!name.trim().equals(dataSource.getName()) && checkName(name)){
+        if (!name.trim().equals(dataSource.getName()) && checkName(name)) {
             putMsg(result, Status.DATASOURCE_EXIST);
             return result;
         }
@@ -203,6 +202,7 @@ public class DataSourceService extends BaseService{
 
     /**
      * updateProcessInstance datasource
+     *
      * @param id datasource id
      * @return data source detail
      */
@@ -224,11 +224,11 @@ public class DataSourceService extends BaseService{
         String parameter = dataSource.getConnectionParams();
 
         BaseDataSource datasourceForm = DataSourceFactory.getDatasource(dataSource.getType(), parameter);
-        DbConnectType  connectType = null;
+        DbConnectType connectType = null;
         String hostSeperator = Constants.DOUBLE_SLASH;
-        if(DbType.ORACLE.equals(dataSource.getType())){
+        if (DbType.ORACLE.equals(dataSource.getType())) {
             connectType = ((OracleDataSource) datasourceForm).getConnectType();
-            if(DbConnectType.ORACLE_SID.equals(connectType)){
+            if (DbConnectType.ORACLE_SID.equals(connectType)) {
                 hostSeperator = Constants.AT_SIGN;
             }
         }
@@ -237,7 +237,7 @@ public class DataSourceService extends BaseService{
         String other = datasourceForm.getOther();
         String address = datasourceForm.getAddress();
 
-        String[] hostsPorts = getHostsAndPort(address,hostSeperator);
+        String[] hostsPorts = getHostsAndPort(address, hostSeperator);
         // ip host
         String host = hostsPorts[0];
         // prot
@@ -295,8 +295,8 @@ public class DataSourceService extends BaseService{
      *
      * @param loginUser login user
      * @param searchVal search value
-     * @param pageNo page number
-     * @param pageSize page size
+     * @param pageNo    page number
+     * @param pageSize  page size
      * @return data source list page
      */
     public Map<String, Object> queryDataSourceListPaging(User loginUser, String searchVal, Integer pageNo, Integer pageSize) {
@@ -306,14 +306,14 @@ public class DataSourceService extends BaseService{
 
         if (isAdmin(loginUser)) {
             dataSourceList = dataSourceMapper.selectPaging(dataSourcePage, 0, searchVal);
-        }else{
+        } else {
             dataSourceList = dataSourceMapper.selectPaging(dataSourcePage, loginUser.getId(), searchVal);
         }
 
         List<DataSource> dataSources = dataSourceList.getRecords();
         handlePasswd(dataSources);
         PageInfo pageInfo = new PageInfo<Resource>(pageNo, pageSize);
-        pageInfo.setTotalCount((int)(dataSourceList.getTotal()));
+        pageInfo.setTotalCount((int) (dataSourceList.getTotal()));
         pageInfo.setLists(dataSources);
         result.put(Constants.DATA_LIST, pageInfo);
         putMsg(result, Status.SUCCESS);
@@ -323,14 +323,15 @@ public class DataSourceService extends BaseService{
 
     /**
      * handle datasource connection password for safety
+     *
      * @param dataSourceList
      */
     private void handlePasswd(List<DataSource> dataSourceList) {
 
         for (DataSource dataSource : dataSourceList) {
 
-            String connectionParams  = dataSource.getConnectionParams();
-            JSONObject  object = JSON.parseObject(connectionParams);
+            String connectionParams = dataSource.getConnectionParams();
+            JSONObject object = JSON.parseObject(connectionParams);
             object.put(Constants.PASSWORD, Constants.XXXXXX);
             dataSource.setConnectionParams(JSONUtils.toJson(object));
 
@@ -341,7 +342,7 @@ public class DataSourceService extends BaseService{
      * query data resource list
      *
      * @param loginUser login user
-     * @param type data source type
+     * @param type      data source type
      * @return data source list page
      */
     public Map<String, Object> queryDataSourceList(User loginUser, Integer type) {
@@ -351,7 +352,7 @@ public class DataSourceService extends BaseService{
 
         if (isAdmin(loginUser)) {
             datasourceList = dataSourceMapper.listAllDataSourceByType(type);
-        }else{
+        } else {
             datasourceList = dataSourceMapper.queryDataSourceByType(loginUser.getId(), type);
         }
 
@@ -365,7 +366,7 @@ public class DataSourceService extends BaseService{
      * verify datasource exists
      *
      * @param loginUser login user
-     * @param name datasource name
+     * @param name      datasource name
      * @return true if data datasource not exists, otherwise return false
      */
     public Result verifyDataSourceName(User loginUser, String name) {
@@ -384,7 +385,7 @@ public class DataSourceService extends BaseService{
     /**
      * get connection
      *
-     * @param dbType datasource type
+     * @param dbType    datasource type
      * @param parameter parameter
      * @return connection for datasource
      */
@@ -403,18 +404,18 @@ public class DataSourceService extends BaseService{
                     break;
                 case HIVE:
                 case SPARK:
-                    if (CommonUtils.getKerberosStartupState())  {
-                            System.setProperty(org.apache.dolphinscheduler.common.Constants.JAVA_SECURITY_KRB5_CONF,
-                                    getString(org.apache.dolphinscheduler.common.Constants.JAVA_SECURITY_KRB5_CONF_PATH));
-                            Configuration configuration = new Configuration();
-                            configuration.set(org.apache.dolphinscheduler.common.Constants.HADOOP_SECURITY_AUTHENTICATION, "kerberos");
-                            UserGroupInformation.setConfiguration(configuration);
-                            UserGroupInformation.loginUserFromKeytab(getString(org.apache.dolphinscheduler.common.Constants.LOGIN_USER_KEY_TAB_USERNAME),
-                                    getString(org.apache.dolphinscheduler.common.Constants.LOGIN_USER_KEY_TAB_PATH));
+                    if (CommonUtils.getKerberosStartupState()) {
+                        System.setProperty(org.apache.dolphinscheduler.common.Constants.JAVA_SECURITY_KRB5_CONF,
+                                getString(org.apache.dolphinscheduler.common.Constants.JAVA_SECURITY_KRB5_CONF_PATH));
+                        Configuration configuration = new Configuration();
+                        configuration.set(org.apache.dolphinscheduler.common.Constants.HADOOP_SECURITY_AUTHENTICATION, "kerberos");
+                        UserGroupInformation.setConfiguration(configuration);
+                        UserGroupInformation.loginUserFromKeytab(getString(org.apache.dolphinscheduler.common.Constants.LOGIN_USER_KEY_TAB_USERNAME),
+                                getString(org.apache.dolphinscheduler.common.Constants.LOGIN_USER_KEY_TAB_PATH));
                     }
-                    if (dbType == DbType.HIVE){
+                    if (dbType == DbType.HIVE) {
                         datasource = JSON.parseObject(parameter, HiveDataSource.class);
-                    }else if (dbType == DbType.SPARK){
+                    } else if (dbType == DbType.SPARK) {
                         datasource = JSON.parseObject(parameter, SparkDataSource.class);
                     }
                     Class.forName(Constants.ORG_APACHE_HIVE_JDBC_HIVE_DRIVER);
@@ -439,11 +440,11 @@ public class DataSourceService extends BaseService{
                     break;
             }
 
-            if(datasource != null){
+            if (datasource != null) {
                 connection = DriverManager.getConnection(datasource.getJdbcUrl(), datasource.getUser(), datasource.getPassword());
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         return connection;
     }
@@ -452,7 +453,7 @@ public class DataSourceService extends BaseService{
     /**
      * check connection
      *
-     * @param type data source type
+     * @param type      data source type
      * @param parameter data source parameters
      * @return true if connect successfully, otherwise false
      */
@@ -475,7 +476,7 @@ public class DataSourceService extends BaseService{
      * test connection
      *
      * @param loginUser login user
-     * @param id datasource id
+     * @param id        datasource id
      * @return connect result code
      */
     public boolean connectionTest(User loginUser, int id) {
@@ -486,15 +487,15 @@ public class DataSourceService extends BaseService{
     /**
      * build paramters
      *
-     * @param name data source name
-     * @param desc data source description
-     * @param type data source  type
-     * @param host data source  host
-     * @param port data source port
-     * @param database data source database name
-     * @param userName user name
-     * @param password password
-     * @param other other parameters
+     * @param name      data source name
+     * @param desc      data source description
+     * @param type      data source  type
+     * @param host      data source  host
+     * @param port      data source port
+     * @param database  data source database name
+     * @param userName  user name
+     * @param password  password
+     * @param other     other parameters
      * @param principal principal
      * @return datasource parameter
      */
@@ -510,7 +511,7 @@ public class DataSourceService extends BaseService{
         }
 
         if (CommonUtils.getKerberosStartupState() &&
-                (type == DbType.HIVE || type == DbType.SPARK)){
+                (type == DbType.HIVE || type == DbType.SPARK)) {
             jdbcUrl += ";principal=" + principal;
         }
 
@@ -533,8 +534,8 @@ public class DataSourceService extends BaseService{
         parameterMap.put(Constants.USER, userName);
         parameterMap.put(Constants.PASSWORD, password);
         if (CommonUtils.getKerberosStartupState() &&
-                (type == DbType.HIVE || type == DbType.SPARK)){
-            parameterMap.put(Constants.PRINCIPAL,principal);
+                (type == DbType.HIVE || type == DbType.SPARK)) {
+            parameterMap.put(Constants.PRINCIPAL, principal);
         }
         if (other != null && !"".equals(other)) {
             LinkedHashMap<String, String> map = JSON.parseObject(other, new TypeReference<LinkedHashMap<String, String>>() {
@@ -544,7 +545,7 @@ public class DataSourceService extends BaseService{
             }
             if (MapUtils.isNotEmpty(map)) {
                 StringBuilder otherSb = new StringBuilder();
-                for (Map.Entry<String, String> entry: map.entrySet()) {
+                for (Map.Entry<String, String> entry : map.entrySet()) {
                     otherSb.append(String.format("%s=%s%s", entry.getKey(), entry.getValue(), separator));
                 }
                 if (!Constants.DB2.equals(type.name())) {
@@ -555,7 +556,7 @@ public class DataSourceService extends BaseService{
 
         }
 
-        if(logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.info("parameters map-----" + JSON.toJSONString(parameterMap));
         }
         return JSON.toJSONString(parameterMap);
@@ -593,7 +594,7 @@ public class DataSourceService extends BaseService{
         } else if (Constants.SQLSERVER.equals(type.name())) {
             sb.append(Constants.JDBC_SQLSERVER);
             sb.append(host).append(":").append(port);
-        }else if (Constants.DB2.equals(type.name())) {
+        } else if (Constants.DB2.equals(type.name())) {
             sb.append(Constants.JDBC_DB2);
             sb.append(host).append(":").append(port);
         }
@@ -604,7 +605,7 @@ public class DataSourceService extends BaseService{
     /**
      * delete datasource
      *
-     * @param loginUser login user
+     * @param loginUser    login user
      * @param datasourceId data source id
      * @return delete result code
      */
@@ -614,12 +615,12 @@ public class DataSourceService extends BaseService{
         try {
             //query datasource by id
             DataSource dataSource = dataSourceMapper.selectById(datasourceId);
-            if(dataSource == null){
+            if (dataSource == null) {
                 logger.error("resource id {} not exist", datasourceId);
                 putMsg(result, Status.RESOURCE_NOT_EXIST);
                 return result;
             }
-            if(!hasPerm(loginUser, dataSource.getUserId())){
+            if (!hasPerm(loginUser, dataSource.getUserId())) {
                 putMsg(result, Status.USER_NO_OPERATION_PERM);
                 return result;
             }
@@ -627,7 +628,7 @@ public class DataSourceService extends BaseService{
             datasourceUserMapper.deleteByDatasourceId(datasourceId);
             putMsg(result, Status.SUCCESS);
         } catch (Exception e) {
-            logger.error("delete datasource error",e);
+            logger.error("delete datasource error", e);
             throw new RuntimeException("delete datasource error");
         }
         return result;
@@ -637,7 +638,7 @@ public class DataSourceService extends BaseService{
      * unauthorized datasource
      *
      * @param loginUser login user
-     * @param userId user id
+     * @param userId    user id
      * @return unauthed data source result code
      */
     public Map<String, Object> unauthDatasource(User loginUser, Integer userId) {
@@ -678,7 +679,7 @@ public class DataSourceService extends BaseService{
      * authorized datasource
      *
      * @param loginUser login user
-     * @param userId user id
+     * @param userId    user id
      * @return authorized result code
      */
     public Map<String, Object> authedDatasource(User loginUser, Integer userId) {
@@ -699,11 +700,11 @@ public class DataSourceService extends BaseService{
     /**
      * get host and port by address
      *
-     * @param address   address
+     * @param address address
      * @return sting array: [host,port]
      */
     private String[] getHostsAndPort(String address) {
-        return getHostsAndPort(address,Constants.DOUBLE_SLASH);
+        return getHostsAndPort(address, Constants.DOUBLE_SLASH);
     }
 
     /**
@@ -713,7 +714,7 @@ public class DataSourceService extends BaseService{
      * @param separator separator
      * @return sting array: [host,port]
      */
-    private String[] getHostsAndPort(String address,String separator) {
+    private String[] getHostsAndPort(String address, String separator) {
         String[] result = new String[2];
         String[] tmpArray = address.split(separator);
         String hostsAndPorts = tmpArray[tmpArray.length - 1];

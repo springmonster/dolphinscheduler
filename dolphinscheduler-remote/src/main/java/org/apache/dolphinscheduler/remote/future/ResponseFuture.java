@@ -25,7 +25,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * response future
@@ -34,25 +36,25 @@ public class ResponseFuture {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFuture.class);
 
-    private static final ConcurrentHashMap<Long,ResponseFuture> FUTURE_TABLE = new ConcurrentHashMap<>(256);
+    private static final ConcurrentHashMap<Long, ResponseFuture> FUTURE_TABLE = new ConcurrentHashMap<>(256);
 
     /**
-     *  request unique identification
+     * request unique identification
      */
     private final long opaque;
 
     /**
-     *  timeout
+     * timeout
      */
     private final long timeoutMillis;
 
     /**
-     *  invokeCallback function
+     * invokeCallback function
      */
     private final InvokeCallback invokeCallback;
 
     /**
-     *  releaseSemaphore
+     * releaseSemaphore
      */
     private final ReleaseSemaphore releaseSemaphore;
 
@@ -61,7 +63,7 @@ public class ResponseFuture {
     private final long beginTimestamp = System.currentTimeMillis();
 
     /**
-     *  response command
+     * response command
      */
     private Command responseCommand;
 
@@ -78,7 +80,7 @@ public class ResponseFuture {
     }
 
     /**
-     *  wait for response
+     * wait for response
      *
      * @return command
      * @throws InterruptedException
@@ -89,7 +91,7 @@ public class ResponseFuture {
     }
 
     /**
-     *  put response
+     * put response
      *
      * @param responseCommand responseCommand
      */
@@ -99,12 +101,13 @@ public class ResponseFuture {
         FUTURE_TABLE.remove(opaque);
     }
 
-    public static ResponseFuture getFuture(long opaque){
+    public static ResponseFuture getFuture(long opaque) {
         return FUTURE_TABLE.get(opaque);
     }
 
     /**
-     *  whether timeout
+     * whether timeout
+     *
      * @return timeout
      */
     public boolean isTimeout() {
@@ -113,7 +116,7 @@ public class ResponseFuture {
     }
 
     /**
-     *  execute invoke callback
+     * execute invoke callback
      */
     public void executeInvokeCallback() {
         if (invokeCallback != null) {
@@ -162,10 +165,10 @@ public class ResponseFuture {
     }
 
     /**
-     *  release
+     * release
      */
     public void release() {
-        if(this.releaseSemaphore != null){
+        if (this.releaseSemaphore != null) {
             this.releaseSemaphore.release();
         }
     }
@@ -173,7 +176,7 @@ public class ResponseFuture {
     /**
      * scan future table
      */
-    public static void scanFutureTable(){
+    public static void scanFutureTable() {
         final List<ResponseFuture> futureList = new LinkedList<>();
         Iterator<Map.Entry<Long, ResponseFuture>> it = FUTURE_TABLE.entrySet().iterator();
         while (it.hasNext()) {

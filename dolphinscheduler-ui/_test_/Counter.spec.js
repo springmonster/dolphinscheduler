@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { mount } from '@vue/test-utils'
+import {mount} from '@vue/test-utils'
 import Counter from '../src/components/Counter.vue'
 
 describe('Counter.vue', () => {
@@ -47,7 +47,7 @@ describe('Counter.vue', () => {
   })
 
   it('因数为10加1操作', () => {
-    const wrapper = mount(Counter, { propsData: { factor: 10 } })
+    const wrapper = mount(Counter, {propsData: {factor: 10}})
     wrapper.vm.inc()
     expect(wrapper.vm.computedCount).toEqual(10)
   })

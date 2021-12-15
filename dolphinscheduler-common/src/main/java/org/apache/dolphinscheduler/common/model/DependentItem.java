@@ -32,7 +32,7 @@ public class DependentItem {
     private ExecutionStatus status;
 
 
-    public String getKey(){
+    public String getKey() {
         return String.format("%d-%s-%s-%s",
                 getDefinitionId(),
                 getDepTasks(),

@@ -77,7 +77,7 @@ let editor
 
 export default {
   name: 'shell',
-  data () {
+  data() {
     return {
       valueConsistsOf: 'LEAF_PRIORITY',
       // script
@@ -90,7 +90,7 @@ export default {
       cacheResourceList: [],
       // define options
       options: [],
-      normalizer (node) {
+      normalizer(node) {
         return {
           label: node.name
         }
@@ -107,10 +107,10 @@ export default {
     /**
      * return localParams
      */
-    _onLocalParams (a) {
+    _onLocalParams(a) {
       this.localParams = a
     },
-    setEditorVal () {
+    setEditorVal() {
       let self = this
       let modal = self.$modal.dialog({
         className: 'scriptModal',
@@ -120,13 +120,13 @@ export default {
         onClose: function () {
 
         },
-        render (h) {
+        render(h) {
           return h(mScriptBox, {
             on: {
-              getSriptBoxValue (val) {
+              getSriptBoxValue(val) {
                 editor.setValue(val)
               },
-              closeAble () {
+              closeAble() {
                 // this.$modal.destroy()
                 modal.remove()
               }
@@ -142,19 +142,19 @@ export default {
      * return resourceList
      *
      */
-    _onResourcesData (a) {
+    _onResourcesData(a) {
       this.resourceList = a
     },
     /**
      * cache resourceList
      */
-    _onCacheResourcesData (a) {
+    _onCacheResourcesData(a) {
       this.cacheResourceList = a
     },
     /**
      * verification
      */
-    _verification () {
+    _verification() {
       // rawScript verification
       if (!editor.getValue()) {
         this.$message.warning(`${i18n.$t('Please enter script(required)')}`)
@@ -187,7 +187,7 @@ export default {
     /**
      * Processing code highlighting
      */
-    _handlerEditor () {
+    _handlerEditor() {
       // editor
       editor = codemirror('code-shell-mirror', {
         mode: 'shell',
@@ -208,19 +208,19 @@ export default {
 
       return editor
     },
-    diGuiTree (item) {  // Recursive convenience tree structure
+    diGuiTree(item) {  // Recursive convenience tree structure
       item.forEach(item => {
         item.children === '' || item.children === undefined || item.children === null || item.children.length === 0 ?
           this.operationTree(item) : this.diGuiTree(item.children)
       })
     },
-    operationTree (item) {
+    operationTree(item) {
       if (item.dirctory) {
         item.isDisabled = true
       }
       delete item.children
     },
-    searchTree (element, id) {
+    searchTree(element, id) {
       // 根据id查找节点
       if (element.id == id) {
         return element
@@ -234,7 +234,7 @@ export default {
       }
       return null
     },
-    dataProcess (backResource) {
+    dataProcess(backResource) {
       let isResourceId = []
       let resourceIdArr = []
       if (this.resourceList.length > 0) {
@@ -289,12 +289,12 @@ export default {
   },
   watch: {
     //Watch the cacheParams
-    cacheParams (val) {
+    cacheParams(val) {
       this.$emit('on-cache-params', val)
     }
   },
   computed: {
-    cacheParams () {
+    cacheParams() {
       let isResourceId = []
       let resourceIdArr = []
       if (this.resourceList.length > 0) {
@@ -329,7 +329,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     let item = this.store.state.dag.resourcesListS
     this.diGuiTree(item)
     this.options = item
@@ -370,7 +370,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     // Added delay loading in script input box
     this.$nextTick(() => {
       setTimeout(() => {
@@ -378,7 +378,7 @@ export default {
       }, 350)
     })
   },
-  destroyed () {
+  destroyed() {
     if (editor) {
       editor.toTextArea() // Uninstall
       editor.off($('.code-shell-mirror'), 'keypress', this.keypress)

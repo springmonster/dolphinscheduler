@@ -30,10 +30,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_TASK_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_PROCESS_INSTANCE_ID;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.SKYWALKING_TRACING_CONTEXT;
-import static org.apache.dolphinscheduler.skywalking.plugin.Utils.TAG_EXECUTE_METHOD;
+import static org.apache.dolphinscheduler.skywalking.plugin.Utils.*;
 
 public class TaskPriorityQueueImplMethodInterceptor implements InstanceMethodsAroundInterceptor {
     private static final String OPERATION_NAME = "master/queue/put";

@@ -18,7 +18,6 @@ package org.apache.dolphinscheduler.dao.datasource;
 
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.utils.PropertyUtils;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,29 +27,29 @@ import org.junit.Test;
 public class MySQLDataSourceTest {
 
     @Test
-    public void testGetUser(){
+    public void testGetUser() {
         MySQLDataSource dataSource = new MySQLDataSource();
-        String safeUsername= "test123";
+        String safeUsername = "test123";
         dataSource.setUser(safeUsername);
         Assert.assertEquals("test123", dataSource.getUser());
-        String sensitiveUsername= "test123?autoDeserialize=true";
+        String sensitiveUsername = "test123?autoDeserialize=true";
         dataSource.setUser(sensitiveUsername);
         Assert.assertEquals("test123?=true", dataSource.getUser());
     }
 
     @Test
-    public void testGetPassword(){
+    public void testGetPassword() {
         MySQLDataSource dataSource = new MySQLDataSource();
-        String safePwd= "test_pwd";
+        String safePwd = "test_pwd";
         dataSource.setPassword(safePwd);
         Assert.assertEquals("test_pwd", dataSource.getPassword());
-        String sensitivePwd= "test_pwd?autoDeserialize=true";
+        String sensitivePwd = "test_pwd?autoDeserialize=true";
         dataSource.setPassword(sensitivePwd);
         Assert.assertEquals("test_pwd?=true", dataSource.getPassword());
     }
 
     @Test
-    public void testFilterOther(){
+    public void testFilterOther() {
         MySQLDataSource dataSource = new MySQLDataSource();
         String other = dataSource.filterOther("serverTimezone=Asia/Shanghai&characterEncoding=utf8");
         Assert.assertEquals("serverTimezone=Asia/Shanghai&characterEncoding=utf8&allowLoadLocalInfile=false&autoDeserialize=false&allowLocalInfile=false&allowUrlInLocalInfile=false", other);
@@ -86,7 +85,7 @@ public class MySQLDataSourceTest {
         Assert.assertEquals("123456", dataSource.getPassword());
         Assert.assertEquals("123456", dataSource.getPassword());
         Assert.assertEquals("123456", dataSource.getPassword());
-        password="IUAjJCVeJipNVEl6TkRVMg==";
+        password = "IUAjJCVeJipNVEl6TkRVMg==";
         dataSource.setPassword(password);
 
         PropertyUtils.setValue(Constants.DATASOURCE_ENCRYPTION_ENABLE, "false");

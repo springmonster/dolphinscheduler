@@ -29,7 +29,7 @@ public enum UserType {
     GENERAL_USER(1, "general user");
 
 
-    UserType(int code, String descp){
+    UserType(int code, String descp) {
         this.code = code;
         this.descp = descp;
     }
@@ -46,4 +46,3 @@ public enum UserType {
         return descp;
     }
 }
-

@@ -16,13 +16,13 @@
  */
 package org.apache.dolphinscheduler.common.utils;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.List;
 
 public class OSUtilsTest {
     private static final Logger logger = LoggerFactory.getLogger(OSUtilsTest.class);
@@ -35,7 +35,7 @@ public class OSUtilsTest {
     }
 
     @Test
-    public void testOSMetric(){
+    public void testOSMetric() {
         double availablePhysicalMemorySize = OSUtils.availablePhysicalMemorySize();
         Assert.assertTrue(availablePhysicalMemorySize > 0.0f);
         double totalPhysicalMemorySize = OSUtils.totalPhysicalMemorySize();
@@ -70,25 +70,27 @@ public class OSUtilsTest {
 
     @Test
     public void exeCmd() {
-        if(OSUtils.isMacOS() || !OSUtils.isWindows()){
+        if (OSUtils.isMacOS() || !OSUtils.isWindows()) {
             try {
                 String result = OSUtils.exeCmd("echo helloWorld");
-                Assert.assertEquals("helloWorld\n",result);
+                Assert.assertEquals("helloWorld\n", result);
             } catch (IOException e) {
                 Assert.fail("exeCmd " + e.getMessage());
             }
         }
     }
+
     @Test
-    public void getProcessID(){
+    public void getProcessID() {
         int processId = OSUtils.getProcessID();
         Assert.assertNotEquals(0, processId);
     }
+
     @Test
-    public void checkResource(){
-        boolean resource = OSUtils.checkResource(100,0);
+    public void checkResource() {
+        boolean resource = OSUtils.checkResource(100, 0);
         Assert.assertTrue(resource);
-        resource = OSUtils.checkResource(0,Double.MAX_VALUE);
+        resource = OSUtils.checkResource(0, Double.MAX_VALUE);
         Assert.assertFalse(resource);
     }
 

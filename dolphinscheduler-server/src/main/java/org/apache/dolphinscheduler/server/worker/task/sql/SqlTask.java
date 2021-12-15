@@ -16,14 +16,10 @@
  */
 package org.apache.dolphinscheduler.server.worker.task.sql;
 
-import static org.apache.dolphinscheduler.common.Constants.COMMA;
-import static org.apache.dolphinscheduler.common.Constants.HIVE_CONF;
-import static org.apache.dolphinscheduler.common.Constants.PASSWORD;
-import static org.apache.dolphinscheduler.common.Constants.SEMICOLON;
-import static org.apache.dolphinscheduler.common.Constants.STATUS;
-import static org.apache.dolphinscheduler.common.Constants.USER;
-import static org.apache.dolphinscheduler.common.enums.DbType.HIVE;
-
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.dolphinscheduler.alert.utils.MailUtils;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.CommandType;
@@ -35,11 +31,7 @@ import org.apache.dolphinscheduler.common.task.AbstractParameters;
 import org.apache.dolphinscheduler.common.task.sql.SqlBinds;
 import org.apache.dolphinscheduler.common.task.sql.SqlParameters;
 import org.apache.dolphinscheduler.common.task.sql.SqlType;
-import org.apache.dolphinscheduler.common.utils.CollectionUtils;
-import org.apache.dolphinscheduler.common.utils.CommonUtils;
-import org.apache.dolphinscheduler.common.utils.EnumUtils;
-import org.apache.dolphinscheduler.common.utils.JSONUtils;
-import org.apache.dolphinscheduler.common.utils.ParameterUtils;
+import org.apache.dolphinscheduler.common.utils.*;
 import org.apache.dolphinscheduler.dao.AlertDao;
 import org.apache.dolphinscheduler.dao.datasource.BaseDataSource;
 import org.apache.dolphinscheduler.dao.datasource.DataSourceFactory;
@@ -50,31 +42,16 @@ import org.apache.dolphinscheduler.server.utils.ParamUtils;
 import org.apache.dolphinscheduler.server.utils.UDFUtils;
 import org.apache.dolphinscheduler.server.worker.task.AbstractTask;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
+import org.slf4j.Logger;
 
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.StringUtils;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
+import java.sql.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import static org.apache.dolphinscheduler.common.Constants.*;
+import static org.apache.dolphinscheduler.common.enums.DbType.HIVE;
 
 /**
  * sql task
@@ -228,10 +205,10 @@ public class SqlTask extends AbstractTask {
     /**
      * execute function and sql
      *
-     * @param mainSqlBinds main sql binds
-     * @param preStatementsBinds pre statements binds
+     * @param mainSqlBinds        main sql binds
+     * @param preStatementsBinds  pre statements binds
      * @param postStatementsBinds post statements binds
-     * @param createFuncs create functions
+     * @param createFuncs         create functions
      */
     public void executeFuncAndSql(SqlBinds mainSqlBinds,
                                   List<SqlBinds> preStatementsBinds,
@@ -323,7 +300,7 @@ public class SqlTask extends AbstractTask {
     /**
      * pre sql
      *
-     * @param connection connection
+     * @param connection         connection
      * @param preStatementsBinds preStatementsBinds
      */
     private void preSql(Connection connection,
@@ -340,7 +317,7 @@ public class SqlTask extends AbstractTask {
     /**
      * post sql
      *
-     * @param connection connection
+     * @param connection          connection
      * @param postStatementsBinds postStatementsBinds
      */
     private void postSql(Connection connection,
@@ -356,7 +333,7 @@ public class SqlTask extends AbstractTask {
     /**
      * create temp function
      *
-     * @param connection connection
+     * @param connection  connection
      * @param createFuncs createFuncs
      */
     private void createTempFunction(Connection connection,
@@ -400,8 +377,8 @@ public class SqlTask extends AbstractTask {
     /**
      * close jdbc resource
      *
-     * @param resultSet resultSet
-     * @param pstmt pstmt
+     * @param resultSet  resultSet
+     * @param pstmt      pstmt
      * @param connection connection
      */
     private void close(ResultSet resultSet,
@@ -436,7 +413,7 @@ public class SqlTask extends AbstractTask {
      * preparedStatement bind
      *
      * @param connection connection
-     * @param sqlBinds sqlBinds
+     * @param sqlBinds   sqlBinds
      * @return PreparedStatement
      * @throws Exception Exception
      */
@@ -462,7 +439,7 @@ public class SqlTask extends AbstractTask {
     /**
      * send mail as an attachment
      *
-     * @param title title
+     * @param title   title
      * @param content content
      */
     public void sendAttachment(String title, String content) {
@@ -510,9 +487,9 @@ public class SqlTask extends AbstractTask {
     /**
      * regular expressions match the contents between two specified strings
      *
-     * @param content content
-     * @param rgex rgex
-     * @param sqlParamsMap sql params map
+     * @param content        content
+     * @param rgex           rgex
+     * @param sqlParamsMap   sql params map
      * @param paramsPropsMap params props map
      */
     public void setSqlParamsMap(String content, String rgex, Map<Integer, Property> sqlParamsMap, Map<String, Property> paramsPropsMap) {
@@ -539,9 +516,9 @@ public class SqlTask extends AbstractTask {
     /**
      * print replace sql
      *
-     * @param content content
-     * @param formatSql format sql
-     * @param rgex rgex
+     * @param content      content
+     * @param formatSql    format sql
+     * @param rgex         rgex
      * @param sqlParamsMap sql params map
      */
     public void printReplacedSql(String content, String formatSql, String rgex, Map<Integer, Property> sqlParamsMap) {

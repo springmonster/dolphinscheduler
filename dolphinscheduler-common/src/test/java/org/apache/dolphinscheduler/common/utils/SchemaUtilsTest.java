@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ LoggerFactory.class, FileUtils.class })
+@PrepareForTest({LoggerFactory.class, FileUtils.class})
 public class SchemaUtilsTest {
 
     @Test

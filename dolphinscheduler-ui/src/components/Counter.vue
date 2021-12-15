@@ -31,19 +31,19 @@ export default {
       default: 1
     }
   },
-  data () {
+  data() {
     return {
       count: 0
     }
   },
   methods: {
-    inc () {
+    inc() {
       this.count++
     },
-    dec () {
+    dec() {
       this.count--
     },
-    reset () {
+    reset() {
       this.count = 0
     }
   },

@@ -79,7 +79,9 @@
           </td>
           <td>
             <span v-if="item.description" class="ellipsis"
-                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{ item.description }}</span>
+                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{
+                item.description
+              }}</span>
             <span v-else>-</span>
           </td>
           <td>
@@ -173,13 +175,13 @@
 import _ from 'lodash'
 import mStart from './start'
 import mTiming from './timing'
-import { mapActions } from 'vuex'
-import { publishStatus } from '@/conf/home/pages/dag/_source/config'
+import {mapActions} from 'vuex'
+import {publishStatus} from '@/conf/home/pages/dag/_source/config'
 import switchProject from '@/module/mixin/switchProject'
 
 export default {
   name: 'definition-list',
-  data () {
+  data() {
     return {
       list: [],
       strSelectIds: '',
@@ -195,18 +197,18 @@ export default {
   methods: {
     ...mapActions('dag', ['editProcessState', 'getStartCheck', 'getReceiver', 'deleteDefinition', 'batchDeleteDefinition', 'exportDefinition', 'copyProcess']),
     ...mapActions('security', ['getWorkerGroupsAll']),
-    _rtPublishStatus (code) {
+    _rtPublishStatus(code) {
       return _.filter(publishStatus, v => v.code === code)[0].desc
     },
-    _treeView (item) {
-      this.$router.push({ path: `/projects/${this.projectId}/definition/tree/${item.id}` })
+    _treeView(item) {
+      this.$router.push({path: `/projects/${this.projectId}/definition/tree/${item.id}`})
     },
     /**
      * Start
      */
-    _start (item) {
+    _start(item) {
       this.getWorkerGroupsAll()
-      this.getStartCheck({ processDefinitionId: item.id }).then(res => {
+      this.getStartCheck({processDefinitionId: item.id}).then(res => {
         let self = this
         let modal = this.$modal.dialog({
           closable: false,
@@ -214,14 +216,14 @@ export default {
           escClose: true,
           className: 'v-modal-custom',
           transitionName: 'opacityp',
-          render (h) {
+          render(h) {
             return h(mStart, {
               on: {
-                onUpdate () {
+                onUpdate() {
                   self._onUpdate()
                   modal.remove()
                 },
-                close () {
+                close() {
                   modal.remove()
                 }
               },
@@ -238,9 +240,9 @@ export default {
     /**
      * get emial
      */
-    _getReceiver (id) {
+    _getReceiver(id) {
       return new Promise((resolve, reject) => {
-        this.getReceiver({ processDefinitionId: id }).then(res => {
+        this.getReceiver({processDefinitionId: id}).then(res => {
           resolve({
             receivers: res.receivers && res.receivers.split(',') || [],
             receiversCc: res.receiversCc && res.receiversCc.split(',') || []
@@ -251,7 +253,7 @@ export default {
     /**
      * timing
      */
-    _timing (item) {
+    _timing(item) {
       let self = this
       this._getReceiver(item.id).then(res => {
         let modal = this.$modal.dialog({
@@ -260,14 +262,14 @@ export default {
           escClose: true,
           className: 'v-modal-custom',
           transitionName: 'opacityp',
-          render (h) {
+          render(h) {
             return h(mTiming, {
               on: {
-                onUpdate () {
+                onUpdate() {
                   self._onUpdate()
                   modal.remove()
                 },
-                close () {
+                close() {
                   modal.remove()
                 }
               },
@@ -285,13 +287,13 @@ export default {
     /**
      * Timing manage
      */
-    _timingManage (item) {
-      this.$router.push({ path: `/projects/${this.projectId}/definition/list/timing/${item.id}` })
+    _timingManage(item) {
+      this.$router.push({path: `/projects/${this.projectId}/definition/list/timing/${item.id}`})
     },
     /**
      * Close the delete layer
      */
-    _closeDelete (i) {
+    _closeDelete(i) {
       // close batch
       if (i < 0) {
         this.$refs['poptipDeleteAll'].doClose()
@@ -303,7 +305,7 @@ export default {
     /**
      * delete
      */
-    _delete (item, i) {
+    _delete(item, i) {
       // remove tow++
       if (i < 0) {
         this._batchDelete()
@@ -324,13 +326,13 @@ export default {
     /**
      * edit
      */
-    _edit (item) {
-      this.$router.push({ path: `/projects/${this.projectId}/definition/list/${item.id}` })
+    _edit(item) {
+      this.$router.push({path: `/projects/${this.projectId}/definition/list/${item.id}`})
     },
     /**
      * Offline
      */
-    _downline (item) {
+    _downline(item) {
       this._upProcessState({
         processId: item.id,
         releaseState: 0
@@ -339,7 +341,7 @@ export default {
     /**
      * online
      */
-    _poponline (item) {
+    _poponline(item) {
       this._upProcessState({
         processId: item.id,
         releaseState: 1
@@ -348,7 +350,7 @@ export default {
     /**
      * copy
      */
-    _copyProcess (item) {
+    _copyProcess(item) {
       this.copyProcess({
         processId: item.id
       }).then(res => {
@@ -360,7 +362,7 @@ export default {
       })
     },
 
-    _export (item) {
+    _export(item) {
       this.exportDefinition({
         processDefinitionIds: item.id,
         fileName: item.name
@@ -369,7 +371,7 @@ export default {
       })
     },
 
-    _batchExport () {
+    _batchExport() {
       this.exportDefinition({
         processDefinitionIds: this.strSelectIds,
         fileName: 'process_' + new Date().getTime()
@@ -387,7 +389,7 @@ export default {
     /**
      * Edit state
      */
-    _upProcessState (o) {
+    _upProcessState(o) {
       this.editProcessState(o).then(res => {
         this.$message.success(res.msg)
         $('body').find('.tooltip.fade.top.in').remove()
@@ -396,20 +398,20 @@ export default {
         this.$message.error(e.msg || '')
       })
     },
-    _onUpdate () {
+    _onUpdate() {
       this.$emit('on-update')
     },
     /**
      * click the select-all checkbox
      */
-    _topCheckBoxClick (is) {
+    _topCheckBoxClick(is) {
       _.map(this.list, v => v.isCheck = v.releaseState === 'ONLINE' ? false : is)
       this._arrDelChange()
     },
     /**
      * the array that to be delete
      */
-    _arrDelChange (v) {
+    _arrDelChange(v) {
       let arr = []
       this.list.forEach((item) => {
         if (item.isCheck) {
@@ -424,7 +426,7 @@ export default {
     /**
      * batch delete
      */
-    _batchDelete () {
+    _batchDelete() {
       this.$refs['poptipDeleteAll'].doClose()
       this.batchDeleteDefinition({
         processDefinitionIds: this.strSelectIds
@@ -442,7 +444,7 @@ export default {
   },
   watch: {
     processList: {
-      handler (a) {
+      handler(a) {
         this.checkAll = false
         this.list = []
         setTimeout(() => {
@@ -452,13 +454,13 @@ export default {
       immediate: true,
       deep: true
     },
-    pageNo () {
+    pageNo() {
       this.strSelectIds = ''
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

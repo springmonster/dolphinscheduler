@@ -24,6 +24,7 @@ import org.openqa.selenium.WebDriver;
 public class TenantManagePage extends PageCommon {
     /**
      * Unique constructor
+     *
      * @param driver driver
      */
     public TenantManagePage(WebDriver driver) {

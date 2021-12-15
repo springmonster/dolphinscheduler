@@ -32,7 +32,7 @@ public class Project {
     /**
      * id
      */
-    @TableId(value="id", type=IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private int id;
 
     /**
@@ -44,7 +44,7 @@ public class Project {
     /**
      * user name
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private String userName;
 
     /**
@@ -70,19 +70,19 @@ public class Project {
     /**
      * permission
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private int perm;
 
     /**
      * process define count
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private int defCount;
 
     /**
      * process instance running count
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private int instRunningCount;
 
     public int getDefCount() {
@@ -136,6 +136,7 @@ public class Project {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getDescription() {
         return description;
     }
@@ -163,6 +164,7 @@ public class Project {
     public void setPerm(int perm) {
         this.perm = perm;
     }
+
     @Override
     public String toString() {
         return "Project{" +

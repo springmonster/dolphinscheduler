@@ -43,7 +43,7 @@ public class ZKServer {
     private static final AtomicBoolean isStarted = new AtomicBoolean(false);
 
     public static void main(String[] args) {
-        if(!isStarted()){
+        if (!isStarted()) {
             ZKServer.start();
 
             /**
@@ -55,7 +55,7 @@ public class ZKServer {
                     stop();
                 }
             }));
-        }else{
+        } else {
             logger.info("zk server aleady started");
         }
     }
@@ -71,7 +71,7 @@ public class ZKServer {
         }
     }
 
-    public static boolean isStarted(){
+    public static boolean isStarted() {
         return isStarted.get();
     }
 
@@ -95,20 +95,20 @@ public class ZKServer {
      * @param port The port to listen on
      */
     public static void startLocalZkServer(final int port) {
-        String zkDataDir = System.getProperty("user.dir") +"/zookeeper_data";
-        logger.info("zk server starting, data dir path:{}" , zkDataDir);
-        startLocalZkServer(port, zkDataDir, ZooKeeperServer.DEFAULT_TICK_TIME,"60");
+        String zkDataDir = System.getProperty("user.dir") + "/zookeeper_data";
+        logger.info("zk server starting, data dir path:{}", zkDataDir);
+        startLocalZkServer(port, zkDataDir, ZooKeeperServer.DEFAULT_TICK_TIME, "60");
     }
 
     /**
      * Starts a local Zk instance
      *
-     * @param port        The port to listen on
-     * @param dataDirPath The path for the Zk data directory
-     * @param tickTime    zk tick time
-     * @param maxClientCnxns    zk max client connections
+     * @param port           The port to listen on
+     * @param dataDirPath    The path for the Zk data directory
+     * @param tickTime       zk tick time
+     * @param maxClientCnxns zk max client connections
      */
-    private static synchronized void startLocalZkServer(final int port, final String dataDirPath,final int tickTime,String maxClientCnxns) {
+    private static synchronized void startLocalZkServer(final int port, final String dataDirPath, final int tickTime, String maxClientCnxns) {
         if (zkServer != null) {
             throw new RuntimeException("Zookeeper server is already started!");
         }
@@ -138,7 +138,7 @@ public class ZKServer {
             logger.info("zk server stopped");
 
         } catch (Exception e) {
-            logger.error("Failed to stop ZK ",e);
+            logger.error("Failed to stop ZK ", e);
         }
     }
 

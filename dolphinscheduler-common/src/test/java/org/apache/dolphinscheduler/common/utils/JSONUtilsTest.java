@@ -17,19 +17,15 @@
 package org.apache.dolphinscheduler.common.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.apache.dolphinscheduler.common.enums.DataType;
 import org.apache.dolphinscheduler.common.enums.Direct;
 import org.apache.dolphinscheduler.common.process.Property;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JSONUtilsTest {
 
@@ -39,14 +35,14 @@ public class JSONUtilsTest {
 
         String jsonStr = "{\"id\":\"1001\",\"name\":\"Jobs\"}";
 
-        Map<String,String> models = JSONUtils.toMap(jsonStr);
+        Map<String, String> models = JSONUtils.toMap(jsonStr);
         Assert.assertEquals("1001", models.get("id"));
         Assert.assertEquals("Jobs", models.get("name"));
 
     }
 
     @Test
-    public void convert2Property(){
+    public void convert2Property() {
         Property property = new Property();
         property.setProp("ds");
         property.setDirect(Direct.IN);
@@ -60,7 +56,7 @@ public class JSONUtilsTest {
 
 
     @Test
-    public void String2MapTest(){
+    public void String2MapTest() {
         String str = list2String();
 
         List<LinkedHashMap> maps = JSONUtils.toList(str,
@@ -74,17 +70,17 @@ public class JSONUtilsTest {
         Assert.assertEquals("190", maps.get(0).get("database client connections"));
     }
 
-    public String list2String(){
+    public String list2String() {
 
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>();
-        map1.put("mysql service name","mysql200");
-        map1.put("mysql address","192.168.xx.xx");
-        map1.put("port","3306");
-        map1.put("no index of number","80");
-        map1.put("database client connections","190");
+        map1.put("mysql service name", "mysql200");
+        map1.put("mysql address", "192.168.xx.xx");
+        map1.put("port", "3306");
+        map1.put("no index of number", "80");
+        map1.put("database client connections", "190");
 
         List<LinkedHashMap<String, String>> maps = new ArrayList<>();
-        maps.add(0,map1);
+        maps.add(0, map1);
         String resultJson = JSONUtils.toJson(maps);
         return resultJson;
     }
@@ -92,7 +88,7 @@ public class JSONUtilsTest {
     @Test
     public void testToJson() {
         Map<String, String> map = new HashMap<>();
-        map.put("foo","bar");
+        map.put("foo", "bar");
 
         Assert.assertEquals("{\"foo\":\"bar\"}", JSONUtils.toJson(map));
         Assert.assertEquals(
@@ -131,7 +127,7 @@ public class JSONUtilsTest {
     @Test
     public void testToMap() {
         Map<String, String> map = new HashMap<>();
-        map.put("foo","bar");
+        map.put("foo", "bar");
 
         Assert.assertTrue(map.equals(JSONUtils.toMap(
                 "{\n" + "\"foo\": \"bar\",\n" + "}")));

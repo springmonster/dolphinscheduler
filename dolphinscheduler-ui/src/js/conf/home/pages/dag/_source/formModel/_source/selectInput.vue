@@ -50,7 +50,7 @@ import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'form-select-input',
-  data () {
+  data() {
     return {
       isIconState: false,
       isInput: true
@@ -66,15 +66,15 @@ export default {
     event: 'valueEvent'
   },
   methods: {
-    _onChange (o) {
+    _onChange(o) {
       this.$emit('valueEvent', +o.value)
       this._setIconState(+o.value)
     },
-    _setIconState (value) {
+    _setIconState(value) {
       // Whether there is a list
       this.isIconState = _.includes(this.list, parseInt(value))
     },
-    _ckIcon () {
+    _ckIcon() {
       if (this.isDetails) {
         return
       }
@@ -86,14 +86,14 @@ export default {
         this.isInput = true
       }, 1)
     },
-    _onBlur () {
+    _onBlur() {
       let val = $(this.$refs['input'].$el).find('input')[0].value
       if (this._validation(val)) {
         this.$emit('valueEvent', val)
         this._setIconState(val)
       }
     },
-    _validation (val) {
+    _validation(val) {
       if (val === '0') return true
 
       if (!(/(^[0-9]*[1-9][0-9]*$)/.test(val))) {
@@ -106,10 +106,10 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     this._setIconState(this.value)
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

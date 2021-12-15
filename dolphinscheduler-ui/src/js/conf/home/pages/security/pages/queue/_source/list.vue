@@ -90,11 +90,11 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 
 export default {
   name: 'tenement-list',
-  data () {
+  data() {
     return {
       list: []
     }
@@ -106,10 +106,10 @@ export default {
   },
   methods: {
     ...mapActions('security', ['deleteQueue']),
-    _closeDelete (i) {
+    _closeDelete(i) {
       this.$refs[`poptip-${i}`][0].doClose()
     },
-    _delete (item, i) {
+    _delete(item, i) {
       this.deleteQueue({
         id: item.id
       }).then(res => {
@@ -121,22 +121,22 @@ export default {
         this.$message.error(e.msg || '')
       })
     },
-    _edit (item) {
+    _edit(item) {
       this.$emit('on-edit', item)
     }
   },
   watch: {
-    queueList (a) {
+    queueList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
       })
     }
   },
-  created () {
+  created() {
     this.list = this.queueList
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

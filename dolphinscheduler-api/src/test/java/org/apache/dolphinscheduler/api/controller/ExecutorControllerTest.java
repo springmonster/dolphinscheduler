@@ -40,36 +40,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * executor controller test
  */
-public class ExecutorControllerTest extends AbstractControllerTest{
+public class ExecutorControllerTest extends AbstractControllerTest {
     private static Logger logger = LoggerFactory.getLogger(ExecutorControllerTest.class);
 
     @Ignore
     @Test
     public void testStartProcessInstance() throws Exception {
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("processDefinitionId","40");
-        paramsMap.add("scheduleTime","");
+        paramsMap.add("processDefinitionId", "40");
+        paramsMap.add("scheduleTime", "");
         paramsMap.add("failureStrategy", String.valueOf(FailureStrategy.CONTINUE));
-        paramsMap.add("startNodeList","");
-        paramsMap.add("taskDependType","");
-        paramsMap.add("execType","");
+        paramsMap.add("startNodeList", "");
+        paramsMap.add("taskDependType", "");
+        paramsMap.add("execType", "");
         paramsMap.add("warningType", String.valueOf(WarningType.NONE));
-        paramsMap.add("warningGroupId","");
-        paramsMap.add("receivers","");
-        paramsMap.add("receiversCc","");
-        paramsMap.add("runMode","");
-        paramsMap.add("processInstancePriority","");
-        paramsMap.add("workerGroupId","");
-        paramsMap.add("timeout","");
+        paramsMap.add("warningGroupId", "");
+        paramsMap.add("receivers", "");
+        paramsMap.add("receiversCc", "");
+        paramsMap.add("runMode", "");
+        paramsMap.add("processInstancePriority", "");
+        paramsMap.add("workerGroupId", "");
+        paramsMap.add("timeout", "");
 
-        MvcResult mvcResult = mockMvc.perform(post("/projects/{projectName}/executors/start-process-instance","cxc_1113")
-                .header("sessionId", sessionId)
-                .params(paramsMap))
+        MvcResult mvcResult = mockMvc.perform(post("/projects/{projectName}/executors/start-process-instance", "cxc_1113")
+                        .header("sessionId", sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -77,17 +77,17 @@ public class ExecutorControllerTest extends AbstractControllerTest{
     @Test
     public void testExecute() throws Exception {
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("processInstanceId","40");
-        paramsMap.add("executeType",String.valueOf(ExecuteType.NONE));
+        paramsMap.add("processInstanceId", "40");
+        paramsMap.add("executeType", String.valueOf(ExecuteType.NONE));
 
-        MvcResult mvcResult = mockMvc.perform(post("/projects/{projectName}/executors/execute","cxc_1113")
-                .header("sessionId", sessionId)
-                .params(paramsMap))
+        MvcResult mvcResult = mockMvc.perform(post("/projects/{projectName}/executors/execute", "cxc_1113")
+                        .header("sessionId", sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
@@ -95,29 +95,29 @@ public class ExecutorControllerTest extends AbstractControllerTest{
     @Test
     public void testStartCheckProcessDefinition() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(post("/projects/{projectName}/executors/start-check","cxc_1113")
-                .header(SESSION_ID, sessionId)
-                .param("processDefinitionId","40"))
+        MvcResult mvcResult = mockMvc.perform(post("/projects/{projectName}/executors/start-check", "cxc_1113")
+                        .header(SESSION_ID, sessionId)
+                        .param("processDefinitionId", "40"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
     public void testGetReceiverCc() throws Exception {
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("processInstanceId","13");
-        MvcResult mvcResult = mockMvc.perform(get("/projects/{projectName}/executors/get-receiver-cc","cxc_1113")
-                .header(SESSION_ID, sessionId)
-                .params(paramsMap))
+        paramsMap.add("processInstanceId", "13");
+        MvcResult mvcResult = mockMvc.perform(get("/projects/{projectName}/executors/get-receiver-cc", "cxc_1113")
+                        .header(SESSION_ID, sessionId)
+                        .params(paramsMap))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
         Result result = JSONUtils.parseObject(mvcResult.getResponse().getContentAsString(), Result.class);
-        Assert.assertEquals(Status.SUCCESS.getCode(),result.getCode().intValue());
+        Assert.assertEquals(Status.SUCCESS.getCode(), result.getCode().intValue());
         logger.info(mvcResult.getResponse().getContentAsString());
     }
 }

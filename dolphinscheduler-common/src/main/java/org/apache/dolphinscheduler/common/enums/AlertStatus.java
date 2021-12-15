@@ -30,7 +30,7 @@ public enum AlertStatus {
     EXECUTION_FAILURE(2, "execute failed");
 
 
-    AlertStatus(int code, String descp){
+    AlertStatus(int code, String descp) {
         this.code = code;
         this.descp = descp;
     }

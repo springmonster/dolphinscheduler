@@ -25,9 +25,6 @@ import org.apache.dolphinscheduler.server.registry.ZookeeperRegistryCenter;
 import org.apache.dolphinscheduler.server.zk.SpringZKServer;
 import org.apache.dolphinscheduler.service.zk.ZookeeperCachedOperator;
 import org.apache.dolphinscheduler.service.zk.ZookeeperConfig;
-
-import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={DependencyConfig.class, SpringZKServer.class, TaskResponseService.class, ZookeeperRegistryCenter.class,
+@ContextConfiguration(classes = {DependencyConfig.class, SpringZKServer.class, TaskResponseService.class, ZookeeperRegistryCenter.class,
         ZookeeperCachedOperator.class, ZookeeperConfig.class, ServerNodeManager.class, TaskResponseService.class,
         SpringConnectionFactory.class})
 public class TaskResponseServiceTest {
@@ -45,9 +44,9 @@ public class TaskResponseServiceTest {
     private TaskResponseService taskResponseService;
 
     @Test
-    public void testAdd(){
+    public void testAdd() {
         TaskResponseEvent taskResponseEvent = TaskResponseEvent.newAck(ExecutionStatus.RUNNING_EXECUTION, new Date(),
-                "", "", "", 1,null);
+                "", "", "", 1, null);
         taskResponseService.addResponse(taskResponseEvent);
         Assert.assertTrue(taskResponseService.getEventQueue().size() == 1);
         try {
@@ -59,9 +58,9 @@ public class TaskResponseServiceTest {
     }
 
     @Test
-    public void testStop(){
+    public void testStop() {
         TaskResponseEvent taskResponseEvent = TaskResponseEvent.newAck(ExecutionStatus.RUNNING_EXECUTION, new Date(),
-                "", "", "", 1,null);
+                "", "", "", 1, null);
         taskResponseService.addResponse(taskResponseEvent);
         taskResponseService.stop();
         Assert.assertTrue(taskResponseService.getEventQueue().size() == 0);

@@ -24,12 +24,12 @@ import org.apache.dolphinscheduler.remote.utils.FastJsonSerializer;
 import java.io.Serializable;
 
 /**
- *  get log bytes response command
+ * get log bytes response command
  */
 public class GetLogBytesResponseCommand implements Serializable {
 
     /**
-     *  log byte data
+     * log byte data
      */
     private byte[] data;
 
@@ -54,7 +54,7 @@ public class GetLogBytesResponseCommand implements Serializable {
      * @param opaque request unique identification
      * @return command
      */
-    public Command convert2Command(long opaque){
+    public Command convert2Command(long opaque) {
         Command command = new Command(opaque);
         command.setType(CommandType.GET_LOG_BYTES_RESPONSE);
         byte[] body = FastJsonSerializer.serialize(this);

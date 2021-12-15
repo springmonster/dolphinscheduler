@@ -24,9 +24,9 @@ public interface Monitor {
     /**
      * monitor server and restart
      *
-     * @param masterPath masterPath
-     * @param workerPath workerPath
-     * @param port port
+     * @param masterPath  masterPath
+     * @param workerPath  workerPath
+     * @param port        port
      * @param installPath installPath
      */
     void monitor(String masterPath, String workerPath, Integer port, String installPath);

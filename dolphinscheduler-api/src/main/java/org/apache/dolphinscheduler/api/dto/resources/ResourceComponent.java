@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * resource component
  */
-@JSONType(orders={"id","pid","name","fullName","description","isDirctory","children","type"})
+@JSONType(orders = {"id", "pid", "name", "fullName", "description", "isDirctory", "children", "type"})
 public abstract class ResourceComponent {
     public ResourceComponent() {
     }
@@ -38,8 +38,8 @@ public abstract class ResourceComponent {
         this.fullName = fullName;
         this.description = description;
         this.isDirctory = isDirctory;
-        int directoryFlag = isDirctory ? 1:0;
-        this.idValue = String.format("%s_%s",id,directoryFlag);
+        int directoryFlag = isDirctory ? 1 : 0;
+        this.idValue = String.format("%s_%s", id, directoryFlag);
     }
 
 
@@ -95,17 +95,18 @@ public abstract class ResourceComponent {
 
     /**
      * add resource component
+     *
      * @param resourceComponent resource component
      */
-    public void add(ResourceComponent resourceComponent){
+    public void add(ResourceComponent resourceComponent) {
         children.add(resourceComponent);
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
@@ -153,9 +154,9 @@ public abstract class ResourceComponent {
         return idValue;
     }
 
-    public void setIdValue(int id,boolean isDirctory) {
-        int directoryFlag = isDirctory ? 1:0;
-        this.idValue = String.format("%s_%s",id,directoryFlag);
+    public void setIdValue(int id, boolean isDirctory) {
+        int directoryFlag = isDirctory ? 1 : 0;
+        this.idValue = String.format("%s_%s", id, directoryFlag);
     }
 
     public ResourceType getType() {

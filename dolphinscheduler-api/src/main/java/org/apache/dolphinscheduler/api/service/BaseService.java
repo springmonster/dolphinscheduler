@@ -50,7 +50,7 @@ public class BaseService {
      * check admin
      *
      * @param loginUser login user
-     * @param result result code
+     * @param result    result code
      * @return true if administrator, otherwise false
      */
     protected boolean checkAdmin(User loginUser, Map<String, Object> result) {
@@ -65,8 +65,8 @@ public class BaseService {
     /**
      * put message to map
      *
-     * @param result result code
-     * @param status status
+     * @param result       result code
+     * @param status       status
      * @param statusParams status message
      */
     protected void putMsg(Map<String, Object> result, Status status, Object... statusParams) {
@@ -81,8 +81,8 @@ public class BaseService {
     /**
      * put message to result object
      *
-     * @param result result code
-     * @param status status
+     * @param result       result code
+     * @param status       status
      * @param statusParams status message
      */
     protected void putMsg(Result result, Status status, Object... statusParams) {
@@ -99,8 +99,8 @@ public class BaseService {
     /**
      * check
      *
-     * @param result result
-     * @param bool bool
+     * @param result              result
+     * @param bool                bool
      * @param userNoOperationPerm status
      * @return check result
      */
@@ -116,10 +116,11 @@ public class BaseService {
 
     /**
      * create tenant dir if not exists
+     *
      * @param tenantCode tenant code
      * @throws Exception if hdfs operation exception
      */
-    protected void createTenantDirIfNotExists(String tenantCode)throws Exception{
+    protected void createTenantDirIfNotExists(String tenantCode) throws Exception {
 
         String resourcePath = HadoopUtils.getHdfsResDir(tenantCode);
         String udfsPath = HadoopUtils.getHdfsUdfDir(tenantCode);
@@ -130,7 +131,7 @@ public class BaseService {
         HadoopUtils.getInstance().mkdir(udfsPath);
     }
 
-    protected boolean hasPerm(User operateUser, int createUserId){
+    protected boolean hasPerm(User operateUser, int createUserId) {
         return operateUser.getId() == createUserId || isAdmin(operateUser);
     }
 
@@ -138,10 +139,10 @@ public class BaseService {
      * check and parse date parameters
      *
      * @param startDateStr start date string
-     * @param endDateStr end date string
-     * @return map<status,startDate,endDate>
+     * @param endDateStr   end date string
+     * @return map<status, startDate, endDate>
      */
-    Map<String, Object> checkAndParseDateParameters(String startDateStr, String endDateStr){
+    Map<String, Object> checkAndParseDateParameters(String startDateStr, String endDateStr) {
         Map<String, Object> result = new HashMap<>();
         Date start = null;
         if (StringUtils.isNotEmpty(startDateStr)) {

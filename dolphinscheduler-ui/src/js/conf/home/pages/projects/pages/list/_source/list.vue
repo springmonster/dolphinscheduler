@@ -67,7 +67,9 @@
           </td>
           <td>
             <span v-if="item.description" class="ellipsis"
-                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{ item.description }}</span>
+                  v-tooltip.large.top.start.light="{text: item.description, maxWidth: '500px'}">{{
+                item.description
+              }}</span>
             <span v-else>-</span>
           </td>
           <td>
@@ -118,13 +120,13 @@
   </div>
 </template>
 <script>
-import { mapActions, mapMutations } from 'vuex'
+import {mapActions, mapMutations} from 'vuex'
 import localStore from '@/module/util/localStorage'
-import { findComponentDownward } from '@/module/util/'
+import {findComponentDownward} from '@/module/util/'
 
 export default {
   name: 'projects-list',
-  data () {
+  data() {
     return {
       list: []
     }
@@ -137,14 +139,14 @@ export default {
   methods: {
     ...mapActions('projects', ['deleteProjects']),
     ...mapMutations('dag', ['setProjectId', 'setProjectName']),
-    _switchProjects (item) {
+    _switchProjects(item) {
       this.setProjectId(item.id)
       this.setProjectName(item.name)
       localStore.setItem('projectId', item.id)
       localStore.setItem('projectName', item.name)
-      this.$router.push({ path: `/projects/${item.id}/index` })
+      this.$router.push({path: `/projects/${item.id}/index`})
     },
-    _closeDelete (i) {
+    _closeDelete(i) {
       this.$refs[`poptip-${i}`][0].doClose()
     },
     /**
@@ -152,7 +154,7 @@ export default {
      * @param item Current record
      * @param i index
      */
-    _delete (item, i) {
+    _delete(item, i) {
       this.deleteProjects({
         projectId: item.id
       }).then(res => {
@@ -168,22 +170,22 @@ export default {
      * edit project
      * @param item Current record
      */
-    _edit (item) {
+    _edit(item) {
       findComponentDownward(this.$root, 'projects-list')._create(item)
     },
 
   },
   watch: {
-    projectsList (a) {
+    projectsList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
       })
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.list = this.projectsList
   },
   components: {}

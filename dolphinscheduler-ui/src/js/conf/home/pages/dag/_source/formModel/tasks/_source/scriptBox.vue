@@ -34,7 +34,6 @@
 </template>
 <script>
 import _ from 'lodash'
-import i18n from '@/module/i18n'
 import mListBox from './listBox'
 import disabledState from '@/module/mixin/disabledState'
 import codemirror from '@/conf/home/pages/resource/pages/file/pages/_source/codemirror'
@@ -43,7 +42,7 @@ let editor
 
 export default {
   name: 'shell',
-  data () {
+  data() {
     return {
       // script
       rawScript: '',
@@ -57,7 +56,7 @@ export default {
     /**
      * Processing code highlighting
      */
-    _handlerEditor () {
+    _handlerEditor() {
       // editor
       let self = this
       editor = codemirror('code-shell-mirror1', {
@@ -83,13 +82,13 @@ export default {
 
       return editor
     },
-    closeModal () {
+    closeModal() {
       let self = this
       self.$emit('closeAble')
     }
   },
   watch: {},
-  created () {
+  created() {
     let o = this.item
 
     // Non-null objects represent backfill
@@ -97,18 +96,18 @@ export default {
       this.rawScript = o
     }
   },
-  mounted () {
+  mounted() {
     setTimeout(() => {
       this._handlerEditor()
     }, 200)
   },
-  destroyed () {
+  destroyed() {
     if (editor) {
       editor.toTextArea() // Uninstall
       editor.off($('.code-shell-mirror1'), 'keypress', this.keypress)
     }
   },
-  components: { mListBox }
+  components: {mListBox}
 }
 </script>
 <style lang="scss" rel="stylesheet/scss" scope>

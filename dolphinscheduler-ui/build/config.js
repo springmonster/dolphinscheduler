@@ -29,7 +29,7 @@ const assetsDir = resolve('src')
 const distDir = resolve('dist')
 const viewDir = resolve('src/view')
 
-function moduleName (modules) {
+function moduleName(modules) {
   let filename = path.basename(modules)
   let parts = filename.split('.')
   parts.pop()
@@ -39,7 +39,7 @@ function moduleName (modules) {
 
 const jsEntry = (() => {
   const obj = {}
-  const files = glob.sync(['js/conf/*/!(_*).js'], { cwd: assetsDir })
+  const files = glob.sync(['js/conf/*/!(_*).js'], {cwd: assetsDir})
   files.forEach(val => {
     let parts = val.split(/[\\/]/)
     parts.shift()
@@ -95,7 +95,7 @@ const rewriterPath = p => {
   }
 }
 const version = new Date().getTime()
-const pages = glob.sync(['*/!(_*).html'], { cwd: viewDir }).map(p => {
+const pages = glob.sync(['*/!(_*).html'], {cwd: viewDir}).map(p => {
   let pagePath = `${path.join(viewDir, p)}`
   let newPagePath = rewriterPath(pagePath)
 

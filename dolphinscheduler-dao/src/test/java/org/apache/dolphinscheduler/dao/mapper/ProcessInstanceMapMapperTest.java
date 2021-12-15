@@ -42,9 +42,10 @@ public class ProcessInstanceMapMapperTest {
 
     /**
      * insert
+     *
      * @return ProcessInstanceMap
      */
-    private ProcessInstanceMap insertOne(){
+    private ProcessInstanceMap insertOne() {
         //insertOne
         ProcessInstanceMap processInstanceMap = new ProcessInstanceMap();
         processInstanceMap.setProcessInstanceId(0);
@@ -58,7 +59,7 @@ public class ProcessInstanceMapMapperTest {
      * test update
      */
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         //insertOne
         ProcessInstanceMap processInstanceMap = insertOne();
         //update
@@ -71,7 +72,7 @@ public class ProcessInstanceMapMapperTest {
      * test delete
      */
     @Test
-    public void testDelete(){
+    public void testDelete() {
         ProcessInstanceMap processInstanceMap = insertOne();
         int delete = processInstanceMapMapper.deleteById(processInstanceMap.getId());
         Assert.assertEquals(1, delete);
@@ -102,7 +103,6 @@ public class ProcessInstanceMapMapperTest {
     }
 
 
-
     /**
      * test delete by parent process instance id
      */
@@ -119,7 +119,6 @@ public class ProcessInstanceMapMapperTest {
     }
 
     /**
-     *
      * test query sub ids by process instance parentId
      */
     @Test

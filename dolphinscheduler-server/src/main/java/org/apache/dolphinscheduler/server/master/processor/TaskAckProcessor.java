@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- *  task ack processor
+ * task ack processor
  */
 public class TaskAckProcessor implements NettyRequestProcessor {
 
@@ -52,13 +52,14 @@ public class TaskAckProcessor implements NettyRequestProcessor {
      */
     private final TaskInstanceCacheManager taskInstanceCacheManager;
 
-    public TaskAckProcessor(){
+    public TaskAckProcessor() {
         this.taskResponseService = SpringApplicationContext.getBean(TaskResponseService.class);
         this.taskInstanceCacheManager = SpringApplicationContext.getBean(TaskInstanceCacheManagerImpl.class);
     }
 
     /**
      * task ack process
+     *
      * @param channel channel channel
      * @param command command TaskExecuteAckCommand
      */

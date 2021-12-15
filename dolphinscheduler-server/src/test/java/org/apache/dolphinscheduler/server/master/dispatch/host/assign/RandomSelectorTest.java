@@ -29,13 +29,13 @@ import java.util.Collections;
 public class RandomSelectorTest {
 
     @Test(expected = IllegalArgumentException.class)
-    public void testSelectWithIllegalArgumentException(){
+    public void testSelectWithIllegalArgumentException() {
         RandomSelector selector = new RandomSelector();
         selector.select(Collections.EMPTY_LIST);
     }
 
     @Test
-    public void testSelect1(){
+    public void testSelect1() {
         RandomSelector<String> selector = new RandomSelector();
         String result = selector.select(Arrays.asList("1"));
         Assert.assertTrue(StringUtils.isNotEmpty(result));
@@ -43,9 +43,9 @@ public class RandomSelectorTest {
     }
 
     @Test
-    public void testSelect(){
+    public void testSelect() {
         RandomSelector<Integer> selector = new RandomSelector();
-        int result = selector.select(Arrays.asList(1,2,3,4,5,6,7));
+        int result = selector.select(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
         Assert.assertTrue(result >= 1 && result <= 7);
     }
 }

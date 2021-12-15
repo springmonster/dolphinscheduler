@@ -27,10 +27,12 @@ public class AlertTemplateFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(AlertTemplateFactory.class);
 
-    private AlertTemplateFactory(){}
+    private AlertTemplateFactory() {
+    }
 
     /**
      * get a template from alert.properties conf file
+     *
      * @return a template, default is DefaultHTMLTemplate
      */
     public static AlertTemplate getMessageTemplate() {

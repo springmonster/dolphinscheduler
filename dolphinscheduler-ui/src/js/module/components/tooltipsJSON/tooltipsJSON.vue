@@ -27,18 +27,18 @@
   </div>
 </template>
 <script>
-import { syntaxHighlight } from '@/module/util/util'
+import {syntaxHighlight} from '@/module/util/util'
 
 export default {
   name: 'tooltips',
-  data () {
+  data() {
     return {}
   },
   props: {
     JSON: String,
     id: Number
   },
-  mounted () {
+  mounted() {
     $(`#result-${this.id}`).html(syntaxHighlight(this.JSON))
   }
 }

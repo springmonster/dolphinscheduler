@@ -29,15 +29,15 @@ public class LoggerUtilsTest {
     @Test
     public void buildTaskId() {
 
-      String taskId = LoggerUtils.buildTaskId(LoggerUtils.TASK_LOGGER_INFO_PREFIX,79,4084,15210);
+        String taskId = LoggerUtils.buildTaskId(LoggerUtils.TASK_LOGGER_INFO_PREFIX, 79, 4084, 15210);
 
-      Assert.assertEquals(" - [taskAppId=TASK-79-4084-15210]", taskId);
+        Assert.assertEquals(" - [taskAppId=TASK-79-4084-15210]", taskId);
     }
 
     @Test
     public void getAppIds() {
-       List<String> appIdList =  LoggerUtils.getAppIds("Running job: application_1_1",logger);
-       Assert.assertEquals("application_1_1", appIdList.get(0));
+        List<String> appIdList = LoggerUtils.getAppIds("Running job: application_1_1", logger);
+        Assert.assertEquals("application_1_1", appIdList.get(0));
 
     }
 }

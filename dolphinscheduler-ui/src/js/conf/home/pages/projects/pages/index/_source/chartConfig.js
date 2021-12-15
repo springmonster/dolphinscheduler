@@ -16,7 +16,7 @@
  */
 
 import _ from 'lodash'
-import { tasksState } from '@/conf/home/pages/dag/_source/config'
+import {tasksState} from '@/conf/home/pages/dag/_source/config'
 
 const pie = {
   series: [
@@ -48,13 +48,13 @@ const bar = {
       show: false
     },
     axisLabel: {
-      formatter (v) {
+      formatter(v) {
         return `${v.split(',')[0]} (${v.split(',')[2]})`
       }
     }
   },
   tooltip: {
-    formatter (v) {
+    formatter(v) {
       const val = v[0].name.split(',')
       return `${val[0]} (${v[0].value})`
     }
@@ -73,13 +73,13 @@ const simple = {
     axisLabel: {
       interval: 0,
       showMaxLabel: true,
-      formatter (v) {
+      formatter(v) {
         return tasksState[v].desc
       }
     }
   },
   tooltip: {
-    formatter (data) {
+    formatter(data) {
       let str = ''
       _.map(data, (v, i) => {
         if (i === 0) {
@@ -94,4 +94,4 @@ const simple = {
 
 }
 
-export { pie, bar, simple }
+export {pie, bar, simple}

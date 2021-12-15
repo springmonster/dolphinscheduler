@@ -18,90 +18,90 @@
 import _ from 'lodash'
 
 export default {
-  setProjectId (state, payload) {
+  setProjectId(state, payload) {
     state.projectId = payload
   },
-  setProjectName (state, payload) {
+  setProjectName(state, payload) {
     state.projectName = payload
   },
   /**
    * set tasks
    * */
-  setTasks (state, payload) {
+  setTasks(state, payload) {
     state.tasks = payload
   },
   /**
    * set locations
    * */
-  setLocations (state, payload) {
+  setLocations(state, payload) {
     state.locations = payload
   },
   /**
    * add locations
    * */
-  addLocations (state, payload) {
+  addLocations(state, payload) {
     state.locations = Object.assign(state.locations, {}, payload)
   },
   /**
    * set connects
    * */
-  setConnects (state, payload) {
+  setConnects(state, payload) {
     state.connects = payload
   },
   /**
    * set dag name
    */
-  setName (state, payload) {
+  setName(state, payload) {
     state.name = payload
   },
   /**
    * set timeout
    */
-  setTimeout (state, payload) {
+  setTimeout(state, payload) {
     state.timeout = payload
   },
   /**
    * set tenantId
    */
-  setTenantId (state, payload) {
+  setTenantId(state, payload) {
     state.tenantId = payload
   },
   /**
    * set global params
    */
-  setGlobalParams (state, payload) {
+  setGlobalParams(state, payload) {
     state.globalParams = payload
   },
   /**
    * set description
    */
-  setDesc (state, payload) {
+  setDesc(state, payload) {
     state.description = payload
   },
   /**
    * Whether to update the process definition
    */
-  setSyncDefine (state, payload) {
+  setSyncDefine(state, payload) {
     state.syncDefine = payload
   },
   /**
    * Whether to edit the parameters
    */
-  setIsEditDag (state, payload) {
+  setIsEditDag(state, payload) {
     state.isEditDag = payload
   },
 
   /**
    * edit state
    */
-  setIsDetails (state, payload) {
+  setIsDetails(state, payload) {
     state.isDetails = payload
   },
 
   /**
    * reset params
    */
-  resetParams (state, payload) {
+  resetParams(state, payload) {
     $('#canvas').html('')
     state.globalParams = (payload && payload.globalParams) || []
     state.tasks = (payload && payload.tasks) || []
@@ -123,7 +123,7 @@ export default {
    * add task
    * object {}
    */
-  addTasks (state, payload) {
+  addTasks(state, payload) {
     let i = _.findIndex(state.tasks, v => v.id === payload.id)
     if (i !== -1) {
       state.tasks[i] = Object.assign(state.tasks[i], {}, payload)
@@ -149,7 +149,7 @@ export default {
    * @param state
    * @param payload
    */
-  cacheTasks (state, payload) {
+  cacheTasks(state, payload) {
     if (state.cacheTasks[payload.id]) {
       state.cacheTasks[payload.id] = Object.assign(state.cacheTasks[payload.id], {}, payload)
     } else {

@@ -66,12 +66,12 @@
 </template>
 <script>
 import i18n from '@/module/i18n'
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import Clipboard from 'clipboard'
 
 export default {
   name: 'variables-view',
-  data () {
+  data() {
     return {
       list: {}
     }
@@ -82,7 +82,7 @@ export default {
     /**
      * Get variable data
      */
-    _getViewvariables () {
+    _getViewvariables() {
       this.getViewvariables({
         processInstanceId: this.$route.params.id
       }).then(res => {
@@ -94,7 +94,7 @@ export default {
     /**
      * Click to copy
      */
-    _copy (className) {
+    _copy(className) {
       let clipboard = new Clipboard(`.${className}`)
       clipboard.on('success', e => {
         this.$message.success(`${i18n.$t('Copy success')}`)
@@ -111,7 +111,7 @@ export default {
     /**
      * Copyed text processing
      */
-    _rtClipboard (el, taskType) {
+    _rtClipboard(el, taskType) {
       let arr = []
       Object.keys(el).forEach((key) => {
         if (taskType === 'SQL' || taskType === 'PROCEDURE') {
@@ -126,10 +126,10 @@ export default {
     }
   },
   watch: {},
-  created () {
+  created() {
     this._getViewvariables()
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

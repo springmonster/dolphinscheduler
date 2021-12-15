@@ -46,13 +46,13 @@ public class PageInfo<T> {
      */
     private Integer pageNo;
 
-    public PageInfo(Integer currentPage,Integer pageSize){
-        if(currentPage==null){
-            currentPage=1;
+    public PageInfo(Integer currentPage, Integer pageSize) {
+        if (currentPage == null) {
+            currentPage = 1;
         }
-        this.pageNo=(currentPage-1)*pageSize;
-        this.pageSize=pageSize;
-        this.currentPage=currentPage;
+        this.pageNo = (currentPage - 1) * pageSize;
+        this.pageSize = pageSize;
+        this.currentPage = currentPage;
     }
 
     public Integer getStart() {
@@ -64,11 +64,11 @@ public class PageInfo<T> {
     }
 
     public Integer getTotalPage() {
-        if (pageSize==null||pageSize == 0) {
+        if (pageSize == null || pageSize == 0) {
             pageSize = 7;
         }
         if (this.totalCount % this.pageSize == 0) {
-            return (this.totalCount / this.pageSize)==0?1:(this.totalCount / this.pageSize);
+            return (this.totalCount / this.pageSize) == 0 ? 1 : (this.totalCount / this.pageSize);
         }
         return (this.totalCount / this.pageSize + 1);
     }
@@ -82,7 +82,7 @@ public class PageInfo<T> {
     }
 
     public Integer getTotalCount() {
-        if (totalCount==null) {
+        if (totalCount == null) {
             totalCount = 0;
         }
         return totalCount;
@@ -93,7 +93,7 @@ public class PageInfo<T> {
     }
 
     public Integer getPageSize() {
-        if (pageSize==null||pageSize == 0) {
+        if (pageSize == null || pageSize == 0) {
             pageSize = 7;
         }
         return pageSize;
@@ -108,7 +108,7 @@ public class PageInfo<T> {
     }
 
     public Integer getCurrentPage() {
-        if (currentPage==null||currentPage <= 0) {
+        if (currentPage == null || currentPage <= 0) {
             this.currentPage = 1;
         }
         return this.currentPage;

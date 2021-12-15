@@ -64,12 +64,12 @@
 </template>
 <script>
 import _ from 'lodash'
-import { cycleList, dateValueList } from './commcon'
+import {cycleList, dateValueList} from './commcon'
 import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'dep-list',
-  data () {
+  data() {
     return {
       list: [],
       projectList: [],
@@ -92,7 +92,7 @@ export default {
     /**
      * add task
      */
-    _add () {
+    _add() {
       // btn loading
       this.isLoading = true
 
@@ -100,7 +100,7 @@ export default {
       let projectId = this.projectList[0].value
       this._getProcessByProjectId(projectId).then(definitionList => {
         // dependItemList index
-        let is = (value) => _.some(this.dependItemList, { definitionId: value })
+        let is = (value) => _.some(this.dependItemList, {definitionId: value})
         let noArr = _.filter(definitionList, v => !is(v.value))
         let value = noArr[0] && noArr[0].value || null
         let val = value || definitionList[0].value
@@ -116,7 +116,7 @@ export default {
     /**
      * remove task
      */
-    _remove (i) {
+    _remove(i) {
       this.dependTaskList[this.index].dependItemList.splice(i, 1)
       this._removeTip()
       if (!this.dependItemList.length || this.dependItemList.length === 0) {
@@ -125,7 +125,7 @@ export default {
         })
       }
     },
-    _getProjectList () {
+    _getProjectList() {
       return new Promise((resolve, reject) => {
         this.projectList = _.map(_.cloneDeep(this.store.state.dag.projectListS), v => {
           return {
@@ -139,7 +139,7 @@ export default {
     /**
      * get processlist
      */
-    _getProcessList () {
+    _getProcessList() {
       return new Promise((resolve, reject) => {
         let definitionList = _.map(_.cloneDeep(this.store.state.dag.processListS), v => {
           return {
@@ -150,9 +150,9 @@ export default {
         resolve(definitionList)
       })
     },
-    _getProcessByProjectId (id) {
+    _getProcessByProjectId(id) {
       return new Promise((resolve, reject) => {
-        this.store.dispatch('dag/getProcessByProjectId', { projectId: id }).then(res => {
+        this.store.dispatch('dag/getProcessByProjectId', {projectId: id}).then(res => {
           let definitionList = _.map(_.cloneDeep(res), v => {
             return {
               value: v.id,
@@ -166,14 +166,14 @@ export default {
     /**
      * get dependItemList
      */
-    _getDependItemList (ids, is = true) {
+    _getDependItemList(ids, is = true) {
       return new Promise((resolve, reject) => {
         if (is) {
-          this.store.dispatch('dag/getProcessTasksList', { processDefinitionId: ids }).then(res => {
+          this.store.dispatch('dag/getProcessTasksList', {processDefinitionId: ids}).then(res => {
             resolve(['ALL'].concat(_.map(res, v => v.name)))
           })
         } else {
-          this.store.dispatch('dag/getTaskListDefIdAll', { processDefinitionIdList: ids }).then(res => {
+          this.store.dispatch('dag/getTaskListDefIdAll', {processDefinitionIdList: ids}).then(res => {
             resolve(res)
           })
         }
@@ -182,7 +182,7 @@ export default {
     /**
      * change process get dependItemList
      */
-    _onChangeProjectId ({ value }) {
+    _onChangeProjectId({value}) {
       this._getProcessByProjectId(value).then(definitionList => {
         /*this.$set(this.dependItemList, this.itemIndex, this._dlOldParams(value, definitionList, item))*/
         let definitionId = definitionList[0].value
@@ -195,7 +195,7 @@ export default {
         })
       })
     },
-    _onChangeDefinitionId ({ value }) {
+    _onChangeDefinitionId({value}) {
       // get depItem list data
       this._getDependItemList(value).then(depTasksList => {
         let item = this.dependItemList[this.itemIndex]
@@ -205,12 +205,12 @@ export default {
         this.$set(this.dependItemList, this.itemIndex, this._rtOldParams(value, item.definitionList, depTasksList, item))
       })
     },
-    _onChangeCycle ({ value }) {
+    _onChangeCycle({value}) {
       let list = _.cloneDeep(dateValueList[value])
       this.$set(this.dependItemList[this.itemIndex], 'dateValue', list[0].value)
       this.$set(this.dependItemList[this.itemIndex], 'dateValueList', list)
     },
-    _rtNewParams (value, definitionList, depTasksList, projectId) {
+    _rtNewParams(value, definitionList, depTasksList, projectId) {
       return {
         projectId: projectId,
         definitionId: value,
@@ -224,7 +224,7 @@ export default {
         state: ''
       }
     },
-    _rtOldParams (value, definitionList, depTasksList, item) {
+    _rtOldParams(value, definitionList, depTasksList, item) {
       return {
         projectId: item.projectId,
         definitionId: value,
@@ -239,7 +239,7 @@ export default {
       }
     },
 
-    _cpOldParams (value, definitionId, definitionList, depTasksList, item) {
+    _cpOldParams(value, definitionId, definitionList, depTasksList, item) {
       return {
         projectId: value,
         definitionList: definitionList,
@@ -255,14 +255,14 @@ export default {
     /**
      * remove tip
      */
-    _removeTip () {
+    _removeTip() {
       $('body').find('.tooltip.fade.top.in').remove()
     }
   },
   watch: {},
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     // is type projects-instance-details
     this.isInstance = this.router.history.current.name === 'projects-instance-details'
     // get processlist
@@ -289,7 +289,7 @@ export default {
       }
     })
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

@@ -112,12 +112,12 @@
 <script>
 import Permissions from '@/module/permissions'
 import mLog from '@/conf/home/pages/dag/_source/formModel/log'
-import { tasksState } from '@/conf/home/pages/dag/_source/config'
+import {tasksState} from '@/conf/home/pages/dag/_source/config'
 import switchProject from '@/module/mixin/switchProject'
 
 export default {
   name: 'list',
-  data () {
+  data() {
     return {
       list: [],
       isAuth: Permissions.getAuth(),
@@ -131,11 +131,11 @@ export default {
   },
   mixins: [switchProject],
   methods: {
-    _rtState (code) {
+    _rtState(code) {
       let o = tasksState[code]
       return `<em class="${o.icoUnicode} ${o.isSpin ? 'as as-spin' : ''}" style="color:${o.color}" data-toggle="tooltip" data-container="body" title="${o.desc}"></em>`
     },
-    _refreshLog (item) {
+    _refreshLog(item) {
       let self = this
       let instance = this.$modal.dialog({
         closable: false,
@@ -143,12 +143,12 @@ export default {
         escClose: true,
         className: 'v-modal-custom',
         transitionName: 'opacityp',
-        render (h) {
+        render(h) {
           return h(mLog, {
             on: {
-              ok () {
+              ok() {
               },
-              close () {
+              close() {
                 instance.remove()
               }
             },
@@ -161,21 +161,21 @@ export default {
         }
       })
     },
-    _go (item) {
-      this.$router.push({ path: `/projects/${this.projectId}/instance/list/${item.processInstanceId}` })
+    _go(item) {
+      this.$router.push({path: `/projects/${this.projectId}/instance/list/${item.processInstanceId}`})
     },
   },
   watch: {
-    taskInstanceList (a) {
+    taskInstanceList(a) {
       this.list = []
       setTimeout(() => {
         this.list = a
       })
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     this.list = this.taskInstanceList
   },
   components: {}

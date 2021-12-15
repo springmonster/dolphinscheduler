@@ -17,9 +17,9 @@
 
 package org.apache.dolphinscheduler.common.task.sql;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.dolphinscheduler.common.process.ResourceInfo;
 import org.apache.dolphinscheduler.common.task.AbstractParameters;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -212,6 +212,7 @@ public class SqlParameters extends AbstractParameters {
     public void setReceiversCc(String receiversCc) {
         this.receiversCc = receiversCc;
     }
+
     public List<String> getPreStatements() {
         return preStatements;
     }

@@ -24,20 +24,21 @@ import org.apache.dolphinscheduler.common.enums.DbType;
  */
 public class PostgreDataSource extends BaseDataSource {
 
-  /**
-   * gets the JDBC url for the data source connection
-   * @return jdbc url
-   */
-  @Override
-  public String driverClassSelector() {
-    return Constants.ORG_POSTGRESQL_DRIVER;
-  }
+    /**
+     * gets the JDBC url for the data source connection
+     *
+     * @return jdbc url
+     */
+    @Override
+    public String driverClassSelector() {
+        return Constants.ORG_POSTGRESQL_DRIVER;
+    }
 
-  /**
-   * @return db type
-   */
-  @Override
-  public DbType dbTypeSelector() {
-    return DbType.POSTGRESQL;
-  }
+    /**
+     * @return db type
+     */
+    @Override
+    public DbType dbTypeSelector() {
+        return DbType.POSTGRESQL;
+    }
 }

@@ -17,8 +17,10 @@
 
 package org.apache.dolphinscheduler.server.master.zk;
 
-import static org.apache.dolphinscheduler.common.Constants.SLEEP_TIME_MILLIS;
-
+import org.apache.commons.lang.StringUtils;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.IStoppable;
 import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
@@ -35,19 +37,15 @@ import org.apache.dolphinscheduler.server.utils.ProcessUtils;
 import org.apache.dolphinscheduler.service.process.ProcessService;
 import org.apache.dolphinscheduler.service.zk.AbstractListener;
 import org.apache.dolphinscheduler.service.zk.AbstractZKClient;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
-import org.apache.curator.framework.recipes.locks.InterProcessMutex;
-
-import java.util.Date;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.List;
+
+import static org.apache.dolphinscheduler.common.Constants.SLEEP_TIME_MILLIS;
 
 /**
  * zookeeper master client
@@ -126,8 +124,8 @@ public class ZKMasterClient extends AbstractZKClient {
          * handle path events that this class cares about
          *
          * @param client zkClient
-         * @param event path event
-         * @param path zk path
+         * @param event  path event
+         * @param path   zk path
          */
         @Override
         protected void dataChanged(CuratorFramework client, TreeCacheEvent event, String path) {
@@ -144,9 +142,9 @@ public class ZKMasterClient extends AbstractZKClient {
     /**
      * remove zookeeper node path
      *
-     * @param path zookeeper node path
+     * @param path       zookeeper node path
      * @param zkNodeType zookeeper node type
-     * @param failover is failover
+     * @param failover   is failover
      */
     private void removeZKNodePath(String path, ZKNodeType zkNodeType, boolean failover) {
         logger.info("{} node deleted : {}", zkNodeType, path);
@@ -219,7 +217,7 @@ public class ZKMasterClient extends AbstractZKClient {
      * monitor master
      *
      * @param event event
-     * @param path path
+     * @param path  path
      */
     public void handleMasterEvent(TreeCacheEvent event, String path) {
         switch (event.getType()) {
@@ -238,7 +236,7 @@ public class ZKMasterClient extends AbstractZKClient {
      * monitor worker
      *
      * @param event event
-     * @param path path
+     * @param path  path
      */
     public void handleWorkerEvent(TreeCacheEvent event, String path) {
         switch (event.getType()) {
@@ -320,7 +318,7 @@ public class ZKMasterClient extends AbstractZKClient {
      * 2. change task state from running to need failover.
      * 3. failover all tasks when workerHost is null
      *
-     * @param workerHost worker host
+     * @param workerHost           worker host
      * @param needCheckWorkerAlive need check worker alive
      */
     private void failoverWorker(String workerHost, boolean needCheckWorkerAlive) {

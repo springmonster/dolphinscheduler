@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import mSpin from '@/module/components/spin/spin'
 import mNoData from '@/module/components/noData/noData'
 import themeData from '@/module/echarts/themeData.json'
@@ -75,7 +75,7 @@ import mListConstruction from '@/module/components/listConstruction/listConstruc
 
 export default {
   name: 'statistics',
-  data () {
+  data() {
     return {
       isLoading: false,
       queueCount: {},
@@ -91,7 +91,7 @@ export default {
     ...mapActions('projects', ['getCommandStateCount']),
   },
   watch: {},
-  created () {
+  created() {
     this.isLoading = true
     this.getQueueCount().then(res => {
       this.queueCount = res.data
@@ -120,7 +120,7 @@ export default {
     }).catch(() => {
     })
   },
-  mounted () {
+  mounted() {
   },
   components: {
     mListConstruction,

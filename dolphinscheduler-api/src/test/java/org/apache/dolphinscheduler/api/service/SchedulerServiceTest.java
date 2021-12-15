@@ -43,7 +43,7 @@ public class SchedulerServiceTest {
     private SchedulerService schedulerService;
 
     @Test
-    public void testSetScheduleState(){
+    public void testSetScheduleState() {
         User loginUser = new User();
         loginUser.setId(-1);
         loginUser.setUserType(UserType.GENERAL_USER);

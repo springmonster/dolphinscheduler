@@ -25,7 +25,7 @@ import org.junit.Test;
 public class RemoveTaskLogResponseCommandTest {
 
     @Test
-    public void testConvert2Command(){
+    public void testConvert2Command() {
         RemoveTaskLogRequestCommand removeTaskLogRequestCommand = new RemoveTaskLogRequestCommand();
         removeTaskLogRequestCommand.setPath("/opt/zhangsan");
         Command command = removeTaskLogRequestCommand.convert2Command();

@@ -17,14 +17,16 @@
 
 -- uc_dolphin_T_t_ds_process_instance_A_host
 delimiter d//
-CREATE OR REPLACE FUNCTION uc_dolphin_T_t_ds_process_instance_A_host() RETURNS void AS $$
-BEGIN
-    IF EXISTS (SELECT 1 FROM information_schema.COLUMNS
+CREATE
+OR
+REPLACE FUNCTION uc_dolphin_T_t_ds_process_instance_A_host() RETURNS void AS $$
+BEGIN IF EXISTS (SELECT 1 FROM information_schema.COLUMNS
         WHERE TABLE_NAME='t_ds_process_instance'
         AND COLUMN_NAME ='host')
     THEN
-        ALTER TABLE t_ds_process_instance ALTER COLUMN host type varchar(135);
-    END IF;
+ALTER TABLE t_ds_process_instance
+    ALTER COLUMN host type varchar (135);
+END IF;
 END;
 $$ LANGUAGE plpgsql;
 d//
@@ -35,14 +37,16 @@ DROP FUNCTION IF EXISTS uc_dolphin_T_t_ds_process_instance_A_host();
 
 -- uc_dolphin_T_t_ds_task_instance_A_host
 delimiter d//
-CREATE OR REPLACE FUNCTION uc_dolphin_T_t_ds_task_instance_A_host() RETURNS void AS $$
-BEGIN
-    IF EXISTS (SELECT 1 FROM information_schema.COLUMNS
+CREATE
+OR
+REPLACE FUNCTION uc_dolphin_T_t_ds_task_instance_A_host() RETURNS void AS $$
+BEGIN IF EXISTS (SELECT 1 FROM information_schema.COLUMNS
         WHERE TABLE_NAME='t_ds_task_instance'
         AND COLUMN_NAME ='host')
     THEN
-        ALTER TABLE t_ds_task_instance ALTER COLUMN host type varchar(135);
-    END IF;
+ALTER TABLE t_ds_task_instance
+    ALTER COLUMN host type varchar (135);
+END IF;
 END;
 $$ LANGUAGE plpgsql;
 d//

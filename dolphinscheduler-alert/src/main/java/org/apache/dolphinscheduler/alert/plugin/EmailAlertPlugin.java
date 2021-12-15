@@ -26,19 +26,14 @@ import org.apache.dolphinscheduler.plugin.api.AlertPlugin;
 import org.apache.dolphinscheduler.plugin.model.AlertData;
 import org.apache.dolphinscheduler.plugin.model.AlertInfo;
 import org.apache.dolphinscheduler.plugin.model.PluginName;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.*;
+
 /**
  * EmailAlertPlugin
- *
+ * <p>
  * This plugin is a default plugin, and mix up email and enterprise wechat, because adapt with former alert behavior
  */
 public class EmailAlertPlugin implements AlertPlugin {

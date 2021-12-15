@@ -45,7 +45,7 @@ import _ from 'lodash'
 
 export default {
   name: 'conditions',
-  data () {
+  data() {
     return {
       // search value
       searchVal: ''
@@ -58,7 +58,7 @@ export default {
     /**
      * emit Query parameter
      */
-    _ckQuery () {
+    _ckQuery() {
       this.$emit('on-conditions', {
         searchVal: _.trim(this.searchVal)
       })
@@ -66,11 +66,11 @@ export default {
   },
   computed: {
     // Whether the slot comes in
-    isShow () {
+    isShow() {
       return this.$slots['search-group']
     }
   },
-  created () {
+  created() {
     // Routing parameter merging
     if (!_.isEmpty(this.$route.query)) {
       this.searchVal = this.$route.query.searchVal || ''

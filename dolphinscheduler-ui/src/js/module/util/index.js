@@ -17,7 +17,7 @@
 /**
  * Find component downward
  */
-export function findComponentDownward (context, componentName) {
+export function findComponentDownward(context, componentName) {
   const childrens = context.$children
   let children = null
   if (childrens.length) {
@@ -50,7 +50,7 @@ export function findComponentDownward (context, componentName) {
  *  uuid('v-') // -> v-xxx
  *  uuid('v-ani-%{s}-translate')  // -> v-ani-xxx
  */
-export function uuid (prefix) {
+export function uuid(prefix) {
   const id = Math.floor(Math.random() * 10000).toString(36)
   return prefix ? (
     ~prefix.indexOf('%{s}') ? (
@@ -66,11 +66,11 @@ export function uuid (prefix) {
  * @param {Array} ...args
  * @return {String}
  */
-const { hasOwnProperty } = {}
+const {hasOwnProperty} = {}
 const RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g
 const hasOwn = (o, k) => hasOwnProperty.call(o, k)
 
-export function template (string, ...args) {
+export function template(string, ...args) {
   if (args.length === 1 && typeof args[0] === 'object') {
     args = args[0]
   }

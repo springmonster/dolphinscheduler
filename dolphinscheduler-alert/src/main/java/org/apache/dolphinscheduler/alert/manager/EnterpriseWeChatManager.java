@@ -33,24 +33,26 @@ import java.util.Map;
  */
 public class EnterpriseWeChatManager {
     private static final Logger logger = LoggerFactory.getLogger(EnterpriseWeChatManager.class);
+
     /**
      * Enterprise We Chat send
+     *
      * @param alertInfo the alert info
-     * @param token the token
+     * @param token     the token
      * @return the send result
      */
-    public Map<String,Object> send(AlertInfo alertInfo, String token){
-        Map<String,Object> retMap = new HashMap<>();
+    public Map<String, Object> send(AlertInfo alertInfo, String token) {
+        Map<String, Object> retMap = new HashMap<>();
         retMap.put(Constants.STATUS, false);
         String agentId = EnterpriseWeChatUtils.ENTERPRISE_WE_CHAT_AGENT_ID;
         String users = EnterpriseWeChatUtils.ENTERPRISE_WE_CHAT_USERS;
         List<String> userList = Arrays.asList(users.split(","));
         logger.info("send message {}", alertInfo.getAlertData().getTitle());
-        String msg = EnterpriseWeChatUtils.makeUserSendMsg(userList, agentId,EnterpriseWeChatUtils.markdownByAlert(alertInfo.getAlertData()));
+        String msg = EnterpriseWeChatUtils.makeUserSendMsg(userList, agentId, EnterpriseWeChatUtils.markdownByAlert(alertInfo.getAlertData()));
         try {
             EnterpriseWeChatUtils.sendEnterpriseWeChat(Constants.UTF_8, msg, token);
         } catch (IOException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         retMap.put(Constants.STATUS, true);
         return retMap;

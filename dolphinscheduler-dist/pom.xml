@@ -16,7 +16,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>dolphinscheduler</artifactId>
         <groupId>org.apache.dolphinscheduler</groupId>
@@ -160,7 +161,9 @@
                             <autoRequires>false</autoRequires>
                             <defineStatements>
                                 <!-- disable compile python when rpm build -->
-                                <defineStatement>__os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')</defineStatement>
+                                <defineStatement>__os_install_post %(echo '%{__os_install_post}' | sed -e
+                                    's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
+                                </defineStatement>
                             </defineStatements>
                             <mappings>
                                 <mapping>
@@ -368,7 +371,9 @@
                                 <script>mkdir -p /opt/soft</script>
                             </preinstallScriptlet>
                             <postinstallScriptlet>
-                                <script>rm -rf /opt/soft/dolphinscheduler ; ln -s /opt/soft/apache-dolphinscheduler-${project.version} /opt/soft/dolphinscheduler</script>
+                                <script>rm -rf /opt/soft/dolphinscheduler ; ln -s
+                                    /opt/soft/apache-dolphinscheduler-${project.version} /opt/soft/dolphinscheduler
+                                </script>
                             </postinstallScriptlet>
                             <postremoveScriptlet>
                                 <script>rm -rf /opt/soft/apache-dolphinscheduler-${project.version}</script>

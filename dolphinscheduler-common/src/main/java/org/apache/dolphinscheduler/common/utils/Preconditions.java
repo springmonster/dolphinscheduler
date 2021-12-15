@@ -18,12 +18,12 @@ package org.apache.dolphinscheduler.common.utils;
 
 
 /**
- *  utility methods for validating input
- *
+ * utility methods for validating input
  */
 public final class Preconditions {
 
-    private Preconditions() {}
+    private Preconditions() {
+    }
 
     /**
      * if obj is null will throw NPE
@@ -41,12 +41,13 @@ public final class Preconditions {
 
     /**
      * if obj is null will throw NullPointerException with error message
-     * @param obj obj
+     *
+     * @param obj      obj
      * @param errorMsg error message
-     * @param <T> T
+     * @param <T>      T
      * @return T
      */
-    public static <T> T checkNotNull(T obj,  String errorMsg) {
+    public static <T> T checkNotNull(T obj, String errorMsg) {
         if (obj == null) {
             throw new NullPointerException(errorMsg);
         }
@@ -59,10 +60,9 @@ public final class Preconditions {
      *
      * @param condition condition
      * @param errorMsg  error message
-     *
      * @throws IllegalArgumentException Thrown, if the condition is violated.
      */
-    public static void checkArgument(boolean condition,  Object errorMsg) {
+    public static void checkArgument(boolean condition, Object errorMsg) {
         if (!condition) {
             throw new IllegalArgumentException(String.valueOf(errorMsg));
         }

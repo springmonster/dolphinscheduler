@@ -16,8 +16,8 @@
  */
 
 import * as d3 from 'd3'
-import { rtInstancesTooltip, rtCountMethod } from './util'
-import { tasksType, tasksState } from '@/conf/home/pages/dag/_source/config'
+import {rtCountMethod, rtInstancesTooltip} from './util'
+import {tasksState, tasksType} from '@/conf/home/pages/dag/_source/config'
 
 let self = this
 
@@ -52,10 +52,10 @@ const Tree = function () {
  * init
  */
 Tree.prototype.init = function ({
-  data,
-  limit,
-  selfTree
-}) {
+                                  data,
+                                  limit,
+                                  selfTree
+                                }) {
   return new Promise((resolve, reject) => {
     this.selfTree = selfTree
     this.config.taskNum = limit

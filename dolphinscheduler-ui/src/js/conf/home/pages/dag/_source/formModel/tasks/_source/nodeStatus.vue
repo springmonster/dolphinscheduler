@@ -50,12 +50,12 @@
 </template>
 <script>
 import _ from 'lodash'
-import { cycleList, dateValueList, nodeStatusList } from './commcon'
+import {cycleList, nodeStatusList} from './commcon'
 import disabledState from '@/module/mixin/disabledState'
 
 export default {
   name: 'node-status',
-  data () {
+  data() {
     return {
       list: [],
       definitionList: [],
@@ -81,7 +81,7 @@ export default {
     /**
      * add task
      */
-    _add () {
+    _add() {
       // btn loading
       this.isLoading = true
       this.$emit('dependItemListEvent', _.concat(this.dependItemList, this._rtNewParams()))
@@ -92,7 +92,7 @@ export default {
     /**
      * remove task
      */
-    _remove (i) {
+    _remove(i) {
       this.dependTaskList[this.index].dependItemList.splice(i, 1)
       this._removeTip()
       if (!this.dependItemList.length || this.dependItemList.length === 0) {
@@ -101,7 +101,7 @@ export default {
         })
       }
     },
-    _getProjectList () {
+    _getProjectList() {
       return new Promise((resolve, reject) => {
         this.projectList = _.map(_.cloneDeep(this.store.state.dag.projectListS), v => {
           return {
@@ -112,9 +112,9 @@ export default {
         resolve()
       })
     },
-    _getProcessByProjectId (id) {
+    _getProcessByProjectId(id) {
       return new Promise((resolve, reject) => {
-        this.store.dispatch('dag/getProcessByProjectId', { projectId: id }).then(res => {
+        this.store.dispatch('dag/getProcessByProjectId', {projectId: id}).then(res => {
           this.definitionList = _.map(_.cloneDeep(res), v => {
             return {
               value: v.id,
@@ -128,22 +128,22 @@ export default {
     /**
      * get dependItemList
      */
-    _getDependItemList (ids, is = true) {
+    _getDependItemList(ids, is = true) {
       return new Promise((resolve, reject) => {
         if (is) {
-          this.store.dispatch('dag/getProcessTasksList', { processDefinitionId: ids }).then(res => {
+          this.store.dispatch('dag/getProcessTasksList', {processDefinitionId: ids}).then(res => {
             resolve(['ALL'].concat(_.map(res, v => v.name)))
           })
         }
       })
     },
-    _rtNewParams () {
+    _rtNewParams() {
       return {
         depTasks: '',
         status: ''
       }
     },
-    _rtOldParams (value, depTasksList, item) {
+    _rtOldParams(value, depTasksList, item) {
       return {
         depTasks: '',
         status: ''
@@ -152,14 +152,14 @@ export default {
     /**
      * remove tip
      */
-    _removeTip () {
+    _removeTip() {
       $('body').find('.tooltip.fade.top.in').remove()
     }
   },
   watch: {},
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
     // is type projects-instance-details
     this.isInstance = this.router.history.current.name === 'projects-instance-details'
     // get processlist
@@ -181,7 +181,7 @@ export default {
       }
     })
   },
-  mounted () {
+  mounted() {
   },
   components: {}
 }

@@ -15,19 +15,21 @@
  * limitations under the License.
 */
 
-SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+SET sql_mode = (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
 
 -- uc_dolphin_T_t_ds_process_instance_R_host
 drop PROCEDURE if EXISTS uc_dolphin_T_t_ds_process_instance_R_host;
 delimiter d//
 CREATE PROCEDURE uc_dolphin_T_t_ds_process_instance_R_host()
 BEGIN
-    IF EXISTS (SELECT 1 FROM information_schema.COLUMNS
-        WHERE TABLE_NAME='t_ds_process_instance'
-        AND TABLE_SCHEMA=(SELECT DATABASE())
-        AND COLUMN_NAME ='host')
+    IF EXISTS(SELECT 1
+              FROM information_schema.COLUMNS
+              WHERE TABLE_NAME = 't_ds_process_instance'
+                AND TABLE_SCHEMA = (SELECT DATABASE())
+                AND COLUMN_NAME = 'host')
     THEN
-        ALTER TABLE t_ds_process_instance MODIFY COLUMN `host` varchar(135);
+        ALTER TABLE t_ds_process_instance
+            MODIFY COLUMN `host` varchar(135);
     END IF;
 END;
 
@@ -42,12 +44,14 @@ drop PROCEDURE if EXISTS uc_dolphin_T_t_ds_task_instance_R_host;
 delimiter d//
 CREATE PROCEDURE uc_dolphin_T_t_ds_task_instance_R_host()
 BEGIN
-    IF EXISTS (SELECT 1 FROM information_schema.COLUMNS
-        WHERE TABLE_NAME='t_ds_task_instance'
-        AND TABLE_SCHEMA=(SELECT DATABASE())
-        AND COLUMN_NAME ='host')
+    IF EXISTS(SELECT 1
+              FROM information_schema.COLUMNS
+              WHERE TABLE_NAME = 't_ds_task_instance'
+                AND TABLE_SCHEMA = (SELECT DATABASE())
+                AND COLUMN_NAME = 'host')
     THEN
-        ALTER TABLE t_ds_task_instance MODIFY COLUMN `host` varchar(135);
+        ALTER TABLE t_ds_task_instance
+            MODIFY COLUMN `host` varchar(135);
     END IF;
 END;
 
