@@ -58,6 +58,7 @@ import java.util.Map;
 
 
 /**
+ * khc:这里是http的task，开发团队比较关心
  * http task
  */
 public class HttpTask extends AbstractTask {
@@ -116,8 +117,8 @@ public class HttpTask extends AbstractTask {
         Thread.currentThread().setName(threadLoggerInfoName);
 
         long startTime = System.currentTimeMillis();
-        String statusCode = null;
-        String body = null;
+        String statusCode;
+        String body;
 
         try (CloseableHttpClient client = createHttpClient();
              CloseableHttpResponse response = sendRequest(client)) {
