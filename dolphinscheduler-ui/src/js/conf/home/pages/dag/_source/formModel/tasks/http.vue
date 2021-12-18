@@ -139,6 +139,7 @@ import mHttpParams from './_source/httpParams'
 import mListBox from './_source/listBox'
 import disabledState from '@/module/mixin/disabledState'
 
+// khc:这里如果不设置，HTTP的连接和socket的连接默认时间是600000
 export default {
   name: 'http',
   data() {

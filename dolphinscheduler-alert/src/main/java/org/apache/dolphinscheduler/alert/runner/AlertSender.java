@@ -53,6 +53,9 @@ public class AlertSender {
         this.pluginManager = pluginManager;
     }
 
+    /**
+     * khc:这里有个中间表的关联
+     */
     public void run() {
         List<User> users;
         Map<String, Object> retMaps = null;
@@ -94,7 +97,5 @@ public class AlertSender {
                 logger.info("alert send success");
             }
         }
-
     }
-
 }
