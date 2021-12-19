@@ -67,6 +67,12 @@ public abstract class CommonHostManager implements HostManager {
         return select(candidates);
     }
 
+    /**
+     * khc:------>这里决定了使用哪种方式去选择workernode
+     *
+     * @param nodes
+     * @return
+     */
     protected abstract Host select(Collection<Host> nodes);
 
     protected List<Host> getWorkerCandidates(String workerGroup) {

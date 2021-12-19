@@ -108,7 +108,7 @@ public class SchedulerService extends BaseService {
                                               Priority processInstancePriority,
                                               String workerGroup) throws IOException {
 
-        Map<String, Object> result = new HashMap<String, Object>(5);
+        Map<String, Object> result = new HashMap<>(5);
 
         Project project = projectMapper.queryByName(projectName);
 

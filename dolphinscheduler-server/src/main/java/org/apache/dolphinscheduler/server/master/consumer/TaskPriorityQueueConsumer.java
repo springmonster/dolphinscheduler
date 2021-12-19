@@ -96,7 +96,7 @@ public class TaskPriorityQueueConsumer extends Thread {
     }
 
     /**
-     * khc:终于找到了，这里来消费master提交的task
+     * khc:------>终于找到了，这里来消费master提交的task
      */
     @Override
     public void run() {
@@ -145,6 +145,10 @@ public class TaskPriorityQueueConsumer extends Thread {
         try {
             int taskInstanceId = taskPriority.getTaskId();
             TaskExecutionContext context = getTaskExecutionContext(taskInstanceId);
+            /**
+             * khc:------>这里发送任务到workernode时，command类型是Remote模块中的
+             * CommandType.TASK_EXECUTE_REQUEST
+             */
             ExecutionContext executionContext = new ExecutionContext(context.toCommand(), ExecutorType.WORKER, context.getWorkerGroup());
 
             if (taskInstanceIsFinalState(taskInstanceId)) {

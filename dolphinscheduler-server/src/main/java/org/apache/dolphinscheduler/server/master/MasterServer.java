@@ -103,6 +103,12 @@ public class MasterServer implements IStoppable {
 
     /**
      * run master server
+     *
+     * khc:这里有几个过程
+     * 1. 启动Netty
+     * 2. zkMasterClient启动
+     * 3. 启动读取表的线程
+     * 4. 启动quartz
      */
     @PostConstruct
     public void run() {

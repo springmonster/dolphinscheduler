@@ -71,11 +71,15 @@ public class LogClientService {
      */
     public String rollViewLog(String host, int port, String path, int skipLineNum, int limit) {
         logger.info("roll view log, host : {}, port : {}, path {}, skipLineNum {} ,limit {}", host, port, path, skipLineNum, limit);
+
         RollViewLogRequestCommand request = new RollViewLogRequestCommand(path, skipLineNum, limit);
         String result = "";
         final Host address = new Host(host, port);
         try {
             Command command = request.convert2Command();
+            /**
+             * khc:这里使用netty发送请求，类型是ROLL_VIEW_LOG_REQUEST
+             */
             Command response = this.client.sendSync(address, command, LOG_REQUEST_TIMEOUT);
             if (response != null) {
                 RollViewLogResponseCommand rollReviewLog = FastJsonSerializer.deserialize(

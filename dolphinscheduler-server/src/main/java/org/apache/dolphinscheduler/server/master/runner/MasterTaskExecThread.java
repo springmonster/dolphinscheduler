@@ -84,6 +84,7 @@ public class MasterTaskExecThread extends MasterBaseTaskExecThread {
     private boolean alreadyKilled = false;
 
     /**
+     * khc:------>这里去执行
      * submit task instance and wait complete
      *
      * @return true is task quit is true

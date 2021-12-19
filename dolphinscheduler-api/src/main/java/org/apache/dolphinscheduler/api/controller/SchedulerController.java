@@ -104,6 +104,7 @@ public class SchedulerController extends BaseController {
                         "failure policy: {},receivers : {},receiversCc : {},processInstancePriority : {}, workGroupId:{}",
                 loginUser.getUserName(), projectName, processDefinitionId, schedule, warningType, warningGroupId,
                 failureStrategy, receivers, receiversCc, processInstancePriority, workerGroup);
+
         Map<String, Object> result = schedulerService.insertSchedule(loginUser, projectName, processDefinitionId, schedule,
                 warningType, warningGroupId, failureStrategy, receivers, receiversCc, processInstancePriority, workerGroup);
 
@@ -180,6 +181,7 @@ public class SchedulerController extends BaseController {
                          @RequestParam("id") Integer id) {
         logger.info("login user {}, schedule setScheduleState, project name: {}, id: {}",
                 loginUser.getUserName(), projectName, id);
+
         Map<String, Object> result = schedulerService.setScheduleState(loginUser, projectName, id, ReleaseState.ONLINE);
         return returnDataList(result);
     }

@@ -160,6 +160,9 @@ public class MasterExecThread implements Runnable {
         this.nettyRemotingClient = nettyRemotingClient;
     }
 
+    /**
+     * khc:------>这里执行
+     */
     @Override
     public void run() {
 
@@ -850,7 +853,7 @@ public class MasterExecThread implements Runnable {
     }
 
     /**
-     * khc:这里是任务的精华！
+     * khc:------>这里是任务的精华！
      * submit and watch the tasks, until the work flow stop
      * 这里需要重点看！！！
      */
@@ -943,6 +946,7 @@ public class MasterExecThread implements Runnable {
                     }
                 }
             }
+            // khc:------>提交task到queue
             if (canSubmitTaskToQueue()) {
                 submitStandByTask();
             }

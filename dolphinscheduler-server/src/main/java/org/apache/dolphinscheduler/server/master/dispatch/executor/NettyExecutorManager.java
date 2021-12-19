@@ -81,6 +81,8 @@ public class NettyExecutorManager extends AbstractExecutorManager<Boolean> {
 
     /**
      * execute logic
+     * <p>
+     * khc:------>这里发送任务给workernode
      *
      * @param context context
      * @return result

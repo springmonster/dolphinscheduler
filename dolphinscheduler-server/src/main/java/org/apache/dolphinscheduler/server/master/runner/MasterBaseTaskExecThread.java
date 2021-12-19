@@ -173,6 +173,7 @@ public class MasterBaseTaskExecThread implements Callable<Boolean> {
                     }
                 }
                 if (submitDB && !submitTask) {
+                    // khc:------>这里分派任务
                     // dispatch task
                     submitTask = dispatchTask(task);
                 }
@@ -227,6 +228,10 @@ public class MasterBaseTaskExecThread implements Callable<Boolean> {
                     taskInstance.getId(),
                     org.apache.dolphinscheduler.common.Constants.DEFAULT_WORKER_GROUP);
 
+            // khc:------>task放入queue中
+            /**
+             * @see org.apache.dolphinscheduler.server.master.consumer.TaskPriorityQueueConsumer
+             */
             taskUpdateQueue.put(taskPriority);
             logger.info(String.format("master submit success, task : %s", taskInstance.getName()));
             return true;
@@ -266,6 +271,7 @@ public class MasterBaseTaskExecThread implements Callable<Boolean> {
     }
 
     /**
+     * khc:------>
      * call
      *
      * @return boolean
