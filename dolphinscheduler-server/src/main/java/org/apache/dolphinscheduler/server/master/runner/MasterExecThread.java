@@ -319,6 +319,7 @@ public class MasterExecThread implements Runnable {
 
         // init task queue
         initTaskQueue();
+
         logger.info("prepare process :{} end", processInstance.getId());
     }
 
@@ -855,7 +856,6 @@ public class MasterExecThread implements Runnable {
     /**
      * khc:------>这里是任务的精华！
      * submit and watch the tasks, until the work flow stop
-     * 这里需要重点看！！！
      */
     private void runProcess() {
         // submit start node
@@ -1037,7 +1037,6 @@ public class MasterExecThread implements Runnable {
     }
 
     /**
-     * khc:貌似在接近调度任务的核心
      * handling the list of tasks to be submitted
      */
     private void submitStandByTask() {

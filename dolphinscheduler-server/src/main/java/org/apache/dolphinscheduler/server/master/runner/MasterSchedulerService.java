@@ -118,11 +118,13 @@ public class MasterSchedulerService extends Thread {
         logger.info("master scheduler started");
         while (Stopper.isRunning()) {
             try {
+                // 如果cpu和memory的负载不能满足要求
                 boolean runCheckFlag = OSUtils.checkResource(masterConfig.getMasterMaxCpuloadAvg(), masterConfig.getMasterReservedMemory());
                 if (!runCheckFlag) {
                     Thread.sleep(Constants.SLEEP_TIME_MILLIS);
                     continue;
                 }
+                // 开始任务的调度
                 if (zkMasterClient.getZkClient().getState() == CuratorFrameworkState.STARTED) {
                     scheduleProcess();
                 }
@@ -132,6 +134,11 @@ public class MasterSchedulerService extends Thread {
         }
     }
 
+    /**
+     * 首先获取锁
+     *
+     * @throws Exception
+     */
     private void scheduleProcess() throws Exception {
         InterProcessMutex mutex = null;
         try {
@@ -139,6 +146,8 @@ public class MasterSchedulerService extends Thread {
 
             int activeCount = masterExecService.getActiveCount();
             // make sure to scan and delete command  table in one transaction
+
+            // 获取api中保存到t_ds_command的数据
             Command command = processService.findOneCommand();
             if (command != null) {
                 logger.info("find one command: id: {}, type: {}", command.getId(), command.getCommandType());
@@ -148,6 +157,7 @@ public class MasterSchedulerService extends Thread {
                     ProcessInstance processInstance = processService.handleCommand(logger,
                             getLocalAddress(),
                             this.masterConfig.getMasterExecThreads() - activeCount, command);
+
                     if (processInstance != null) {
                         logger.info("start master exec thread , split DAG ...");
                         masterExecService.execute(

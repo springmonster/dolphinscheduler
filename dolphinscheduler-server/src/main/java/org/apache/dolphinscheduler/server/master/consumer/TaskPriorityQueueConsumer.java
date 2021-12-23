@@ -96,7 +96,7 @@ public class TaskPriorityQueueConsumer extends Thread {
     }
 
     /**
-     * khc:------>终于找到了，这里来消费master提交的task
+     * khc:------这里来消费master提交的task
      */
     @Override
     public void run() {
@@ -119,6 +119,7 @@ public class TaskPriorityQueueConsumer extends Thread {
                 }
                 if (!failedDispatchTasks.isEmpty()) {
                     for (TaskPriority dispatchFailedTask : failedDispatchTasks) {
+                        // 放入taskPriorityQueue中，有地方去进行消费
                         taskPriorityQueue.put(dispatchFailedTask);
                     }
                     // If there are tasks in a cycle that cannot find the worker group,
