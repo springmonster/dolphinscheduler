@@ -32,7 +32,7 @@ export default {
     {
       path: '/monitor/servers/master',
       name: 'servers-master',
-      component: components['home'],
+      component: components['master'],
       meta: {
         title: '服务管理-Master',
       },
@@ -43,6 +43,22 @@ export default {
       component: components['home'],
       meta: {
         title: '服务管理-Worker',
+      },
+    },
+    {
+      path: '/monitor/servers/db',
+      name: 'servers-db',
+      component: components['db'],
+      meta: {
+        title: '服务管理-DB',
+      },
+    },
+    {
+      path: '/monitor/statistics/statistics',
+      name: 'statistics-statistics',
+      component: components['statistics'],
+      meta: {
+        title: '统计管理-Statistics',
       },
     },
   ],
