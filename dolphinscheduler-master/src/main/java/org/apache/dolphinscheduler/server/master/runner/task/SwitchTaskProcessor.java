@@ -62,11 +62,11 @@ public class SwitchTaskProcessor extends BaseTaskProcessor {
         if (this.taskInstance == null) {
             return false;
         }
+        this.setTaskExecutionLogger();
         taskInstance.setLogPath(LogUtils.getTaskLogPath(taskInstance.getFirstSubmitTime(), processInstance.getProcessDefinitionCode(),
                 processInstance.getProcessDefinitionVersion(),
                 taskInstance.getProcessInstanceId(),
                 taskInstance.getId()));
-        setTaskExecutionLogger(isTaskLogger);
         taskInstance.setHost(NetUtils.getAddr(masterConfig.getListenPort()));
         taskInstance.setState(ExecutionStatus.RUNNING_EXECUTION);
         taskInstance.setStartTime(new Date());
@@ -77,7 +77,7 @@ public class SwitchTaskProcessor extends BaseTaskProcessor {
     @Override
     public boolean runTask() {
         try {
-            if (!this.taskState().typeIsFinished() && setSwitchResult()) {
+            if (!this.taskInstance().getState().typeIsFinished() && setSwitchResult()) {
                 endTaskState();
             }
         } catch (Exception e) {
@@ -118,11 +118,6 @@ public class SwitchTaskProcessor extends BaseTaskProcessor {
     @Override
     public String getType() {
         return TaskType.SWITCH.getDesc();
-    }
-
-    @Override
-    public ExecutionStatus taskState() {
-        return this.taskInstance.getState();
     }
 
     private boolean setSwitchResult() {
