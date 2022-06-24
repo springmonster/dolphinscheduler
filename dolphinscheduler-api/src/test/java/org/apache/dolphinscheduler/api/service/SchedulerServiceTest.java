@@ -31,8 +31,9 @@ import org.apache.dolphinscheduler.dao.mapper.ProcessDefinitionMapper;
 import org.apache.dolphinscheduler.dao.mapper.ProcessTaskRelationMapper;
 import org.apache.dolphinscheduler.dao.mapper.ProjectMapper;
 import org.apache.dolphinscheduler.dao.mapper.ScheduleMapper;
+import org.apache.dolphinscheduler.scheduler.api.SchedulerApi;
+import org.apache.dolphinscheduler.scheduler.quartz.QuartzScheduler;
 import org.apache.dolphinscheduler.service.process.ProcessService;
-import org.apache.dolphinscheduler.service.quartz.QuartzExecutors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -54,7 +54,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * scheduler service test
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(QuartzExecutors.class)
 public class SchedulerServiceTest {
 
     @InjectMocks
@@ -82,18 +81,10 @@ public class SchedulerServiceTest {
     private ProjectServiceImpl projectService;
 
     @Mock
-    private QuartzExecutors quartzExecutors;
+    private SchedulerApi schedulerApi;
 
     @Before
     public void setUp() {
-
-        quartzExecutors = PowerMockito.mock(QuartzExecutors.class);
-        PowerMockito.mockStatic(QuartzExecutors.class);
-        try {
-            PowerMockito.doReturn(quartzExecutors).when(QuartzExecutors.class, "getInstance");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -127,7 +118,7 @@ public class SchedulerServiceTest {
         //hash no auth
         result = schedulerService.setScheduleState(loginUser, project.getCode(), 1, ReleaseState.ONLINE);
 
-        Mockito.when(projectService.hasProjectAndPerm(loginUser, project, result)).thenReturn(true);
+        Mockito.when(projectService.hasProjectAndPerm(loginUser, project, result,null)).thenReturn(true);
         //schedule not exists
         result = schedulerService.setScheduleState(loginUser, project.getCode(), 2, ReleaseState.ONLINE);
         Assert.assertEquals(Status.SCHEDULE_CRON_NOT_EXISTS, result.get(Constants.STATUS));

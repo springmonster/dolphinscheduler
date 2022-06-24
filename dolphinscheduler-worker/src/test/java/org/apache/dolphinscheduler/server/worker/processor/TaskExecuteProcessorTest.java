@@ -17,16 +17,16 @@
 
 package org.apache.dolphinscheduler.server.worker.processor;
 
-import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
-import org.apache.dolphinscheduler.common.enums.TaskType;
+import org.apache.dolphinscheduler.common.storage.StorageOperate;
 import org.apache.dolphinscheduler.common.thread.ThreadUtils;
 import org.apache.dolphinscheduler.common.utils.FileUtils;
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
-import org.apache.dolphinscheduler.common.utils.LoggerUtils;
+import org.apache.dolphinscheduler.plugin.task.api.TaskExecutionContext;
+import org.apache.dolphinscheduler.plugin.task.api.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.remote.command.Command;
 import org.apache.dolphinscheduler.remote.command.CommandType;
-import org.apache.dolphinscheduler.remote.command.TaskExecuteAckCommand;
 import org.apache.dolphinscheduler.remote.command.TaskExecuteRequestCommand;
+import org.apache.dolphinscheduler.remote.command.TaskExecuteRunningCommand;
 import org.apache.dolphinscheduler.remote.utils.ChannelUtils;
 import org.apache.dolphinscheduler.remote.utils.JsonSerializer;
 import org.apache.dolphinscheduler.server.worker.config.WorkerConfig;
@@ -34,7 +34,6 @@ import org.apache.dolphinscheduler.server.worker.runner.TaskExecuteThread;
 import org.apache.dolphinscheduler.server.worker.runner.WorkerManagerThread;
 import org.apache.dolphinscheduler.service.alert.AlertClientService;
 import org.apache.dolphinscheduler.service.bean.SpringApplicationContext;
-import org.apache.dolphinscheduler.service.queue.entity.TaskExecutionContext;
 
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
@@ -65,6 +64,8 @@ public class TaskExecuteProcessorTest {
 
     private ExecutorService workerExecService;
 
+    private StorageOperate storageOperate;
+
     private WorkerConfig workerConfig;
 
     private Command command;
@@ -86,7 +87,7 @@ public class TaskExecuteProcessorTest {
         workerConfig.setListenPort(1234);
         command = new Command();
         command.setType(CommandType.TASK_EXECUTE_REQUEST);
-        ackCommand = new TaskExecuteAckCommand().convert2Command();
+        ackCommand = new TaskExecuteRunningCommand().convert2Command();
         taskRequestCommand = new TaskExecuteRequestCommand();
         alertClientService = PowerMockito.mock(AlertClientService.class);
         workerExecService = PowerMockito.mock(ExecutorService.class);
@@ -97,23 +98,27 @@ public class TaskExecuteProcessorTest {
         PowerMockito.when(ChannelUtils.toAddress(null)).thenReturn(null);
 
         taskCallbackService = PowerMockito.mock(TaskCallbackService.class);
-        PowerMockito.doNothing().when(taskCallbackService).sendAck(taskExecutionContext.getTaskInstanceId(), ackCommand);
+        PowerMockito.doNothing().when(taskCallbackService).send(taskExecutionContext.getTaskInstanceId(), ackCommand);
 
         PowerMockito.mockStatic(SpringApplicationContext.class);
         PowerMockito.when(SpringApplicationContext.getBean(TaskCallbackService.class))
-                .thenReturn(taskCallbackService);
+            .thenReturn(taskCallbackService);
         PowerMockito.when(SpringApplicationContext.getBean(WorkerConfig.class))
-                .thenReturn(workerConfig);
+            .thenReturn(workerConfig);
 
         workerManager = PowerMockito.mock(WorkerManagerThread.class);
-        PowerMockito.when(workerManager.offer(new TaskExecuteThread(taskExecutionContext, taskCallbackService, alertClientService))).thenReturn(Boolean.TRUE);
+
+        storageOperate = PowerMockito.mock(StorageOperate.class);
+        PowerMockito.when(
+                workerManager.offer(new TaskExecuteThread(taskExecutionContext, taskCallbackService, alertClientService, storageOperate)))
+            .thenReturn(Boolean.TRUE);
 
         PowerMockito.when(SpringApplicationContext.getBean(WorkerManagerThread.class))
-                .thenReturn(workerManager);
+            .thenReturn(workerManager);
 
         PowerMockito.mockStatic(ThreadUtils.class);
         PowerMockito.when(ThreadUtils.newDaemonFixedThreadExecutor("Worker-Execute-Thread", workerConfig.getExecThreads()))
-                .thenReturn(workerExecService);
+            .thenReturn(workerExecService);
 
         PowerMockito.mockStatic(JsonSerializer.class);
         PowerMockito.when(JsonSerializer.deserialize(command.getBody(), TaskExecuteRequestCommand.class))
@@ -131,12 +136,13 @@ public class TaskExecuteProcessorTest {
                 taskExecutionContext.getProcessDefineVersion(),
                 taskExecutionContext.getProcessInstanceId(),
                 taskExecutionContext.getTaskInstanceId()))
-                .thenReturn(taskExecutionContext.getExecutePath());
+            .thenReturn(taskExecutionContext.getExecutePath());
         PowerMockito.doNothing().when(FileUtils.class, "createWorkDirIfAbsent", taskExecutionContext.getExecutePath());
 
-        SimpleTaskExecuteThread simpleTaskExecuteThread = new SimpleTaskExecuteThread(null, null, null, alertClientService);
+        SimpleTaskExecuteThread simpleTaskExecuteThread = new SimpleTaskExecuteThread(
+            null, null, null, alertClientService, storageOperate);
         PowerMockito.whenNew(TaskExecuteThread.class).withAnyArguments()
-                .thenReturn(simpleTaskExecuteThread);
+            .thenReturn(simpleTaskExecuteThread);
     }
 
     @Test
@@ -163,7 +169,7 @@ public class TaskExecuteProcessorTest {
         taskExecutionContext.setTaskInstanceId(1);
         taskExecutionContext.setProcessDefineCode(1L);
         taskExecutionContext.setProcessDefineVersion(1);
-        taskExecutionContext.setTaskType(TaskType.SQL.getDesc());
+        taskExecutionContext.setTaskType("SQL");
         taskExecutionContext.setFirstSubmitTime(new Date());
         taskExecutionContext.setDelayTime(0);
         taskExecutionContext.setLogPath("/tmp/test.log");
@@ -174,8 +180,12 @@ public class TaskExecuteProcessorTest {
 
     private static class SimpleTaskExecuteThread extends TaskExecuteThread {
 
-        public SimpleTaskExecuteThread(TaskExecutionContext taskExecutionContext, TaskCallbackService taskCallbackService, Logger taskLogger, AlertClientService alertClientService) {
-            super(taskExecutionContext, taskCallbackService, alertClientService);
+        public SimpleTaskExecuteThread(TaskExecutionContext taskExecutionContext,
+                                       TaskCallbackService taskCallbackService,
+                                       Logger taskLogger,
+                                       AlertClientService alertClientService,
+                                       StorageOperate storageOperate) {
+            super(taskExecutionContext, taskCallbackService, alertClientService, storageOperate);
         }
 
         @Override

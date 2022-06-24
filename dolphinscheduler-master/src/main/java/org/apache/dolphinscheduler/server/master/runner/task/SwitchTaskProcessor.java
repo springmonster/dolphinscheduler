@@ -17,20 +17,21 @@
 
 package org.apache.dolphinscheduler.server.master.runner.task;
 
-import org.apache.dolphinscheduler.common.enums.DependResult;
-import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
-import org.apache.dolphinscheduler.common.enums.TaskType;
-import org.apache.dolphinscheduler.common.process.Property;
-import org.apache.dolphinscheduler.common.task.switchtask.SwitchParameters;
-import org.apache.dolphinscheduler.common.task.switchtask.SwitchResultVo;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.TASK_TYPE_SWITCH;
+
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
 import org.apache.dolphinscheduler.common.utils.NetUtils;
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
+import org.apache.dolphinscheduler.plugin.task.api.enums.DependResult;
+import org.apache.dolphinscheduler.plugin.task.api.enums.ExecutionStatus;
+import org.apache.dolphinscheduler.plugin.task.api.model.Property;
+import org.apache.dolphinscheduler.plugin.task.api.model.SwitchResultVo;
+import org.apache.dolphinscheduler.plugin.task.api.parameters.SwitchParameters;
 import org.apache.dolphinscheduler.server.utils.LogUtils;
 import org.apache.dolphinscheduler.server.utils.SwitchTaskUtils;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -90,6 +91,11 @@ public class SwitchTaskProcessor extends BaseTaskProcessor {
     }
 
     @Override
+    protected boolean resubmitTask() {
+        return true;
+    }
+
+    @Override
     protected boolean dispatchTask() {
         return true;
     }
@@ -117,7 +123,7 @@ public class SwitchTaskProcessor extends BaseTaskProcessor {
 
     @Override
     public String getType() {
-        return TaskType.SWITCH.getDesc();
+        return TASK_TYPE_SWITCH;
     }
 
     private boolean setSwitchResult() {
@@ -206,7 +212,7 @@ public class SwitchTaskProcessor extends BaseTaskProcessor {
                 return "";
             }
             String value = property.getValue();
-            if (!org.apache.commons.lang.math.NumberUtils.isNumber(value)) {
+            if (!org.apache.commons.lang3.math.NumberUtils.isCreatable(value)) {
                 value = "\"" + value + "\"";
             }
             logger.info("paramName:{}，paramValue:{}", paramName, value);

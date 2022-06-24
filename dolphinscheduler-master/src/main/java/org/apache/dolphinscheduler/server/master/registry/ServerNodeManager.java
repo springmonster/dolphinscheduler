@@ -31,11 +31,12 @@ import org.apache.dolphinscheduler.registry.api.Event;
 import org.apache.dolphinscheduler.registry.api.Event.Type;
 import org.apache.dolphinscheduler.registry.api.SubscribeListener;
 import org.apache.dolphinscheduler.remote.utils.NamedThreadFactory;
+import org.apache.dolphinscheduler.server.master.config.MasterConfig;
 import org.apache.dolphinscheduler.service.queue.MasterPriorityQueue;
 import org.apache.dolphinscheduler.service.registry.RegistryClient;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -117,7 +118,7 @@ public class ServerNodeManager implements InitializingBean {
     @Autowired
     private WorkerGroupMapper workerGroupMapper;
 
-    private MasterPriorityQueue masterPriorityQueue = new MasterPriorityQueue();
+    private final MasterPriorityQueue masterPriorityQueue = new MasterPriorityQueue();
 
     /**
      * alert dao
@@ -125,15 +126,24 @@ public class ServerNodeManager implements InitializingBean {
     @Autowired
     private AlertDao alertDao;
 
-    public static volatile List<Integer> SLOT_LIST = new ArrayList<>();
+    /**
+     * master config
+     */
+    @Autowired
+    private MasterConfig masterConfig;
 
-    public static volatile Integer MASTER_SIZE = 0;
+    private List<WorkerInfoChangeListener> workerInfoChangeListeners = new ArrayList<>();
 
-    public static Integer getSlot() {
-        if (SLOT_LIST.size() > 0) {
-            return SLOT_LIST.get(0);
-        }
-        return 0;
+    private static volatile int MASTER_SLOT = 0;
+
+    private static volatile int MASTER_SIZE = 0;
+
+    public static int getSlot() {
+        return MASTER_SLOT;
+    }
+
+    public static int getMasterSize() {
+        return MASTER_SIZE;
     }
 
 
@@ -188,26 +198,31 @@ public class ServerNodeManager implements InitializingBean {
 
         @Override
         public void run() {
-            // sync worker node info
-            Map<String, String> newWorkerNodeInfo = registryClient.getServerMaps(NodeType.WORKER, true);
-            syncAllWorkerNodeInfo(newWorkerNodeInfo);
+            try {
+                // sync worker node info
+                Map<String, String> newWorkerNodeInfo = registryClient.getServerMaps(NodeType.WORKER, true);
+                syncAllWorkerNodeInfo(newWorkerNodeInfo);
 
-            // sync worker group nodes from database
-            List<WorkerGroup> workerGroupList = workerGroupMapper.queryAllWorkerGroup();
-            if (CollectionUtils.isNotEmpty(workerGroupList)) {
-                for (WorkerGroup wg : workerGroupList) {
-                    String workerGroup = wg.getName();
-                    Set<String> nodes = new HashSet<>();
-                    String[] addrs = wg.getAddrList().split(Constants.COMMA);
-                    for (String addr : addrs) {
-                        if (newWorkerNodeInfo.containsKey(addr)) {
-                            nodes.add(addr);
+                // sync worker group nodes from database
+                List<WorkerGroup> workerGroupList = workerGroupMapper.queryAllWorkerGroup();
+                if (CollectionUtils.isNotEmpty(workerGroupList)) {
+                    for (WorkerGroup wg : workerGroupList) {
+                        String workerGroup = wg.getName();
+                        Set<String> nodes = new HashSet<>();
+                        String[] addrs = wg.getAddrList().split(Constants.COMMA);
+                        for (String addr : addrs) {
+                            if (newWorkerNodeInfo.containsKey(addr)) {
+                                nodes.add(addr);
+                            }
+                        }
+                        if (!nodes.isEmpty()) {
+                            syncWorkerGroupNodes(workerGroup, nodes);
                         }
                     }
-                    if (!nodes.isEmpty()) {
-                        syncWorkerGroupNodes(workerGroup, nodes);
-                    }
                 }
+                notifyWorkerInfoChangeListeners();
+            } catch (Exception e) {
+                logger.error("WorkerNodeInfoAndGroupDbSyncTask error:", e);
             }
         }
     }
@@ -235,7 +250,7 @@ public class ServerNodeManager implements InitializingBean {
                         String group = parseGroup(path);
                         Collection<String> currentNodes = registryClient.getWorkerGroupNodesDirectly(group);
                         syncWorkerGroupNodes(group, currentNodes);
-                        alertDao.sendServerStopedAlert(1, path, "WORKER");
+                        alertDao.sendServerStoppedAlert(1, path, "WORKER");
                     } else if (type == Type.UPDATE) {
                         logger.debug("worker group node : {} update, data: {}", path, data);
                         String group = parseGroup(path);
@@ -245,6 +260,7 @@ public class ServerNodeManager implements InitializingBean {
                         String node = parseNode(path);
                         syncSingleWorkerNodeInfo(node, data);
                     }
+                    notifyWorkerInfoChangeListeners();
                 } catch (IllegalArgumentException ex) {
                     logger.warn(ex.getMessage());
                 } catch (Exception ex) {
@@ -285,7 +301,7 @@ public class ServerNodeManager implements InitializingBean {
                     if (type.equals(Type.REMOVE)) {
                         logger.info("master node : {} down.", path);
                         updateMasterNodes();
-                        alertDao.sendServerStopedAlert(1, path, "MASTER");
+                        alertDao.sendServerStoppedAlert(1, path, "MASTER");
                     }
                 } catch (Exception ex) {
                     logger.error("MasterNodeListener capture data change and get data failed.", ex);
@@ -295,7 +311,8 @@ public class ServerNodeManager implements InitializingBean {
     }
 
     private void updateMasterNodes() {
-        SLOT_LIST.clear();
+        MASTER_SLOT = 0;
+        MASTER_SIZE = 0;
         this.masterNodes.clear();
         String nodeLock = Constants.REGISTRY_DOLPHINSCHEDULER_LOCK_MASTERS;
         try {
@@ -333,17 +350,18 @@ public class ServerNodeManager implements InitializingBean {
     private void syncMasterNodes(Collection<String> nodes, List<Server> masterNodes) {
         masterLock.lock();
         try {
+            String addr = NetUtils.getAddr(NetUtils.getHost(), masterConfig.getListenPort());
             this.masterNodes.addAll(nodes);
             this.masterPriorityQueue.clear();
             this.masterPriorityQueue.putList(masterNodes);
-            int index = masterPriorityQueue.getIndex(NetUtils.getHost());
+            int index = masterPriorityQueue.getIndex(addr);
             if (index >= 0) {
                 MASTER_SIZE = nodes.size();
-                SLOT_LIST.add(masterPriorityQueue.getIndex(NetUtils.getHost()));
+                MASTER_SLOT = index;
+            } else {
+                logger.warn("current addr:{} is not in active master list", addr);
             }
-            logger.info("update master nodes, master size: {}, slot: {}",
-                    MASTER_SIZE, SLOT_LIST.toString()
-            );
+            logger.info("update master nodes, master size: {}, slot: {}, addr: {}", MASTER_SIZE, MASTER_SLOT, addr);
         } finally {
             masterLock.unlock();
         }
@@ -358,7 +376,6 @@ public class ServerNodeManager implements InitializingBean {
     private void syncWorkerGroupNodes(String workerGroup, Collection<String> nodes) {
         workerGroupLock.lock();
         try {
-            workerGroup = workerGroup.toLowerCase();
             Set<String> workerNodes = workerGroupNodes.getOrDefault(workerGroup, new HashSet<>());
             workerNodes.clear();
             workerNodes.addAll(nodes);
@@ -384,7 +401,6 @@ public class ServerNodeManager implements InitializingBean {
             if (StringUtils.isEmpty(workerGroup)) {
                 workerGroup = Constants.DEFAULT_WORKER_GROUP;
             }
-            workerGroup = workerGroup.toLowerCase();
             Set<String> nodes = workerGroupNodes.get(workerGroup);
             if (CollectionUtils.isNotEmpty(nodes)) {
                 return Collections.unmodifiableSet(nodes);
@@ -443,6 +459,23 @@ public class ServerNodeManager implements InitializingBean {
             workerNodeInfo.put(node, info);
         } finally {
             workerNodeInfoLock.unlock();
+        }
+    }
+
+    /**
+     * Add the resource change listener, when the resource changed, the listener will be notified.
+     *
+     * @param listener will be trigger, when the worker node info changed.
+     */
+    public synchronized void addWorkerInfoChangeListener(WorkerInfoChangeListener listener) {
+        workerInfoChangeListeners.add(listener);
+    }
+
+    private void notifyWorkerInfoChangeListeners() {
+        Map<String, Set<String>> workerGroupNodes = getWorkerGroupNodes();
+        Map<String, String> workerNodeInfo = getWorkerNodeInfo();
+        for (WorkerInfoChangeListener listener : workerInfoChangeListeners) {
+            listener.notify(workerGroupNodes, workerNodeInfo);
         }
     }
 

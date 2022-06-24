@@ -18,8 +18,11 @@
 spring:
   application:
     name: alert-server
-  main:
-    banner-mode: off
+  jackson:
+    time-zone: UTC
+    date-format: "yyyy-MM-dd HH:mm:ss"
+  banner:
+    charset: UTF-8
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://127.0.0.1:5432/dolphinscheduler
@@ -45,12 +48,24 @@ management:
     web:
       exposure:
         include: '*'
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  health:
+    db:
+      enabled: true
+    defaults:
+      enabled: false
   metrics:
     tags:
       application: ${spring.application.name}
 
 alert:
   port: 50052
+
+metrics:
+  enabled: true
 
 # Override by profile
 
@@ -60,5 +75,4 @@ spring:
     activate:
       on-profile: mysql
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/dolphinscheduler?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver

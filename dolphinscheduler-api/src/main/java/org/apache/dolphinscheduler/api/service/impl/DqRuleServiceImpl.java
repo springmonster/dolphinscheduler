@@ -17,15 +17,19 @@
 
 package org.apache.dolphinscheduler.api.service.impl;
 
-import static org.apache.dolphinscheduler.common.Constants.DATA_LIST;
-import static org.apache.dolphinscheduler.spi.utils.Constants.CHANGE;
-import static org.apache.dolphinscheduler.spi.utils.Constants.SMALL;
-
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dolphinscheduler.api.dto.RuleDefinition;
 import org.apache.dolphinscheduler.api.enums.Status;
 import org.apache.dolphinscheduler.api.service.DqRuleService;
 import org.apache.dolphinscheduler.api.utils.PageInfo;
 import org.apache.dolphinscheduler.api.utils.Result;
+import org.apache.dolphinscheduler.common.enums.AuthorizationType;
 import org.apache.dolphinscheduler.common.utils.DateUtils;
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
 import org.apache.dolphinscheduler.dao.entity.DataSource;
@@ -40,6 +44,7 @@ import org.apache.dolphinscheduler.dao.mapper.DqRuleExecuteSqlMapper;
 import org.apache.dolphinscheduler.dao.mapper.DqRuleInputEntryMapper;
 import org.apache.dolphinscheduler.dao.mapper.DqRuleMapper;
 import org.apache.dolphinscheduler.dao.utils.DqRuleUtils;
+import org.apache.dolphinscheduler.plugin.task.api.enums.dp.OptionSourceType;
 import org.apache.dolphinscheduler.spi.enums.DbType;
 import org.apache.dolphinscheduler.spi.params.base.FormType;
 import org.apache.dolphinscheduler.spi.params.base.ParamsOptions;
@@ -51,10 +56,11 @@ import org.apache.dolphinscheduler.spi.params.group.GroupParamsProps;
 import org.apache.dolphinscheduler.spi.params.input.InputParam;
 import org.apache.dolphinscheduler.spi.params.input.InputParamProps;
 import org.apache.dolphinscheduler.spi.params.select.SelectParam;
-import org.apache.dolphinscheduler.spi.task.dq.enums.OptionSourceType;
 import org.apache.dolphinscheduler.spi.utils.StringUtils;
-
-import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,18 +68,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.apache.dolphinscheduler.common.Constants.DATA_LIST;
+import static org.apache.dolphinscheduler.spi.utils.Constants.CHANGE;
+import static org.apache.dolphinscheduler.spi.utils.Constants.SMALL;
 
 /**
  * DqRuleServiceImpl
@@ -99,7 +98,7 @@ public class DqRuleServiceImpl extends BaseServiceImpl implements DqRuleService 
     private DqComparisonTypeMapper dqComparisonTypeMapper;
 
     @Override
-    public  Map<String, Object> getRuleFormCreateJsonById(int id) {
+    public Map<String, Object> getRuleFormCreateJsonById(int id) {
 
         Map<String, Object> result = new HashMap<>();
 
@@ -213,7 +212,7 @@ public class DqRuleServiceImpl extends BaseServiceImpl implements DqRuleService 
 
         for (DqRuleInputEntry inputEntry : ruleInputEntryList) {
             if (Boolean.TRUE.equals(inputEntry.getShow())) {
-                switch (FormType.of(inputEntry.getType())) {
+                switch (Objects.requireNonNull(FormType.of(inputEntry.getType()))) {
                     case INPUT:
                         params.add(getInputParam(inputEntry));
                         break;

@@ -18,8 +18,9 @@
 package org.apache.dolphinscheduler.common.utils;
 
 import static org.apache.dolphinscheduler.common.Constants.DATA_BASEDIR_PATH;
-import static org.apache.dolphinscheduler.common.Constants.RESOURCE_VIEW_SUFFIXS;
-import static org.apache.dolphinscheduler.common.Constants.RESOURCE_VIEW_SUFFIXS_DEFAULT_VALUE;
+import static org.apache.dolphinscheduler.common.Constants.FOLDER_SEPARATOR;
+import static org.apache.dolphinscheduler.common.Constants.RESOURCE_VIEW_SUFFIXES;
+import static org.apache.dolphinscheduler.common.Constants.RESOURCE_VIEW_SUFFIXES_DEFAULT_VALUE;
 import static org.apache.dolphinscheduler.common.Constants.UTF_8;
 import static org.apache.dolphinscheduler.common.Constants.YYYYMMDDHHMMSS;
 
@@ -31,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.NoSuchFileException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,8 +108,8 @@ public class FileUtils {
     /**
      * @return get suffixes for resource files that support online viewing
      */
-    public static String getResourceViewSuffixs() {
-        return PropertyUtils.getString(RESOURCE_VIEW_SUFFIXS, RESOURCE_VIEW_SUFFIXS_DEFAULT_VALUE);
+    public static String getResourceViewSuffixes() {
+        return PropertyUtils.getString(RESOURCE_VIEW_SUFFIXES, RESOURCE_VIEW_SUFFIXES_DEFAULT_VALUE);
     }
 
     /**
@@ -121,7 +123,15 @@ public class FileUtils {
         File execLocalPathFile = new File(execLocalPath);
 
         if (execLocalPathFile.exists()) {
-            org.apache.commons.io.FileUtils.forceDelete(execLocalPathFile);
+            try {
+                org.apache.commons.io.FileUtils.forceDelete(execLocalPathFile);
+            } catch (Exception ex) {
+                if (ex instanceof NoSuchFileException || ex.getCause() instanceof NoSuchFileException) {
+                    // this file is already be deleted.
+                } else {
+                    throw ex;
+                }
+            }
         }
 
         //create work dir
@@ -210,6 +220,27 @@ public class FileUtils {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Check whether the given string type of path can be traversal or not, return true if path could
+     * traversal, and return false if it is not.
+     *
+     * @param filename String type of filename
+     * @return whether file path could be traversal or not
+     */
+    public static boolean directoryTraversal(String filename){
+        if (filename.contains(FOLDER_SEPARATOR)) {
+            return true;
+        }
+        File file = new File(filename);
+        try {
+            File canonical = file.getCanonicalFile();
+            File absolute = file.getAbsoluteFile();
+            return !canonical.equals(absolute);
+        } catch (IOException e) {
+            return true;
         }
     }
 

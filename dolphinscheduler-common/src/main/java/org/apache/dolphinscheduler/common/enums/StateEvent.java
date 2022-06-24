@@ -17,6 +17,8 @@
 
 package org.apache.dolphinscheduler.common.enums;
 
+import org.apache.dolphinscheduler.plugin.task.api.enums.ExecutionStatus;
+
 import io.netty.channel.Channel;
 
 /**
@@ -95,7 +97,7 @@ public class StateEvent {
     public String toString() {
         return "State Event :"
                 + "key: " + key
-                + " type: " + type.toString()
+                + " type: " + type
                 + " executeStatus: " + executionStatus
                 + " task instance id: " + taskInstanceId
                 + " process instance id: " + processInstanceId

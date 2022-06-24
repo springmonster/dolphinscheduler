@@ -18,7 +18,7 @@
 package org.apache.dolphinscheduler.common.utils;
 
 import org.apache.dolphinscheduler.common.Constants;
-import org.apache.dolphinscheduler.spi.task.TaskConstants;
+import org.apache.dolphinscheduler.plugin.task.api.TaskConstants;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -32,15 +32,15 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
+import lombok.experimental.UtilityClass;
 
 /**
  * logger utils
  */
+@UtilityClass
 public class LoggerUtils {
-
-    private LoggerUtils() {
-        throw new UnsupportedOperationException("Construct LoggerUtils");
-    }
 
     private static final Logger logger = LoggerFactory.getLogger(LoggerUtils.class);
 
@@ -51,6 +51,7 @@ public class LoggerUtils {
 
     /**
      * build job id
+     *
      * @return task id format
      */
     public static String buildTaskId(Date firstSubmitTime,
@@ -59,8 +60,9 @@ public class LoggerUtils {
                                      int processInstId,
                                      int taskId) {
         // like TaskAppId=TASK-20211107-798_1-4084-15210
-        String firstSubmitTimeStr = DateUtils.format(firstSubmitTime, Constants.YYYYMMDD);
-        return String.format("%s=%s-%s-%s_%s-%s-%s", TaskConstants.TASK_APPID_LOG_FORMAT, TaskConstants.TASK_LOGGER_INFO_PREFIX, firstSubmitTimeStr, processDefineCode, processDefineVersion, processInstId, taskId);
+        String firstSubmitTimeStr = DateUtils.format(firstSubmitTime, Constants.YYYYMMDD, null);
+        return String.format("%s=%s-%s-%s_%s-%s-%s",
+                TaskConstants.TASK_APPID_LOG_FORMAT, TaskConstants.TASK_LOGGER_INFO_PREFIX, firstSubmitTimeStr, processDefineCode, processDefineVersion, processInstId, taskId);
     }
 
     /**
@@ -106,5 +108,31 @@ public class LoggerUtils {
             logger.error("read file error", e);
         }
         return "";
+    }
+
+    public static void setWorkflowAndTaskInstanceIDMDC(int workflowInstanceId, int taskInstanceId) {
+        setWorkflowInstanceIdMDC(workflowInstanceId);
+        setTaskInstanceIdMDC(taskInstanceId);
+    }
+
+    public static void setWorkflowInstanceIdMDC(int workflowInstanceId) {
+        MDC.put(Constants.WORKFLOW_INSTANCE_ID_MDC_KEY, String.valueOf(workflowInstanceId));
+    }
+
+    public static void setTaskInstanceIdMDC(int taskInstanceId) {
+        MDC.put(Constants.TASK_INSTANCE_ID_MDC_KEY, String.valueOf(taskInstanceId));
+    }
+
+    public static void removeWorkflowAndTaskInstanceIdMDC() {
+        removeWorkflowInstanceIdMDC();
+        removeTaskInstanceIdMDC();
+    }
+
+    public static void removeWorkflowInstanceIdMDC() {
+        MDC.remove(Constants.WORKFLOW_INSTANCE_ID_MDC_KEY);
+    }
+
+    public static void removeTaskInstanceIdMDC() {
+        MDC.remove(Constants.TASK_INSTANCE_ID_MDC_KEY);
     }
 }

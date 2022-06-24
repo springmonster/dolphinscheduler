@@ -6,6 +6,7 @@
 .DS_Store
 .target
 .idea/
+.run/
 target/
 dist/
 all-dependencies.txt
@@ -48,12 +49,14 @@ dolphinscheduler-ui/node
 dolphinscheduler-common/sql
 dolphinscheduler-common/test
 dolphinscheduler-worker/logs
+dolphinscheduler-api/logs
 
 # ------------------
 # pydolphinscheduler
 # ------------------
 # Cache
 __pycache__/
+.tox/
 
 # Build
 build/

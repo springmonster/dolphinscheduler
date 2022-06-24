@@ -17,7 +17,7 @@
 
 package org.apache.dolphinscheduler.plugin.datasource.api.client;
 
-import org.apache.dolphinscheduler.plugin.datasource.api.datasource.mysql.MySQLConnectionParam;
+import org.apache.dolphinscheduler.plugin.datasource.api.datasource.MySQLConnectionParam;
 import org.apache.dolphinscheduler.plugin.datasource.api.provider.JDBCDataSourceProvider;
 import org.apache.dolphinscheduler.spi.datasource.BaseConnectionParam;
 import org.apache.dolphinscheduler.spi.enums.DbType;
@@ -70,11 +70,6 @@ public class CommonDataSourceClientTest {
         PowerMockito.doNothing().when(commonDataSourceClient).setDefaultUsername(Mockito.any(BaseConnectionParam.class));
         commonDataSourceClient.setDefaultUsername(baseConnectionParam);
         Mockito.verify(commonDataSourceClient).setDefaultUsername(Mockito.any(BaseConnectionParam.class));
-
-        PowerMockito.doNothing().when(commonDataSourceClient).setDefaultPassword(Mockito.any(BaseConnectionParam.class));
-        commonDataSourceClient.setDefaultPassword(baseConnectionParam);
-        Mockito.verify(commonDataSourceClient).setDefaultPassword(Mockito.any(BaseConnectionParam.class));
-
     }
 
     @Test

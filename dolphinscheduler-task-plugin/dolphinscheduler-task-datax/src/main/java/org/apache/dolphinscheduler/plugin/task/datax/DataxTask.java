@@ -18,30 +18,29 @@
 package org.apache.dolphinscheduler.plugin.task.datax;
 
 import static org.apache.dolphinscheduler.plugin.datasource.api.utils.PasswordUtils.decodePassword;
-import static org.apache.dolphinscheduler.spi.task.TaskConstants.EXIT_CODE_FAILURE;
-import static org.apache.dolphinscheduler.spi.task.TaskConstants.RWXR_XR_X;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.EXIT_CODE_FAILURE;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.RWXR_XR_X;
 
 import org.apache.dolphinscheduler.plugin.datasource.api.plugin.DataSourceClientProvider;
 import org.apache.dolphinscheduler.plugin.datasource.api.utils.DataSourceUtils;
 import org.apache.dolphinscheduler.plugin.task.api.AbstractTaskExecutor;
 import org.apache.dolphinscheduler.plugin.task.api.ShellCommandExecutor;
-import org.apache.dolphinscheduler.plugin.task.api.TaskResponse;
-import org.apache.dolphinscheduler.plugin.task.util.MapUtils;
-import org.apache.dolphinscheduler.plugin.task.util.OSUtils;
+import org.apache.dolphinscheduler.plugin.task.api.TaskExecutionContext;
+import org.apache.dolphinscheduler.plugin.task.api.model.Property;
+import org.apache.dolphinscheduler.plugin.task.api.model.TaskResponse;
+import org.apache.dolphinscheduler.plugin.task.api.parameters.AbstractParameters;
+import org.apache.dolphinscheduler.plugin.task.api.parser.ParamUtils;
+import org.apache.dolphinscheduler.plugin.task.api.parser.ParameterUtils;
+import org.apache.dolphinscheduler.plugin.task.api.utils.MapUtils;
 import org.apache.dolphinscheduler.spi.datasource.BaseConnectionParam;
 import org.apache.dolphinscheduler.spi.enums.DbType;
 import org.apache.dolphinscheduler.spi.enums.Flag;
-import org.apache.dolphinscheduler.spi.task.AbstractParameters;
-import org.apache.dolphinscheduler.spi.task.Property;
-import org.apache.dolphinscheduler.spi.task.paramparser.ParamUtils;
-import org.apache.dolphinscheduler.spi.task.paramparser.ParameterUtils;
-import org.apache.dolphinscheduler.spi.task.request.DataxTaskExecutionContext;
-import org.apache.dolphinscheduler.spi.task.request.TaskRequest;
 import org.apache.dolphinscheduler.spi.utils.JSONUtils;
 import org.apache.dolphinscheduler.spi.utils.StringUtils;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -62,6 +61,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -109,14 +109,16 @@ public class DataxTask extends AbstractTaskExecutor {
     /**
      * taskExecutionContext
      */
-    private TaskRequest taskExecutionContext;
+    private TaskExecutionContext taskExecutionContext;
+
+    private DataxTaskExecutionContext dataxTaskExecutionContext;
 
     /**
      * constructor
      *
      * @param taskExecutionContext taskExecutionContext
      */
-    public DataxTask(TaskRequest taskExecutionContext) {
+    public DataxTask(TaskExecutionContext taskExecutionContext) {
         super(taskExecutionContext);
         this.taskExecutionContext = taskExecutionContext;
 
@@ -135,6 +137,8 @@ public class DataxTask extends AbstractTaskExecutor {
         if (!dataXParameters.checkParameters()) {
             throw new RuntimeException("datax task params is not valid");
         }
+
+        dataxTaskExecutionContext = dataXParameters.generateExtendedContext(taskExecutionContext.getResourceParametersHelper());
     }
 
     /**
@@ -230,13 +234,13 @@ public class DataxTask extends AbstractTaskExecutor {
      * @throws SQLException if error throws SQLException
      */
     private List<ObjectNode> buildDataxJobContentJson() {
-        DataxTaskExecutionContext dataxTaskExecutionContext = taskExecutionContext.getDataxTaskExecutionContext();
+
         BaseConnectionParam dataSourceCfg = (BaseConnectionParam) DataSourceUtils.buildConnectionParams(
-                DbType.of(dataxTaskExecutionContext.getSourcetype()),
+                dataxTaskExecutionContext.getSourcetype(),
                 dataxTaskExecutionContext.getSourceConnectionParams());
 
         BaseConnectionParam dataTargetCfg = (BaseConnectionParam) DataSourceUtils.buildConnectionParams(
-                DbType.of(dataxTaskExecutionContext.getTargetType()),
+                dataxTaskExecutionContext.getTargetType(),
                 dataxTaskExecutionContext.getTargetConnectionParams());
 
         List<ObjectNode> readerConnArr = new ArrayList<>();
@@ -258,7 +262,7 @@ public class DataxTask extends AbstractTaskExecutor {
         readerParam.putArray("connection").addAll(readerConnArr);
 
         ObjectNode reader = JSONUtils.createObjectNode();
-        reader.put("name", DataxUtils.getReaderPluginName(DbType.of(dataxTaskExecutionContext.getSourcetype())));
+        reader.put("name", DataxUtils.getReaderPluginName(dataxTaskExecutionContext.getSourcetype()));
         reader.set("parameter", readerParam);
 
         List<ObjectNode> writerConnArr = new ArrayList<>();
@@ -273,8 +277,8 @@ public class DataxTask extends AbstractTaskExecutor {
         writerParam.put("username", dataTargetCfg.getUser());
         writerParam.put("password", decodePassword(dataTargetCfg.getPassword()));
 
-        String[] columns = parsingSqlColumnNames(DbType.of(dataxTaskExecutionContext.getSourcetype()),
-                DbType.of(dataxTaskExecutionContext.getTargetType()),
+        String[] columns = parsingSqlColumnNames(dataxTaskExecutionContext.getSourcetype(),
+                dataxTaskExecutionContext.getTargetType(),
                 dataSourceCfg, dataXParameters.getSql());
 
         ArrayNode columnArr = writerParam.putArray("column");
@@ -299,7 +303,7 @@ public class DataxTask extends AbstractTaskExecutor {
         }
 
         ObjectNode writer = JSONUtils.createObjectNode();
-        writer.put("name", DataxUtils.getWriterPluginName(DbType.of(dataxTaskExecutionContext.getTargetType())));
+        writer.put("name", DataxUtils.getWriterPluginName(dataxTaskExecutionContext.getTargetType()));
         writer.set("parameter", writerParam);
 
         List<ObjectNode> contentList = new ArrayList<>();
@@ -378,7 +382,7 @@ public class DataxTask extends AbstractTaskExecutor {
         String fileName = String.format("%s/%s_node.%s",
                 taskExecutionContext.getExecutePath(),
                 taskExecutionContext.getTaskAppId(),
-                OSUtils.isWindows() ? "bat" : "sh");
+                SystemUtils.IS_OS_WINDOWS ? "bat" : "sh");
 
         Path path = new File(fileName).toPath();
 
@@ -404,7 +408,7 @@ public class DataxTask extends AbstractTaskExecutor {
         Set<PosixFilePermission> perms = PosixFilePermissions.fromString(RWXR_XR_X);
         FileAttribute<Set<PosixFilePermission>> attr = PosixFilePermissions.asFileAttribute(perms);
 
-        if (OSUtils.isWindows()) {
+        if (SystemUtils.IS_OS_WINDOWS) {
             Files.createFile(path);
         } else {
             Files.createFile(path, attr);
@@ -554,8 +558,8 @@ public class DataxTask extends AbstractTaskExecutor {
             for (int i = 1; i <= num; i++) {
                 columnNames[i - 1] = md.getColumnName(i);
             }
-        } catch (SQLException e) {
-            logger.warn(e.getMessage(), e);
+        } catch (SQLException | ExecutionException e) {
+            logger.error(e.getMessage(), e);
             return null;
         }
 

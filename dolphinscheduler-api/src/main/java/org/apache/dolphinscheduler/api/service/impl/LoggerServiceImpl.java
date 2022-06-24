@@ -33,7 +33,7 @@ import org.apache.dolphinscheduler.remote.utils.Host;
 import org.apache.dolphinscheduler.service.log.LogClientService;
 import org.apache.dolphinscheduler.service.process.ProcessService;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -48,6 +48,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Bytes;
+
+import static org.apache.dolphinscheduler.api.constants.ApiFuncIdentificationConstant.DOWNLOAD_LOG;
+import static org.apache.dolphinscheduler.api.constants.ApiFuncIdentificationConstant.VIEW_LOG;
 
 /**
  * logger service impl
@@ -101,8 +104,11 @@ public class LoggerServiceImpl extends BaseServiceImpl implements LoggerService 
 
         TaskInstance taskInstance = processService.findTaskInstanceById(taskInstId);
 
-        if (taskInstance == null || StringUtils.isBlank(taskInstance.getHost())) {
+        if (taskInstance == null) {
             return Result.error(Status.TASK_INSTANCE_NOT_FOUND);
+        }
+        if (StringUtils.isBlank(taskInstance.getHost())) {
+            return Result.error(Status.TASK_INSTANCE_HOST_IS_NULL);
         }
         Result<String> result = new Result<>(Status.SUCCESS.getCode(), Status.SUCCESS.getMsg());
         String log = queryLog(taskInstance,skipLineNum,limit);
@@ -141,7 +147,7 @@ public class LoggerServiceImpl extends BaseServiceImpl implements LoggerService 
     public Map<String, Object> queryLog(User loginUser, long projectCode, int taskInstId, int skipLineNum, int limit) {
         Project project = projectMapper.queryByCode(projectCode);
         //check user access for project
-        Map<String, Object> result = projectService.checkProjectAndAuth(loginUser, project, projectCode);
+        Map<String, Object> result = projectService.checkProjectAndAuth(loginUser, project, projectCode, VIEW_LOG);
         if (result.get(Constants.STATUS) != Status.SUCCESS) {
             return result;
         }
@@ -174,7 +180,7 @@ public class LoggerServiceImpl extends BaseServiceImpl implements LoggerService 
     public byte[] getLogBytes(User loginUser, long projectCode, int taskInstId) {
         Project project = projectMapper.queryByCode(projectCode);
         //check user access for project
-        Map<String, Object> result = projectService.checkProjectAndAuth(loginUser, project, projectCode);
+        Map<String, Object> result = projectService.checkProjectAndAuth(loginUser, project, projectCode,DOWNLOAD_LOG);
         if (result.get(Constants.STATUS) != Status.SUCCESS) {
             throw new ServiceException("user has no permission");
         }

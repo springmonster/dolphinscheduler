@@ -31,6 +31,9 @@ import org.apache.dolphinscheduler.remote.command.log.ViewLogRequestCommand;
 import org.apache.dolphinscheduler.remote.command.log.ViewLogResponseCommand;
 import org.apache.dolphinscheduler.remote.processor.NettyRequestProcessor;
 import org.apache.dolphinscheduler.remote.utils.Constants;
+import org.apache.dolphinscheduler.remote.utils.NamedThreadFactory;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,6 +55,8 @@ import org.springframework.stereotype.Component;
 
 import io.netty.channel.Channel;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
 /**
  * logger request process logic
  */
@@ -63,40 +68,53 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
     private final ExecutorService executor;
 
     public LoggerRequestProcessor() {
-        this.executor = Executors.newFixedThreadPool(Constants.CPUS * 2 + 1);
+        this.executor = Executors.newFixedThreadPool(Constants.CPUS * 2 + 1,
+                new NamedThreadFactory("Log-Request-Process-Thread"));
     }
 
     @Override
     public void process(Channel channel, Command command) {
         logger.info("received command : {}", command);
 
-        /**
-         * reuqest task log command type
-         */
+        //request task log command type
         final CommandType commandType = command.getType();
         switch (commandType) {
             case GET_LOG_BYTES_REQUEST:
                 GetLogBytesRequestCommand getLogRequest = JSONUtils.parseObject(
                         command.getBody(), GetLogBytesRequestCommand.class);
-                byte[] bytes = getFileContentBytes(getLogRequest.getPath());
+                String path = getLogRequest.getPath();
+                if (!checkPathSecurity(path)) {
+                    throw new IllegalArgumentException("Illegal path: " + path);
+                }
+                byte[] bytes = getFileContentBytes(path);
                 GetLogBytesResponseCommand getLogResponse = new GetLogBytesResponseCommand(bytes);
                 channel.writeAndFlush(getLogResponse.convert2Command(command.getOpaque()));
                 break;
             case VIEW_WHOLE_LOG_REQUEST:
                 ViewLogRequestCommand viewLogRequest = JSONUtils.parseObject(
                         command.getBody(), ViewLogRequestCommand.class);
-                String msg = LoggerUtils.readWholeFileContent(viewLogRequest.getPath());
+                String viewLogPath = viewLogRequest.getPath();
+                if (!checkPathSecurity(viewLogPath)) {
+                    throw new IllegalArgumentException("Illegal path: " + viewLogPath);
+                }
+                String msg = LoggerUtils.readWholeFileContent(viewLogPath);
                 ViewLogResponseCommand viewLogResponse = new ViewLogResponseCommand(msg);
                 channel.writeAndFlush(viewLogResponse.convert2Command(command.getOpaque()));
                 break;
             case ROLL_VIEW_LOG_REQUEST:
                 RollViewLogRequestCommand rollViewLogRequest = JSONUtils.parseObject(
                         command.getBody(), RollViewLogRequestCommand.class);
-                List<String> lines = readPartFileContent(rollViewLogRequest.getPath(),
+
+                String rollViewLogPath = rollViewLogRequest.getPath();
+                if (!checkPathSecurity(rollViewLogPath)) {
+                    throw new IllegalArgumentException("Illegal path: " + rollViewLogPath);
+                }
+
+                List<String> lines = readPartFileContent(rollViewLogPath,
                         rollViewLogRequest.getSkipLineNum(), rollViewLogRequest.getLimit());
                 StringBuilder builder = new StringBuilder();
                 for (String line : lines) {
-                    builder.append(line + "\r\n");
+                    builder.append(line).append("\r\n");
                 }
                 RollViewLogResponseCommand rollViewLogRequestResponse = new RollViewLogResponseCommand(builder.toString());
                 channel.writeAndFlush(rollViewLogRequestResponse.convert2Command(command.getOpaque()));
@@ -106,9 +124,11 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
                         command.getBody(), RemoveTaskLogRequestCommand.class);
 
                 String taskLogPath = removeTaskLogRequest.getPath();
-
+                if (!checkPathSecurity(taskLogPath)) {
+                    throw new IllegalArgumentException("Illegal path: " + taskLogPath);
+                }
                 File taskLogFile = new File(taskLogPath);
-                Boolean status = true;
+                boolean status = true;
                 try {
                     if (taskLogFile.exists()) {
                         status = taskLogFile.delete();
@@ -121,7 +141,25 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
                 channel.writeAndFlush(removeTaskLogResponse.convert2Command(command.getOpaque()));
                 break;
             default:
-                throw new IllegalArgumentException("unknown commandType");
+                throw new IllegalArgumentException("unknown commandType: " + commandType);
+        }
+    }
+
+    /**
+     * LogServer only can read the logs dir.
+     * @param path
+     * @return
+     */
+    private boolean checkPathSecurity(String path) {
+        String dsHome = System.getProperty("DOLPHINSCHEDULER_WORKER_HOME");
+        if (StringUtils.isBlank(dsHome)) {
+            dsHome = System.getProperty("user.dir");
+        }
+        if (StringUtils.isBlank(path)) {
+            logger.warn("path is null");
+            return false;
+        } else {
+            return path.startsWith(dsHome) && !path.contains("../") && path.endsWith(".log");
         }
     }
 
@@ -130,11 +168,10 @@ public class LoggerRequestProcessor implements NettyRequestProcessor {
     }
 
     /**
-     * get files content bytes，for down load file
+     * get files content bytes for download file
      *
      * @param filePath file path
      * @return byte array of file
-     * @throws Exception exception
      */
     private byte[] getFileContentBytes(String filePath) {
         try (InputStream in = new FileInputStream(filePath);

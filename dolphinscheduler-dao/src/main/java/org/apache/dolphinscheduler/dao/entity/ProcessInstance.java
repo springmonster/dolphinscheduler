@@ -18,15 +18,13 @@
 package org.apache.dolphinscheduler.dao.entity;
 
 import org.apache.dolphinscheduler.common.enums.CommandType;
-import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.common.enums.FailureStrategy;
 import org.apache.dolphinscheduler.common.enums.Flag;
 import org.apache.dolphinscheduler.common.enums.Priority;
 import org.apache.dolphinscheduler.common.enums.TaskDependType;
 import org.apache.dolphinscheduler.common.enums.WarningType;
 import org.apache.dolphinscheduler.common.utils.DateUtils;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.dolphinscheduler.plugin.task.api.enums.ExecutionStatus;
 
 import java.util.Date;
 import java.util.Objects;
@@ -35,7 +33,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.common.base.Strings;
 
 /**
  * process instance
@@ -70,13 +68,11 @@ public class ProcessInstance {
     /**
      * start time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
 
     /**
      * end time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
 
     /**
@@ -137,13 +133,11 @@ public class ProcessInstance {
     /**
      * schedule time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date scheduleTime;
 
     /**
      * command start time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date commandStartTime;
 
     /**
@@ -252,8 +246,13 @@ public class ProcessInstance {
     /**
      * re-start time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date restartTime;
+
+    /**
+     * workflow block flag
+     */
+    @TableField(exist = false)
+    private boolean isBlocked;
 
     public ProcessInstance() {
 
@@ -266,13 +265,11 @@ public class ProcessInstance {
      */
     public ProcessInstance(ProcessDefinition processDefinition) {
         this.processDefinition = processDefinition;
-        this.name = processDefinition.getName()
-            + "-"
-            +
-            processDefinition.getVersion()
-            + "-"
-            +
-            DateUtils.getCurrentTimeStamp();
+        // todo: the name is not unique
+        this.name = String.join("-",
+                processDefinition.getName(),
+                String.valueOf(processDefinition.getVersion()),
+                DateUtils.getCurrentTimeStamp());
     }
 
     public String getVarPool() {
@@ -541,7 +538,7 @@ public class ProcessInstance {
      * @param cmd cmd
      */
     public void addHistoryCmd(CommandType cmd) {
-        if (StringUtils.isNotEmpty(this.historyCmd)) {
+        if (!Strings.isNullOrEmpty(this.historyCmd)) {
             this.historyCmd = String.format("%s,%s", this.historyCmd, cmd.toString());
         } else {
             this.historyCmd = cmd.toString();
@@ -554,7 +551,7 @@ public class ProcessInstance {
      * @return whether complement data
      */
     public boolean isComplementData() {
-        if (StringUtils.isEmpty(this.historyCmd)) {
+        if (Strings.isNullOrEmpty(this.historyCmd)) {
             return false;
         }
         return historyCmd.startsWith(CommandType.COMPLEMENT_DATA.toString());
@@ -627,6 +624,14 @@ public class ProcessInstance {
 
     public void setProcessDefinitionVersion(int processDefinitionVersion) {
         this.processDefinitionVersion = processDefinitionVersion;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
     }
 
     @Override
@@ -707,6 +712,8 @@ public class ProcessInstance {
             + ", restartTime='"
             + restartTime
             + '\''
+            + ", isBlocked="
+            + isBlocked
             + '}';
     }
 

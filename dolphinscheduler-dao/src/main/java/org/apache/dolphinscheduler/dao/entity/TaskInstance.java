@@ -18,18 +18,20 @@
 package org.apache.dolphinscheduler.dao.entity;
 
 import static org.apache.dolphinscheduler.common.Constants.SEC_2_MINUTES_TIME_UNIT;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.TASK_TYPE_BLOCKING;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.TASK_TYPE_CONDITIONS;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.TASK_TYPE_DEPENDENT;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.TASK_TYPE_SUB_PROCESS;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.TASK_TYPE_SWITCH;
 
 import org.apache.dolphinscheduler.common.Constants;
-import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
 import org.apache.dolphinscheduler.common.enums.Flag;
 import org.apache.dolphinscheduler.common.enums.Priority;
-import org.apache.dolphinscheduler.common.enums.TaskType;
-import org.apache.dolphinscheduler.common.task.dependent.DependentParameters;
-import org.apache.dolphinscheduler.common.task.switchtask.SwitchParameters;
 import org.apache.dolphinscheduler.common.utils.DateUtils;
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
-
-import org.apache.commons.lang3.SerializationUtils;
+import org.apache.dolphinscheduler.plugin.task.api.enums.ExecutionStatus;
+import org.apache.dolphinscheduler.plugin.task.api.parameters.DependentParameters;
+import org.apache.dolphinscheduler.plugin.task.api.parameters.SwitchParameters;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -39,7 +41,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -100,25 +101,21 @@ public class TaskInstance implements Serializable {
     /**
      * task first submit time.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date firstSubmitTime;
 
     /**
      * task submit time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date submitTime;
 
     /**
      * task start time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
 
     /**
      * task end time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
 
     /**
@@ -267,6 +264,7 @@ public class TaskInstance implements Serializable {
      */
     private int delayTime;
 
+
     /**
      * task params
      */
@@ -280,6 +278,16 @@ public class TaskInstance implements Serializable {
      * task group id
      */
     private int taskGroupId;
+
+    /**
+     * cpu quota
+     */
+    private Integer cpuQuota;
+
+    /**
+     * max memory
+     */
+    private Integer memoryMax;
 
     public void init(String host, Date startTime, String executePath) {
         this.host = host;
@@ -585,19 +593,23 @@ public class TaskInstance implements Serializable {
     }
 
     public boolean isSubProcess() {
-        return TaskType.SUB_PROCESS.getDesc().equalsIgnoreCase(this.taskType);
+        return TASK_TYPE_SUB_PROCESS.equalsIgnoreCase(this.taskType);
     }
 
     public boolean isDependTask() {
-        return TaskType.DEPENDENT.getDesc().equalsIgnoreCase(this.taskType);
+        return TASK_TYPE_DEPENDENT.equalsIgnoreCase(this.taskType);
     }
 
     public boolean isConditionsTask() {
-        return TaskType.CONDITIONS.getDesc().equalsIgnoreCase(this.taskType);
+        return TASK_TYPE_CONDITIONS.equalsIgnoreCase(this.taskType);
     }
 
     public boolean isSwitchTask() {
-        return TaskType.SWITCH.getDesc().equalsIgnoreCase(this.taskType);
+        return TASK_TYPE_SWITCH.equalsIgnoreCase(this.taskType);
+    }
+
+    public boolean isBlockingTask() {
+        return TASK_TYPE_BLOCKING.equalsIgnoreCase(this.taskType);
     }
 
     /**
@@ -711,6 +723,8 @@ public class TaskInstance implements Serializable {
                 + ", executorName='" + executorName + '\''
                 + ", delayTime=" + delayTime
                 + ", dryRun=" + dryRun
+                + ", taskGroupId=" + taskGroupId
+                + ", taskGroupPriority=" + taskGroupPriority
                 + '}';
     }
 
@@ -748,5 +762,21 @@ public class TaskInstance implements Serializable {
 
     public void setTaskGroupPriority(int taskGroupPriority) {
         this.taskGroupPriority = taskGroupPriority;
+    }
+
+    public Integer getCpuQuota() {
+        return cpuQuota == null ? -1 : cpuQuota;
+    }
+
+    public void setCpuQuota(Integer cpuQuota) {
+        this.cpuQuota = cpuQuota;
+    }
+
+    public Integer getMemoryMax() {
+        return memoryMax == null ? -1 : memoryMax;
+    }
+
+    public void setMemoryMax(Integer memoryMax) {
+        this.memoryMax = memoryMax;
     }
 }

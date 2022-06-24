@@ -19,13 +19,14 @@ package org.apache.dolphinscheduler.common.utils;
 
 import org.apache.dolphinscheduler.common.shell.ShellExecutor;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.RuntimeMXBean;
@@ -63,6 +64,9 @@ public class OSUtils {
     public static final double NEGATIVE_ONE = -1;
 
     private static final HardwareAbstractionLayer hal = SI.getHardware();
+    private static long[] prevTicks = new long[CentralProcessor.TickType.values().length];
+    private static long prevTickTime = 0L;
+    private static double cpuUsage = 0.0D;
 
     private OSUtils() {
         throw new UnsupportedOperationException("Construct OSUtils");
@@ -87,6 +91,23 @@ public class OSUtils {
         DecimalFormat df = new DecimalFormat(TWO_DECIMAL);
         df.setRoundingMode(RoundingMode.HALF_UP);
         return Double.parseDouble(df.format(memoryUsage));
+    }
+
+    /**
+     * get disk usage
+     * Keep 2 decimal
+     *
+     * @return disk free size, unit: GB
+     */
+    public static double diskAvailable() {
+        File file = new File(".");
+        long freeSpace = file.getFreeSpace(); //unallocated / free disk space in bytes.
+
+        double diskAvailable = freeSpace / 1024.0 / 1024 / 1024;
+
+        DecimalFormat df = new DecimalFormat(TWO_DECIMAL);
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        return Double.parseDouble(df.format(diskAvailable));
     }
 
     /**
@@ -117,7 +138,7 @@ public class OSUtils {
             loadAverage = osBean.getSystemLoadAverage();
         } catch (Exception e) {
             logger.error("get operation system load average exception, try another method ", e);
-            loadAverage = hal.getProcessor().getSystemLoadAverage();
+            loadAverage = hal.getProcessor().getSystemLoadAverage(1)[0];
             if (Double.isNaN(loadAverage)) {
                 return NEGATIVE_ONE;
             }
@@ -134,7 +155,16 @@ public class OSUtils {
      */
     public static double cpuUsage() {
         CentralProcessor processor = hal.getProcessor();
-        double cpuUsage = processor.getSystemCpuLoad();
+
+        // Check if > ~ 0.95 seconds since last tick count.
+        long now = System.currentTimeMillis();
+        if (now - prevTickTime > 950) {
+            // Enough time has elapsed.
+            cpuUsage =  processor.getSystemCpuLoadBetweenTicks(prevTicks);
+            prevTickTime = System.currentTimeMillis();
+            prevTicks = processor.getSystemCpuLoadTicks();
+        }
+
         if (Double.isNaN(cpuUsage)) {
             return NEGATIVE_ONE;
         }
@@ -235,6 +265,25 @@ public class OSUtils {
         }
 
         return users;
+    }
+
+    /**
+     * whether the user exists in linux
+     *
+     * @return boolean
+     */
+    public static boolean existTenantCodeInLinux(String tenantCode) {
+        try{
+            String result = exeCmd("id "+ tenantCode);
+            if (!StringUtils.isEmpty(result)){
+                return result.contains("uid=");
+            }
+        }catch (Exception e){
+            //because ShellExecutor method throws exception to the linux return status is not 0
+            //not exist user return status is 1
+            logger.error(e.getMessage(), e);
+        }
+        return false;
     }
 
     /**

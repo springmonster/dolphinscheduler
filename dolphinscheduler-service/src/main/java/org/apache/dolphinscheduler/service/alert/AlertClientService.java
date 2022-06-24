@@ -25,6 +25,8 @@ import org.apache.dolphinscheduler.remote.config.NettyClientConfig;
 import org.apache.dolphinscheduler.remote.utils.Host;
 import org.apache.dolphinscheduler.remote.utils.JsonSerializer;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +38,7 @@ public class AlertClientService implements AutoCloseable {
 
     private final NettyRemotingClient client;
 
-    private volatile boolean isRunning;
+    private final AtomicBoolean isRunning;
 
     private String host;
 
@@ -53,16 +55,14 @@ public class AlertClientService implements AutoCloseable {
     public AlertClientService() {
         this.clientConfig = new NettyClientConfig();
         this.client = new NettyRemotingClient(clientConfig);
-        this.isRunning = true;
+        this.isRunning = new AtomicBoolean(true);
     }
 
     /**
      * alert client
      */
     public AlertClientService(String host, int port) {
-        this.clientConfig = new NettyClientConfig();
-        this.client = new NettyRemotingClient(clientConfig);
-        this.isRunning = true;
+        this();
         this.host = host;
         this.port = port;
     }
@@ -72,9 +72,14 @@ public class AlertClientService implements AutoCloseable {
      */
     @Override
     public void close() {
+        if (isRunning.compareAndSet(true, false)) {
+            logger.warn("Alert client is already closed");
+            return;
+        }
+
+        logger.info("Alter client closing");
         this.client.close();
-        this.isRunning = false;
-        logger.info("alter client closed");
+        logger.info("Alter client closed");
     }
 
     /**
@@ -84,8 +89,8 @@ public class AlertClientService implements AutoCloseable {
      * @param content
      * @return
      */
-    public AlertSendResponseCommand sendAlert(int groupId, String title,  String content) {
-        return this.sendAlert(this.host,this.port,groupId,title,content);
+    public AlertSendResponseCommand sendAlert(int groupId, String title,  String content, int strategy) {
+        return this.sendAlert(this.host,this.port,groupId,title,content,strategy);
     }
 
     /**
@@ -97,9 +102,9 @@ public class AlertClientService implements AutoCloseable {
      * @param content content
      * @return AlertSendResponseCommand
      */
-    public AlertSendResponseCommand sendAlert(String host, int port, int groupId, String title,  String content) {
-        logger.info("sync alert send, host : {}, port : {}, groupId : {}, title : {} ", host, port, groupId, title);
-        AlertSendRequestCommand request = new AlertSendRequestCommand(groupId, title, content);
+    public AlertSendResponseCommand sendAlert(String host, int port, int groupId, String title,  String content, int strategy) {
+        logger.info("sync alert send, host : {}, port : {}, groupId : {}, title : {} , strategy : {} ", host, port, groupId, title, strategy);
+        AlertSendRequestCommand request = new AlertSendRequestCommand(groupId, title, content, strategy);
         final Host address = new Host(host, port);
         try {
             Command command = request.convert2Command();
@@ -116,6 +121,6 @@ public class AlertClientService implements AutoCloseable {
     }
 
     public boolean isRunning() {
-        return isRunning;
+        return isRunning.get();
     }
 }

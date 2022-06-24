@@ -20,10 +20,8 @@ package org.apache.dolphinscheduler.dao.entity;
 import org.apache.dolphinscheduler.common.enums.Flag;
 import org.apache.dolphinscheduler.common.enums.ProcessExecutionTypeEnum;
 import org.apache.dolphinscheduler.common.enums.ReleaseState;
-import org.apache.dolphinscheduler.common.process.Property;
 import org.apache.dolphinscheduler.common.utils.JSONUtils;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.dolphinscheduler.plugin.task.api.model.Property;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +34,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.common.base.Strings;
 
 /**
  * process definition
@@ -100,13 +98,11 @@ public class ProcessDefinition {
     /**
      * create time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
      * update time
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     /**
@@ -312,7 +308,7 @@ public class ProcessDefinition {
     }
 
     public Map<String, String> getGlobalParamMap() {
-        if (globalParamMap == null && StringUtils.isNotEmpty(globalParams)) {
+        if (globalParamMap == null && !Strings.isNullOrEmpty(globalParams)) {
             List<Property> propList = JSONUtils.toList(globalParams, Property.class);
             globalParamMap = propList.stream().collect(Collectors.toMap(Property::getProp, Property::getValue));
         }

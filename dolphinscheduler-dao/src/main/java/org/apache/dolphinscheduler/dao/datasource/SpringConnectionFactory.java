@@ -24,8 +24,11 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.init.DataSourceScriptDatabaseInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -40,6 +43,12 @@ import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 
 @Configuration
 public class SpringConnectionFactory {
+
+    /**
+     * Inject this field to make sure the database is initialized, this can solve the table not found issue #8432.
+     */
+    @Autowired(required = false)
+    public DataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer;
 
     @Bean
     public PaginationInterceptor paginationInterceptor() {
@@ -73,7 +82,7 @@ public class SpringConnectionFactory {
         sqlSessionFactoryBean.setTypeAliasesPackage("org.apache.dolphinscheduler.dao.entity");
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources("org/apache/dolphinscheduler/dao/mapper/*Mapper.xml"));
-        sqlSessionFactoryBean.setTypeEnumsPackage("org.apache.dolphinscheduler.*.enums");
+        sqlSessionFactoryBean.setTypeEnumsPackage("org.apache.dolphinscheduler.**.enums");
         sqlSessionFactoryBean.setDatabaseIdProvider(databaseIdProvider());
         return sqlSessionFactoryBean.getObject();
     }

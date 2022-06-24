@@ -17,33 +17,35 @@
 
 package org.apache.dolphinscheduler.plugin.task.dq;
 
-import static org.apache.dolphinscheduler.spi.task.TaskConstants.SLASH;
-import static org.apache.dolphinscheduler.spi.task.TaskConstants.UNDERLINE;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.CREATE_TIME;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.DATA_TIME;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.ERROR_OUTPUT_PATH;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.PROCESS_DEFINITION_ID;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.PROCESS_INSTANCE_ID;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.REGEXP_PATTERN;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.RULE_ID;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.RULE_NAME;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.RULE_TYPE;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.TASK_INSTANCE_ID;
-import static org.apache.dolphinscheduler.spi.task.dq.utils.DataQualityConstants.UPDATE_TIME;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.SLASH;
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.UNDERLINE;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.CREATE_TIME;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.DATA_TIME;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.ERROR_OUTPUT_PATH;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.PROCESS_DEFINITION_ID;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.PROCESS_INSTANCE_ID;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.REGEXP_PATTERN;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.RULE_ID;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.RULE_NAME;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.RULE_TYPE;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.TASK_INSTANCE_ID;
+import static org.apache.dolphinscheduler.plugin.task.api.utils.DataQualityConstants.UPDATE_TIME;
 import static org.apache.dolphinscheduler.spi.utils.Constants.YYYY_MM_DD_HH_MM_SS;
 
 import org.apache.dolphinscheduler.plugin.datasource.api.utils.CommonUtils;
 import org.apache.dolphinscheduler.plugin.task.api.AbstractYarnTask;
+import org.apache.dolphinscheduler.plugin.task.api.DataQualityTaskExecutionContext;
+import org.apache.dolphinscheduler.plugin.task.api.TaskExecutionContext;
+import org.apache.dolphinscheduler.plugin.task.api.model.Property;
+import org.apache.dolphinscheduler.plugin.task.api.model.ResourceInfo;
+import org.apache.dolphinscheduler.plugin.task.api.parameters.AbstractParameters;
+import org.apache.dolphinscheduler.plugin.task.api.parser.ParamUtils;
+import org.apache.dolphinscheduler.plugin.task.api.parser.ParameterUtils;
+import org.apache.dolphinscheduler.plugin.task.api.utils.ArgsUtils;
+import org.apache.dolphinscheduler.plugin.task.api.utils.MapUtils;
 import org.apache.dolphinscheduler.plugin.task.dq.rule.RuleManager;
 import org.apache.dolphinscheduler.plugin.task.dq.rule.parameter.DataQualityConfiguration;
 import org.apache.dolphinscheduler.plugin.task.dq.utils.spark.SparkArgsUtils;
-import org.apache.dolphinscheduler.spi.task.AbstractParameters;
-import org.apache.dolphinscheduler.spi.task.Property;
-import org.apache.dolphinscheduler.spi.task.ResourceInfo;
-import org.apache.dolphinscheduler.spi.task.paramparser.ParamUtils;
-import org.apache.dolphinscheduler.spi.task.paramparser.ParameterUtils;
-import org.apache.dolphinscheduler.spi.task.request.DataQualityTaskExecutionContext;
-import org.apache.dolphinscheduler.spi.task.request.TaskRequest;
 import org.apache.dolphinscheduler.spi.utils.JSONUtils;
 import org.apache.dolphinscheduler.spi.utils.StringUtils;
 
@@ -51,6 +53,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,9 +71,9 @@ public class DataQualityTask extends AbstractYarnTask {
 
     private DataQualityParameters dataQualityParameters;
 
-    private final TaskRequest dqTaskExecutionContext;
+    private final TaskExecutionContext dqTaskExecutionContext;
 
-    public DataQualityTask(TaskRequest taskExecutionContext) {
+    public DataQualityTask(TaskExecutionContext taskExecutionContext) {
         super(taskExecutionContext);
         this.dqTaskExecutionContext = taskExecutionContext;
     }
@@ -128,15 +131,15 @@ public class DataQualityTask extends AbstractYarnTask {
 
         inputParameter.put(RULE_ID, String.valueOf(dataQualityTaskExecutionContext.getRuleId()));
         inputParameter.put(RULE_TYPE, String.valueOf(dataQualityTaskExecutionContext.getRuleType()));
-        inputParameter.put(RULE_NAME, StringUtils.wrapperSingleQuotes(dataQualityTaskExecutionContext.getRuleName()));
-        inputParameter.put(CREATE_TIME, StringUtils.wrapperSingleQuotes(now));
-        inputParameter.put(UPDATE_TIME, StringUtils.wrapperSingleQuotes(now));
+        inputParameter.put(RULE_NAME, ArgsUtils.wrapperSingleQuotes(dataQualityTaskExecutionContext.getRuleName()));
+        inputParameter.put(CREATE_TIME, ArgsUtils.wrapperSingleQuotes(now));
+        inputParameter.put(UPDATE_TIME, ArgsUtils.wrapperSingleQuotes(now));
         inputParameter.put(PROCESS_DEFINITION_ID, String.valueOf(dqTaskExecutionContext.getProcessDefineId()));
         inputParameter.put(PROCESS_INSTANCE_ID, String.valueOf(dqTaskExecutionContext.getProcessInstanceId()));
         inputParameter.put(TASK_INSTANCE_ID, String.valueOf(dqTaskExecutionContext.getTaskInstanceId()));
 
         if (StringUtils.isEmpty(inputParameter.get(DATA_TIME))) {
-            inputParameter.put(DATA_TIME,StringUtils.wrapperSingleQuotes(now));
+            inputParameter.put(DATA_TIME,ArgsUtils.wrapperSingleQuotes(now));
         }
 
         if (StringUtils.isNotEmpty(inputParameter.get(REGEXP_PATTERN))) {
@@ -159,8 +162,6 @@ public class DataQualityTask extends AbstractYarnTask {
         List<String> args = new ArrayList<>();
 
         args.add(SPARK2_COMMAND);
-
-        // other parameters
         args.addAll(SparkArgsUtils.buildArgs(dataQualityParameters.getSparkParameters()));
 
         // replace placeholder
@@ -168,10 +169,15 @@ public class DataQualityTask extends AbstractYarnTask {
 
         String command = null;
 
-        if (null != paramsMap) {
-            command = ParameterUtils.convertParameterPlaceholders(String.join(" ", args), ParamUtils.convert(paramsMap));
+        if (MapUtils.isEmpty(paramsMap)) {
+            paramsMap = new HashMap<>();
         }
 
+        if (MapUtils.isNotEmpty(dqTaskExecutionContext.getParamsMap())) {
+            paramsMap.putAll(dqTaskExecutionContext.getParamsMap());
+        }
+
+        command = ParameterUtils.convertParameterPlaceholders(String.join(" ", args), ParamUtils.convert(paramsMap));
         logger.info("data quality task command: {}", command);
 
         return command;
@@ -180,7 +186,8 @@ public class DataQualityTask extends AbstractYarnTask {
     @Override
     protected void setMainJarName() {
         ResourceInfo mainJar = new ResourceInfo();
-        mainJar.setRes(CommonUtils.getDataQualityJarName());
+        String basePath = System.getProperty("user.dir").replace(File.separator + "bin", "");
+        mainJar.setRes(basePath + File.separator + "libs" + File.separator + CommonUtils.getDataQualityJarName());
         dataQualityParameters.getSparkParameters().setMainJar(mainJar);
     }
 

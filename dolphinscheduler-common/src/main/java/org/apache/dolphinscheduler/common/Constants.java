@@ -17,11 +17,12 @@
 
 package org.apache.dolphinscheduler.common;
 
-import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
+import org.apache.dolphinscheduler.plugin.task.api.enums.ExecutionStatus;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 
+import java.time.Duration;
 import java.util.regex.Pattern;
 
 /**
@@ -49,27 +50,24 @@ public final class Constants {
     public static final String REGISTRY_DOLPHINSCHEDULER_LOCK_FAILOVER_MASTERS = "/lock/failover/masters";
     public static final String REGISTRY_DOLPHINSCHEDULER_LOCK_FAILOVER_WORKERS = "/lock/failover/workers";
     public static final String REGISTRY_DOLPHINSCHEDULER_LOCK_FAILOVER_STARTUP_MASTERS = "/lock/failover/startup-masters";
+    public static final String FORMAT_SS = "%s%s";
+    public static final String FORMAT_S_S = "%s/%s";
+    public static final String FOLDER_SEPARATOR = "/";
+
+    public static final String RESOURCE_TYPE_FILE = "resources";
+
+    public static final String RESOURCE_TYPE_UDF = "udfs";
+
+    public static final String STORAGE_S3 = "S3";
+
+    public static final String STORAGE_HDFS = "HDFS";
+
+    public static final String EMPTY_STRING = "";
 
     /**
-     * fs.defaultFS
+     * resource.hdfs.fs.defaultFS
      */
-    public static final String FS_DEFAULTFS = "fs.defaultFS";
-
-
-    /**
-     * fs s3a endpoint
-     */
-    public static final String FS_S3A_ENDPOINT = "fs.s3a.endpoint";
-
-    /**
-     * fs s3a access key
-     */
-    public static final String FS_S3A_ACCESS_KEY = "fs.s3a.access.key";
-
-    /**
-     * fs s3a secret key
-     */
-    public static final String FS_S3A_SECRET_KEY = "fs.s3a.secret.key";
+    public static final String FS_DEFAULT_FS = "resource.hdfs.fs.defaultFS";
 
 
     /**
@@ -97,15 +95,15 @@ public final class Constants {
 
     /**
      * hdfs configuration
-     * hdfs.root.user
+     * resource.hdfs.root.user
      */
-    public static final String HDFS_ROOT_USER = "hdfs.root.user";
+    public static final String HDFS_ROOT_USER = "resource.hdfs.root.user";
 
     /**
      * hdfs/s3 configuration
-     * resource.upload.path
+     * resource.storage.upload.base.path
      */
-    public static final String RESOURCE_UPLOAD_PATH = "resource.upload.path";
+    public static final String RESOURCE_UPLOAD_PATH = "resource.storage.upload.base.path";
 
     /**
      * data basedir path
@@ -120,14 +118,14 @@ public final class Constants {
     /**
      * environment properties default path
      */
-    public static final String ENV_PATH = "env/dolphinscheduler_env.sh";
+    public static final String ENV_PATH = "dolphinscheduler_env.sh";
 
     /**
      * resource.view.suffixs
      */
-    public static final String RESOURCE_VIEW_SUFFIXS = "resource.view.suffixs";
+    public static final String RESOURCE_VIEW_SUFFIXES = "resource.view.suffixs";
 
-    public static final String RESOURCE_VIEW_SUFFIXS_DEFAULT_VALUE = "txt,log,sh,bat,conf,cfg,py,java,sql,xml,hql,properties,json,yml,yaml,ini,js";
+    public static final String RESOURCE_VIEW_SUFFIXES_DEFAULT_VALUE = "txt,log,sh,bat,conf,cfg,py,java,sql,xml,hql,properties,json,yml,yaml,ini,js";
 
     /**
      * development.state
@@ -149,6 +147,8 @@ public final class Constants {
      */
     public static final String RESOURCE_STORAGE_TYPE = "resource.storage.type";
 
+    public static final String AWS_S3_BUCKET_NAME = "resource.aws.s3.bucket.name";
+    public static final String AWS_END_POINT = "resource.aws.s3.endpoint";
     /**
      * comma ,
      */
@@ -255,11 +255,6 @@ public final class Constants {
     public static final Pattern REGEX_USER_NAME = Pattern.compile("^[a-zA-Z0-9._-]{3,39}$");
 
     /**
-     * email regex
-     */
-    public static final Pattern REGEX_MAIL_NAME = Pattern.compile("^([a-z0-9A-Z]+[_|\\-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
-
-    /**
      * read permission
      */
     public static final int READ_PERMISSION = 2;
@@ -331,6 +326,7 @@ public final class Constants {
     public static final String NULL = "NULL";
     public static final String THREAD_NAME_MASTER_SERVER = "Master-Server";
     public static final String THREAD_NAME_WORKER_SERVER = "Worker-Server";
+    public static final String THREAD_NAME_ALERT_SERVER = "Alert-Server";
 
     /**
      * command parameter keys
@@ -366,6 +362,11 @@ public final class Constants {
     public static final String CMDPARAM_COMPLEMENT_DATA_END_DATE = "complementEndDate";
 
     /**
+     * complement data Schedule date
+     */
+    public static final String CMDPARAM_COMPLEMENT_DATA_SCHEDULE_DATE_LIST = "complementScheduleDateList";
+
+    /**
      * complement date default cron string
      */
     public static final String DEFAULT_CRON_STRING = "0 0 0 * * ? *";
@@ -373,27 +374,29 @@ public final class Constants {
     /**
      * sleep 1000ms
      */
-    public static final int SLEEP_TIME_MILLIS = 1000;
+    public static final long SLEEP_TIME_MILLIS = 1_000L;
 
     /**
      * short sleep 100ms
      */
-    public static final int SLEEP_TIME_MILLIS_SHORT = 100;
+    public static final long SLEEP_TIME_MILLIS_SHORT = 100L;
+
+    public static final Duration SERVER_CLOSE_WAIT_TIME = Duration.ofSeconds(3);
 
     /**
      * one second mils
      */
-    public static final int SECOND_TIME_MILLIS = 1000;
+    public static final long SECOND_TIME_MILLIS = 1_000L;
 
     /**
      * master task instance cache-database refresh interval
      */
-    public static final int CACHE_REFRESH_TIME_MILLIS = 20 * 1000;
+    public static final long CACHE_REFRESH_TIME_MILLIS = 20 * 1_000L;
 
     /**
      * heartbeat for zk info length
      */
-    public static final int HEARTBEAT_FOR_ZOOKEEPER_INFO_LENGTH = 13;
+    public static final int HEARTBEAT_FOR_ZOOKEEPER_INFO_LENGTH = 14;
 
     /**
      * jar
@@ -425,10 +428,12 @@ public final class Constants {
      */
     public static final int DEFINITION_FAILURE = -1;
 
+    public static final int OPPOSITE_VALUE = -1;
+
     /**
      * process or task definition first version
      */
-    public static final int VERSION_FIRST  = 1;
+    public static final int VERSION_FIRST = 1;
 
     /**
      * date format of yyyyMMdd
@@ -497,26 +502,6 @@ public final class Constants {
      */
     public static final String UNDERLINE = "_";
     /**
-     * quartz job prifix
-     */
-    public static final String QUARTZ_JOB_PRIFIX = "job";
-    /**
-     * quartz job group prifix
-     */
-    public static final String QUARTZ_JOB_GROUP_PRIFIX = "jobgroup";
-    /**
-     * projectId
-     */
-    public static final String PROJECT_ID = "projectId";
-    /**
-     * processId
-     */
-    public static final String SCHEDULE_ID = "scheduleId";
-    /**
-     * schedule
-     */
-    public static final String SCHEDULE = "schedule";
-    /**
      * application regex
      */
     public static final String APPLICATION_REGEX = "application_\\d+_\\d+";
@@ -572,6 +557,8 @@ public final class Constants {
     public static final String QUEUE_NAME = "queueName";
     public static final int LOG_QUERY_SKIP_LINE_NUMBER = 0;
     public static final int LOG_QUERY_LIMIT = 4096;
+    public static final String BLOCKING_CONDITION = "blockingCondition";
+    public static final String ALERT_WHEN_BLOCKING = "alertWhenBlocking";
 
     /**
      * master/worker server use for zk
@@ -584,7 +571,6 @@ public final class Constants {
     public static final String CONTENT = "content";
     public static final String DEPENDENT_SPLIT = ":||";
     public static final long DEPENDENT_ALL_TASK_CODE = 0;
-
 
 
     /**
@@ -637,6 +623,9 @@ public final class Constants {
      */
     public static final String LOGIN_USER_KEY_TAB_PATH = "login.user.keytab.path";
 
+    public static final String WORKFLOW_INSTANCE_ID_MDC_KEY = "workflowInstanceId";
+    public static final String TASK_INSTANCE_ID_MDC_KEY = "taskInstanceId";
+
     /**
      * task log info format
      */
@@ -644,6 +633,7 @@ public final class Constants {
 
     public static final int[] NOT_TERMINATED_STATES = new int[] {
         ExecutionStatus.SUBMITTED_SUCCESS.ordinal(),
+        ExecutionStatus.DISPATCH.ordinal(),
         ExecutionStatus.RUNNING_EXECUTION.ordinal(),
         ExecutionStatus.DELAY_EXECUTION.ordinal(),
         ExecutionStatus.READY_PAUSE.ordinal(),
@@ -654,9 +644,10 @@ public final class Constants {
     };
 
     public static final int[] RUNNING_PROCESS_STATE = new int[] {
-            ExecutionStatus.RUNNING_EXECUTION.ordinal(),
-            ExecutionStatus.SUBMITTED_SUCCESS.ordinal(),
-            ExecutionStatus.SERIAL_WAIT.ordinal()
+        ExecutionStatus.RUNNING_EXECUTION.ordinal(),
+        ExecutionStatus.SUBMITTED_SUCCESS.ordinal(),
+        ExecutionStatus.DISPATCH.ordinal(),
+        ExecutionStatus.SERIAL_WAIT.ordinal()
     };
 
     /**
@@ -794,7 +785,7 @@ public final class Constants {
      */
     public static final String PSTREE = "pstree";
 
-    public static final Boolean KUBERNETES_MODE = !StringUtils.isEmpty(System.getenv("KUBERNETES_SERVICE_HOST")) && !StringUtils.isEmpty(System.getenv("KUBERNETES_SERVICE_PORT"));
+    public static final boolean KUBERNETES_MODE = !StringUtils.isEmpty(System.getenv("KUBERNETES_SERVICE_HOST")) && !StringUtils.isEmpty(System.getenv("KUBERNETES_SERVICE_PORT"));
 
     /**
      * dry run flag
@@ -809,4 +800,35 @@ public final class Constants {
 
     public static final String CACHE_KEY_VALUE_ALL = "'all'";
 
+    /**
+     * use for k8s
+     */
+    public static final String NAMESPACE = "namespace";
+    public static final String K8S = "k8s";
+    public static final String LIMITS_CPU = "limitsCpu";
+    public static final String LIMITS_MEMORY = "limitsMemory";
+    public static final String K8S_LOCAL_TEST_CLUSTER = "ds_null_k8s";
+
+    /**
+     * schedule timezone
+     */
+    public static final String SCHEDULE_TIMEZONE = "schedule_timezone";
+    public static final int RESOURCE_FULL_NAME_MAX_LENGTH = 128;
+
+    /**
+     * tenant
+     */
+    public static final int TENANT_FULL_NAME_MAX_LENGTH = 30;
+
+    /**
+     * schedule time  the amount of date data is too large, affecting the memory, so set 100
+     */
+    public static final int SCHEDULE_TIME_MAX_LENGTH = 100;
+
+    /**
+     * password max and min LENGTH
+     */
+    public static final int USER_PASSWORD_MAX_LENGTH = 20;
+
+    public static final int USER_PASSWORD_MIN_LENGTH = 2;
 }

@@ -14,14 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.dolphinscheduler.dao.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.dolphinscheduler.dao.entity.DataSource;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+
 import org.apache.ibatis.annotations.Param;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
  * datasource mapper interface
@@ -95,4 +100,13 @@ public interface DataSourceMapper extends BaseMapper<DataSource> {
      * @return If the name does not exist or the user does not have permission, it will return null
      */
     DataSource queryDataSourceByNameAndUserId(@Param("userId") int userId, @Param("name") String name);
+
+    /**
+     * selectPagingByIds
+     * @param dataSourcePage
+     * @param ids
+     * @param searchVal
+     * @return
+     */
+    IPage<DataSource> selectPagingByIds(Page<DataSource> dataSourcePage, @Param("dataSourceIds")List<Integer> dataSourceIds, @Param("name")String name);
 }

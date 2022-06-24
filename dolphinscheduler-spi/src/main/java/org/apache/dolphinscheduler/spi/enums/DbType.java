@@ -17,13 +17,14 @@
 
 package org.apache.dolphinscheduler.spi.enums;
 
-import static java.util.stream.Collectors.toMap;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.google.common.base.Functions;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.google.common.base.Functions;
+import static java.util.stream.Collectors.toMap;
 
 public enum DbType {
     MYSQL(0, "mysql"),
@@ -35,7 +36,9 @@ public enum DbType {
     SQLSERVER(6, "sqlserver"),
     DB2(7, "db2"),
     PRESTO(8, "presto"),
-    H2(9, "h2");
+    H2(9, "h2"),
+    REDSHIFT(10,"redshift"),
+    ;
 
     @EnumValue
     private final int code;
@@ -62,6 +65,10 @@ public enum DbType {
             return DB_TYPE_MAP.get(type);
         }
         return null;
+    }
+
+    public static DbType ofName(String name) {
+        return Arrays.stream(DbType.values()).filter(e -> e.name().equals(name)).findFirst().orElseThrow(() -> new NoSuchElementException("no such db type"));
     }
 
     public boolean isHive() {

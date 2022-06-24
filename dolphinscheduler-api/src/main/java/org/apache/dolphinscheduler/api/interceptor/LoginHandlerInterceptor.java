@@ -21,11 +21,12 @@ import org.apache.dolphinscheduler.api.enums.Status;
 import org.apache.dolphinscheduler.api.security.Authenticator;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.Flag;
+import org.apache.dolphinscheduler.common.thread.ThreadLocalContext;
 import org.apache.dolphinscheduler.dao.entity.User;
 import org.apache.dolphinscheduler.dao.mapper.UserMapper;
 
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Date;
 
 /**
  * login interceptor, must log in first
@@ -57,7 +61,6 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-
         // get token
         String token = request.getHeader("token");
         User user;
@@ -70,7 +73,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
                 return false;
             }
         } else {
-            user = userMapper.queryUserByToken(token);
+            user = userMapper.queryUserByToken(token, new Date());
             if (user == null) {
                 response.setStatus(HttpStatus.SC_UNAUTHORIZED);
                 logger.info("user token has expired");
@@ -84,9 +87,13 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             logger.info(Status.USER_DISABLED.getMsg());
             return false;
         }
-
         request.setAttribute(Constants.SESSION_USER, user);
+        ThreadLocalContext.getTimezoneThreadLocal().set(user.getTimeZone());
         return true;
     }
 
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        ThreadLocalContext.getTimezoneThreadLocal().remove();
+    }
 }

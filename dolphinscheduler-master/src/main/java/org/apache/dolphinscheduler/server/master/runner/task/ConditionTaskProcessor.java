@@ -17,17 +17,18 @@
 
 package org.apache.dolphinscheduler.server.master.runner.task;
 
+import static org.apache.dolphinscheduler.plugin.task.api.TaskConstants.TASK_TYPE_CONDITIONS;
+
 import org.apache.dolphinscheduler.common.Constants;
-import org.apache.dolphinscheduler.common.enums.DependResult;
-import org.apache.dolphinscheduler.common.enums.ExecutionStatus;
-import org.apache.dolphinscheduler.common.enums.TaskTimeoutStrategy;
-import org.apache.dolphinscheduler.common.enums.TaskType;
-import org.apache.dolphinscheduler.common.model.DependentItem;
-import org.apache.dolphinscheduler.common.model.DependentTaskModel;
-import org.apache.dolphinscheduler.common.task.dependent.DependentParameters;
-import org.apache.dolphinscheduler.common.utils.DependentUtils;
+import org.apache.dolphinscheduler.plugin.task.api.enums.TaskTimeoutStrategy;
 import org.apache.dolphinscheduler.common.utils.NetUtils;
 import org.apache.dolphinscheduler.dao.entity.TaskInstance;
+import org.apache.dolphinscheduler.plugin.task.api.enums.DependResult;
+import org.apache.dolphinscheduler.plugin.task.api.enums.ExecutionStatus;
+import org.apache.dolphinscheduler.plugin.task.api.model.DependentItem;
+import org.apache.dolphinscheduler.plugin.task.api.model.DependentTaskModel;
+import org.apache.dolphinscheduler.plugin.task.api.parameters.DependentParameters;
+import org.apache.dolphinscheduler.plugin.task.api.utils.DependentUtils;
 import org.apache.dolphinscheduler.server.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class ConditionTaskProcessor extends BaseTaskProcessor {
         }
         this.setTaskExecutionLogger();
         initTaskParameters();
-        logger.info("dependent task start");
+        logger.info("condition task start");
         return true;
     }
 
@@ -79,6 +80,11 @@ public class ConditionTaskProcessor extends BaseTaskProcessor {
         } else {
             endTask();
         }
+        return true;
+    }
+
+    @Override
+    protected boolean resubmitTask() {
         return true;
     }
 
@@ -118,7 +124,7 @@ public class ConditionTaskProcessor extends BaseTaskProcessor {
 
     @Override
     public String getType() {
-        return TaskType.CONDITIONS.getDesc();
+        return TASK_TYPE_CONDITIONS;
     }
 
     private void initTaskParameters() {
@@ -169,8 +175,7 @@ public class ConditionTaskProcessor extends BaseTaskProcessor {
             logger.info("depend item : {} expect status: {}, actual status: {}", item.getDepTaskCode(), item.getStatus(), executionStatus);
             dependResult = DependResult.FAILED;
         }
-        logger.info("dependent item complete {} {},{}",
-                Constants.DEPENDENT_SPLIT, item.getDepTaskCode(), dependResult);
+        logger.info("dependent item complete, dependentTaskCode: {}, dependResult: {}", item.getDepTaskCode(), dependResult);
         return dependResult;
     }
 
